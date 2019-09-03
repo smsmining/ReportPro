@@ -14,7 +14,6 @@ import com.facebook.soloader.SoLoader;
 import java.util.List;
 // import the package
 import com.facebook.react.shell.MainReactPackage;
-import com.christopherdro.htmltopdf.RNHTMLtoPDFPackage;
 
 public class MainApplication extends Application implements ReactApplication {
 
