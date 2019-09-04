@@ -98,6 +98,7 @@ export default class ControlForm extends React.Component
                         {tab.controls.map(control => (
                             <ControlItem
                                 key={control.param}
+                                guid={form.guid}
                                 {...control}
                                 value={instance && instance[control.param] || control.value }
                                 onChange={this.setInstanceValue}

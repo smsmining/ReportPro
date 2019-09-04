@@ -10,6 +10,7 @@ import Control_Spinner from './Controls/Control_Spinner';
 import Control_ImagePicker from './Controls/Control_ImagePicker';
 import Control_TextLabel from './Controls/Control_TextLabel';
 import DividerLabelItem from './Controls/Layout/DividerLabelItem';
+import Control_ImageStatic from './Controls/Control_ImageStatic';
 
 
 const ControlItem = (props) =>
@@ -25,8 +26,9 @@ const ControlItem = (props) =>
         case 'date':        return (<Control_Date {...props} />);
         case 'textArea':    return (<Control_TextArea {...props} />);
         case 'spinner':     return (<Control_Spinner {...props} />);
-        case 'image':       return (<Control_ImagePicker {...props} />);
+        case 'imageSelect': return (<Control_ImagePicker {...props} />);
         case 'textLabel':   return (<Control_TextLabel {...props} />);
+        case 'imageStatic':   return (<Control_ImageStatic {...props} />);
     }
 
     return (<Text style={styles.center}>WARNING: Unknown control type</Text>);

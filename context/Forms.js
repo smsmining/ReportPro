@@ -44,7 +44,6 @@ const fakeDB =
                                 label: 'Basic Information',
                                 param: 'infoDivider',
                                 value: '',
-                               
                             },
                             {
                                 id: '2',
@@ -52,7 +51,6 @@ const fakeDB =
                                 label: 'Date',
                                 param: 'chosenDate',
                                 value: '',
-                         
                             },
                             {
                                 id: '3',
@@ -62,7 +60,6 @@ const fakeDB =
                                 value: '',
                                 maxLength:'',
                                 keyboardType:'default',
-                           
                             },
                             {
                                 id: '4',
@@ -72,7 +69,6 @@ const fakeDB =
                                 value: '',
                                 maxLength:'',
                                 keyboardType:'default',
-                              
                             },
                             {
                                 id: '5',
@@ -80,7 +76,6 @@ const fakeDB =
                                 label: 'Customer Information',
                                 param: 'CustomerDivider',
                                 value: '',
-                              
                             },
                             {
                                 id: '6',
@@ -91,15 +86,13 @@ const fakeDB =
                                 HeightRows :'',
                                 maxLength:'',
                                 keyboardType:'default',
-                            
                             },
                             {
                                 id: '7',
-                                type: 'image',
+                                type: 'imageSelect',
                                 label: 'logo',
                                 param: 'logo',
                                 value: '',
-                                
                             },
                             {
                                 id: '8',
@@ -112,7 +105,6 @@ const fakeDB =
                                     {label: 'company_3', value:'key3'},
                                     ],
                                 value: '',
-                               
                             },
                             {
                                 id: '9',
@@ -122,16 +114,27 @@ const fakeDB =
                                 value: '',
                                 maxLength:'',
                                 keyboardType:'phone-pad',
-                           
                             },
                             {
                                 id: '10',
+                                type: 'imageStatic',
+                                label: 'image title_1',
+                                param: 'image title_1',
+                                value: require('../resources/00000000-0000-0000-0000-000000000000/form0_1.png'),
+                            },
+                            {
+                                id: '11',
                                 type: 'textLabel',
                                 label: 'message title',
-                                param: 'this is a read only message',
-                                value: '',
-                                
-                     
+                                param: '',
+                                value: 'this is a read only message',
+                            },
+                            {
+                                id: '12',
+                                type: 'imageStatic',
+                                label: 'image title_2',
+                                param: 'image title_2',
+                                value: require('../resources/00000000-0000-0000-0000-000000000000/form0_2.png'),
                             },
                         ],
                     },
@@ -142,7 +145,7 @@ const fakeDB =
                         controls: [
                             {
                                 id: '1',
-                                type: 'image',
+                                type: 'imageSelect',
                                 label: 'logo',
                                 param: 'logo',
                                 value: 'BASE64 ENCODED STRING',
@@ -177,7 +180,7 @@ const fakeDB =
                         controls: [
                             {
                                 id: '1',
-                                type: 'image',
+                                type: 'imageSelect',
                                 label: 'logo',
                                 param: 'logo',
                                 value: 'BASE64 ENCODED STRING',
@@ -219,7 +222,7 @@ const fakeDB =
                         controls: [
                             {
                                 id: '1',
-                                type: 'image',
+                                type: 'imageSelect',
                                 label: 'logo',
                                 param: 'logo',
                                 value: '',
@@ -248,7 +251,7 @@ const fakeDB =
                         controls: [
                             {
                                 id: '1',
-                                type: 'image',
+                                type: 'imageSelect',
                                 label: 'logo',
                                 param: 'Example',
                                 value: 'BASE64 ENCODED STRING',
@@ -276,7 +279,7 @@ const fakeDB =
                         controls: [
                             {
                                 id: '1',
-                                type: 'image',
+                                type: 'imageSelect',
                                 label: 'logo',
                                 param: 'Example',
                                 value: 'BASE64 ENCODED STRING',
@@ -311,7 +314,7 @@ const fakeDB =
                         controls: [
                             {
                                 id: '1',
-                                type: 'image',
+                                type: 'imageSelect',
                                 label: 'logo',
                                 param: 'logo',
                                 value: '',
@@ -332,7 +335,7 @@ const fakeDB =
                         controls: [
                             {
                                 id: '1',
-                                type: 'image',
+                                type: 'imageSelect',
                                 label: 'logo',
                                 param: 'Example',
                                 value: 'BASE64 ENCODED STRING',
@@ -359,7 +362,7 @@ const fakeDB =
                         icon: 'settings',
                         controls: [
                             {
-                                type: 'image',
+                                type: 'imageSelect',
                                 label: 'logo',
                                 param: 'Example',
                                 value: 'BASE64 ENCODED STRING',

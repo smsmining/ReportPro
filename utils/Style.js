@@ -105,6 +105,8 @@ export const styles = StyleSheet.create({
     image: {
       width: Dimensions.get('window').width,
     },
-
-
+    imageStatic: {
+      width: Dimensions.get('window').width,
+      height: 200,
+    },
   });
