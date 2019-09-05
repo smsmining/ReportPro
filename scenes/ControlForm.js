@@ -9,6 +9,8 @@ import FormNavigation from '../components/ControlForm/FormNavigation';
 
 import ControlItem from '../components/ControlItem';
 
+import drawPDF from '../draw_pdf/drawAPI';
+
 export default class ControlForm extends React.Component
 {
     state =
@@ -19,6 +21,8 @@ export default class ControlForm extends React.Component
         ,loading: false
         ,
         };
+
+    pdfConfig = null;
 
     componentDidMount()
     {
@@ -37,12 +41,14 @@ export default class ControlForm extends React.Component
 
         this.setState({ loading: true });
 
-        this._asyncReqForm = Forms.Get(guid, this.loadFormResponse);
+        this._asyncReqFormConfig = Forms.GetFormConfig(guid, this.loadFormResponse);
+
+        this._asyncReqPDFConfig = Forms.GetPDFConfig(guid, this.loadPDFConfigResponse);
     }
 
     loadFormResponse = (response) =>
     {
-        this._asyncReqForm = null;
+        this._asyncReqFormConfig = null;
         
         this.setState(
             {form: response
@@ -51,15 +57,24 @@ export default class ControlForm extends React.Component
             });
 
         if (response && response.tabs)
-            this.setState({ openTab: response.tabs[0].id })
+            this.setState({ openTab: response.tabs[0].id });
         else
             this.setState({ openTab: null });
     }
 
+    loadPDFConfigResponse = (response) =>
+    {
+        this._asyncReqPDFConfig = null;
+        this.pdfConfig = response;
+    }
+
     clearAsync = () =>
     {
-        if (this._asyncReqForm)
-            this._asyncReqForm.cancel();
+        if (this._asyncReqFormConfig)
+            this._asyncReqFormConfig.cancel();
+        
+        if (this._asyncReqPDFConfig)
+            this._asyncReqPDFConfig.cancel();
     }
 
 
@@ -77,6 +92,26 @@ export default class ControlForm extends React.Component
     }
 
 
+    onGenPDF = () =>
+    {
+        const { instance } = this.state;
+        // hardcoding with file path, it will be replaced with file system operator api later
+        let pdfPath = '/storage/emulated/0/Android/data/com.reportsms/files/Pictures/Inspection Report.pdf';
+
+        if(!this.pdfConfig)
+            return;
+
+        this.pdfConfig.pages.forEach(page => {
+
+            let PageHandler = drawPDF.PageHandler(page.id);
+            page.controls.forEach(control => {
+                instance && drawPDF.drawContent(PageHandler,control.type,instance[control.param],control.style);
+            });
+            drawPDF.pdfWriter(pdfPath,PageHandler);
+        });
+    }
+
+
     render()
     {
         const { form, openTab, instance } = this.state;
@@ -87,7 +122,10 @@ export default class ControlForm extends React.Component
         return (
             <Container>
                 <Header androidStatusBarColor="#5D4037">
-                    <FormHeader title={form && form.title} />
+                    <FormHeader
+                        title={form && form.title}
+                        onPress={this.onGenPDF}
+                     />
                 </Header>
                 <Content>
                     {this.loading &&
@@ -97,7 +135,7 @@ export default class ControlForm extends React.Component
                     <List>
                         {tab.controls.map(control => (
                             <ControlItem
-                                key={control.param}
+                                key={control.id}
                                 guid={form.guid}
                                 {...control}
                                 value={instance && instance[control.param] || control.value }

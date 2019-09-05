@@ -13,15 +13,26 @@ import { createFetcher } from './CreateFetcher';
             .then((data) => onSuccess(data));
 };
 
- const Get = (guid, onSuccess) =>
+ const Get = (guid, source, onSuccess) =>
 {
     return createFetcher( async () =>
-            fakeDB
+            source
                 .forms
                 .find(form => form.guid === guid)
             )
             .read()
             .then((data) => onSuccess(data));
+};
+
+
+const GetFormConfig = (source,onSuccess) =>
+{
+    Get(source,fakeDB, onSuccess);
+};
+
+const GetPDFConfig = (source,onSuccess) =>
+{
+   Get(source,configPDF, onSuccess);
 };
 
 const fakeDB =
@@ -41,100 +52,216 @@ const fakeDB =
                             {
                                 id: '1',
                                 type: 'divider',
-                                label: 'Basic Information',
-                                param: 'infoDivider',
+                                label: 'Inspection Information',
+                                param: 'Inspection Divider',
                                 value: '',
                             },
                             {
                                 id: '2',
-                                type: 'date',
-                                label: 'Date',
-                                param: 'chosenDate',
+                                type: 'textField',
+                                label: 'PIN/VIN No',
+                                param: 'PIN/VIN No',
                                 value: '',
+                                maxLength:'',
+                                keyboardType:'default',
                             },
                             {
                                 id: '3',
                                 type: 'textField',
-                                label: 'Place',
-                                param: 'Place',
+                                label: 'Report No',
+                                param: 'Report No',
                                 value: '',
                                 maxLength:'',
-                                keyboardType:'default',
+                                keyboardType:'numeric',
                             },
                             {
                                 id: '4',
+                                type: 'date',
+                                label: 'Inspection date',
+                                param: 'Inspection date',
+                                value: '',
+                            },
+                            {
+                                id: '5',
                                 type: 'textField',
-                                label: 'Inspector',
-                                param: 'Inspector',
+                                label: 'Inspected by',
+                                param: 'Inspected by',
                                 value: '',
                                 maxLength:'',
                                 keyboardType:'default',
                             },
                             {
-                                id: '5',
-                                type: 'divider',
-                                label: 'Customer Information',
-                                param: 'CustomerDivider',
-                                value: '',
-                            },
-                            {
                                 id: '6',
-                                type: 'textArea',
-                                label: 'Comment',
-                                param: 'Comment',
+                                type: 'textField',
+                                label: 'Inspection place',
+                                param: 'Inspection place',
                                 value: '',
-                                HeightRows :'',
                                 maxLength:'',
                                 keyboardType:'default',
                             },
                             {
                                 id: '7',
-                                type: 'imageSelect',
-                                label: 'logo',
-                                param: 'logo',
+                                type: 'divider',
+                                label: 'Customer Information',
+                                param: 'Customer Divider',
                                 value: '',
                             },
                             {
                                 id: '8',
-                                type: 'spinner',
-                                label: 'Company',
-                                param: 'Company',
-                                controls: [
-                                    {label: 'company_1', value:'key1'},
-                                    {label: 'company_2', value:'key2'},
-                                    {label: 'company_3', value:'key3'},
-                                    ],
+                                type: 'textField',
+                                label: 'Customer Name',
+                                param: 'Customer Name',
                                 value: '',
+                                maxLength:'',
+                                keyboardType:'default',
                             },
                             {
                                 id: '9',
                                 type: 'textField',
-                                label: 'Phone',
-                                param: 'Phone',
+                                label: 'Customer Address',
+                                param: 'Customer Address',
+                                value: '',
+                                maxLength:'',
+                                keyboardType:'default',
+                            },
+                            {
+                                id: '10',
+                                type: 'textField',
+                                label: 'Customer Phone',
+                                param: 'Customer Phone',
                                 value: '',
                                 maxLength:'',
                                 keyboardType:'phone-pad',
                             },
                             {
-                                id: '10',
-                                type: 'imageStatic',
-                                label: 'image title_1',
-                                param: 'image title_1',
-                                value: require('../resources/00000000-0000-0000-0000-000000000000/form0_1.png'),
-                            },
-                            {
                                 id: '11',
-                                type: 'textLabel',
-                                label: 'message title',
-                                param: '',
-                                value: 'this is a read only message',
+                                type: 'divider',
+                                label: 'Machine Information',
+                                param: 'Machine Divider',
+                                value: '',
                             },
                             {
                                 id: '12',
-                                type: 'imageStatic',
-                                label: 'image title_2',
-                                param: 'image title_2',
-                                value: require('../resources/00000000-0000-0000-0000-000000000000/form0_2.png'),
+                                type: 'textField',
+                                label: 'Model Code',
+                                param: 'Model Code',
+                                value: '',
+                                maxLength:'',
+                                keyboardType:'default',
+                            },
+                            {
+                                id: '13',
+                                type: 'textField',
+                                label: 'Model Name',
+                                param: 'Model Name',
+                                value: '',
+                                maxLength:'',
+                                keyboardType:'default',
+                            },
+                            {
+                                id: '14',
+                                type: 'textField',
+                                label: 'S/N',
+                                param: 'S/N',
+                                value: '',
+                                maxLength:'',
+                                keyboardType:'numeric',
+                            },
+                            {
+                                id: '15',
+                                type: 'textField',
+                                label: 'Machine ID',
+                                param: 'Machine ID',
+                                value: '',
+                                maxLength:'',
+                                keyboardType:'default',
+                            },
+                            {
+                                id: '16',
+                                type: 'divider',
+                                label: 'General Information',
+                                param: 'General Divider',
+                                value: '',
+                            },
+                            {
+                                id: '17',
+                                type: 'date',
+                                label: 'Annual inspection time limit',
+                                param: 'time limit',
+                                value: '',
+                            },
+                            {
+                                id: '18',
+                                type: 'textField',
+                                label: 'Operated Hours',
+                                param: 'Operated Hours',
+                                value: '',
+                                maxLength:'',
+                                keyboardType:'numeric',
+                            },
+                            {
+                                id: '19',
+                                type: 'textField',
+                                label: 'Time since Delivery',
+                                param: 'Time since Delivery',
+                                value: '',
+                                maxLength:'',
+                                keyboardType:'default',
+                            },
+                            {
+                                id: '20',
+                                type: 'textField',
+                                label: 'Emergency repair',
+                                param: 'Emergency repair',
+                                value: '',
+                                maxLength:'',
+                                keyboardType:'default',
+                            },
+
+                            {
+                                id: '21',
+                                type: 'textField',
+                                label: 'Condition',
+                                param: 'Condition',
+                                value: '',
+                                maxLength:'',
+                                keyboardType:'default',
+                            },
+                            {
+                                id: '22',
+                                type: 'textArea',
+                                label: 'Overall inspection result',
+                                param: 'Overall inspection result',
+                                value: '',
+                                placeholder: 'Comment',
+                                HeightRows :'',
+                                maxLength:'',
+                                keyboardType:'default',
+                            },
+                            {
+                                id: '23',
+                                type: 'imageSelect',
+                                label: 'Digger Image',
+                                param: 'Digger Image',
+                                value: '',
+                            },
+                            {
+                                id: '24',
+                                type: 'textField',
+                                label: 'Latest hr',
+                                param: 'Latest hr',
+                                value: '',
+                                maxLength:'',
+                                keyboardType:'default',
+                            },
+                            {
+                                id: '25',
+                                type: 'textField',
+                                label: 'Time since Delivery',
+                                param: 'Time since Delivery',
+                                value: '',
+                                maxLength:'',
+                                keyboardType:'default',
                             },
                         ],
                     },
@@ -148,7 +275,7 @@ const fakeDB =
                                 type: 'imageSelect',
                                 label: 'logo',
                                 param: 'logo',
-                                value: 'BASE64 ENCODED STRING',
+                                value: '',
                             },
                             {
                                 id: '2',
@@ -170,6 +297,48 @@ const fakeDB =
                                         value: null,
                                     },
                                 ],
+                            },
+                            {
+                                id: '4',
+                                type: 'spinner',
+                                label: 'Company',
+                                param: 'Company',
+                                controls: [
+                                    {label: 'company_1', value:'key1'},
+                                    {label: 'company_2', value:'key2'},
+                                    {label: 'company_3', value:'key3'},
+                                    ],
+                                value: '',
+                            },
+                            {
+                                id: '5',
+                                type: 'textField',
+                                label: 'Phone',
+                                param: 'Phone',
+                                value: '',
+                                maxLength:'',
+                                keyboardType:'phone-pad',
+                            },
+                            {
+                                id: '6',
+                                type: 'imageStatic',
+                                label: 'image title_1',
+                                param: 'image title_1',
+                                value: require('../resources/00000000-0000-0000-0000-000000000000/form0_1.png'),
+                            },
+                            {
+                                id: '7',
+                                type: 'textLabel',
+                                label: 'message title',
+                                param: '',
+                                value: 'this is a read only message',
+                            },
+                            {
+                                id: '8',
+                                type: 'imageStatic',
+                                label: 'image title_2',
+                                param: 'image title_2',
+                                value: require('../resources/00000000-0000-0000-0000-000000000000/form0_2.png'),
                             },
                         ],
                     },
@@ -388,4 +557,188 @@ const fakeDB =
         ],
 };
 
-export default  { List, Get };
+const configPDF =
+{
+    forms:
+    [
+        {
+            guid: "00000000-0000-0000-0000-000000000000",
+            name: 'Inspection',
+            version: '0.0.1',
+            pages: [
+                {
+                    id: 0,
+                    controls: [
+                        {
+                            id: '1',
+                            type: 'textField',
+                            param: 'PIN/VIN No',
+                            style: {x:120, y:720, color: '#81C744',fontSize:18},
+                        },
+                        {
+                            id: '2',
+                            type: 'textField',
+                            param: 'Report No',
+                            style: {x:360, y:720, color: '#81C744',fontSize:18},
+                        },
+                        {
+                            id: '3',
+                            type: 'date',
+                            label: 'Inspection date',
+                            param: 'Inspection date',
+                            style: {x:86, y:683, color: '#81C744',fontSize:18},
+                        },
+                        {
+                            id: '4',
+                            type: 'textField',
+                            param: 'Inspected by',
+                            style: {x:393, y:683, color: '#81C744',fontSize:18},
+                        },
+                        {
+                            id: '5',
+                            type: 'textField',
+                            param: 'Inspection place',
+                            style: {x:86, y:646, color: '#81C744',fontSize:18},
+                        },
+                        {
+                            id: '6',
+                            type: 'textField',
+                            param: 'Customer Name',
+                            style: {x:86, y:610, color: '#81C744',fontSize:18},
+                        },
+                        {
+                            id: '7',
+                            type: 'textField',
+                            param: 'Customer Address',
+                            style: {x:86, y:592, color: '#81C744',fontSize:18},
+                        },
+                        {
+                            id: '8',
+                            type: 'textField',
+                            param: 'Customer Phone',
+                            style: {x:393, y:592, color: '#81C744',fontSize:18},
+                        },
+                        {
+                            id: '9',
+                            type: 'textField',
+                            param: 'Model Code',
+                            style: {x:86, y:543, color: '#81C744',fontSize:18},
+                        },
+                        {
+                            id: '10',
+                            type: 'textField',
+                            param: 'Model Name',
+                            style: {x:188, y:543, color: '#81C744',fontSize:18},
+                        },
+                        {
+                            id: '11',
+                            type: 'textField',
+                            param: 'S/N',
+                            style: {x:313, y:543, color: '#81C744',fontSize:18},
+                        },
+                        {
+                            id: '12',
+                            type: 'textField',
+                            param: 'Machine ID',
+                            style: {x:393, y:543, color: '#81C744',fontSize:18},
+                        },
+                        {
+                            id: '13',
+                            type: 'date',
+                            param: 'time limit',
+                            style: {x:86, y:506, color: '#81C744',fontSize:16},
+                        },
+                        {
+                            id: '14',
+                            type: 'textField',
+                            param: 'Operated Hours',
+                            style: {x:86, y:468, color: '#81C744',fontSize:22},
+                        },
+                        {
+                            id: '15',
+                            type: 'textField',
+                            param: 'Time since Delivery',
+                            style: {x:333, y:468, color: '#81C744',fontSize:22},
+                        },
+                        {
+                            id: '16',
+                            type: 'textField',
+                            param: 'Emergency repair',
+                            style: {x:86, y:423, color: '#81C744',fontSize:22},
+                        },
+
+                        {
+                            id: '17',
+                            type: 'textField',
+                            param: 'Condition',
+                            style: {x:333, y:423, color: '#81C744',fontSize:22},
+                        },
+                        {
+                            id: '18',
+                            type: 'textArea',
+                            param: 'Overall inspection result',
+                            style: {x:45, y:370, color: '#81C744',fontSize:15},
+                        },
+                        {
+                            id: '19',
+                            type: 'imageSelect',
+                            param: 'Digger Image',
+                            style: {x: 205,y: 280,width: 200,height: 100},
+                        },
+                    ],
+                },
+                {
+                    id: 1,
+                    controls: [
+                        {
+                            id: '1',
+                            type: 'textField',
+                            param: 'Model Code',
+                            style: {x:124, y:715, color: '#81C744',fontSize:18},
+                        },
+                        {
+                            id: '12',
+                            type: 'textField',
+                            param: 'Model Name',
+                            style: {x:225, y:715, color: '#81C744',fontSize:18},
+                        },
+                        {
+                            id: '3',
+                            type: 'textField',
+                            param: 'S/N',
+                            style: {x:350, y:715, color: '#81C744',fontSize:18},
+                        },
+                        {
+                            id: '4',
+                            type: 'textField',
+                            param: 'Machine ID',
+                            style: {x:430, y:715, color: '#81C744',fontSize:18},
+                        },
+                        {
+                            id: '5',
+                            type: 'textField',
+                            param: 'Latest hr',
+                            style: {x:190, y:677, color: '#81C744',fontSize:18},
+                        },
+                        {
+                            id: '6',
+                            type: 'textField',
+                            param: 'Time since Delivery',
+                            style: {x:394, y:677, color: '#81C744',fontSize:18},
+                        },
+                        {
+                            id: '7',
+                            type: 'imageSelect',
+                            param: 'Digger Image',
+                            style: {x: 129,y: 640,width: 200,height: 100},
+                        },
+                    ],
+                },
+            ],
+        },
+
+    ],
+
+};
+
+export default  { List, GetFormConfig, GetPDFConfig };

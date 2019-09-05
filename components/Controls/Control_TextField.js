@@ -14,7 +14,7 @@ const Control_TextField = (props) =>
                 value={value}
                 onChangeText={text => onChange(text, param)}
                 maxLength={maxLength ? maxLength : 50}
-                placeholder={param}
+                placeholder={value}
                 placeholderTextColor={Colors.light}
                 keyboardType={keyboardType} />
         </InlineLabelItem>
