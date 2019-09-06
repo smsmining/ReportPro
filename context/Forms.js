@@ -1,5 +1,5 @@
 import { createFetcher } from './CreateFetcher';
-
+import RNFetchBlob from 'rn-fetch-blob';
 
 
  const List = (onSuccess) =>
@@ -13,7 +13,7 @@ import { createFetcher } from './CreateFetcher';
             .then((data) => onSuccess(data));
 };
 
- const Get = (guid, onSuccess) =>
+const Get = (guid, onSuccess) =>
 {
     return createFetcher( async () =>
             fakeDB
@@ -22,6 +22,12 @@ import { createFetcher } from './CreateFetcher';
             )
             .read()
             .then((data) => onSuccess(data));
+};
+
+const GetFilePath = (guid, filename) =>
+{
+    const dirs = RNFetchBlob.fs.dirs;
+    return dirs.DCIMDir + '/Reports/' + guid + '/' + filename;
 };
 
 const fakeDB =
@@ -367,6 +373,7 @@ const fakeDB =
                         ],
                     },
                 ],
+                pdf_name:'Inspection Report.pdf',
                 pdf_pages:[
                     {
                         id: 0,
@@ -716,4 +723,4 @@ const fakeDB =
         ],
 };
 
-export default  { List, Get };
+export default  { List, Get ,GetFilePath };

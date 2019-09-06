@@ -8,7 +8,7 @@ import { Actions } from 'react-native-router-flux';
 const FormFab = (props) =>
 {
 
-    const {fab_active,onPress,guid} = props;
+    const {fab_active,onActiveFab,onActiveEmail,guid,pdf_name} = props;
 
     return (
         <Fab
@@ -17,13 +17,13 @@ const FormFab = (props) =>
             containerStyle={styles.FabContainerBottom}
             position="bottomRight"
             style={styles.FabbackgroundColor}
-            onPress={onPress}
+            onPress={onActiveFab}
             >
             <Icon name="share" />
-            <Button style={styles.FabEmailbackgroundColor}  >
+            <Button style={styles.FabEmailbackgroundColor} onPress={onActiveEmail} >
                 <Icon name="email" />
             </Button>
-            <Button style={styles.FabPDFbackgroundColor} onPress={() => Actions.PDF({ guid: guid })} >
+            <Button style={styles.FabPDFbackgroundColor} onPress={() => Actions.PDF({guid,pdf_name})} >
                 <Icon name="picture-as-pdf" />
             </Button>
         </Fab>
