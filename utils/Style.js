@@ -109,4 +109,27 @@ export const styles = StyleSheet.create({
       width: Dimensions.get('window').width,
       height: 200,
     },
+    FabContainerBottom:{
+      bottom: 76,
+    },
+    FabbackgroundColor:{
+      backgroundColor:'#FF0000',
+    },
+    FabEmailbackgroundColor:{
+      backgroundColor:'#3B5998',
+    },
+    FabPDFbackgroundColor:{
+      backgroundColor:'#34AF23',
+    },
+    pdfContainer: {
+      flex: 1,
+      justifyContent: 'flex-start',
+      alignItems: 'center',
+      marginTop: 25,
+    },
+    pdf: {
+        flex:1,
+        width:Dimensions.get('window').width,
+    },
+
   });

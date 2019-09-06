@@ -1,15 +1,15 @@
 import React from 'react';
-import { Container, Header, Content, Footer, List, Text } from 'native-base';
+import { Container, Header, Content, Footer, List, Text} from 'native-base';
 
 import Forms from '../context/Forms';
 import { styles } from '../utils/Style';
 
 import FormHeader from '../components/ControlForm/FormHeader';
 import FormNavigation from '../components/ControlForm/FormNavigation';
-
+import FormFab from '../components/ControlForm/FormFab';
 import ControlItem from '../components/ControlItem';
 
-import drawPDF from '../draw_pdf/drawAPI';
+import drawPDF from '../pdf/draw';
 
 export default class ControlForm extends React.Component
 {
@@ -19,6 +19,7 @@ export default class ControlForm extends React.Component
 
         ,instance: null
         ,loading: false
+        ,fab_active:false
         ,
         };
 
@@ -41,14 +42,13 @@ export default class ControlForm extends React.Component
 
         this.setState({ loading: true });
 
-        this._asyncReqFormConfig = Forms.GetFormConfig(guid, this.loadFormResponse);
+        this._asyncReqForm = Forms.Get(guid, this.loadFormResponse);
 
-        this._asyncReqPDFConfig = Forms.GetPDFConfig(guid, this.loadPDFConfigResponse);
     }
 
     loadFormResponse = (response) =>
     {
-        this._asyncReqFormConfig = null;
+        this._asyncReqForm = null;
         
         this.setState(
             {form: response
@@ -57,24 +57,19 @@ export default class ControlForm extends React.Component
             });
 
         if (response && response.tabs)
+        {
             this.setState({ openTab: response.tabs[0].id });
+            this.pdfConfig = response.pdf_pages;
+        }
         else
             this.setState({ openTab: null });
     }
 
-    loadPDFConfigResponse = (response) =>
-    {
-        this._asyncReqPDFConfig = null;
-        this.pdfConfig = response;
-    }
 
     clearAsync = () =>
     {
-        if (this._asyncReqFormConfig)
-            this._asyncReqFormConfig.cancel();
-        
-        if (this._asyncReqPDFConfig)
-            this._asyncReqPDFConfig.cancel();
+        if (this._asyncReqForm)
+            this._asyncReqForm.cancel();
     }
 
 
@@ -91,6 +86,7 @@ export default class ControlForm extends React.Component
         this.setState({ openTab: id });
     }
 
+   
 
     onGenPDF = () =>
     {
@@ -101,7 +97,7 @@ export default class ControlForm extends React.Component
         if(!this.pdfConfig)
             return;
 
-        this.pdfConfig.pages.forEach(page => {
+        this.pdfConfig.forEach(page => {
 
             let PageHandler = drawPDF.PageHandler(page.id);
             page.controls.forEach(control => {
@@ -111,10 +107,16 @@ export default class ControlForm extends React.Component
         });
     }
 
+    onActiveFab = () =>
+    {
+        const { fab_active } = this.state;
+
+        this.setState({ fab_active: !fab_active });
+    }
 
     render()
     {
-        const { form, openTab, instance } = this.state;
+        const { form, openTab, instance,fab_active } = this.state;
 
         const { tabs } = form || {};
         const tab = tabs && tabs.find(tabItem => tabItem.id === openTab);
@@ -136,7 +138,6 @@ export default class ControlForm extends React.Component
                         {tab.controls.map(control => (
                             <ControlItem
                                 key={control.id}
-                                guid={form.guid}
                                 {...control}
                                 value={instance && instance[control.param] || control.value }
                                 onChange={this.setInstanceValue}
@@ -146,6 +147,11 @@ export default class ControlForm extends React.Component
                     </List>
                     }
                 </Content>
+               <FormFab
+                    fab_active={fab_active}
+                    onPress={this.onActiveFab}
+                    guid={form && form.guid}
+                />
                 <Footer>
                     {tabs && tabs.length > 1 &&
                     <FormNavigation

@@ -13,26 +13,15 @@ import { createFetcher } from './CreateFetcher';
             .then((data) => onSuccess(data));
 };
 
- const Get = (guid, source, onSuccess) =>
+ const Get = (guid, onSuccess) =>
 {
     return createFetcher( async () =>
-            source
+            fakeDB
                 .forms
                 .find(form => form.guid === guid)
             )
             .read()
             .then((data) => onSuccess(data));
-};
-
-
-const GetFormConfig = (source,onSuccess) =>
-{
-    Get(source,fakeDB, onSuccess);
-};
-
-const GetPDFConfig = (source,onSuccess) =>
-{
-   Get(source,configPDF, onSuccess);
 };
 
 const fakeDB =
@@ -378,6 +367,176 @@ const fakeDB =
                         ],
                     },
                 ],
+                pdf_pages:[
+                    {
+                        id: 0,
+                        controls: [
+                            {
+                                id: '1',
+                                type: 'textField',
+                                param: 'PIN/VIN No',
+                                style: {x:120, y:720, color: '#81C744',fontSize:18},
+                            },
+                            {
+                                id: '2',
+                                type: 'textField',
+                                param: 'Report No',
+                                style: {x:360, y:720, color: '#81C744',fontSize:18},
+                            },
+                            {
+                                id: '3',
+                                type: 'date',
+                                label: 'Inspection date',
+                                param: 'Inspection date',
+                                style: {x:86, y:683, color: '#81C744',fontSize:18},
+                            },
+                            {
+                                id: '4',
+                                type: 'textField',
+                                param: 'Inspected by',
+                                style: {x:393, y:683, color: '#81C744',fontSize:18},
+                            },
+                            {
+                                id: '5',
+                                type: 'textField',
+                                param: 'Inspection place',
+                                style: {x:86, y:646, color: '#81C744',fontSize:18},
+                            },
+                            {
+                                id: '6',
+                                type: 'textField',
+                                param: 'Customer Name',
+                                style: {x:86, y:610, color: '#81C744',fontSize:18},
+                            },
+                            {
+                                id: '7',
+                                type: 'textField',
+                                param: 'Customer Address',
+                                style: {x:86, y:592, color: '#81C744',fontSize:18},
+                            },
+                            {
+                                id: '8',
+                                type: 'textField',
+                                param: 'Customer Phone',
+                                style: {x:393, y:592, color: '#81C744',fontSize:18},
+                            },
+                            {
+                                id: '9',
+                                type: 'textField',
+                                param: 'Model Code',
+                                style: {x:86, y:543, color: '#81C744',fontSize:18},
+                            },
+                            {
+                                id: '10',
+                                type: 'textField',
+                                param: 'Model Name',
+                                style: {x:188, y:543, color: '#81C744',fontSize:18},
+                            },
+                            {
+                                id: '11',
+                                type: 'textField',
+                                param: 'S/N',
+                                style: {x:313, y:543, color: '#81C744',fontSize:18},
+                            },
+                            {
+                                id: '12',
+                                type: 'textField',
+                                param: 'Machine ID',
+                                style: {x:393, y:543, color: '#81C744',fontSize:18},
+                            },
+                            {
+                                id: '13',
+                                type: 'date',
+                                param: 'time limit',
+                                style: {x:86, y:506, color: '#81C744',fontSize:16},
+                            },
+                            {
+                                id: '14',
+                                type: 'textField',
+                                param: 'Operated Hours',
+                                style: {x:86, y:468, color: '#81C744',fontSize:22},
+                            },
+                            {
+                                id: '15',
+                                type: 'textField',
+                                param: 'Time since Delivery',
+                                style: {x:333, y:468, color: '#81C744',fontSize:22},
+                            },
+                            {
+                                id: '16',
+                                type: 'textField',
+                                param: 'Emergency repair',
+                                style: {x:86, y:423, color: '#81C744',fontSize:22},
+                            },
+    
+                            {
+                                id: '17',
+                                type: 'textField',
+                                param: 'Condition',
+                                style: {x:333, y:423, color: '#81C744',fontSize:22},
+                            },
+                            {
+                                id: '18',
+                                type: 'textArea',
+                                param: 'Overall inspection result',
+                                style: {x:45, y:370, color: '#81C744',fontSize:15},
+                            },
+                            {
+                                id: '19',
+                                type: 'imageSelect',
+                                param: 'Digger Image',
+                                style: {x: 205,y: 280,width: 200,height: 100},
+                            },
+                        ],
+                    },
+                    {
+                        id: 1,
+                        controls: [
+                            {
+                                id: '1',
+                                type: 'textField',
+                                param: 'Model Code',
+                                style: {x:124, y:715, color: '#81C744',fontSize:18},
+                            },
+                            {
+                                id: '12',
+                                type: 'textField',
+                                param: 'Model Name',
+                                style: {x:225, y:715, color: '#81C744',fontSize:18},
+                            },
+                            {
+                                id: '3',
+                                type: 'textField',
+                                param: 'S/N',
+                                style: {x:350, y:715, color: '#81C744',fontSize:18},
+                            },
+                            {
+                                id: '4',
+                                type: 'textField',
+                                param: 'Machine ID',
+                                style: {x:430, y:715, color: '#81C744',fontSize:18},
+                            },
+                            {
+                                id: '5',
+                                type: 'textField',
+                                param: 'Latest hr',
+                                style: {x:190, y:677, color: '#81C744',fontSize:18},
+                            },
+                            {
+                                id: '6',
+                                type: 'textField',
+                                param: 'Time since Delivery',
+                                style: {x:394, y:677, color: '#81C744',fontSize:18},
+                            },
+                            {
+                                id: '7',
+                                type: 'imageSelect',
+                                param: 'Digger Image',
+                                style: {x: 129,y: 640,width: 200,height: 100},
+                            },
+                        ],
+                    },
+                ],
             },
             {
                 guid: "00000000-0000-0000-0000-000000000001",
@@ -557,188 +716,4 @@ const fakeDB =
         ],
 };
 
-const configPDF =
-{
-    forms:
-    [
-        {
-            guid: "00000000-0000-0000-0000-000000000000",
-            name: 'Inspection',
-            version: '0.0.1',
-            pages: [
-                {
-                    id: 0,
-                    controls: [
-                        {
-                            id: '1',
-                            type: 'textField',
-                            param: 'PIN/VIN No',
-                            style: {x:120, y:720, color: '#81C744',fontSize:18},
-                        },
-                        {
-                            id: '2',
-                            type: 'textField',
-                            param: 'Report No',
-                            style: {x:360, y:720, color: '#81C744',fontSize:18},
-                        },
-                        {
-                            id: '3',
-                            type: 'date',
-                            label: 'Inspection date',
-                            param: 'Inspection date',
-                            style: {x:86, y:683, color: '#81C744',fontSize:18},
-                        },
-                        {
-                            id: '4',
-                            type: 'textField',
-                            param: 'Inspected by',
-                            style: {x:393, y:683, color: '#81C744',fontSize:18},
-                        },
-                        {
-                            id: '5',
-                            type: 'textField',
-                            param: 'Inspection place',
-                            style: {x:86, y:646, color: '#81C744',fontSize:18},
-                        },
-                        {
-                            id: '6',
-                            type: 'textField',
-                            param: 'Customer Name',
-                            style: {x:86, y:610, color: '#81C744',fontSize:18},
-                        },
-                        {
-                            id: '7',
-                            type: 'textField',
-                            param: 'Customer Address',
-                            style: {x:86, y:592, color: '#81C744',fontSize:18},
-                        },
-                        {
-                            id: '8',
-                            type: 'textField',
-                            param: 'Customer Phone',
-                            style: {x:393, y:592, color: '#81C744',fontSize:18},
-                        },
-                        {
-                            id: '9',
-                            type: 'textField',
-                            param: 'Model Code',
-                            style: {x:86, y:543, color: '#81C744',fontSize:18},
-                        },
-                        {
-                            id: '10',
-                            type: 'textField',
-                            param: 'Model Name',
-                            style: {x:188, y:543, color: '#81C744',fontSize:18},
-                        },
-                        {
-                            id: '11',
-                            type: 'textField',
-                            param: 'S/N',
-                            style: {x:313, y:543, color: '#81C744',fontSize:18},
-                        },
-                        {
-                            id: '12',
-                            type: 'textField',
-                            param: 'Machine ID',
-                            style: {x:393, y:543, color: '#81C744',fontSize:18},
-                        },
-                        {
-                            id: '13',
-                            type: 'date',
-                            param: 'time limit',
-                            style: {x:86, y:506, color: '#81C744',fontSize:16},
-                        },
-                        {
-                            id: '14',
-                            type: 'textField',
-                            param: 'Operated Hours',
-                            style: {x:86, y:468, color: '#81C744',fontSize:22},
-                        },
-                        {
-                            id: '15',
-                            type: 'textField',
-                            param: 'Time since Delivery',
-                            style: {x:333, y:468, color: '#81C744',fontSize:22},
-                        },
-                        {
-                            id: '16',
-                            type: 'textField',
-                            param: 'Emergency repair',
-                            style: {x:86, y:423, color: '#81C744',fontSize:22},
-                        },
-
-                        {
-                            id: '17',
-                            type: 'textField',
-                            param: 'Condition',
-                            style: {x:333, y:423, color: '#81C744',fontSize:22},
-                        },
-                        {
-                            id: '18',
-                            type: 'textArea',
-                            param: 'Overall inspection result',
-                            style: {x:45, y:370, color: '#81C744',fontSize:15},
-                        },
-                        {
-                            id: '19',
-                            type: 'imageSelect',
-                            param: 'Digger Image',
-                            style: {x: 205,y: 280,width: 200,height: 100},
-                        },
-                    ],
-                },
-                {
-                    id: 1,
-                    controls: [
-                        {
-                            id: '1',
-                            type: 'textField',
-                            param: 'Model Code',
-                            style: {x:124, y:715, color: '#81C744',fontSize:18},
-                        },
-                        {
-                            id: '12',
-                            type: 'textField',
-                            param: 'Model Name',
-                            style: {x:225, y:715, color: '#81C744',fontSize:18},
-                        },
-                        {
-                            id: '3',
-                            type: 'textField',
-                            param: 'S/N',
-                            style: {x:350, y:715, color: '#81C744',fontSize:18},
-                        },
-                        {
-                            id: '4',
-                            type: 'textField',
-                            param: 'Machine ID',
-                            style: {x:430, y:715, color: '#81C744',fontSize:18},
-                        },
-                        {
-                            id: '5',
-                            type: 'textField',
-                            param: 'Latest hr',
-                            style: {x:190, y:677, color: '#81C744',fontSize:18},
-                        },
-                        {
-                            id: '6',
-                            type: 'textField',
-                            param: 'Time since Delivery',
-                            style: {x:394, y:677, color: '#81C744',fontSize:18},
-                        },
-                        {
-                            id: '7',
-                            type: 'imageSelect',
-                            param: 'Digger Image',
-                            style: {x: 129,y: 640,width: 200,height: 100},
-                        },
-                    ],
-                },
-            ],
-        },
-
-    ],
-
-};
-
-export default  { List, GetFormConfig, GetPDFConfig };
+export default  { List, Get };
