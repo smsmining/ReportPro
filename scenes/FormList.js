@@ -1,18 +1,17 @@
 import React from 'react';
 import { FlatList } from 'react-native';
-import { Actions } from 'react-native-router-flux';
-import { Container, Content, Button, ListItem, Text, Left, Right, Icon, Header, Title, Body } from 'native-base';
+import { Container, Content, Button, Text, Left, Right, Icon, Header, Title, Body } from 'native-base';
 
 import   Forms  from '../context/Forms';
 
 import { styles } from '../utils/Style';
 import  HeaderSMS  from '../utils/ReportHearder';
-
+import FormItem from '../components/ControlForm/FormItem';
 export default class FormList extends React.Component
 {
     state = {
         forms: null,
-        loading: false,
+        loading: true,
         };
 
     componentDidMount()
@@ -28,7 +27,6 @@ export default class FormList extends React.Component
 
     loadForms = () =>
     {
-        this.setState({ loading: true });
         this._asyncReqForm = Forms.List(this.loadFormsResponse);
     }
 
@@ -50,18 +48,9 @@ export default class FormList extends React.Component
     }
 
 
-    getFormKey = (item, index) => item.guid;
-
-    renderFormItem = ({ item }) => (
-        <ListItem style={styles.borderBottom} onPress={() => Actions.Main({ guid: item.guid })} disabled={this.state.loading}>
-            <Left>
-                <Text>{item.name} V:{item.version}</Text>
-            </Left>
-            <Right>
-                <Icon name="arrow-forward" />
-            </Right>
-        </ListItem>
-    )
+    renderFormItem = (data,loading) => {
+        return <FormItem item = {data.item} loading = {loading} />;
+    }
 
     render()
     {
@@ -89,7 +78,7 @@ export default class FormList extends React.Component
                         {forms &&
                         <FlatList
                             data={forms}
-                            keyExtractor={this.getFormKey}
+                            keyExtractor={(item) => item.guid}
                             renderItem={this.renderFormItem}
                         />
                         }

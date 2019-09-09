@@ -1,6 +1,7 @@
 import { createFetcher } from './CreateFetcher';
 import RNFetchBlob from 'rn-fetch-blob';
 
+const rootDirs = RNFetchBlob.fs.dirs;
 
  const List = (onSuccess) =>
 {
@@ -26,8 +27,15 @@ const Get = (guid, onSuccess) =>
 
 const GetFilePath = (guid, filename) =>
 {
-    const dirs = RNFetchBlob.fs.dirs;
-    return dirs.DCIMDir + '/Reports/' + guid + '/' + filename;
+    return rootDirs.DCIMDir + '/Reports/' + guid + '/' + filename;
+};
+
+const CreateDummyPDF = (guid,tempfile,dummyfile,onSuccess) =>
+{
+    const NEW_FILE_PATH = rootDirs.DCIMDir + '/Reports/' + guid + '/';
+    RNFetchBlob.fs.cp(NEW_FILE_PATH + tempfile , NEW_FILE_PATH + dummyfile)
+    .then(() => onSuccess(NEW_FILE_PATH + dummyfile))
+    .catch();
 };
 
 const fakeDB =
@@ -235,13 +243,6 @@ const fakeDB =
                             },
                             {
                                 id: '23',
-                                type: 'imageSelect',
-                                label: 'Digger Image',
-                                param: 'Digger Image',
-                                value: '',
-                            },
-                            {
-                                id: '24',
                                 type: 'textField',
                                 label: 'Latest hr',
                                 param: 'Latest hr',
@@ -250,13 +251,11 @@ const fakeDB =
                                 keyboardType:'default',
                             },
                             {
-                                id: '25',
-                                type: 'textField',
-                                label: 'Time since Delivery',
-                                param: 'Time since Delivery',
+                                id: '24',
+                                type: 'imageSelect',
+                                label: 'Digger Image',
+                                param: 'Digger Image',
                                 value: '',
-                                maxLength:'',
-                                keyboardType:'default',
                             },
                         ],
                     },
@@ -382,117 +381,117 @@ const fakeDB =
                                 id: '1',
                                 type: 'textField',
                                 param: 'PIN/VIN No',
-                                style: {x:120, y:720, color: '#81C744',fontSize:18},
+                                style: {x:120, y:720, color: '#33cc33',fontSize:15},
                             },
                             {
                                 id: '2',
                                 type: 'textField',
                                 param: 'Report No',
-                                style: {x:360, y:720, color: '#81C744',fontSize:18},
+                                style: {x:360, y:720, color: '#33cc33',fontSize:15},
                             },
                             {
                                 id: '3',
                                 type: 'date',
                                 label: 'Inspection date',
                                 param: 'Inspection date',
-                                style: {x:86, y:683, color: '#81C744',fontSize:18},
+                                style: {x:86, y:680, color: '#33cc33',fontSize:15},
                             },
                             {
                                 id: '4',
                                 type: 'textField',
                                 param: 'Inspected by',
-                                style: {x:393, y:683, color: '#81C744',fontSize:18},
+                                style: {x:393, y:680, color: '#33cc33',fontSize:15},
                             },
                             {
                                 id: '5',
                                 type: 'textField',
                                 param: 'Inspection place',
-                                style: {x:86, y:646, color: '#81C744',fontSize:18},
+                                style: {x:86, y:644, color: '#33cc33',fontSize:15},
                             },
                             {
                                 id: '6',
                                 type: 'textField',
                                 param: 'Customer Name',
-                                style: {x:86, y:610, color: '#81C744',fontSize:18},
+                                style: {x:86, y:605, color: '#33cc33',fontSize:15},
                             },
                             {
                                 id: '7',
                                 type: 'textField',
                                 param: 'Customer Address',
-                                style: {x:86, y:592, color: '#81C744',fontSize:18},
+                                style: {x:86, y:588, color: '#33cc33',fontSize:15},
                             },
                             {
                                 id: '8',
                                 type: 'textField',
                                 param: 'Customer Phone',
-                                style: {x:393, y:592, color: '#81C744',fontSize:18},
+                                style: {x:393, y:588, color: '#33cc33',fontSize:15},
                             },
                             {
                                 id: '9',
                                 type: 'textField',
                                 param: 'Model Code',
-                                style: {x:86, y:543, color: '#81C744',fontSize:18},
+                                style: {x:86, y:538, color: '#33cc33',fontSize:15},
                             },
                             {
                                 id: '10',
                                 type: 'textField',
                                 param: 'Model Name',
-                                style: {x:188, y:543, color: '#81C744',fontSize:18},
+                                style: {x:188, y:538, color: '#33cc33',fontSize:15},
                             },
                             {
                                 id: '11',
                                 type: 'textField',
                                 param: 'S/N',
-                                style: {x:313, y:543, color: '#81C744',fontSize:18},
+                                style: {x:313, y:538, color: '#33cc33',fontSize:15},
                             },
                             {
                                 id: '12',
                                 type: 'textField',
                                 param: 'Machine ID',
-                                style: {x:393, y:543, color: '#81C744',fontSize:18},
+                                style: {x:393, y:538, color: '#33cc33',fontSize:15},
                             },
                             {
                                 id: '13',
                                 type: 'date',
                                 param: 'time limit',
-                                style: {x:86, y:506, color: '#81C744',fontSize:16},
+                                style: {x:86, y:503, color: '#33cc33',fontSize:13},
                             },
                             {
                                 id: '14',
                                 type: 'textField',
                                 param: 'Operated Hours',
-                                style: {x:86, y:468, color: '#81C744',fontSize:22},
+                                style: {x:86, y:460, color: '#33cc33',fontSize:22},
                             },
                             {
                                 id: '15',
                                 type: 'textField',
                                 param: 'Time since Delivery',
-                                style: {x:333, y:468, color: '#81C744',fontSize:22},
+                                style: {x:333, y:460, color: '#33cc33',fontSize:22},
                             },
                             {
                                 id: '16',
                                 type: 'textField',
                                 param: 'Emergency repair',
-                                style: {x:86, y:423, color: '#81C744',fontSize:22},
+                                style: {x:86, y:415, color: '#33cc33',fontSize:22},
                             },
     
                             {
                                 id: '17',
                                 type: 'textField',
                                 param: 'Condition',
-                                style: {x:333, y:423, color: '#81C744',fontSize:22},
+                                style: {x:333, y:415, color: '#33cc33',fontSize:22},
                             },
                             {
                                 id: '18',
                                 type: 'textArea',
                                 param: 'Overall inspection result',
-                                style: {x:45, y:370, color: '#81C744',fontSize:15},
+                                style: {x:45, y:370, color: '#33cc33',fontSize:15},
                             },
                             {
                                 id: '19',
                                 type: 'imageSelect',
                                 param: 'Digger Image',
-                                style: {x: 205,y: 280,width: 200,height: 100},
+                                style: {x: 205,y: 180,width: 200,height: 100},
                             },
                         ],
                     },
@@ -503,43 +502,43 @@ const fakeDB =
                                 id: '1',
                                 type: 'textField',
                                 param: 'Model Code',
-                                style: {x:124, y:715, color: '#81C744',fontSize:18},
+                                style: {x:124, y:710, color: '#33cc33',fontSize:15},
                             },
                             {
                                 id: '12',
                                 type: 'textField',
                                 param: 'Model Name',
-                                style: {x:225, y:715, color: '#81C744',fontSize:18},
+                                style: {x:225, y:710, color: '#33cc33',fontSize:15},
                             },
                             {
                                 id: '3',
                                 type: 'textField',
                                 param: 'S/N',
-                                style: {x:350, y:715, color: '#81C744',fontSize:18},
+                                style: {x:350, y:710, color: '#33cc33',fontSize:15},
                             },
                             {
                                 id: '4',
                                 type: 'textField',
                                 param: 'Machine ID',
-                                style: {x:430, y:715, color: '#81C744',fontSize:18},
+                                style: {x:430, y:710, color: '#33cc33',fontSize:15},
                             },
                             {
                                 id: '5',
                                 type: 'textField',
                                 param: 'Latest hr',
-                                style: {x:190, y:677, color: '#81C744',fontSize:18},
+                                style: {x:190, y:674, color: '#33cc33',fontSize:15},
                             },
                             {
                                 id: '6',
                                 type: 'textField',
                                 param: 'Time since Delivery',
-                                style: {x:394, y:677, color: '#81C744',fontSize:18},
+                                style: {x:394, y:674, color: '#33cc33',fontSize:15},
                             },
                             {
                                 id: '7',
                                 type: 'imageSelect',
                                 param: 'Digger Image',
-                                style: {x: 129,y: 640,width: 200,height: 100},
+                                style: {x: 129,y: 540,width: 200,height: 100},
                             },
                         ],
                     },
@@ -723,4 +722,4 @@ const fakeDB =
         ],
 };
 
-export default  { List, Get ,GetFilePath };
+export default  { List, Get ,GetFilePath, CreateDummyPDF};

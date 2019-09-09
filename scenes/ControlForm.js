@@ -23,13 +23,15 @@ export default class ControlForm extends React.Component
 
         ,instance: null
         ,loading: false
-        ,fab_active:false
-        ,email_active:false
+        ,fab_active: false
+        ,email_active: false
+        ,pdf_instance_name: null
         ,
         };
 
     pdfConfig = null;
     emailAdr = null;
+    pdf_instance_index = 0;
 
     componentDidMount()
     {
@@ -53,7 +55,6 @@ export default class ControlForm extends React.Component
 
     }
 
-   
 
     loadFormResponse = (response) =>
     {
@@ -67,7 +68,7 @@ export default class ControlForm extends React.Component
 
         if (response && response.tabs)
         {
-            this.setState({ openTab: response.tabs[0].id });
+            this.setState({ openTab: response.tabs[0].id ,pdf_instance_name : response.pdf_name});
             this.pdfConfig = response.pdf_pages;
         }
         else
@@ -113,9 +114,16 @@ export default class ControlForm extends React.Component
 
     onGenPDF = () =>
     {
-        const { instance, form } = this.state;
+        const { form } = this.state;
         const { guid } = this.props;
-        let pdfPath = Forms.GetFilePath(guid, form.pdf_name);
+        this.setState({ pdf_instance_name: form.pdf_name.substring(0,form.pdf_name.indexOf('.pdf')) + this.pdf_instance_index + '.pdf' });
+        Forms.CreateDummyPDF(guid, form.pdf_name, form.pdf_name.substring(0,form.pdf_name.indexOf('.pdf')) + this.pdf_instance_index + '.pdf', this.onWritePDF);
+        this.pdf_instance_index++;
+    }
+
+    onWritePDF = (pdfPath) =>
+    {
+        const { instance} = this.state;
 
         if(!this.pdfConfig)
             return;
@@ -147,9 +155,9 @@ export default class ControlForm extends React.Component
 
     onEmailSend = (text) =>
     {
-        const { form } = this.state;
+        const { pdf_instance_name } = this.state;
         const { guid } = this.props;
-        let pdfPath = Forms.GetFilePath(guid, form.pdf_name);
+        let pdfPath = Forms.GetFilePath(guid, pdf_instance_name);
     
         if(!text && !this.emailAdr)
         {
@@ -159,7 +167,7 @@ export default class ControlForm extends React.Component
         if(!text)
             text = this.emailAdr;
 
-        this.handleEmail(form.pdf_name,pdfPath, text);
+        this.handleEmail(pdf_instance_name,pdfPath, text);
         ReportAsyncStore.storeData('email',text);
         this.onActiveEmail();
         this.emailAdr = text;
@@ -183,7 +191,7 @@ export default class ControlForm extends React.Component
 
     render()
     {
-        const { form, openTab, instance,fab_active,email_active } = this.state;
+        const { form, openTab, instance,fab_active,email_active, pdf_instance_name } = this.state;
 
         const { tabs } = form || {};
         const tab = tabs && tabs.find(tabItem => tabItem.id === openTab);
@@ -219,7 +227,7 @@ export default class ControlForm extends React.Component
                     onActiveFab={this.onActiveFab}
                     onActiveEmail={this.onActiveEmail}
                     guid={form && form.guid}
-                    pdf_name={form && form.pdf_name}
+                    pdf_name={form && pdf_instance_name}
                 />
                 {email_active &&
                 <DialogInput

@@ -22,7 +22,7 @@ const FormHeader = (props) =>
         </Body>
         <Right>
             <Button hasText transparent  onPress={onPress}>
-                <Text>PDF</Text>
+                <Text>Creat Pdf</Text>
             </Button>
         </Right>
         </React.Fragment>
