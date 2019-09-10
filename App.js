@@ -5,7 +5,7 @@ import { styles } from './utils/Style';
 
 import FormList from './scenes/FormList';
 import ControlForm from './scenes/ControlForm';
-import PDFShow from './scenes/PDFShow';
+import PDF from './export/PDF';
 export default () => {
     return (
         <Router>
@@ -24,7 +24,7 @@ export default () => {
                 />
                 <Scene
                     key="PDF"
-                    component={PDFShow}
+                    component={PDF}
                     hideNavBar={true}
                 />
             </Scene>

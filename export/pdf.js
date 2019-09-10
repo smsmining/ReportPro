@@ -1,80 +1,143 @@
-import PDFLib, { PDFDocument, PDFPage } from 'react-native-pdf-lib';
-import ReportAlert from '../utils/ReportAlert';
+import React from 'react';
 import Forms from '../context/Forms';
+import drawPDF from './PDFDraw';
+import { Container, Header } from 'native-base';
+import FormHeader from '../components/ControlForm/FormHeader';
+import { Text } from 'react-native';
+import { styles } from '../utils/Style';
+import PDFDisplay from './PDFDisplay';
+import DialogInput from 'react-native-dialog-input';
+import MessageAlert from '../utils/MessageAlert';
+import Mailer from 'react-native-mail';
 
-var pdfConfig = null;
-var pdfName = '';
-var pdf_instance_index = 0;
 
-const drawContent = (PageHandler,type,content, style) =>
+export default class PDF extends React.Component
 {
-    if(!content || !style)
-        return;
+    state = { 
+        loaded: false,
+        pdf: null,
+        email_active: false,
+    };
 
-    if( type === 'imageSelect')
-        PageHandler.drawImage(
-            content.uri.substr(content.uri.indexOf('/storage')),
-            'jpg',
-            style,
-        );
-    else
-       PageHandler.drawText(
-           content,
-           style,
-        );
-};
+     pdfConfig = null;
+     pdfName = '';
 
-const  PageHandler =  (pageNum) => {
+    
 
-    return PDFPage.modify(pageNum);
-};
+    componentDidMount()
+    {
+        const { guid} = this.props;
+        this._asyncReqPDF = Forms.Get(guid, this.handlerPDFResponse);
+    }
 
-const  pdfWriter =  (pdfPath,page) => {
-    return PDFDocument
-    .modify(pdfPath)
-    .modifyPage(page)
-    .write()
-    .then(path => {
-        console.log('PDF modified at: ' + path);
-        ReportAlert('PDF Created','the pdf doc has been created. \nyou can preview and email it by pressing the sharing float button');
-        // call the function to display the pdf here???
-    });
-};
+    componentWillUnmount()
+    {
+        if (this._asyncReqPDF)
+            this._asyncReqPDF.cancel();
+    }
 
-const onGenPDF = (guid,instance) =>
-{
+    handlerPDFResponse = (response) => {
+        this._asyncReqPDF = null;
 
-    Forms.GetPDFConfig(guid,instance, handlerPDFResponse);
-}
+        const { guid,pdf_instance_index } = this.props;
 
+        if(!response)
+            return;
+        this.pdfConfig = response.pdf_pages;
+        this.pdfName = response.pdf_name;
+        Forms.CreateDummyPDF(guid, this.pdfName, this.pdfName.substring(0,this.pdfName.indexOf('.pdf')) + pdf_instance_index + '.pdf', this.onWritePDF);
+    }
 
-const handlerPDFResponse = (guid,response,instance) =>
-{
-    if(!response)
-        return;
+    onWritePDF = (pdfPath) =>
+    {
+        const { instance } = this.props;
 
-    pdfConfig = response.pdf_pages;
-    pdfName = response.pdf_name;
+        if(!this.pdfConfig)
+            return;
 
-    Forms.CreateDummyPDF_1(guid,instance, pdfName, pdfName.substring(0,pdfName.indexOf('.pdf')) + pdf_instance_index + '.pdf', onWritePDF);
-
-    pdf_instance_index++;
-}
-
-
-const onWritePDF = (pdfPath,instance) =>
-{
-    if(!pdfConfig)
-        return;
-
-        pdfConfig.forEach(page => {
-
-        let pdfPage = PageHandler(page.id);
+        this.pdfConfig.forEach(page => {
+        let pdfPage = drawPDF.PageHandler(page.id);
         page.controls.forEach(control => {
-            instance && drawContent(pdfPage,control.type,instance[control.param],control.style);
+            instance && drawPDF.drawContent(pdfPage,control.type,instance[control.param],control.style);
         });
-        pdfWriter(pdfPath,pdfPage);
-    });
-}
+        drawPDF.pdfWriter(pdfPath,pdfPage,this.onPDFGenerated);
+        });
+    }
 
-export default  {onGenPDF};
+    onPDFGenerated = (data) =>{
+        this.setState({pdf: data});
+    }
+
+    onActiveEmail = () =>
+    {
+        const { email_active } = this.state;
+
+        this.setState({ email_active: !email_active });
+    }
+
+    onEmailSend = (text) =>
+    {
+        const { pdf } = this.state;
+    
+        if(!text )
+        {
+            MessageAlert('Email Error ','Please input the email address');
+            return;
+        }
+        this.handleEmail(this.pdfName,pdf, text);
+        this.onActiveEmail();
+    }
+
+    handleEmail = (pdfname,pdfPath,email) => {
+        Mailer.mail({
+          subject: pdfname,
+          recipients: [email],
+          body: '<b>Please check</b>',
+          isHTML: true,
+          attachment: {
+            path: pdfPath,
+            type: 'pdf',
+            name: pdfname,
+          },
+        }, (error, event) => {
+            MessageAlert('Email Error ',error);
+        });
+    };
+
+    render()
+    {
+        const {loaded,pdf,email_active} = this.state;
+        return (
+            <Container>
+                <Header androidStatusBarColor="#5D4037">
+                    <FormHeader
+                        title={this.pdfName}
+                        onPress={this.onActiveEmail}
+                        action={'Send PDF'}
+                     />
+                </Header>
+                {!loaded &&
+                    <Text style={styles.loadingText}>Loading ...</Text>
+                }
+                {pdf && <PDFDisplay
+                    pdfPath = {pdf}
+                    onLoadComplete = {()=> this.setState({ loaded:true})}
+                    onError = {(error) => this.setState({loaded: false})}
+                />
+                }
+                {email_active &&
+                <DialogInput
+                    isDialogVisible={email_active}
+                    title={'Email'}
+                    message={'please input email address'}
+                    submitText="Send"
+                    textInputProps={{keyboardType:'email-address'}}
+                    closeDialog={this.onActiveEmail}
+                    submitInput={text  => this.onEmailSend(text)}
+
+                />}
+            </Container>
+
+        );
+    }
+}

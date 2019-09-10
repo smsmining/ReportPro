@@ -6,6 +6,7 @@ import { Actions } from 'react-native-router-flux';
 
 import  Colors  from '../../utils/ReportColors';
 
+
 const FormHeader = (props) =>
 {
     const { title, onPress,action } = props;
@@ -13,8 +14,8 @@ const FormHeader = (props) =>
     return (
         <React.Fragment>
         <Left>
-            <Button transparent onPress={Actions.Reports}>
-            <Icon name="arrow-back" color={Colors.white} />
+            <Button transparent onPress={Actions.Reports }>
+            {action !== 'Send PDF' &&  <Icon name="arrow-back" color={Colors.white} /> }
             </Button>
         </Left>
         <Body>

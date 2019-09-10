@@ -30,32 +30,16 @@ const GetFilePath = (guid, filename) =>
     return rootDirs.DCIMDir + '/Reports/' + guid + '/' + filename;
 };
 
+
 const CreateDummyPDF = (guid,tempfile,dummyfile,onSuccess) =>
 {
-    const NEW_FILE_PATH = rootDirs.DCIMDir + '/Reports/' + guid + '/';
-    RNFetchBlob.fs.cp(NEW_FILE_PATH + tempfile , NEW_FILE_PATH + dummyfile)
-    .then(() => onSuccess(NEW_FILE_PATH + dummyfile))
+    const srcFile = GetFilePath(guid,tempfile);
+    const desFile = GetFilePath(guid,dummyfile);
+    RNFetchBlob.fs.cp(srcFile ,desFile)
+    .then(() => onSuccess(desFile))
     .catch();
 };
 
-const CreateDummyPDF_1 = (guid,instance,tempfile,dummyfile,onSuccess) =>
-{
-    const NEW_FILE_PATH = rootDirs.DCIMDir + '/Reports/' + guid + '/';
-    RNFetchBlob.fs.cp(NEW_FILE_PATH + tempfile , NEW_FILE_PATH + dummyfile)
-    .then(() => onSuccess(NEW_FILE_PATH + dummyfile,instance))
-    .catch();
-};
-
-const GetPDFConfig = (guid,instance, onSuccess) =>
-{
-    return createFetcher( async () =>
-            fakeDB
-                .forms
-                .find(form => form.guid === guid)
-            )
-            .read()
-            .then((data) => onSuccess(guid,data,instance));
-};
 
 const fakeDB =
 {
@@ -757,4 +741,4 @@ const fakeDB =
         ],
 };
 
-export default  { List, Get ,GetFilePath, CreateDummyPDF,CreateDummyPDF_1,GetPDFConfig};
+export default  { List, Get ,GetFilePath, CreateDummyPDF};

@@ -6,31 +6,22 @@ import { styles } from '../utils/Style';
 
 import FormHeader from '../components/ControlForm/FormHeader';
 import FormNavigation from '../components/ControlForm/FormNavigation';
-import FormFab from '../components/ControlForm/FormFab';
 import ControlItem from '../components/ControlItem';
 
-import drawPDF from '../pdf/draw';
-import ReportAlert from '../utils/ReportAlert';
-import Mailer from 'react-native-mail';
-import DialogInput from 'react-native-dialog-input';
+import { Actions } from 'react-native-router-flux';
 
-import pdf from '../export/pdf';
 
 export default class ControlForm extends React.Component
 {
     state =
         {form: null
         ,openTab: null
-
         ,instance: null
         ,loading: false
-        ,fab_active: false
-        ,email_active: false
-        ,pdf_instance_name: null
         ,
         };
 
-
+    pdf_instance_index = 0;
     componentDidMount()
     {
         this.loadForm();
@@ -65,7 +56,7 @@ export default class ControlForm extends React.Component
 
         if (response && response.tabs)
         {
-            this.setState({ openTab: response.tabs[0].id ,pdf_instance_name : response.pdf_name});
+            this.setState({ openTab: response.tabs[0].id});
         }
         else
             this.setState({ openTab: null });
@@ -87,69 +78,22 @@ export default class ControlForm extends React.Component
         this.setState({ instance: { ...instance, [param]: value } });
     }
 
+    onCreatePDF = () =>
+    {
+        const { instance } = this.state;
+        const { guid } = this.props;
+        Actions.PDF({guid,instance,pdf_instance_index: this.pdf_instance_index});
+        this.pdf_instance_index++;
+    }
 
     onOpenTab = (id) =>
     {
         this.setState({ openTab: id });
     }
 
-    onGenPDF = () =>
-    {
-        const { instance} = this.state;
-        const { guid } = this.props;
-        pdf.onGenPDF(guid,instance);
-    }
-
-
-    onActiveFab = () =>
-    {
-        const { fab_active } = this.state;
-
-        this.setState({ fab_active: !fab_active });
-    }
-
-    onActiveEmail = () =>
-    {
-        const { email_active } = this.state;
-
-        this.setState({ email_active: !email_active });
-    }
-
-
-    onEmailSend = (text) =>
-    {
-        const { pdf_instance_name } = this.state;
-        const { guid } = this.props;
-        let pdfPath = Forms.GetFilePath(guid, pdf_instance_name);
-    
-        if(!text )
-        {
-            ReportAlert('Email Error ','Please input the email address');
-            return;
-        }
-        this.handleEmail(pdf_instance_name,pdfPath, text);
-        this.onActiveEmail();
-    }
-
-    handleEmail = (pdfname,pdfPath,email) => {
-        Mailer.mail({
-          subject: pdfname,
-          recipients: [email],
-          body: '<b>Please check</b>',
-          isHTML: true,
-          attachment: {
-            path: pdfPath,
-            type: 'pdf',
-            name: pdfname,
-          },
-        }, (error, event) => {
-            ReportAlert('Email Error ',error);
-        });
-    };
-
     render()
     {
-        const { form, openTab, instance,fab_active,email_active, pdf_instance_name } = this.state;
+        const { form, openTab, instance } = this.state;
 
         const { tabs } = form || {};
         const tab = tabs && tabs.find(tabItem => tabItem.id === openTab);
@@ -159,8 +103,8 @@ export default class ControlForm extends React.Component
                 <Header androidStatusBarColor="#5D4037">
                     <FormHeader
                         title={form && form.title}
-                        onPress={this.onGenPDF}
-                        action={'Created PDF'}
+                        onPress={this.onCreatePDF}
+                        action={'Create PDF'}
                      />
                 </Header>
                 <Content>
@@ -181,25 +125,6 @@ export default class ControlForm extends React.Component
                     </List>
                     }
                 </Content>
-               <FormFab
-                    fab_active={fab_active}
-                    onActiveFab={this.onActiveFab}
-                    onActiveEmail={this.onActiveEmail}
-                    guid={form && form.guid}
-                    pdf_name={form && pdf_instance_name}
-                />
-                {email_active &&
-                <DialogInput
-                    isDialogVisible={email_active}
-                    title={'Email'}
-                    message={'please input email address'}
-                    hintInput ={this.emailAdr}
-                    submitText="Send"
-                    textInputProps={{keyboardType:'email-address'}}
-                    closeDialog={this.onActiveEmail}
-                    submitInput={text  => this.onEmailSend(text)}
-
-                />}
                 <Footer>
                     {tabs && tabs.length > 1 &&
                     <FormNavigation

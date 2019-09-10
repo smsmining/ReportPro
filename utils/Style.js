@@ -125,11 +125,17 @@ export const styles = StyleSheet.create({
       flex: 1,
       justifyContent: 'flex-start',
       alignItems: 'center',
-      marginTop: 25,
     },
     pdf: {
         flex:1,
         width:Dimensions.get('window').width,
     },
+    loadingText: {
+      marginTop:200,
+      textAlign: 'center',
+      fontSize: 20,
+      fontWeight: '600',
+      textDecorationStyle: 'solid',
+  },
 
   });
