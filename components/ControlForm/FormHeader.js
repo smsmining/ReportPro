@@ -8,7 +8,7 @@ import  Colors  from '../../utils/ReportColors';
 
 const FormHeader = (props) =>
 {
-    const { title, onPress } = props;
+    const { title, onPress,action } = props;
 
     return (
         <React.Fragment>
@@ -22,7 +22,7 @@ const FormHeader = (props) =>
         </Body>
         <Right>
             <Button hasText transparent  onPress={onPress}>
-                <Text>Creat Pdf</Text>
+                <Text>{action}</Text>
             </Button>
         </Right>
         </React.Fragment>

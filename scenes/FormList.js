@@ -11,7 +11,7 @@ export default class FormList extends React.Component
 {
     state = {
         forms: null,
-        loading: true,
+        loading: false,
         };
 
     componentDidMount()
@@ -27,6 +27,8 @@ export default class FormList extends React.Component
 
     loadForms = () =>
     {
+        this.setState({ loading: true });
+        
         this._asyncReqForm = Forms.List(this.loadFormsResponse);
     }
 

@@ -11,9 +11,10 @@ import ControlItem from '../components/ControlItem';
 
 import drawPDF from '../pdf/draw';
 import ReportAlert from '../utils/ReportAlert';
-import ReportAsyncStore from '../utils/ReportAsyncStore';
 import Mailer from 'react-native-mail';
 import DialogInput from 'react-native-dialog-input';
+
+import pdf from '../export/pdf';
 
 export default class ControlForm extends React.Component
 {
@@ -29,14 +30,10 @@ export default class ControlForm extends React.Component
         ,
         };
 
-    pdfConfig = null;
-    emailAdr = null;
-    pdf_instance_index = 0;
 
     componentDidMount()
     {
         this.loadForm();
-        this.loadEmail();
     }
 
     componentWillUnmount()
@@ -69,23 +66,9 @@ export default class ControlForm extends React.Component
         if (response && response.tabs)
         {
             this.setState({ openTab: response.tabs[0].id ,pdf_instance_name : response.pdf_name});
-            this.pdfConfig = response.pdf_pages;
         }
         else
             this.setState({ openTab: null });
-    }
-
-    loadEmail = () =>
-    {
-        this._asyncReqEmail = ReportAsyncStore.getData('email',this.loadEmailResponse);
-    }
-
-    loadEmailResponse = (response) =>
-    {
-        this._asyncReqEmail = null;
-
-        if (response)
-            this.emailAdr = response;
     }
 
 
@@ -94,8 +77,6 @@ export default class ControlForm extends React.Component
         if (this._asyncReqForm)
             this._asyncReqForm.cancel();
 
-        if (this._asyncReqEmail)
-            this._asyncReqEmail.cancel();
     }
 
 
@@ -114,29 +95,11 @@ export default class ControlForm extends React.Component
 
     onGenPDF = () =>
     {
-        const { form } = this.state;
-        const { guid } = this.props;
-        this.setState({ pdf_instance_name: form.pdf_name.substring(0,form.pdf_name.indexOf('.pdf')) + this.pdf_instance_index + '.pdf' });
-        Forms.CreateDummyPDF(guid, form.pdf_name, form.pdf_name.substring(0,form.pdf_name.indexOf('.pdf')) + this.pdf_instance_index + '.pdf', this.onWritePDF);
-        this.pdf_instance_index++;
-    }
-
-    onWritePDF = (pdfPath) =>
-    {
         const { instance} = this.state;
-
-        if(!this.pdfConfig)
-            return;
-
-        this.pdfConfig.forEach(page => {
-
-            let PageHandler = drawPDF.PageHandler(page.id);
-            page.controls.forEach(control => {
-                instance && drawPDF.drawContent(PageHandler,control.type,instance[control.param],control.style);
-            });
-            drawPDF.pdfWriter(pdfPath,PageHandler);
-        });
+        const { guid } = this.props;
+        pdf.onGenPDF(guid,instance);
     }
+
 
     onActiveFab = () =>
     {
@@ -159,18 +122,13 @@ export default class ControlForm extends React.Component
         const { guid } = this.props;
         let pdfPath = Forms.GetFilePath(guid, pdf_instance_name);
     
-        if(!text && !this.emailAdr)
+        if(!text )
         {
             ReportAlert('Email Error ','Please input the email address');
             return;
         }
-        if(!text)
-            text = this.emailAdr;
-
         this.handleEmail(pdf_instance_name,pdfPath, text);
-        ReportAsyncStore.storeData('email',text);
         this.onActiveEmail();
-        this.emailAdr = text;
     }
 
     handleEmail = (pdfname,pdfPath,email) => {
@@ -202,6 +160,7 @@ export default class ControlForm extends React.Component
                     <FormHeader
                         title={form && form.title}
                         onPress={this.onGenPDF}
+                        action={'Created PDF'}
                      />
                 </Header>
                 <Content>

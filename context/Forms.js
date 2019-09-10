@@ -38,6 +38,25 @@ const CreateDummyPDF = (guid,tempfile,dummyfile,onSuccess) =>
     .catch();
 };
 
+const CreateDummyPDF_1 = (guid,instance,tempfile,dummyfile,onSuccess) =>
+{
+    const NEW_FILE_PATH = rootDirs.DCIMDir + '/Reports/' + guid + '/';
+    RNFetchBlob.fs.cp(NEW_FILE_PATH + tempfile , NEW_FILE_PATH + dummyfile)
+    .then(() => onSuccess(NEW_FILE_PATH + dummyfile,instance))
+    .catch();
+};
+
+const GetPDFConfig = (guid,instance, onSuccess) =>
+{
+    return createFetcher( async () =>
+            fakeDB
+                .forms
+                .find(form => form.guid === guid)
+            )
+            .read()
+            .then((data) => onSuccess(guid,data,instance));
+};
+
 const fakeDB =
 {
     forms:
@@ -64,6 +83,7 @@ const fakeDB =
                                 type: 'textField',
                                 label: 'PIN/VIN No',
                                 param: 'PIN/VIN No',
+                                placeholder: '',
                                 value: '',
                                 maxLength:'',
                                 keyboardType:'default',
@@ -73,6 +93,7 @@ const fakeDB =
                                 type: 'textField',
                                 label: 'Report No',
                                 param: 'Report No',
+                                placeholder: '',
                                 value: '',
                                 maxLength:'',
                                 keyboardType:'numeric',
@@ -89,6 +110,7 @@ const fakeDB =
                                 type: 'textField',
                                 label: 'Inspected by',
                                 param: 'Inspected by',
+                                placeholder: '',
                                 value: '',
                                 maxLength:'',
                                 keyboardType:'default',
@@ -98,6 +120,7 @@ const fakeDB =
                                 type: 'textField',
                                 label: 'Inspection place',
                                 param: 'Inspection place',
+                                placeholder: '',
                                 value: '',
                                 maxLength:'',
                                 keyboardType:'default',
@@ -114,6 +137,7 @@ const fakeDB =
                                 type: 'textField',
                                 label: 'Customer Name',
                                 param: 'Customer Name',
+                                placeholder: '',
                                 value: '',
                                 maxLength:'',
                                 keyboardType:'default',
@@ -123,6 +147,7 @@ const fakeDB =
                                 type: 'textField',
                                 label: 'Customer Address',
                                 param: 'Customer Address',
+                                placeholder: '',
                                 value: '',
                                 maxLength:'',
                                 keyboardType:'default',
@@ -132,6 +157,7 @@ const fakeDB =
                                 type: 'textField',
                                 label: 'Customer Phone',
                                 param: 'Customer Phone',
+                                placeholder: '',
                                 value: '',
                                 maxLength:'',
                                 keyboardType:'phone-pad',
@@ -148,6 +174,7 @@ const fakeDB =
                                 type: 'textField',
                                 label: 'Model Code',
                                 param: 'Model Code',
+                                placeholder: '',
                                 value: '',
                                 maxLength:'',
                                 keyboardType:'default',
@@ -157,6 +184,7 @@ const fakeDB =
                                 type: 'textField',
                                 label: 'Model Name',
                                 param: 'Model Name',
+                                placeholder: '',
                                 value: '',
                                 maxLength:'',
                                 keyboardType:'default',
@@ -166,6 +194,7 @@ const fakeDB =
                                 type: 'textField',
                                 label: 'S/N',
                                 param: 'S/N',
+                                placeholder: '',
                                 value: '',
                                 maxLength:'',
                                 keyboardType:'numeric',
@@ -175,6 +204,7 @@ const fakeDB =
                                 type: 'textField',
                                 label: 'Machine ID',
                                 param: 'Machine ID',
+                                placeholder: '',
                                 value: '',
                                 maxLength:'',
                                 keyboardType:'default',
@@ -198,6 +228,7 @@ const fakeDB =
                                 type: 'textField',
                                 label: 'Operated Hours',
                                 param: 'Operated Hours',
+                                placeholder: '',
                                 value: '',
                                 maxLength:'',
                                 keyboardType:'numeric',
@@ -207,6 +238,7 @@ const fakeDB =
                                 type: 'textField',
                                 label: 'Time since Delivery',
                                 param: 'Time since Delivery',
+                                placeholder: '',
                                 value: '',
                                 maxLength:'',
                                 keyboardType:'default',
@@ -216,6 +248,7 @@ const fakeDB =
                                 type: 'textField',
                                 label: 'Emergency repair',
                                 param: 'Emergency repair',
+                                placeholder: '',
                                 value: '',
                                 maxLength:'',
                                 keyboardType:'default',
@@ -226,6 +259,7 @@ const fakeDB =
                                 type: 'textField',
                                 label: 'Condition',
                                 param: 'Condition',
+                                placeholder: '',
                                 value: '',
                                 maxLength:'',
                                 keyboardType:'default',
@@ -246,6 +280,7 @@ const fakeDB =
                                 type: 'textField',
                                 label: 'Latest hr',
                                 param: 'Latest hr',
+                                placeholder: '',
                                 value: '',
                                 maxLength:'',
                                 keyboardType:'default',
@@ -722,4 +757,4 @@ const fakeDB =
         ],
 };
 
-export default  { List, Get ,GetFilePath, CreateDummyPDF};
+export default  { List, Get ,GetFilePath, CreateDummyPDF,CreateDummyPDF_1,GetPDFConfig};

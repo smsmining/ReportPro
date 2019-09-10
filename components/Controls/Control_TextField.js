@@ -6,7 +6,7 @@ import Colors from '../../utils/ReportColors';
 
 const Control_TextField = (props) =>
 {
-    const { label, value, param, onChange, maxLength, keyboardType } = props;
+    const { label, value, param, onChange, maxLength, keyboardType, placeholder } = props;
 
     return (
         <InlineLabelItem label={label}>
@@ -14,7 +14,7 @@ const Control_TextField = (props) =>
                 value={value}
                 onChangeText={text => onChange(text, param)}
                 maxLength={maxLength ? maxLength : 50}
-                placeholder={value}
+                placeholder={placeholder}
                 placeholderTextColor={Colors.light}
                 keyboardType={keyboardType} />
         </InlineLabelItem>
