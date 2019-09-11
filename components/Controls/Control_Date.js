@@ -8,16 +8,16 @@ const Control_Date = (props) =>
 {
     const formatChosenDate = (date) => [date.getDate(), '/', date.getMonth() + 1, '/', date.getFullYear()];
 
-    const { label, param, onChange, minimumDate, maximumDate } = props;
+    const { label, param, onChange } = props;
 
     return (
         <InlineLabelItem label={label}>
             <DatePicker
                     placeHolderText={'Select date'}
                     defaultDate={new Date()}
-                    minimumDate={minimumDate}
-                    maximumDate={maximumDate}
-                    onDateChange={newDate => onChange(newDate, param)}
+                    minimumDate={new Date(2010, 1, 1)}
+                    maximumDate={new Date(2050, 12, 31)}
+                    onDateChange={newDate => onChange(newDate.getDate().toString() + '/' + (newDate.getMonth() + 1).toString() + '/' + newDate.getFullYear().toString(), param)}
                     locale={'en'}
                     modalTransparent={false}
                     animationType={'fade'}
