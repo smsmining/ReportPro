@@ -3,28 +3,27 @@ import { Router, Scene } from 'react-native-router-flux';
 
 import { styles } from './utils/Style';
 
-import FormList from './scenes/FormList';
-import ControlForm from './scenes/ControlForm';
-import PDF from './export/PDF';
+import { keys, FormList, ControlForm, ExportPreview } from './scenes';
+
 export default () => {
     return (
         <Router>
             <Scene key="root" titleStyle={styles.titleStyle}>
                 <Scene
-                    key="Reports"
+                    key={keys.Reports}
                     component={FormList}
                     title="Reports"
                     initial={true}
                     hideNavBar={true}
                 />
                 <Scene
-                    key="Main"
+                    key={keys.Main}
                     component={ControlForm}
                     hideNavBar={true}
                 />
                 <Scene
-                    key="PDF"
-                    component={PDF}
+                    key={keys.Export}
+                    component={ExportPreview}
                     hideNavBar={true}
                 />
             </Scene>

@@ -1,3 +1,5 @@
+.vs/
+
 # OSX
 #
 .DS_Store
@@ -24,6 +26,7 @@ project.xcworkspace
 
 # Android/IntelliJ
 #
+android/app/
 build/
 .idea
 .gradle

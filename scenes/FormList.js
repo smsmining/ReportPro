@@ -1,12 +1,15 @@
 import React from 'react';
 import { FlatList } from 'react-native';
-import { Container, Content, Button, Text, Left, Right, Icon, Header, Title, Body } from 'native-base';
+import { Container, Content, Text } from 'native-base';
 
-import   Forms  from '../context/Forms';
+import SMSLogo from '../images/SMS-Logo.png';
 
+import Forms from '../context/Forms';
 import { styles } from '../utils/Style';
-import  HeaderSMS  from '../utils/ReportHearder';
+
 import FormItem from '../components/ControlForm/FormItem';
+import PageLayout from '../components/Layout/PageLayout';
+
 export default class FormList extends React.Component
 {
     state = {
@@ -39,7 +42,6 @@ export default class FormList extends React.Component
         this.setState(
             {forms: response
             ,loading: false
-            ,
             });
     }
 
@@ -50,28 +52,15 @@ export default class FormList extends React.Component
     }
 
 
-    renderFormItem = (data,loading) => {
-        return <FormItem item = {data.item} loading = {loading} />;
-    }
+    renderFormItem = (data, loading) => (<FormItem item={data.item} loading={loading} />);
 
     render()
     {
         const { forms, loading } = this.state;
 
         return (
-            <Container>
-                <Header androidStatusBarColor="#5D4037" >
-                    <Left>
-                        <Button transparent>
-                            <Icon name="menu" />
-                        </Button>
-                    </Left>
-                    <Body>
-                        <Title>Reports</Title>
-                    </Body>
-                    <Right />
-                </Header>
-                <HeaderSMS />
+            <PageLayout header="Reports">
+                <Image source={SMSLogo} style={styles.imageStatic} />
                 <Container>
                     <Content>
                         {loading &&
@@ -86,7 +75,7 @@ export default class FormList extends React.Component
                         }
                     </Content>
                 </Container>
-            </Container>
+            </PageLayout>
         );
     }
 }

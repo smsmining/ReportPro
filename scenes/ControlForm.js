@@ -1,14 +1,13 @@
 import React from 'react';
-import { Container, Header, Content, Footer, List, Text} from 'native-base';
+import { Content, Footer, List, Text } from 'native-base';
+import { Actions } from 'react-native-router-flux';
 
 import Forms from '../context/Forms';
 import { styles } from '../utils/Style';
 
-import FormHeader from '../components/ControlForm/FormHeader';
 import FormNavigation from '../components/ControlForm/FormNavigation';
 import ControlItem from '../components/ControlItem';
-
-import { Actions } from 'react-native-router-flux';
+import PageLayout from '../components/Layout/PageLayout';
 
 
 export default class ControlForm extends React.Component
@@ -18,7 +17,6 @@ export default class ControlForm extends React.Component
         ,openTab: null
         ,instance: null
         ,loading: false
-        ,
         };
 
     pdf_instance_index = 0;
@@ -51,13 +49,10 @@ export default class ControlForm extends React.Component
         this.setState(
             {form: response
             ,loading: false
-            ,
             });
 
         if (response && response.tabs)
-        {
             this.setState({ openTab: response.tabs[0].id});
-        }
         else
             this.setState({ openTab: null });
     }
@@ -67,48 +62,38 @@ export default class ControlForm extends React.Component
     {
         if (this._asyncReqForm)
             this._asyncReqForm.cancel();
-
     }
 
 
-    setInstanceValue = (value, param) =>
-    {
-        const { instance } = this.state;
-
-        this.setState({ instance: { ...instance, [param]: value } });
-    }
+    setInstanceValue = (value, param) => this.setState({ instance: { ...this.state.instance, [param]: value } });
 
     onCreatePDF = () =>
     {
-        const { instance } = this.state;
         const { guid } = this.props;
-        Actions.PDF({guid,instance,pdf_instance_index: this.pdf_instance_index});
+        const { instance } = this.state;
+        
+        Actions.PDF({ guid, instance, pdf_instance_index: this.pdf_instance_index });
+
         this.pdf_instance_index++;
     }
 
-    onOpenTab = (id) =>
-    {
-        this.setState({ openTab: id });
-    }
+    onOpenTab = (id) => this.setState({ openTab: id });
 
     render()
     {
-        const { form, openTab, instance } = this.state;
+        const { form, openTab, instance, loading } = this.state;
 
         const { tabs } = form || {};
         const tab = tabs && tabs.find(tabItem => tabItem.id === openTab);
 
         return (
-            <Container>
-                <Header androidStatusBarColor="#5D4037">
-                    <FormHeader
-                        title={form && form.title}
-                        onPress={this.onCreatePDF}
-                        action={'Create PDF'}
-                     />
-                </Header>
+            <PageLayout
+                back={{ icon: "arrow-back", onPress: Actions.Reports }}
+                next={{ label: "Create PDF", onPress: this.onCreatePDF }}
+                header={form.title || ""}
+            >
                 <Content>
-                    {this.loading &&
+                    {loading &&
                     <Text style={styles.center}>Loading ...</Text>
                     }
                     {tab &&
@@ -133,7 +118,7 @@ export default class ControlForm extends React.Component
                     />
                     }
                 </Footer>
-            </Container>
+            </PageLayout>
         );
     }
 }

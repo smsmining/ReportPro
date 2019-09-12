@@ -4,6 +4,13 @@
   "private": true,
   "scripts": {
     "start": "react-native start",
+
+    "ba": "react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res/",
+    "build-android": "react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res/",
+
+    "run-android": "react-native run-android",
+    "ra": "react-native run-android",
+
     "test": "jest",
     "lint": "eslint ."
   },

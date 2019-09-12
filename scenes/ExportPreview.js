@@ -1,15 +1,15 @@
 import React from 'react';
-import Forms from '../context/Forms';
-import drawPDF from './PDFDraw';
-import { Container, Header } from 'native-base';
-import FormHeader from '../components/ControlForm/FormHeader';
 import { Text } from 'react-native';
-import { styles } from '../utils/Style';
-import PDFDisplay from './PDFDisplay';
 import DialogInput from 'react-native-dialog-input';
-import MessageAlert from '../utils/MessageAlert';
 import Mailer from 'react-native-mail';
 
+import { styles } from '../utils/Style';
+
+import Forms from '../context/Forms';
+import drawPDF from '../export/PDFDraw';
+import PDFDisplay from '../export/PDFDisplay';
+import MessageAlert from '../components/Alerts';
+import PageLayout from '../components/Layout/PageLayout';
 
 export default class PDF extends React.Component
 {
@@ -106,20 +106,19 @@ export default class PDF extends React.Component
 
     render()
     {
-        const {loaded,pdf,email_active} = this.state;
+        const { loaded, pdf, email_active } = this.state;
+
         return (
-            <Container>
-                <Header androidStatusBarColor="#5D4037">
-                    <FormHeader
-                        title={this.pdfName}
-                        onPress={this.onActiveEmail}
-                        action={'Send PDF'}
-                     />
-                </Header>
+            <PageLayout
+                back={{ icon: "arrow-back", onPress: Actions.Reports }}
+                next={{ label: "Send PDF", onPress: this.onActiveEmail }}
+                header={this.pdfName}
+            >
                 {!loaded &&
-                    <Text style={styles.loadingText}>Loading ...</Text>
+                <Text style={styles.loadingText}>Loading ...</Text>
                 }
-                {pdf && <PDFDisplay
+                {pdf &&
+                <PDFDisplay
                     pdfPath = {pdf}
                     onLoadComplete = {()=> this.setState({ loaded:true})}
                     onError = {(error) => this.setState({loaded: false})}
@@ -133,11 +132,10 @@ export default class PDF extends React.Component
                     submitText="Send"
                     textInputProps={{keyboardType:'email-address'}}
                     closeDialog={this.onActiveEmail}
-                    submitInput={text  => this.onEmailSend(text)}
+                    submitInput={text => this.onEmailSend(text)}
 
                 />}
-            </Container>
-
+            </PageLayout>
         );
     }
 }
