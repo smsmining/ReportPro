@@ -11,6 +11,8 @@ import PDFDisplay from '../export/PDFDisplay';
 import MessageAlert from '../components/Alerts';
 import PageLayout from '../components/Layout/PageLayout';
 
+import { Actions } from 'react-native-router-flux';
+
 export default class PDF extends React.Component
 {
     state = { 
