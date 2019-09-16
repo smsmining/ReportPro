@@ -1,8 +1,6 @@
 import React from 'react';
 import { FlatList } from 'react-native';
-import { Container, Content, Text } from 'native-base';
-
-import SMSLogo from '../images/SMS-Logo.png';
+import { Container, Content, Text, Image } from 'native-base';
 
 import Forms from '../context/Forms';
 import { styles } from '../utils/Style';
@@ -52,13 +50,32 @@ export default class FormList extends React.Component
     }
 
 
-    renderFormItem = (data, loading) => (<FormItem item={data.item} loading={loading} />);
-
     render()
     {
         const { forms, loading } = this.state;
 
         return (
+            <PageLayout header="Reports">
+                <Container>
+                    <Content>
+                        {loading &&
+                        <Text style={styles.center}>Loading ...</Text>
+                        }
+                        {forms &&
+                        <FlatList
+                            data={forms}
+                            keyExtractor={(item) => item.guid}
+                            renderItem={FormItem}
+                        />
+                        }
+                    </Content>
+                </Container>
+            </PageLayout>
+        );
+    }
+}
+/*
+
             <PageLayout header="Reports">
                 <Image source={SMSLogo} style={styles.imageStatic} />
                 <Container>
@@ -76,6 +93,5 @@ export default class FormList extends React.Component
                     </Content>
                 </Container>
             </PageLayout>
-        );
-    }
-}
+
+*/

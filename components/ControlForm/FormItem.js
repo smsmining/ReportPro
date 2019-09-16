@@ -3,11 +3,12 @@ import { Actions } from 'react-native-router-flux';
 import { ListItem, Text, Left, Right, Icon } from 'native-base';
 import { styles } from '../../utils/Style';
 
-const FormItem = (props) => {
+export default FormItem = (props) =>
+{
+    const { item } = props;
 
-    const {item, loading} = props;
     return (
-        <ListItem style={styles.borderBottom} onPress={() => Actions.Main({ guid: item.guid })} disabled={loading}>
+        <ListItem style={styles.borderBottom} onPress={() => Actions.Main({ guid: item.guid })}>
             <Left>
                 <Text>{item.name} V:{item.version}</Text>
             </Left>
@@ -17,6 +18,3 @@ const FormItem = (props) => {
         </ListItem>
     );
 };
-
-export default FormItem;
-

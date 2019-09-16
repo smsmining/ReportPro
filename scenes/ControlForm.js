@@ -83,14 +83,14 @@ export default class ControlForm extends React.Component
     {
         const { form, openTab, instance, loading } = this.state;
 
-        const { tabs } = form || {};
+        const { tabs, title } = form || {};
         const tab = tabs && tabs.find(tabItem => tabItem.id === openTab);
 
         return (
             <PageLayout
                 back={{ icon: "arrow-back", onPress: Actions.Reports }}
                 next={{ label: "Create PDF", onPress: this.onCreatePDF }}
-                header={form.title || ""}
+                header={title}
             >
                 <Content>
                     {loading &&
@@ -122,3 +122,14 @@ export default class ControlForm extends React.Component
         );
     }
 }
+
+/*
+  <PageLayout
+                back={{ icon: "arrow-back", onPress: Actions.Reports }}
+                
+                header={title}
+            >
+  
+                
+
+ */

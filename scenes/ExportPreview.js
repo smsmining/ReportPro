@@ -28,7 +28,8 @@ export default class PDF extends React.Component
 
     componentDidMount()
     {
-        const { guid} = this.props;
+        const { guid } = this.props;
+
         this._asyncReqPDF = Forms.Get(guid, this.handlerPDFResponse);
     }
 
@@ -38,15 +39,18 @@ export default class PDF extends React.Component
             this._asyncReqPDF.cancel();
     }
 
-    handlerPDFResponse = (response) => {
+    handlerPDFResponse = (response) =>
+    {
         this._asyncReqPDF = null;
 
-        const { guid,pdf_instance_index } = this.props;
+        const { guid, pdf_instance_index } = this.props;
 
         if(!response)
             return;
+
         this.pdfConfig = response.pdf_pages;
         this.pdfName = response.pdf_name;
+
         Forms.CreateDummyPDF(guid, this.pdfName, this.pdfName.substring(0,this.pdfName.indexOf('.pdf')) + pdf_instance_index + '.pdf', this.onWritePDF);
     }
 
@@ -57,40 +61,39 @@ export default class PDF extends React.Component
         if(!this.pdfConfig)
             return;
 
-        this.pdfConfig.forEach(page => {
-        let pdfPage = drawPDF.PageHandler(page.id);
-        page.controls.forEach(control => {
-            instance && drawPDF.drawContent(pdfPage,control.type,instance[control.param],control.style);
+        this.pdfConfig.forEach(page =>
+        {
+            let pdfPage = drawPDF.PageHandler(page.id);
+
+            page.controls.forEach(control =>
+            {
+                instance && drawPDF.drawContent(pdfPage,control.type,instance[control.param],control.style);
+            });
+
+            drawPDF.pdfWriter(pdfPath, pdfPage, this.onPDFGenerated);
         });
-        drawPDF.pdfWriter(pdfPath,pdfPage,this.onPDFGenerated);
-        });
     }
 
-    onPDFGenerated = (data) =>{
-        this.setState({pdf: data});
-    }
+    onPDFGenerated = (data) => this.setState({ pdf: data });
 
-    onActiveEmail = () =>
-    {
-        const { email_active } = this.state;
-
-        this.setState({ email_active: !email_active });
-    }
+    onActiveEmail = () => this.setState({ email_active: !this.state.email_active });
 
     onEmailSend = (text) =>
     {
         const { pdf } = this.state;
     
-        if(!text )
+        if(!text)
         {
             MessageAlert('Email Error ','Please input the email address');
             return;
         }
+
         this.handleEmail(this.pdfName,pdf, text);
         this.onActiveEmail();
     }
 
-    handleEmail = (pdfname,pdfPath,email) => {
+    handleEmail = (pdfname, pdfPath, email) =>
+    {
         Mailer.mail({
           subject: pdfname,
           recipients: [email],
@@ -114,7 +117,6 @@ export default class PDF extends React.Component
             <PageLayout
                 back={{ icon: "arrow-back", onPress: Actions.Reports }}
                 next={{ label: "Send PDF", onPress: this.onActiveEmail }}
-                header={this.pdfName}
             >
                 {!loaded &&
                 <Text style={styles.loadingText}>Loading ...</Text>
@@ -122,7 +124,7 @@ export default class PDF extends React.Component
                 {pdf &&
                 <PDFDisplay
                     pdfPath = {pdf}
-                    onLoadComplete = {()=> this.setState({ loaded:true})}
+                    onLoadComplete = {()=> this.setState({ loaded: true})}
                     onError = {(error) => this.setState({loaded: false})}
                 />
                 }

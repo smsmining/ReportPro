@@ -5,9 +5,10 @@
   "scripts": {
     "start": "react-native start",
 
-    "ba": "react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res/",
-    "build-android": "react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res/",
-
+    "ba": "react-native bundle --platform android --dev true --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res/",
+    "build-android": "react-native bundle --platform android --dev true --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res/",
+    "release-android": "react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res/",
+    
     "run-android": "react-native run-android",
     "ra": "react-native run-android",
 
@@ -15,7 +16,7 @@
     "lint": "eslint ."
   },
   "dependencies": {
-    "@react-native-community/async-storage": "^1.6.1",
+    "fb-watchman": "^2.0.0",
     "native-base": "^2.13.4",
     "react": "16.8.6",
     "react-native": "0.60.4",
