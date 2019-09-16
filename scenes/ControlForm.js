@@ -19,7 +19,6 @@ export default class ControlForm extends React.Component
         ,loading: false
         };
 
-    pdf_instance_index = 0;
     componentDidMount()
     {
         this.loadForm();
@@ -28,6 +27,12 @@ export default class ControlForm extends React.Component
     componentWillUnmount()
     {
         this.clearAsync();
+    }
+
+    clearAsync = () =>
+    {
+        if (this._asyncReqForm)
+            this._asyncReqForm.cancel();
     }
 
 
@@ -41,9 +46,10 @@ export default class ControlForm extends React.Component
 
     }
 
-
     loadFormResponse = (response) =>
     {
+        const { tabs } = response || {};
+
         this._asyncReqForm = null;
         
         this.setState(
@@ -51,33 +57,17 @@ export default class ControlForm extends React.Component
             ,loading: false
             });
 
-        if (response && response.tabs)
-            this.setState({ openTab: response.tabs[0].id});
-        else
-            this.setState({ openTab: null });
+        this.onOpenTab(tabs && tabs[0].id);
     }
 
 
-    clearAsync = () =>
-    {
-        if (this._asyncReqForm)
-            this._asyncReqForm.cancel();
-    }
+    onCreatePDF = () => Actions.PDF({ guid: this.props.guid, instance: this.state.instance });
 
+
+    onOpenTab = (id) => this.setState({ openTab: id });
 
     setInstanceValue = (value, param) => this.setState({ instance: { ...this.state.instance, [param]: value } });
 
-    onCreatePDF = () =>
-    {
-        const { guid } = this.props;
-        const { instance } = this.state;
-        
-        Actions.PDF({ guid, instance, pdf_instance_index: this.pdf_instance_index });
-
-        this.pdf_instance_index++;
-    }
-
-    onOpenTab = (id) => this.setState({ openTab: id });
 
     render()
     {
@@ -88,7 +78,7 @@ export default class ControlForm extends React.Component
 
         return (
             <PageLayout
-                back={{ icon: "arrow-back", onPress: Actions.Reports }}
+                back={{ icon: "arrow-back", onPress: Actions.pop }}
                 next={{ label: "Create PDF", onPress: this.onCreatePDF }}
                 header={title}
             >
@@ -110,26 +100,15 @@ export default class ControlForm extends React.Component
                     </List>
                     }
                 </Content>
+                {tabs && tabs.length > 1 &&
                 <Footer>
-                    {tabs && tabs.length > 1 &&
                     <FormNavigation
                         tabs={tabs}
                         onPress={this.onOpenTab}
                     />
-                    }
                 </Footer>
+                }
             </PageLayout>
         );
     }
 }
-
-/*
-  <PageLayout
-                back={{ icon: "arrow-back", onPress: Actions.Reports }}
-                
-                header={title}
-            >
-  
-                
-
- */

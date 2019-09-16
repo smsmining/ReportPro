@@ -1,5 +1,22 @@
-
 import PDFLib, { PDFDocument, PDFPage } from 'react-native-pdf-lib';
+import RNFetchBlob from 'rn-fetch-blob';
+
+const rootDirs = RNFetchBlob.fs.dirs;
+
+const GetFilePath = (guid, filename) =>
+{
+    return rootDirs.DCIMDir + '/Reports/' + guid + '/' + filename;
+};
+
+const CreateDummyPDF = (guid, tempfile, dummyfile, onSuccess, onError) =>
+{
+    const srcFile = GetFilePath(guid, tempfile);
+    const desFile = GetFilePath(guid, dummyfile);
+
+    RNFetchBlob.fs.cp(srcFile, desFile)
+        .then(() => onSuccess(desFile))
+        .catch(onError);
+};
 
 const drawContent = (PageHandler,type,content, style) =>
 {
@@ -35,4 +52,4 @@ const  pdfWriter =  (pdfPath,page,onPDFGenerated) => {
     });
 };
 
-export default  { drawContent, PageHandler, pdfWriter};
+export default PDFDraw = { drawContent, PageHandler, pdfWriter, CreateDummyPDF };

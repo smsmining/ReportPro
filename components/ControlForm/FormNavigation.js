@@ -5,8 +5,7 @@ const FormNavigation = (props) =>
     const { tabs, onPress } = props;
 
     return (
-        <BottomNavigation
-            style={{ container: { position: 'absolute', bottom: 0, left: 0, right: 0 } }}>
+        <BottomNavigation style={{ container: { position: 'absolute', bottom: 0, left: 0, right: 0 } }}>
             {tabs.map(tab => (
                 <BottomNavigation.Action
                     key={tab.id}

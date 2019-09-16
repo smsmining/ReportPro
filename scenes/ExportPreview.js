@@ -1,34 +1,33 @@
 import React from 'react';
 import { Text } from 'react-native';
-import DialogInput from 'react-native-dialog-input';
 import Mailer from 'react-native-mail';
+import { Actions } from 'react-native-router-flux';
 
 import { styles } from '../utils/Style';
-
+import PDFDraw from '../utils/PDFDraw';
 import Forms from '../context/Forms';
-import drawPDF from '../export/PDFDraw';
-import PDFDisplay from '../export/PDFDisplay';
+
+import PDFDisplay from '../components/PDFDisplay';
 import MessageAlert from '../components/Alerts';
 import PageLayout from '../components/Layout/PageLayout';
 
-import { Actions } from 'react-native-router-flux';
-
 export default class PDF extends React.Component
 {
-    state = { 
-        loaded: false,
-        pdf: null,
-        email_active: false,
-    };
+    state =
+        {pdf: null
 
-     pdfConfig = null;
-     pdfName = '';
+        ,loading: false
+        ,error: null
+        };
 
-    
+    pdfConfig = null;
+    pdfName = '';
 
     componentDidMount()
     {
         const { guid } = this.props;
+
+        this.setState({ loading: true });
 
         this._asyncReqPDF = Forms.Get(guid, this.handlerPDFResponse);
     }
@@ -43,102 +42,84 @@ export default class PDF extends React.Component
     {
         this._asyncReqPDF = null;
 
-        const { guid, pdf_instance_index } = this.props;
+        const { guid } = this.props;
 
-        if(!response)
-            return;
+        console.log(response);
 
-        this.pdfConfig = response.pdf_pages;
-        this.pdfName = response.pdf_name;
+        if (!response || !response.pdf)
+            return this.setState({ error: "No PDF configuration", loading: false });
 
-        Forms.CreateDummyPDF(guid, this.pdfName, this.pdfName.substring(0,this.pdfName.indexOf('.pdf')) + pdf_instance_index + '.pdf', this.onWritePDF);
+        this.pdfConfig = response.pdf.pages;
+        this.pdfName = response.pdf.name + '.pdf';
+
+        const date = new Date();
+        const dateStamp = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + " " + (date.getHours() + 1) + "-" + date.getMinutes() + "." + date.getSeconds();
+
+        const fileName = response.pdf.name.substring(0, response.pdf.name.indexOf('.pdf'));
+
+        PDFDraw.CreateDummyPDF(guid, this.pdfName, fileName + dateStamp + '.pdf', this.onWritePDF);
     }
 
     onWritePDF = (pdfPath) =>
     {
         const { instance } = this.props;
 
-        if(!this.pdfConfig)
+        if (!this.pdfConfig)
             return;
 
         this.pdfConfig.forEach(page =>
         {
-            let pdfPage = drawPDF.PageHandler(page.id);
+            let pdfPage = PDFDraw.PageHandler(page.id);
 
             page.controls.forEach(control =>
             {
-                instance && drawPDF.drawContent(pdfPage,control.type,instance[control.param],control.style);
+                instance && PDFDraw.drawContent(pdfPage, control.type, instance[control.param], control.style);
             });
 
-            drawPDF.pdfWriter(pdfPath, pdfPage, this.onPDFGenerated);
+            PDFDraw.pdfWriter(pdfPath, pdfPage, this.onPDFGenerated);
         });
     }
 
     onPDFGenerated = (data) => this.setState({ pdf: data });
 
-    onActiveEmail = () => this.setState({ email_active: !this.state.email_active });
-
-    onEmailSend = (text) =>
+    handleEmail = () =>
     {
         const { pdf } = this.state;
-    
-        if(!text)
-        {
-            MessageAlert('Email Error ','Please input the email address');
-            return;
-        }
 
-        this.handleEmail(this.pdfName,pdf, text);
-        this.onActiveEmail();
-    }
-
-    handleEmail = (pdfname, pdfPath, email) =>
-    {
-        Mailer.mail({
-          subject: pdfname,
-          recipients: [email],
-          body: '<b>Please check</b>',
-          isHTML: true,
-          attachment: {
-            path: pdfPath,
-            type: 'pdf',
-            name: pdfname,
-          },
-        }, (error, event) => {
-            MessageAlert('Email Error ',error);
-        });
+        Mailer.mail(
+            {subject: this.pdfName
+            ,body: '<b>Please check</b>'
+            ,isHTML: true
+            ,attachment:
+                {path: pdf
+                ,type: 'pdf'
+                ,name: this.pdfName,
+                }
+            }, (error) => MessageAlert('Email Error ', error));
     };
 
     render()
     {
-        const { loaded, pdf, email_active } = this.state;
+        const { pdf, loading, error } = this.state;
 
         return (
             <PageLayout
-                back={{ icon: "arrow-back", onPress: Actions.Reports }}
-                next={{ label: "Send PDF", onPress: this.onActiveEmail }}
+                back={{ icon: "arrow-back", onPress: Actions.pop }}
+                next={pdf && { label: "Send PDF", onPress: this.handleEmail }}
             >
-                {!loaded &&
+                {loading &&
                 <Text style={styles.loadingText}>Loading ...</Text>
+                }
+                {error &&
+                <Text>{error}</Text>
                 }
                 {pdf &&
                 <PDFDisplay
-                    pdfPath = {pdf}
-                    onLoadComplete = {()=> this.setState({ loaded: true})}
-                    onError = {(error) => this.setState({loaded: false})}
+                    pdfPath={pdf}
+                    onLoadComplete={() => this.setState({ loading: false })}
+                    onError={(error) => this.setState({ loading: false, error: error })}
                 />
                 }
-                {email_active &&
-                <DialogInput
-                    isDialogVisible={email_active}
-                    title={'Email'}
-                    message={'please input email address'}
-                    submitText="Send"
-                    textInputProps={{keyboardType:'email-address'}}
-                    closeDialog={this.onActiveEmail}
-                    submitInput={text => this.onEmailSend(text)}
-
-                />}
             </PageLayout>
         );
     }

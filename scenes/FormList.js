@@ -74,24 +74,3 @@ export default class FormList extends React.Component
         );
     }
 }
-/*
-
-            <PageLayout header="Reports">
-                <Image source={SMSLogo} style={styles.imageStatic} />
-                <Container>
-                    <Content>
-                        {loading &&
-                        <Text style={styles.center}>Loading ...</Text>
-                        }
-                        {forms &&
-                        <FlatList
-                            data={forms}
-                            keyExtractor={(item) => item.guid}
-                            renderItem={this.renderFormItem}
-                        />
-                        }
-                    </Content>
-                </Container>
-            </PageLayout>
-
-*/

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Actions } from 'react-native-router-flux';
 import { ListItem, Text, Left, Right, Icon } from 'native-base';
+
 import { styles } from '../../utils/Style';
 
 export default FormItem = (props) =>
