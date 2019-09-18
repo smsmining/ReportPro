@@ -33,11 +33,11 @@ export default class PDF extends React.Component
 
     componentWillUnmount()
     {
-        if (_pdfGenerator)
-            _pdfGenerator.deconstructor();
+        if (this._pdfGenerator)
+            this._pdfGenerator.deconstructor();
     }
 
-    onPDFLoaded = () => this._pdfGenerator(this.onPDFGenerated);
+    onPDFLoaded = () => this._pdfGenerator.Generate(this.onPDFGenerated);
     onPDFGenerated = (data) => this.setState({ pdf: data });
 
     handleEmail = () =>

@@ -1,22 +1,22 @@
 import { PDFDocument, PDFPage } from 'react-native-pdf-lib';
 import RNFetchBlob from 'rn-fetch-blob';
 
-export class PDFDraw
+export default class PDFDraw
 {
-    Path = (guid, filename) => RNFetchBlob.fs.dirs.DCIMDir + '/Reports/' + guid + '/' + filename;
+    GetPath = (guid, filename) => RNFetchBlob.fs.dirs.DCIMDir + '/Reports/' + guid + '/' + filename + ".pdf";
 
-    _path;
+    path;
     _page;
 
     Clone = (guid, filename, onSuccess) =>
     {
         const date = new Date();
-        const dateStamp = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + " " + (date.getHours() + 1) + "." + date.getMinutes() + "." + date.getSeconds();
+        const dateStamp = " " + date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + " " + (date.getHours() + 1) + "." + date.getMinutes() + "." + date.getSeconds();
 
-        const srcFile = this.Path(guid, filename);
-        this._path = this.Path(guid, filename.substring(0, filename.indexOf('.pdf')) + dateStamp + '.pdf');
+        const srcFile = this.GetPath(guid, filename);
+        this.path = this.GetPath(guid, filename + dateStamp);
 
-        RNFetchBlob.fs.cp(srcFile, this._path)
+        RNFetchBlob.fs.cp(srcFile, this.path)
             .then(() => onSuccess());
     }
 
@@ -45,21 +45,14 @@ export class PDFDraw
             );
     }
 
-    Apply = (onSuccess) =>
+    Apply = () =>
     {
-        if (this._path)
+        if (!this.path)
             return;
 
-        return PDFDocument
-            .modify(this._path)
+        PDFDocument
+            .modify(this.path)
             .modifyPage(this._page)
-            .write()
-            .then(path =>
-            {
-                console.log('PDF modified at: ' + path);
-
-                if (onSuccess)
-                    onSuccess(path);
-            });
+            .write();
     };
 }

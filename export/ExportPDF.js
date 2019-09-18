@@ -1,8 +1,8 @@
 import Forms from '../context/Forms';
 
-import PDFDraw from '../utils';
+import { PDFDraw } from '../utils';
 
-export class ExportPDF
+export default class ExportPDF
 {
     _asyncReqForm;
 
@@ -39,13 +39,12 @@ export class ExportPDF
 
         this._pdfConfig = response.pdf;
 
-        if (this._onLoaded)
-            this._onLoaded();
+        this._onLoaded();
     }
 
     Generate = (onComplete) =>
     {
-        if (!this._values || !this._pdfConfig)
+        if (!this._pdfConfig)
             throw new Error("ExportPDF not configured for Generate()");
 
         this._onComplete = onComplete;
@@ -56,21 +55,30 @@ export class ExportPDF
 
     WriteValues = () =>
     {
-        this._pdfConfig.forEach(page =>
-        {
-            this._writeFile.Apply();
-            this._writeFile.SetPage(page.id);
-
-            page.controls.forEach(control =>
+        if (this._pdfConfig.pages && this._values)
+            for (const pagePosition in this._pdfConfig.pages)
             {
-                if (control.type === 'imageSelect')
-                    this._writeFile.DrawImage(this._values[control.param], control.style);
+                const page = this._pdfConfig.pages[pagePosition];
 
-                else
-                    this._writeFile.DrawText(this._values[control.param], control.style);
-            });
-        });
+                if (!page.controls)
+                    continue;
 
-        this._writeFile.Apply(this._onComplete);
+                this._writeFile.SetPage(page.id);
+
+                for (const controlPosition in page.controls)
+                {
+                    const control = page.controls[controlPosition];
+
+                    if (control.type === 'imageSelect')
+                        this._writeFile.DrawImage(this._values[control.param], control.style);
+
+                    else
+                        this._writeFile.DrawText(this._values[control.param], control.style);
+                }
+
+                this._writeFile.Apply();
+            }
+
+        this._onComplete(this._writeFile.path);
     }
 }
