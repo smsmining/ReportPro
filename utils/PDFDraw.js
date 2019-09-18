@@ -1,55 +1,65 @@
-import PDFLib, { PDFDocument, PDFPage } from 'react-native-pdf-lib';
+import { PDFDocument, PDFPage } from 'react-native-pdf-lib';
 import RNFetchBlob from 'rn-fetch-blob';
 
-const rootDirs = RNFetchBlob.fs.dirs;
-
-const GetFilePath = (guid, filename) =>
+export class PDFDraw
 {
-    return rootDirs.DCIMDir + '/Reports/' + guid + '/' + filename;
-};
+    Path = (guid, filename) => RNFetchBlob.fs.dirs.DCIMDir + '/Reports/' + guid + '/' + filename;
 
-const CreateDummyPDF = (guid, tempfile, dummyfile, onSuccess, onError) =>
-{
-    const srcFile = GetFilePath(guid, tempfile);
-    const desFile = GetFilePath(guid, dummyfile);
+    _path;
+    _page;
 
-    RNFetchBlob.fs.cp(srcFile, desFile)
-        .then(() => onSuccess(desFile))
-        .catch(onError);
-};
+    Clone = (guid, filename, onSuccess) =>
+    {
+        const date = new Date();
+        const dateStamp = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + " " + (date.getHours() + 1) + "." + date.getMinutes() + "." + date.getSeconds();
 
-const drawContent = (PageHandler,type,content, style) =>
-{
-    if(!content || !style)
-        return;
+        const srcFile = this.Path(guid, filename);
+        this._path = this.Path(guid, filename.substring(0, filename.indexOf('.pdf')) + dateStamp + '.pdf');
 
-    if( type === 'imageSelect')
-        PageHandler.drawImage(
-            content.uri.substr(content.uri.indexOf('/storage')),
-            'jpg',
-            style,
-        );
-    else
-       PageHandler.drawText(
-           content,
-           style,
-        );
-};
+        RNFetchBlob.fs.cp(srcFile, this._path)
+            .then(() => onSuccess());
+    }
 
-const  PageHandler =  (pageNum) => {
+    SetPage = (page) => this._page = PDFPage.modify(page);
 
-    return PDFPage.modify(pageNum);
-};
+    DrawImage = (content, style) =>
+    {
+        if (!this._page || !content || !style)
+            return;
 
-const  pdfWriter =  (pdfPath,page,onPDFGenerated) => {
-    return PDFDocument
-    .modify(pdfPath)
-    .modifyPage(page)
-    .write()
-    .then(path => {
-        onPDFGenerated(path);
-        console.log('PDF modified at: ' + path);
-    });
-};
+        this._page.drawImage
+            (content.uri.substr(content.uri.indexOf('/storage'))
+            ,'jpg'
+            ,style
+            );
+    }
 
-export default PDFDraw = { drawContent, PageHandler, pdfWriter, CreateDummyPDF };
+    DrawText = (content, style) =>
+    {
+        if (!this._page || !content || !style)
+            return;
+
+        this._page.drawText
+            (content
+            ,style
+            );
+    }
+
+    Apply = (onSuccess) =>
+    {
+        if (this._path)
+            return;
+
+        return PDFDocument
+            .modify(this._path)
+            .modifyPage(this._page)
+            .write()
+            .then(path =>
+            {
+                console.log('PDF modified at: ' + path);
+
+                if (onSuccess)
+                    onSuccess(path);
+            });
+    };
+}
