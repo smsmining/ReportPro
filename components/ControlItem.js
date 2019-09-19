@@ -11,7 +11,7 @@ import Control_ImagePicker from './Controls/Control_ImagePicker';
 import Control_TextLabel from './Controls/Control_TextLabel';
 import DividerLabelItem from './Controls/Layout/DividerLabelItem';
 import Control_ImageStatic from './Controls/Control_ImageStatic';
-import Control_Looper from './Controls/Control_looper';
+import Control_Looper from './Controls/Control_Looper';
 
 
 const ControlItem = (props) =>
