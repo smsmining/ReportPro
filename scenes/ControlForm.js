@@ -17,8 +17,8 @@ export default class ControlForm extends React.Component
         ,openTab: null
         ,instance: null
         ,loading: false
+        ,
         };
-
     componentDidMount()
     {
         this.loadForm();
@@ -71,7 +71,7 @@ export default class ControlForm extends React.Component
 
     render()
     {
-        const { form, openTab, instance, loading } = this.state;
+        const { form, openTab, instance, loading} = this.state;
 
         const { tabs, title } = form || {};
         const tab = tabs && tabs.find(tabItem => tabItem.id === openTab);

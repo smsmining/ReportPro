@@ -11,6 +11,7 @@ import Control_ImagePicker from './Controls/Control_ImagePicker';
 import Control_TextLabel from './Controls/Control_TextLabel';
 import DividerLabelItem from './Controls/Layout/DividerLabelItem';
 import Control_ImageStatic from './Controls/Control_ImageStatic';
+import Control_Looper from './Controls/Control_looper';
 
 
 const ControlItem = (props) =>
@@ -29,6 +30,7 @@ const ControlItem = (props) =>
         case 'imageSelect': return (<Control_ImagePicker {...props} />);
         case 'textLabel':   return (<Control_TextLabel {...props} />);
         case 'imageStatic':   return (<Control_ImageStatic {...props} />);
+        case 'looper':   return (<Control_Looper {...props} />);
     }
 
     return (<Text style={styles.center}>WARNING: Unknown control type</Text>);
