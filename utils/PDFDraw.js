@@ -4,7 +4,7 @@ import { RequestStoragePermissions } from './Permission';
 
 export default class PDFDraw
 {
-    GetReadPath = (guid, filename) => RNFetchBlob.fs.asset('resources/' + guid + '/' + filename + ".pdf");
+    GetTemplatePath = (guid) => RNFetchBlob.fs.asset('resources/' + guid + '/template.pdf');
     GetSavePath = (guid, filename) => RNFetchBlob.fs.dirs.DCIMDir + '/Reports/' + guid + '/' + filename + ".pdf";
 
     GetDateStamp = () =>
@@ -25,7 +25,7 @@ export default class PDFDraw
 
     Clone = (guid, filename, onSuccess) =>
     {
-        const srcFile = this.GetReadPath(guid, filename);
+        const srcFile = this.GetTemplatePath(guid);
         this.path = this.GetSavePath(guid, filename + " " + this.GetDateStamp());
 
         RequestStoragePermissions(

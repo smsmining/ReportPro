@@ -1,14 +1,16 @@
 import Forms from '../context/Forms';
 
 import { PDFDraw } from '../utils';
+import { ControlKeys } from '../components/ControlItem';
 
 export default class ExportPDF
 {
     _asyncReqForm;
 
     _guid;
-    _pdfConfig;
     _values;
+    _formConfig;
+    _pdfLayout;
 
     _writeFile;
 
@@ -43,48 +45,110 @@ export default class ExportPDF
         if (!response || !response.pdf)
             this._onError("Export to PDF not configured.");
 
-        this._pdfConfig = response.pdf;
+        this._formConfig = response;
 
         this._onLoaded();
     }
 
     Generate = (onComplete) =>
     {
-        if (!this._pdfConfig)
+        if (!this._formConfig)
             this._onError("Export to PDF not configured.");
 
         this._onComplete = onComplete;
 
         this._writeFile = new PDFDraw(this._onError);
-        this._writeFile.Clone(this._guid, this._pdfConfig.name, this.WriteValues);
+        this._writeFile.Clone(this._guid, this._formConfig.pdfname, this.WriteValues);
     }
 
     WriteValues = () =>
     {
-        if (this._pdfConfig.pages && this._values)
-            for (const pagePosition in this._pdfConfig.pages)
+        let layout = {};
+
+        for (tab in this._formConfig.tabs)
+            this.generateLayoutData(layout, this._formConfig.tabs[tab]);
+
+        for (page in layout)
+        {
+            this._writeFile.SetPage(parseInt(page, 10));
+
+            for (let i = 0; i < layout[page].length; i++)
             {
-                const page = this._pdfConfig.pages[pagePosition];
+                const draw = layout[page][i];
 
-                if (!page.controls)
-                    continue;
+                if (ControlKeys.ImageSelect === draw.type)
+                    this._writeFile.DrawImage(draw.value, draw.style);
 
-                this._writeFile.SetPage(page.id);
-
-                for (const controlPosition in page.controls)
-                {
-                    const control = page.controls[controlPosition];
-
-                    if (control.type === 'imageSelect')
-                        this._writeFile.DrawImage(this._values[control.param], control.style);
-
-                    else
-                        this._writeFile.DrawText(this._values[control.param], control.style);
-                }
-
-                this._writeFile.Apply();
+                else
+                    this._writeFile.DrawText(draw.value, draw.style);
             }
 
+            this._writeFile.Apply();
+        }
+
         this._onComplete(this._writeFile.path);
+    }
+
+    generateLayoutData = (layout, control) =>
+    {
+        const { type, controls } = control || {};
+
+        if (ControlKeys.Tab === type)
+        {
+            for (child in controls)
+                this.generateLayoutData(layout, controls[child]);
+            return;
+        }
+
+        if (ControlKeys.Looper === type)
+            return this.generateLooperLayoutData(layout, control);
+
+        this.generateControlLayoutData(layout, control);
+    }
+
+    generateLooperLayoutData = (layout, control) =>
+    {
+        const { controls } = control || {};
+
+        let sublayout = {};
+
+        for (child in controls)
+            this.generateLayoutData(sublayout, controls[child]);
+
+        //  Apply this.pdf onto sublayout
+
+        return;
+    }
+
+    generateControlLayoutData = (layout, control) =>
+    {
+        const { type, param, value, pdf, controls } = control || {};
+
+        if (!pdf || !param) return;
+
+        const renderValue = (this._values || {})[param] || value;
+
+        if (!renderValue) return;
+        
+        for (page in pdf)
+        {
+            if (!layout[page]) layout[page] = [];
+
+            let additionalStyle = {};
+            if (controls && ControlKeys.Spinner === type)
+            {
+                const option = controls.find(option => option.value === renderValue);
+
+                if(option)
+                    additionalStyle = { ...additionalStyle, ...option.pdf };
+            }
+
+            for (style in pdf[page])
+                layout[page].push(
+                    {type: type
+                    ,value: renderValue
+                    ,style: { ...pdf[page][style], ...additionalStyle }
+                    });
+        }
     }
 }
