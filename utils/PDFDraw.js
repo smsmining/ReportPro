@@ -1,23 +1,37 @@
 import { PDFDocument, PDFPage } from 'react-native-pdf-lib';
 import RNFetchBlob from 'rn-fetch-blob';
+import { RequestStoragePermissions } from './Permission';
 
 export default class PDFDraw
 {
-    GetPath = (guid, filename) => RNFetchBlob.fs.dirs.DCIMDir + '/Reports/' + guid + '/' + filename + ".pdf";
+    GetReadPath = (guid, filename) => RNFetchBlob.fs.asset('resources/' + guid + '/' + filename + ".pdf");
+    GetSavePath = (guid, filename) => RNFetchBlob.fs.dirs.DCIMDir + '/Reports/' + guid + '/' + filename + ".pdf";
+
+    GetDateStamp = () =>
+    {
+        const date = new Date();
+        return date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + " " + (date.getHours() + 1) + "." + date.getMinutes() + "." + date.getSeconds();
+    }
 
     path;
     _page;
 
+    _onError;
+
+    constructor(onError)
+    {
+        this._onError = onError;
+    }
+
     Clone = (guid, filename, onSuccess) =>
     {
-        const date = new Date();
-        const dateStamp = " " + date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + " " + (date.getHours() + 1) + "." + date.getMinutes() + "." + date.getSeconds();
+        const srcFile = this.GetReadPath(guid, filename);
+        this.path = this.GetSavePath(guid, filename + " " + this.GetDateStamp());
 
-        const srcFile = this.GetPath(guid, filename);
-        this.path = this.GetPath(guid, filename + dateStamp);
-
-        RNFetchBlob.fs.cp(srcFile, this.path)
-            .then(() => onSuccess());
+        RequestStoragePermissions(
+            () => RNFetchBlob.fs.cp(srcFile, this.path).then(onSuccess)
+            ,this._onError
+            );
     }
 
     SetPage = (page) => this._page = PDFPage.modify(page);

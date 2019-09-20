@@ -12,16 +12,22 @@ export default class ExportPDF
 
     _writeFile;
 
+    _onError;
     _onLoaded;
     _onComplete;
 
-    constructor(formGuid, values, onLoaded)
+    constructor(formGuid, values, onError)
     {
         this._guid = formGuid;
         this._values = values;
 
+        this._onError = onError;
+    }
+
+    Load = (onLoaded) =>
+    {
         this._onLoaded = onLoaded;
-        this._asyncReqForm = Forms.Get(formGuid, this.handleFormResponse);
+        this._asyncReqForm = Forms.Get(this._guid, this.handleFormResponse);
     }
 
     deconstructor = () =>
@@ -35,7 +41,7 @@ export default class ExportPDF
         this._asyncReqForm = null;
 
         if (!response || !response.pdf)
-            throw new Error("No PDF configuration");
+            this._onError("Export to PDF not configured.");
 
         this._pdfConfig = response.pdf;
 
@@ -45,11 +51,11 @@ export default class ExportPDF
     Generate = (onComplete) =>
     {
         if (!this._pdfConfig)
-            throw new Error("ExportPDF not configured for Generate()");
+            this._onError("Export to PDF not configured.");
 
         this._onComplete = onComplete;
 
-        this._writeFile = new PDFDraw();
+        this._writeFile = new PDFDraw(this._onError);
         this._writeFile.Clone(this._guid, this._pdfConfig.name, this.WriteValues);
     }
 

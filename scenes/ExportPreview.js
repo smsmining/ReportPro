@@ -28,7 +28,8 @@ export default class PDF extends React.Component
 
         this.setState({ loading: true });
 
-        this._pdfGenerator = new ExportPDF(guid, instance, this.onPDFLoaded);
+        this._pdfGenerator = new ExportPDF(guid, instance, this.onError);
+        this._pdfGenerator.Load(this.onPDFLoaded);
     }
 
     componentWillUnmount()
@@ -37,6 +38,7 @@ export default class PDF extends React.Component
             this._pdfGenerator.deconstructor();
     }
 
+    onError = (error) => this.setState({ error: error, loading: false });
     onPDFLoaded = () => this._pdfGenerator.Generate(this.onPDFGenerated);
     onPDFGenerated = (data) => this.setState({ pdf: data });
 
