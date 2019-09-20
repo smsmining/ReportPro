@@ -1,5 +1,6 @@
 import { PDFDocument, PDFPage } from 'react-native-pdf-lib';
 import RNFetchBlob from 'rn-fetch-blob';
+
 import { RequestStoragePermissions } from './Permission';
 
 export default class PDFDraw
@@ -36,6 +37,14 @@ export default class PDFDraw
 
     SetPage = (page) => this._page = PDFPage.modify(page);
 
+    DrawRectangle = (style) =>
+    {
+        if (!this._page || !style)
+            return;
+
+        this._page.drawRectangle(style);
+    }
+
     DrawImage = (content, style) =>
     {
         if (!this._page || !content || !style)
@@ -52,6 +61,8 @@ export default class PDFDraw
     {
         if (!this._page || !content || !style)
             return;
+
+        // Need to handle new line boxes
 
         this._page.drawText
             (content

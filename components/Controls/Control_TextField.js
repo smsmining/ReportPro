@@ -13,7 +13,7 @@ const Control_TextField = (props) =>
             <Input
                 value={value}
                 onChangeText={text => onChange(text, param)}
-                maxLength={maxLength ? maxLength : 50}
+                maxLength={maxLength}
                 placeholder={placeholder}
                 placeholderTextColor={Colors.light}
                 keyboardType={keyboardType} />

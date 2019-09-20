@@ -42,8 +42,8 @@ export default class ExportPDF
     {
         this._asyncReqForm = null;
 
-        if (!response || !response.pdf)
-            this._onError("Export to PDF not configured.");
+        if (!response)
+            return this._onError("Export to PDF failed to find form data.");
 
         this._formConfig = response;
 
@@ -53,7 +53,7 @@ export default class ExportPDF
     Generate = (onComplete) =>
     {
         if (!this._formConfig)
-            this._onError("Export to PDF not configured.");
+            return this._onError("Export to PDF not configured.");
 
         this._onComplete = onComplete;
 
@@ -66,7 +66,7 @@ export default class ExportPDF
         let layout = {};
 
         for (tab in this._formConfig.tabs)
-            this.generateLayoutData(layout, this._formConfig.tabs[tab]);
+            this.generateLayoutData(layout, this._formConfig.tabs[tab], this._values);
 
         for (page in layout)
         {
@@ -76,11 +76,19 @@ export default class ExportPDF
             {
                 const draw = layout[page][i];
 
-                if (ControlKeys.ImageSelect === draw.type)
-                    this._writeFile.DrawImage(draw.value, draw.style);
+                if (draw.style.backgroundColor)
+                    this._writeFile.DrawRectangle({ ...draw.style, color: draw.style.backgroundColor });
 
-                else
-                    this._writeFile.DrawText(draw.value, draw.style);
+                if (!draw.value)
+                    continue;
+
+                if (ControlKeys.ImageSelect === draw.type)
+                {
+                    this._writeFile.DrawImage(draw.value, draw.style);
+                    continue;
+                }
+                
+                this._writeFile.DrawText(draw.value, draw.style);
             }
 
             this._writeFile.Apply();
@@ -89,47 +97,153 @@ export default class ExportPDF
         this._onComplete(this._writeFile.path);
     }
 
-    generateLayoutData = (layout, control) =>
+    generateLayoutData = (layout, control, values) =>
     {
         const { type, controls } = control || {};
 
         if (ControlKeys.Tab === type)
         {
             for (child in controls)
-                this.generateLayoutData(layout, controls[child]);
+                this.generateLayoutData(layout, controls[child], values);
             return;
         }
 
         if (ControlKeys.Looper === type)
-            return this.generateLooperLayoutData(layout, control);
+            return this.generateLooperLayoutData(layout, control, values);
 
-        this.generateControlLayoutData(layout, control);
+        this.generateControlLayoutData(layout, control, values);
     }
 
-    generateLooperLayoutData = (layout, control) =>
+    generateLooperLayoutData = (layout, control, values) =>
     {
-        const { controls } = control || {};
+        const { param, value, pdf, grid, controls } = control || {};
 
-        let sublayout = {};
+        if (!pdf)
+            return;
 
-        for (child in controls)
-            this.generateLayoutData(sublayout, controls[child]);
+        if (pdf.length > 1)
+            return this._onError("Export to PDF cannot handle multipage loopers");
 
-        //  Apply this.pdf onto sublayout
+        const renderValues = (values || {})[param] || value;
+
+        if (!renderValues)
+            return;
+
+        let sublayouts = [];
+        for (loop in renderValues)
+        {
+            let sublayout = {};
+
+            for (child in controls)
+                this.generateLayoutData(sublayout, controls[child], renderValues[loop]);
+
+            if (sublayout.length > 1 || (sublayout.length === 1 && !sublayout[0]))
+            {
+                this._onError("Export to PDF cannot handle multipage looper children");
+                continue;
+            }
+
+            sublayouts.push(sublayout[0]);
+        }
+
+        for (page in pdf)
+        {
+            if (pdf[page].length > 1 || !grid[page] || grid[page].length > 1 )
+                return this._onError("Export to PDF cannot handle multidraw loopers");
+
+
+            const { x, y, width, height, vertical } = pdf[page][0];
+
+            if (!width || !height)
+                return this._onError("Export to PDF requires looper size definition");
+
+            const { width: cellWidth, height: cellHeight, margin: cellMargin } = grid[page][0];
+
+            if (!cellWidth || !cellHeight)
+                return this._onError("Export to PDF requires looper cell size definition");
+
+
+            let loopLayouts = [];
+            let loopTracking = { x: x || 0, y: height - (y || 0)};
+
+            for (loop in sublayouts)
+            {
+                const styles = sublayouts[loop].map(draw => draw.style);
+                const drawsWidth = Math.max(...styles.map(style => style.x + (style.width || 0)));
+                const drawsHeight = Math.max(...styles.map(style => style.y + (style.height || 0)));
+
+                if (drawsWidth > cellWidth || drawsHeight > cellHeight)
+                    return this._onError("Export to PDF requires looper children within cell size definition");
+            }
+
+
+            for (loop in sublayouts)
+            {
+                let draws = sublayouts[loop];
+
+                for (child in draws)
+                {
+                    const draw = draws[child];
+                    let { style } = draw;
+
+                    style.width = style.width || (cellWidth - style.x);
+                    style.height = style.height || (style.y - cellHeight);
+
+                    style.x += loopTracking.x;
+                    style.y = loopTracking.y - style.y;
+
+                    loopLayouts.push(draw);
+                }
+
+                if (vertical)
+                {
+                    loopTracking.y -= cellHeight + (cellMargin || 0);
+
+                    if (loopTracking.y - cellHeight < y)
+                        continue;
+
+                    loopTracking.y = height;
+
+                    loopTracking.x += (x || 0) + (cellMargin || 0);
+
+                    if (loopTracking.x > width)
+                        return this._onError("Export to PDF requires looper children not exceed size definition");
+                }
+                else
+                {
+                    loopTracking.x += cellWidth + (cellMargin || 0);
+
+                    if (loopTracking.x + cellWidth < width)
+                        continue;
+                    
+                    loopTracking.x = x || 0;
+
+                    loopTracking.y -= cellHeight + (cellMargin || 0);
+
+                    if (loopTracking.y < y)
+                        return this._onError("Export to PDF requires looper children not exceed size definition");
+                }
+            }
+
+            if (!layout[page]) layout[page] = [];
+
+            layout[page].push({ style: pdf[page][0] });
+            layout[page] = layout[page].concat(loopLayouts);
+        }
 
         return;
     }
 
-    generateControlLayoutData = (layout, control) =>
+    generateControlLayoutData = (layout, control, values) =>
     {
         const { type, param, value, pdf, controls } = control || {};
 
         if (!pdf || !param) return;
 
-        const renderValue = (this._values || {})[param] || value;
+        const renderValue = (values || { })[param] || value;
 
         if (!renderValue) return;
-        
+
         for (page in pdf)
         {
             if (!layout[page]) layout[page] = [];

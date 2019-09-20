@@ -17,7 +17,7 @@ export default class PDF extends React.Component
         {pdf: null
 
         ,loading: false
-        ,error: null
+        ,error: []
         };
 
     _pdfGenerator;
@@ -38,7 +38,7 @@ export default class PDF extends React.Component
             this._pdfGenerator.deconstructor();
     }
 
-    onError = (error) => this.setState({ error: error, loading: false });
+    onError = (error) => this.state.error.push(error);
     onPDFLoaded = () => this._pdfGenerator.Generate(this.onPDFGenerated);
     onPDFGenerated = (data) => this.setState({ pdf: data });
 
@@ -67,13 +67,13 @@ export default class PDF extends React.Component
                 <Text style={styles.loadingText}>Loading ...</Text>
                 }
                 {error &&
-                <Text>{error}</Text>
+                <Text>{error.map((error) => "- " + error + "\n")}</Text>
                 }
                 {pdf &&
                 <PDFDisplay
                     pdfPath={pdf}
                     onLoadComplete={() => this.setState({ loading: false })}
-                    onError={(error) => this.setState({ loading: false, error: error })}
+                    onError={this.onError}
                 />
                 }
             </PageLayout>
