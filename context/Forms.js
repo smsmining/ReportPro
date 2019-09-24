@@ -1,3 +1,5 @@
+import RNFetchBlob from 'rn-fetch-blob';
+
 import { createFetcher } from './CreateFetcher';
 import { ControlKeys } from '../components/ControlItem';
 
@@ -22,6 +24,23 @@ const Get = (guid, onSuccess) =>
             .read()
             .then((data) => onSuccess(data));
 };
+
+const getInstancePath = (guid) => RNFetchBlob.fs.dirs.DCIMDir + '/Reports/' + guid + '/instance.json';
+
+const HasInstance = (guid, onSuccess) =>
+    RNFetchBlob.fs
+        .exists(getInstancePath(guid))
+        .then(onSuccess);
+
+const LoadInstance = (guid, onSuccess) =>
+    RNFetchBlob.fs
+        .readFile(getInstancePath(guid), 'utf8')
+        .then(result => onSuccess(JSON.parse(result)));
+
+const SaveInstance = (guid, instance, onSuccess) =>
+    RNFetchBlob.fs
+        .writeFile(getInstancePath(guid), JSON.stringify(instance), 'utf8')
+        .then(onSuccess);
 
 
 const fakeDB =
@@ -567,4 +586,11 @@ const fakeDB =
         ],
 };
 
-export default { List, Get };
+export default
+    {List
+    ,Get
+
+    ,HasInstance
+    ,LoadInstance
+    ,SaveInstance
+    };

@@ -2,6 +2,12 @@ import { StyleSheet, Dimensions } from 'react-native';
 
 import Colors from './ReportColors';
 
+export const FabStyles = StyleSheet.create(
+    {main: { backgroundColor: '#da291c', borderColor: '#54585a' }
+    ,node: { backgroundColor: '#ebebeb', borderColor: '#54585a', borderWidth: 1 }
+    ,nodeIcon: { color: '#000' }
+    });
+
 export const styles = StyleSheet.create({
     scrollView: {
         backgroundColor: Colors.lighter,

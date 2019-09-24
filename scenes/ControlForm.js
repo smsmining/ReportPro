@@ -1,4 +1,5 @@
 import React from 'react';
+import { Alert } from 'react-native';
 import { Content, Footer, List, Text } from 'native-base';
 import { Actions } from 'react-native-router-flux';
 
@@ -8,6 +9,8 @@ import { styles } from '../utils/Style';
 import FormNavigation from '../components/ControlForm/FormNavigation';
 import ControlItem from '../components/ControlItem';
 import PageLayout from '../components/Layout/PageLayout';
+import SaveLoadFab from '../components/ControlForm/SaveLoadFAB';
+import { MessageAlert, ConfirmAlert } from '../components/Alerts';
 
 
 export default class ControlForm extends React.Component
@@ -15,10 +18,11 @@ export default class ControlForm extends React.Component
     state =
         {form: null
         ,openTab: null
+        ,hasSaved: null
         ,instance: null
         ,loading: false
-        ,
         };
+
     componentDidMount()
     {
         this.loadForm();
@@ -31,8 +35,7 @@ export default class ControlForm extends React.Component
 
     clearAsync = () =>
     {
-        if (this._asyncReqForm)
-            this._asyncReqForm.cancel();
+        if (this._asyncReqForm)     this._asyncReqForm.cancel();
     }
 
 
@@ -44,6 +47,7 @@ export default class ControlForm extends React.Component
 
         this._asyncReqForm = Forms.Get(guid, this.loadFormResponse);
 
+        Forms.HasInstance(guid, response => this.setState({ hasSaved: response }));
     }
 
     loadFormResponse = (response) =>
@@ -60,6 +64,35 @@ export default class ControlForm extends React.Component
         this.onOpenTab(tabs && tabs[0].id);
     }
 
+    onSave = () =>
+    {
+        const { hasSaved } = this.state;
+
+        if (hasSaved)
+            ConfirmAlert
+                ("Save Form"
+                ,"If you proceed you will override any saved progress"
+                ,this.onSaveCall
+            );
+        else
+            this.onSaveCall();
+    }
+
+    onSaveCall = () =>
+        Forms.SaveInstance(this.props.guid, this.state.instance, () => { this.setState({ hasSaved: true }); MessageAlert("Save Form", "Saved Successfully") });
+
+    onLoad = () => ConfirmAlert
+        ("Load Form"
+        ,"If you proceed you will loose any unsaved progress"
+        ,() => { console.log(this.state); Forms.LoadInstance(this.props.guid, (result) => { this.setState({ instance: result }); MessageAlert("Load Form", "Loaded Successfully") } )}
+        );
+
+    onNew = () => ConfirmAlert
+        ("New Form"
+        ,"If you proceed you will loose any unsaved progress"
+        ,() => {this.setState({ instance: null })}
+        );
+
 
     onCreatePDF = () => Actions.PDF({ guid: this.props.guid, instance: this.state.instance });
 
@@ -68,10 +101,9 @@ export default class ControlForm extends React.Component
 
     setInstanceValue = (value, param) => this.setState({ instance: { ...this.state.instance, [param]: value } });
 
-
     render()
     {
-        const { form, openTab, instance, loading} = this.state;
+        const { form, openTab, instance, hasSaved, loading } = this.state;
 
         const { tabs, title } = form || {};
         const tab = tabs && tabs.find(tabItem => tabItem.id === openTab);
@@ -100,6 +132,9 @@ export default class ControlForm extends React.Component
                     </List>
                     }
                 </Content>
+                {hasSaved !== null &&
+                <SaveLoadFab onSave={this.onSave} onLoad={hasSaved && this.onLoad} onNew={instance && this.onNew} />
+                }
                 {tabs && tabs.length > 1 &&
                 <Footer>
                     <FormNavigation
