@@ -204,7 +204,7 @@ export default class ExportPDF
 
                     loopTracking.y = height;
 
-                    loopTracking.x += (x || 0) + (cellMargin || 0);
+                    loopTracking.x += cellWidth + (cellMargin || 0);
 
                     if (loopTracking.x > width)
                         return this._onError("Export to PDF requires looper children not exceed size definition");
