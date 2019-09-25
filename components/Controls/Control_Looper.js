@@ -1,23 +1,20 @@
 import React from 'react';
-import {Content } from 'native-base';
+import { Content } from 'native-base';
+import { Button, Text } from 'native-base';
+
 import ControlItem from '../ControlItem';
-import {Button, Text } from 'native-base';
 
 export default class Control_looper extends React.Component
 {
-    componentDidMount()
+    getDefaultValue = (length) =>
     {
-        const { minLength, param, onChange } = this.props;
-        let { value } = this.props;
+        const { minLength } = this.props;
 
-        if(value)
-            return;
+        let newValue = [];
+        while (newValue.length < (length || minLength))
+            newValue.push(null);
 
-        value = [];
-        for(let i = 0; i < minLength; i++)
-            value.push(this.loopDefault());
-
-        onChange(value, param);
+        return newValue;
     }
 
     onLoopAdd = () =>
@@ -25,60 +22,51 @@ export default class Control_looper extends React.Component
         const { onChange, param } = this.props;
         let { value } = this.props;
 
-        if(!value)
-            value = [];
+        if (!value)
+            value = this.getDefaultValue();;
 
-        value.push(this.loopDefault());
+        value.push(null);
         onChange(value, param);
     }
 
-    loopDefault = () =>
+    onLoopChange = (value, param, index) =>
     {
-        const { value, controls } = this.props;
+        let newValue = this.props.value || this.getDefaultValue();
 
-        let values = {};
+        if (!newValue[index])
+            newValue[index] = {};
 
-        const length = (value || []).length + 1;
+        newValue[index][param] = value;
 
-        for (child in controls)
-        {
-            const { param, value } = controls[child];
-
-            if (!param || !value)
-                continue;
-
-            values[param] = value.replace("{}", length);
-        }
-
-        return values;
-    }
-
-    onLoopChange = (loopValue, loopParam, index) =>
-    {
-        const { value, param, onChange} = this.props;
-
-        value[index][loopParam] = loopValue;
-        onChange(value, param);
+        this.props.onChange(newValue, this.props.param);
     };
 
-    
+    renderLoop = (value, index) =>
+    {
+        const { controls } = this.props;
+
+        return controls.map(control =>
+            <ControlItem
+                key={control.id}
+                {...control}
+                label={control.label && control.label.replace('{}', index + 1)}
+                value={(value && value[control.param]) || (control.value && control.value.replace('{}', index + 1))}
+                onChange={(loopValue, loopParam) => this.onLoopChange(loopValue, loopParam, index)}
+            />);
+    }
 
     render ()
     {
-        const { value ,controls, label, maxLength } = this.props;
+        const { value, label, minLength, maxLength } = this.props;
+
+        let children = [];
+        for (let i = 0; i < (value ? value.length : minLength) || 0; i++)
+            { children.push(this.renderLoop((value && value[i]) || {}, i)); }
 
         return (
             <Content>
-                { value && value.map( loop => controls && controls.map(control => (
-                    <ControlItem
-                        key={control.id}
-                        {...control}
-                        label={control.label && control.label.replace('{}', value.indexOf(loop) + 1)}
-                        value={loop[control.param] || control.value }
-                        onChange={(loopValue, loopParam) => this.onLoopChange(loopValue, loopParam, value.indexOf(loop))}
-                    />)))
-                }
-                <Button success onPress={this.onLoopAdd} disabled={value && value.length === maxLength}><Text>{label || "+ Add Row"}</Text></Button>
+                {children}
+                <Button success onPress={this.onLoopAdd} disabled={value && maxLength && value.length === maxLength}><Text>{label || "+ Add Row"}</Text></Button>
             </Content>
         );
     }
