@@ -34,6 +34,9 @@
 		DF6FDF7454454B688EE3D7C9 /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EC7DA947E62E4109928C0953 /* SimpleLineIcons.ttf */; };
 		83DD49739847466B945CAA48 /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BB00A761A7F54C879A09CEDC /* Zocial.ttf */; };
 		5875F7833F184D9D881BEBD1 /* Fontisto.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F0B9064D96A54AB9A25FC121 /* Fontisto.ttf */; };
+		FD34F9B1DB604EBE8EAC7B8D /* Times New Roman.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2CBD035123794BFF8ECC6B27 /* Times New Roman.ttf */; };
+		ABF850D49D324011B57439F1 /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 694363E4CE41424BA0163FA5 /* Entypo.ttf */; };
+		69AFBBC0043648ECA8958AFC /* Times New Roman.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9AFA7B0BBE264891834E15CF /* Times New Roman.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -103,6 +106,9 @@
 		EC7DA947E62E4109928C0953 /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; name = "SimpleLineIcons.ttf"; path = "../node_modules/native-base/Fonts/SimpleLineIcons.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		BB00A761A7F54C879A09CEDC /* Zocial.ttf */ = {isa = PBXFileReference; name = "Zocial.ttf"; path = "../node_modules/native-base/Fonts/Zocial.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		F0B9064D96A54AB9A25FC121 /* Fontisto.ttf */ = {isa = PBXFileReference; name = "Fontisto.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/Fontisto.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		2CBD035123794BFF8ECC6B27 /* Times New Roman.ttf */ = {isa = PBXFileReference; name = "Times New Roman.ttf"; path = "../node_modules/react-native-pdf-lib/assets/fonts/Times New Roman.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		694363E4CE41424BA0163FA5 /* Entypo.ttf */ = {isa = PBXFileReference; name = "Entypo.ttf"; path = "../assets/fonts/Entypo.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		9AFA7B0BBE264891834E15CF /* Times New Roman.ttf */ = {isa = PBXFileReference; name = "Times New Roman.ttf"; path = "../assets/fonts/Times New Roman.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -247,6 +253,9 @@
 				EC7DA947E62E4109928C0953 /* SimpleLineIcons.ttf */,
 				BB00A761A7F54C879A09CEDC /* Zocial.ttf */,
 				F0B9064D96A54AB9A25FC121 /* Fontisto.ttf */,
+				2CBD035123794BFF8ECC6B27 /* Times New Roman.ttf */,
+				694363E4CE41424BA0163FA5 /* Entypo.ttf */,
+				9AFA7B0BBE264891834E15CF /* Times New Roman.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -422,6 +431,9 @@
 				DF6FDF7454454B688EE3D7C9 /* SimpleLineIcons.ttf in Resources */,
 				83DD49739847466B945CAA48 /* Zocial.ttf in Resources */,
 				5875F7833F184D9D881BEBD1 /* Fontisto.ttf in Resources */,
+				FD34F9B1DB604EBE8EAC7B8D /* Times New Roman.ttf in Resources */,
+				ABF850D49D324011B57439F1 /* Entypo.ttf in Resources */,
+				69AFBBC0043648ECA8958AFC /* Times New Roman.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

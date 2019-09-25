@@ -1,23 +1,26 @@
 import React from 'react';
-import { Container, Header, Content, Footer, List, Text } from 'native-base';
+import { Alert } from 'react-native';
+import { Content, Footer, List, Text } from 'native-base';
+import { Actions } from 'react-native-router-flux';
 
 import Forms from '../context/Forms';
 import { styles } from '../utils/Style';
 
-import FormHeader from '../components/ControlForm/FormHeader';
 import FormNavigation from '../components/ControlForm/FormNavigation';
-
 import ControlItem from '../components/ControlItem';
+import PageLayout from '../components/Layout/PageLayout';
+import SaveLoadFab from '../components/ControlForm/SaveLoadFAB';
+import { MessageAlert, ConfirmAlert } from '../components/Alerts';
+
 
 export default class ControlForm extends React.Component
 {
     state =
         {form: null
         ,openTab: null
-
+        ,hasSaved: null
         ,instance: null
         ,loading: false
-        ,
         };
 
     componentDidMount()
@@ -30,6 +33,11 @@ export default class ControlForm extends React.Component
         this.clearAsync();
     }
 
+    clearAsync = () =>
+    {
+        if (this._asyncReqForm)     this._asyncReqForm.cancel();
+    }
+
 
     loadForm = () =>
     {
@@ -38,67 +46,83 @@ export default class ControlForm extends React.Component
         this.setState({ loading: true });
 
         this._asyncReqForm = Forms.Get(guid, this.loadFormResponse);
+
+        Forms.HasInstance(guid, response => this.setState({ hasSaved: response }));
     }
 
     loadFormResponse = (response) =>
     {
+        const { tabs } = response || {};
+
         this._asyncReqForm = null;
         
         this.setState(
             {form: response
             ,loading: false
-            ,
             });
 
-        if (response && response.tabs)
-            this.setState({ openTab: response.tabs[0].id })
+        this.onOpenTab(tabs && tabs[0].id);
+    }
+
+    onSave = () =>
+    {
+        const { hasSaved } = this.state;
+
+        if (hasSaved)
+            ConfirmAlert
+                ("Save Form"
+                ,"If you proceed you will override any saved progress"
+                ,this.onSaveCall
+            );
         else
-            this.setState({ openTab: null });
+            this.onSaveCall();
     }
 
-    clearAsync = () =>
-    {
-        if (this._asyncReqForm)
-            this._asyncReqForm.cancel();
-    }
+    onSaveCall = () =>
+        Forms.SaveInstance(this.props.guid, this.state.instance, () => { this.setState({ hasSaved: true }); MessageAlert("Save Form", "Saved Successfully") });
+
+    onLoad = () => ConfirmAlert
+        ("Load Form"
+        ,"If you proceed you will loose any unsaved progress"
+        ,() => { console.log(this.state); Forms.LoadInstance(this.props.guid, (result) => { this.setState({ instance: result }); MessageAlert("Load Form", "Loaded Successfully") } )}
+        );
+
+    onNew = () => ConfirmAlert
+        ("New Form"
+        ,"If you proceed you will loose any unsaved progress"
+        ,() => {this.setState({ instance: null })}
+        );
 
 
-    setInstanceValue = (value, param) =>
-    {
-        const { instance } = this.state;
-
-        this.setState({ instance: { ...instance, [param]: value } });
-    }
+    onCreatePDF = () => Actions.PDF({ guid: this.props.guid, instance: this.state.instance });
 
 
-    onOpenTab = (id) =>
-    {
-        this.setState({ openTab: id });
-    }
+    onOpenTab = (id) => this.setState({ openTab: id });
 
+    setInstanceValue = (value, param) => this.setState({ instance: { ...this.state.instance, [param]: value } });
 
     render()
     {
-        const { form, openTab, instance } = this.state;
+        const { form, openTab, instance, hasSaved, loading } = this.state;
 
-        const { tabs } = form || {};
+        const { tabs, title } = form || {};
         const tab = tabs && tabs.find(tabItem => tabItem.id === openTab);
 
         return (
-            <Container>
-                <Header androidStatusBarColor="#5D4037">
-                    <FormHeader title={form && form.title} />
-                </Header>
+            <PageLayout
+                back={{ icon: "arrow-back", onPress: Actions.pop }}
+                next={{ label: "Create PDF", onPress: this.onCreatePDF }}
+                header={title}
+            >
                 <Content>
-                    {this.loading &&
+                    {loading &&
                     <Text style={styles.center}>Loading ...</Text>
                     }
                     {tab &&
                     <List>
                         {tab.controls.map(control => (
                             <ControlItem
-                                key={control.param}
-                                guid={form.guid}
+                                key={control.id}
                                 {...control}
                                 value={instance && instance[control.param] || control.value }
                                 onChange={this.setInstanceValue}
@@ -108,15 +132,18 @@ export default class ControlForm extends React.Component
                     </List>
                     }
                 </Content>
+                {hasSaved !== null &&
+                <SaveLoadFab onSave={this.onSave} onLoad={hasSaved && this.onLoad} onNew={instance && this.onNew} />
+                }
+                {tabs && tabs.length > 1 &&
                 <Footer>
-                    {tabs && tabs.length > 1 &&
                     <FormNavigation
                         tabs={tabs}
                         onPress={this.onOpenTab}
                     />
-                    }
                 </Footer>
-            </Container>
+                }
+            </PageLayout>
         );
     }
 }

@@ -1,12 +1,12 @@
 import React from 'react';
 import { FlatList } from 'react-native';
-import { Actions } from 'react-native-router-flux';
-import { Container, Content, Button, ListItem, Text, Left, Right, Icon, Header, Title, Body } from 'native-base';
+import { Container, Content, Text, Image } from 'native-base';
 
-import   Forms  from '../context/Forms';
-
+import Forms from '../context/Forms';
 import { styles } from '../utils/Style';
-import  HeaderSMS  from '../utils/ReportHearder';
+
+import FormItem from '../components/ControlForm/FormItem';
+import PageLayout from '../components/Layout/PageLayout';
 
 export default class FormList extends React.Component
 {
@@ -29,6 +29,7 @@ export default class FormList extends React.Component
     loadForms = () =>
     {
         this.setState({ loading: true });
+        
         this._asyncReqForm = Forms.List(this.loadFormsResponse);
     }
 
@@ -39,7 +40,6 @@ export default class FormList extends React.Component
         this.setState(
             {forms: response
             ,loading: false
-            ,
             });
     }
 
@@ -50,37 +50,12 @@ export default class FormList extends React.Component
     }
 
 
-    getFormKey = (item, index) => item.guid;
-
-    renderFormItem = ({ item }) => (
-        <ListItem style={styles.borderBottom} onPress={() => Actions.Main({ guid: item.guid })} disabled={this.state.loading}>
-            <Left>
-                <Text>{item.name} V:{item.version}</Text>
-            </Left>
-            <Right>
-                <Icon name="arrow-forward" />
-            </Right>
-        </ListItem>
-    )
-
     render()
     {
         const { forms, loading } = this.state;
 
         return (
-            <Container>
-                <Header androidStatusBarColor="#5D4037" >
-                    <Left>
-                        <Button transparent>
-                            <Icon name="menu" />
-                        </Button>
-                    </Left>
-                    <Body>
-                        <Title>Reports</Title>
-                    </Body>
-                    <Right />
-                </Header>
-                <HeaderSMS />
+            <PageLayout header="Reports">
                 <Container>
                     <Content>
                         {loading &&
@@ -89,13 +64,13 @@ export default class FormList extends React.Component
                         {forms &&
                         <FlatList
                             data={forms}
-                            keyExtractor={this.getFormKey}
-                            renderItem={this.renderFormItem}
+                            keyExtractor={(item) => item.guid}
+                            renderItem={FormItem}
                         />
                         }
                     </Content>
                 </Container>
-            </Container>
+            </PageLayout>
         );
     }
 }

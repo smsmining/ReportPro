@@ -6,7 +6,7 @@ import Colors from '../../utils/ReportColors';
 
 const Control_TextArea = (props) =>
 {
-    const { label, value, param, onChange,HeightRows,maxLength,keyboardType  } = props;
+    const { label, value, param, onChange,HeightRows,maxLength,keyboardType,placeholder  } = props;
 
     return (
         <FloatingLabelItem label={label}>
@@ -14,7 +14,7 @@ const Control_TextArea = (props) =>
                 value={value}
                 rowSpan={HeightRows ? HeightRows : 5}
                 bordered
-                placeholder={param}
+                placeholder={placeholder}
                 placeholderTextColor={Colors.light}
                 onChangeText={text => onChange(text, param)}
                 blurOnSubmit={true}
