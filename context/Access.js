@@ -7,13 +7,10 @@ const IsUnlocked = async (onSuccess) =>
     let exists = await RNFetchBlob.fs
                         .exists(getAccessPath());
 
-    console.log("Token Exists", exists);
     if (!exists) onSuccess(false);
 
     let token = await RNFetchBlob.fs
                         .readFile(getAccessPath(), 'utf8');
-
-    console.log("Token Match", token, GetNowToken());
 
     return onSuccess(token === GetNowToken());
 }
