@@ -12,6 +12,7 @@ import Control_Spinner from './Controls/Control_Spinner';
 import Control_TextArea from './Controls/Control_TextArea';
 import Control_TextField from './Controls/Control_TextField';
 import Control_TextLabel from './Controls/Control_TextLabel';
+import Control_CheckBox from './Controls/Control_CheckBox';
 
 
 export const ControlKeys = 
@@ -25,6 +26,8 @@ export const ControlKeys =
     ,TextArea:      'textArea'
     ,TextField:     'textField'
     ,TextLabel:     'textLabel'
+    ,CheckBox:      'checkBox'
+    ,
     };
 
 
@@ -45,6 +48,7 @@ export default ControlItem = (props) =>
         case ControlKeys.TextLabel:    return (<Control_TextLabel {...props} />);
         case ControlKeys.ImageStatic:  return (<Control_ImageStatic {...props} />);
         case ControlKeys.Looper:       return (<Control_Looper {...props} />);
+        case ControlKeys.CheckBox:     return (<Control_CheckBox {...props} />);
     }
 
     return (<Text style={styles.center}>WARNING: Unknown control type</Text>);
