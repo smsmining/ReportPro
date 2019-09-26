@@ -10,6 +10,7 @@ const FormNavigation = (props) =>
                 <BottomNavigation.Action
                     key={tab.id}
                     icon={tab.icon}
+                    iconSet={tab.iconSet}
                     label={tab.label}
                     onPress={() => onPress(tab.id)}
                 />
