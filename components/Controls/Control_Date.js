@@ -6,25 +6,24 @@ import  InlineLabelItem  from './Layout/InlineLabelItem';
 
 const Control_Date = (props) =>
 {
-    const formatChosenDate = (date) => [date.getDate(), '/', date.getMonth() + 1, '/', date.getFullYear()];
+    const dateFormat = require('dateformat');
 
-    const { label, param, onChange } = props;
+    const { label, param, format, minValue, maxValue, onChange } = props;
 
     return (
         <InlineLabelItem label={label}>
             <DatePicker
                     placeHolderText={'Select date'}
-                    defaultDate={new Date()}
-                    minimumDate={new Date(2010, 1, 1)}
-                    maximumDate={new Date(2050, 12, 31)}
-                    onDateChange={newDate => onChange(newDate.getDate().toString() + '/' + (newDate.getMonth() + 1).toString() + '/' + newDate.getFullYear().toString(), param)}
+                    minimumDate={minValue}
+                    maximumDate={maxValue}
+                    onDateChange={date => onChange(date, param)}
                     locale={'en'}
                     modalTransparent={false}
                     animationType={'fade'}
                     androidMode={'calendar'}
                     textStyle={{ color: Colors.black }}
                     placeHolderTextStyle={{ color: Colors.light }}
-                    formatChosenDate={formatChosenDate}
+                    formatChosenDate={(date) => dateFormat(date, format || "d mmm yyyy")}
                 />
         </InlineLabelItem>
     );

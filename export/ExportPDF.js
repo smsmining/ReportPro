@@ -240,7 +240,7 @@ export default class ExportPDF
 
         if (!pdf || !param) return;
 
-        const renderValue = (values || { })[param] || value;
+        let renderValue = (values || { })[param] || value;
 
         if (renderValue === true)
             renderValue = pdf.trueValue || '\u2611';
@@ -248,6 +248,13 @@ export default class ExportPDF
             renderValue = pdf.falseValue || '\u2610';
 
         else if (!renderValue) return;
+
+        else if (renderValue instanceof Date)
+        {
+            const dateFormat = require('dateformat');
+            renderValue = dateFormat(renderValue, control.format || "d mmm yyyy");
+        }
+        
 
         for (page in pdf)
         {
