@@ -2,6 +2,7 @@ import RNFetchBlob from 'rn-fetch-blob';
 
 import { createFetcher } from './CreateFetcher';
 import { ControlKeys } from '../components/ControlItem';
+import { jsonHelper } from '../utils/jsonHelper';
 
  const List = (onSuccess) =>
 {
@@ -35,7 +36,11 @@ const HasInstance = (guid, onSuccess) =>
 const LoadInstance = (guid, onSuccess) =>
     RNFetchBlob.fs
         .readFile(getInstancePath(guid), 'utf8')
-        .then(result => onSuccess(JSON.parse(result)));
+        .then(result =>
+            onSuccess(
+                JSON.parse(
+                    jsonHelper.parseJsonObject(result)
+                )));
 
 const SaveInstance = (guid, instance, onSuccess) =>
     RNFetchBlob.fs
