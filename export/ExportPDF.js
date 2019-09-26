@@ -242,7 +242,12 @@ export default class ExportPDF
 
         const renderValue = (values || { })[param] || value;
 
-        if (!renderValue) return;
+        if (renderValue === true)
+            renderValue = pdf.trueValue || '\u2611';
+        else if (renderValue === false)
+            renderValue = pdf.falseValue || '\u2610';
+
+        else if (!renderValue) return;
 
         for (page in pdf)
         {
