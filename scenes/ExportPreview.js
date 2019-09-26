@@ -3,7 +3,7 @@ import { Text } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import Mailer from 'react-native-mail';
 
-import { styles } from '../utils/Style';
+import { styles, LoadingStyles } from '../utils/Style';
 import { ExportPDF } from '../export';
 
 import PDFDisplay from '../components/PDFDisplay';
@@ -17,6 +17,7 @@ export default class PDF extends React.Component
         {pdf: null
 
         ,loading: false
+        ,loadingState: null
         ,error: []
         };
 
@@ -26,7 +27,7 @@ export default class PDF extends React.Component
     {
         const { guid, instance } = this.props;
 
-        this.setState({ loading: true });
+        this.setState({ loading: true, loadingState: "Initialising" });
 
         this._pdfGenerator = new ExportPDF(guid, instance, this.onError);
         this._pdfGenerator.Load(this.onPDFLoaded);
@@ -39,8 +40,20 @@ export default class PDF extends React.Component
     }
 
     onError = (error) => this.state.error.push(error);
-    onPDFLoaded = () => this._pdfGenerator.Generate(this.onPDFGenerated);
-    onPDFGenerated = (data) => this.setState({ pdf: data });
+    onPDFLoaded = () =>
+    {
+        this.setState({ loadingState: "Copying Template" });
+        this._pdfGenerator.Clone(this.onPDFCloned);
+    }
+    onPDFCloned = () =>
+    {
+        this.setState({ loadingState: "Generating Layout" });
+        const layout = this._pdfGenerator.GenerateLayout();
+
+        this.setState({ loadingState: "Printing Document" });
+        this._pdfGenerator.PrintLayout(layout, this.onPDFPrinted);
+    }
+    onPDFPrinted = (data) => this.setState({ pdf: data, loadingState: "Loading Document" });
 
     handleEmail = () =>
         Mailer.mail(
@@ -56,7 +69,7 @@ export default class PDF extends React.Component
 
     render()
     {
-        const { pdf, loading, error } = this.state;
+        const { pdf, loading, loadingState, error } = this.state;
 
         return (
             <PageLayout
@@ -64,7 +77,12 @@ export default class PDF extends React.Component
                 next={pdf && { label: "Send PDF", onPress: this.handleEmail }}
             >
                 {loading &&
-                <Text style={styles.loadingText}>Loading ...</Text>
+                <React.Fragment>
+                <Text style={LoadingStyles.label}>Loading ...</Text>
+                {loadingState &&
+                <Text style={LoadingStyles.subtitle}>{loadingState}</Text>
+                }
+                </React.Fragment>
                 }
                 {error &&
                 <Text>{error.map((error) => "- " + error + "\n")}</Text>

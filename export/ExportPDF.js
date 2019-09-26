@@ -16,7 +16,6 @@ export default class ExportPDF
 
     _onError;
     _onLoaded;
-    _onComplete;
 
     constructor(formGuid, values, onError)
     {
@@ -50,51 +49,25 @@ export default class ExportPDF
         this._onLoaded();
     }
 
-    Generate = (onComplete) =>
+
+    Clone = (onSucceed) =>
     {
         if (!this._formConfig)
             return this._onError("Export to PDF not configured.");
 
-        this._onComplete = onComplete;
-
         this._writeFile = new PDFDraw(this._onError);
-        this._writeFile.Clone(this._guid, this._formConfig.pdfname, this.WriteValues);
+        this._writeFile.Clone(this._guid, this._formConfig.pdfname, onSucceed);
     }
 
-    WriteValues = () =>
+
+    GenerateLayout = () =>
     {
         let layout = {};
 
         for (tab in this._formConfig.tabs)
             this.generateLayoutData(layout, this._formConfig.tabs[tab], this._values);
 
-        for (page in layout)
-        {
-            this._writeFile.SetPage(parseInt(page, 10));
-
-            for (let i = 0; i < layout[page].length; i++)
-            {
-                const draw = layout[page][i];
-
-                if (draw.style.backgroundColor)
-                    this._writeFile.DrawRectangle({ ...draw.style, color: draw.style.backgroundColor });
-
-                if (!draw.value)
-                    continue;
-
-                if (ControlKeys.ImageSelect === draw.type)
-                {
-                    this._writeFile.DrawImage(draw.value, draw.style);
-                    continue;
-                }
-                
-                this._writeFile.DrawText(draw.value, draw.style);
-            }
-
-            this._writeFile.Apply();
-        }
-
-        this._onComplete(this._writeFile.path);
+        return layout;
     }
 
     generateLayoutData = (layout, control, values) =>
@@ -276,5 +249,37 @@ export default class ExportPDF
                     ,style: { ...pdf[page][style], ...additionalStyle }
                     });
         }
+    }
+
+
+    PrintLayout = (layout, onSucceed) =>
+    {
+        for (page in layout)
+        {
+            this._writeFile.SetPage(parseInt(page, 10));
+
+            for (let i = 0; i < layout[page].length; i++)
+            {
+                const draw = layout[page][i];
+
+                if (draw.style.backgroundColor)
+                    this._writeFile.DrawRectangle({ ...draw.style, color: draw.style.backgroundColor });
+
+                if (!draw.value)
+                    continue;
+
+                if (ControlKeys.ImageSelect === draw.type)
+                {
+                    this._writeFile.DrawImage(draw.value, draw.style);
+                    continue;
+                }
+                
+                this._writeFile.DrawText(draw.value, draw.style);
+            }
+
+            this._writeFile.Apply();
+        }
+
+        onSucceed(this._writeFile.path);
     }
 }

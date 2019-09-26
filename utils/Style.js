@@ -8,6 +8,24 @@ export const FabStyles = StyleSheet.create(
     ,nodeIcon: { color: '#000' }
     });
 
+export const LoadingStyles = StyleSheet.create(
+    {label:
+        {marginTop: 200
+        ,textAlign: 'center'
+        ,fontSize: 20
+        ,fontWeight: '600'
+        ,textDecorationStyle: 'solid'
+    },
+    subtitle:
+        {marginTop: 5
+        ,textAlign: 'center'
+        ,fontSize: 8
+        ,fontWeight: '600'
+        ,textDecorationStyle: 'solid'
+        },
+    });
+
+
 export const styles = StyleSheet.create({
     scrollView: {
         backgroundColor: Colors.lighter,
