@@ -63,6 +63,7 @@ export default class PDFDraw
             return;
 
         // Need to handle new line boxes
+        style.fontName = style.fontName || "FreeSerif";
 
         this._page.drawText
             (content
