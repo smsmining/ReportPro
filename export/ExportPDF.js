@@ -143,14 +143,14 @@ export default class ExportPDF
                 continue;
             }
 
-            sublayouts.push(sublayout[0]);
+            if (sublayout[0])
+                sublayouts.push(sublayout[0]);
         }
 
         for (page in pdf)
         {
             if (pdf[page].length > 1 || !grid[page] || grid[page].length > 1 )
                 return this._onError("Export to PDF cannot handle multidraw loopers");
-
 
             const { x, y, width, height, vertical } = pdf[page][0];
 
@@ -227,8 +227,8 @@ export default class ExportPDF
 
             if (!layout[page]) layout[page] = [];
 
-            layout[page].push({ style: pdf[page][0] });
             layout[page] = layout[page].concat(loopLayouts);
+            layout[page].push({ style: pdf[page][0] });
         }
 
         return;
