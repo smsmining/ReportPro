@@ -116,8 +116,7 @@ export default class ExportPDF
                 continue;
             }
 
-            if (sublayout[0])
-                sublayouts.push(sublayout[0]);
+            sublayouts.push(sublayout[0]);
         }
 
         for (page in pdf)
@@ -137,10 +136,13 @@ export default class ExportPDF
 
 
             let loopLayouts = [];
-            let loopTracking = { x: x || 0, y: height - (y || 0)};
+            let loopTracking = { x: x, y: y + height };
 
             for (loop in sublayouts)
             {
+                if (!sublayouts[loop])
+                    continue;
+
                 const styles = sublayouts[loop].map(draw => draw.style);
                 const drawsWidth = Math.max(...styles.map(style => style.x + (style.width || 0)));
                 const drawsHeight = Math.max(...styles.map(style => style.y + (style.height || 0)));
@@ -154,33 +156,42 @@ export default class ExportPDF
             {
                 let draws = sublayouts[loop];
 
-                for (child in draws)
+                if (draws)
                 {
-                    const draw = draws[child];
-                    let { style } = draw;
+                    if ((vertical && loopTracking.x > width)
+                    || (!vertical && loopTracking.y < y)
+                        )
+                    {
+                        this._onError("Export to PDF requires looper children not exceed size definition");
+                        break;
+                    }
 
-                    style.width = style.width || (cellWidth - style.x);
-                    style.height = style.height || (style.y - cellHeight);
+                    for (child in draws)
+                    {
+                        const draw = draws[child];
+                        let { style } = draw;
 
-                    style.x += loopTracking.x;
-                    style.y = loopTracking.y - style.y;
+                        style.width = style.width || (cellWidth - style.x);
+                        style.height = style.height || (style.y - cellHeight);
 
-                    loopLayouts.push(draw);
+                        style.x += loopTracking.x;
+                        style.y = loopTracking.y - cellHeight + style.y;
+
+                        loopLayouts.push(draw);
+                    }
                 }
+                    
 
                 if (vertical)
                 {
                     loopTracking.y -= cellHeight + (cellMargin || 0);
 
-                    if (loopTracking.y - cellHeight < y)
+                    if (loopTracking.y - cellHeight > y)
                         continue;
 
                     loopTracking.y = height;
 
                     loopTracking.x += cellWidth + (cellMargin || 0);
-
-                    if (loopTracking.x > width)
-                        return this._onError("Export to PDF requires looper children not exceed size definition");
                 }
                 else
                 {
@@ -188,13 +199,10 @@ export default class ExportPDF
 
                     if (loopTracking.x + cellWidth < width)
                         continue;
-                    
+
                     loopTracking.x = x || 0;
 
                     loopTracking.y -= cellHeight + (cellMargin || 0);
-
-                    if (loopTracking.y < y)
-                        return this._onError("Export to PDF requires looper children not exceed size definition");
                 }
             }
 
