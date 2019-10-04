@@ -49,8 +49,8 @@ export default class Control_looper extends React.Component
 
         return controls.map(control =>
             <ControlItem
-                key={control.id}
                 {...control}
+                key={control.param + "_" + index}
                 label={control.label && control.label.replace('{}', index + 1)}
                 value={(value && value[control.param]) || (control.value && control.value.replace('{}', index + 1))}
                 onChange={(loopValue, loopParam) => this.onLoopChange(loopValue, loopParam, index)}
