@@ -418,91 +418,220 @@ const fakeDB =
             },
             {
                 guid: "00000000-0000-0000-0000-000000000001",
-                name: 'hire-on',
+                name: 'Workshop Inspection',
+                pdfname: 'Workshop Inspection',
                 version: '0.0.1',
                 tabs: [
                     {
                         id: '1',
-                        label: 'custom',
-                        icon: 'photo-camera',
+                        label: 'Details',
+                        icon: 'create',
+                        type: ControlKeys.Tab,
                         controls: [
                             {
-                                id: '1',
-                                type: ControlKeys.ImageSelect,
-                                label: 'logo',
-                                param: 'logo',
-                                value: '',
-                                
+                                param: 'details_header',
+                                type: ControlKeys.Divider,
+                                label: 'Document Details'
                             },
                             {
-                                id: '2',
+                                param: 'details_minesite',
                                 type: ControlKeys.TextField,
-                                label: 'form 2',
-                                param: 'Example',
-                                value: '',
+                                label: 'Site',
+                                pdf: { 0: [{ x: 160, y: 760, width: 100, height: 15 }] },
                             },
                             {
-                                id: '3',
+                                param: 'details_date',
+                                type: ControlKeys.Date,
+                                label: 'Date',
+                                pdf: { 0: [{ x: 320, y: 760, width: 70, height: 15 }] },
+                            },
+                            {
+                                param: 'details_time',
                                 type: ControlKeys.TextField,
-                                label: 'Example',
-                                param: 'Example',
-                                value: 'This is some data',
+                                label: 'Time',
+                                pdf: { 0: [{ x: 450, y: 760, width: 100, height: 15 }] },
+                            },
+                            {
+                                param: 'details_shift',
+                                type: ControlKeys.Spinner,
+                                label: 'Shift',
+                                value: 'Day Shift',
+                                controls: [
+                                    { label: 'Day', value: 'Day Shift' },
+                                    { label: 'Night', value: 'Night Shift' },
+                                ],
+                                pdf: { 0: [{ x: 450, y: 742, width: 100, height: 15 }] },
+                            },
+                            {
+                                param: 'details_weather',
+                                type: ControlKeys.TextField,
+                                label: 'Weather',
+                                pdf: { 0: [{ x: 160, y: 742, width: 230, height: 15 }] },
                             },
                         ],
                     },
                     {
                         id: '2',
-                        label: 'machine',
-                        icon: 'photo-camera',
+                        label: 'Checklist',
+                        icon: 'assignment',
+                        type: ControlKeys.Tab,
                         controls: [
                             {
-                                id: '1',
-                                type: ControlKeys.ImageSelect,
-                                label: 'logo',
-                                param: 'Example',
-                                value: 'BASE64 ENCODED STRING',
+                                param: "checklist_divider",
+                                type: ControlKeys.Divider,
+                                label: 'Checklist',
                             },
                             {
-                                id: '2',
-                                type: 'textInput',
-                                label: 'Example',
-                                param: 'Example',
-                                value: 'This is some data',
-                                'controls': [
-                                    {
-                                        type: 'camera',
-                                        label: 'Evidence A',
-                                        value: null,
+                                param: 'checklist',
+                                type: ControlKeys.Looper,
+                                setLength: 24,
+                                value:
+                                    [{ 'checklist_name': 'Are fire extinguishers accessible and clear to remove?' }
+                                    ,{ 'checklist_name': 'Are fire extinguishers in serviceable condition?' }
+                                    ,{ 'checklist_name': 'Is all signage clean and visible?' }
+                                    ,{ 'checklist_name': 'Are all oxy-acetylene bottles stored in an upright position and secured?' }
+                                    ,{ 'checklist_name': 'Are all oxy-acetylene hoses in good condition?' }
+                                    ,{ 'checklist_name': 'Are flashback arrestors fitted to all oxy and acetylene kits?' }
+                                    ,{ 'checklist_name': 'Is gas storage secure and stored as per racking requirements?' }
+                                    ,{ 'checklist_name': 'Are all workshop tools in a safe and serviceable condition?' }
+                                    ,{ 'checklist_name': 'Are dangerous goods stored in appropriate cupboards?' }
+                                    ,{ 'checklist_name': 'Lighting is operational and suitable?' }
+                                    ,{ 'checklist_name': 'Are spill kits in place with correct quantities of spill response equipment and locked?' }
+                                    ,{ 'checklist_name': 'Are spill response kits free from rubbish e.g. oily rags cardboard material?' }
+                                    ,{ 'checklist_name': 'Are work benches tidy and free of clutter?' }
+                                    ,{ 'checklist_name': 'All storage pods are stored in appropriate bunded areas?' }
+                                    ,{ 'checklist_name': 'Is there any evidence of oil spillage in the work area?' }
+                                    ,{ 'checklist_name': 'Is the workshop floor clean and clear of trip hazards including rubbish?' }
+                                    ,{ 'checklist_name': 'Are emergency eyewash / shower(s) tested and is access unobstructed?' }
+                                    ,{ 'checklist_name': 'Are all hoses wound up and stored correctly?' }
+                                    ,{ 'checklist_name': 'Are the storage containers clean and clear of trip hazards?' }
+                                    ,{ 'checklist_name': 'Are machine guards in place and fitted with an E-Stop e.g. pedestal grinder(s)?' }
+                                    ,{ 'checklist_name': 'Are Safety Data Sheets (SDS) available and in date?' }
+                                    ,{ 'checklist_name': 'Is the overall condition of the workshop areas satisfactory?' }
+                                    ,{ 'checklist_name': 'Is PPE available in all areas needed?' }
+                                    ],
+                                pdf: { 0: [{ x: 449, y: 263, width: 107, height: 459 }] },
+                                grid: { 0: [{ width: 100, height: 20 }] },
+                                controls:
+                                    [{
+                                        param: 'checklist_name',
+                                        type: ControlKeys.TextLabel,
+                                        label: 'Inspection',
                                     },
-                                ],
+                                    {
+                                        param: 'checklist_safe',
+                                        type: ControlKeys.CheckBox,
+                                        label: 'Safe',
+                                        pdf: { 0: [{ x: 14, y: 6 }] },
+                                    },
+                                    {
+                                        param: 'checklist_atrisk',
+                                        type: ControlKeys.CheckBox,
+                                        label: 'At Risk',
+                                        pdf: { 0: [{ x: 49, y: 6 }] },
+                                    },
+                                    {
+                                        param: 'checklist_na',
+                                        type: ControlKeys.CheckBox,
+                                        label: 'N/A',
+                                        pdf: { 0: [{ x: 85, y: 6 }] },
+                                    },
+                                    ]
+                            },
+                            {
+                                param: 'checklist_oiltank_name',
+                                type: ControlKeys.TextLabel,
+                                label: 'Inspection',
+                                value: 'Check Waste Oil Tank Level?',
+                            },
+                            {
+                                param: 'checklist_oiltank_litres',
+                                type: ControlKeys.TextField,
+                                label: 'Litres',
+                                keyboardType: 'phone-pad',
+                                pdf: { 0: [{ x: 365, y: 248, width: 80, height: 15 }] },
+                            },
+                            {
+                                param: 'checklist_oiltank_safe',
+                                type: ControlKeys.CheckBox,
+                                label: 'Safe',
+                                pdf: { 0: [{ x: 449 + 14, y: 249, width: 10, height: 15 }] },
+                            },
+                            {
+                                param: 'checklist_oiltank_atrisk',
+                                type: ControlKeys.CheckBox,
+                                label: 'At Risk',
+                                pdf: { 0: [{ x: 449 + 49, y: 249, width: 10, height: 15 }] },
+                            },
+                            {
+                                param: 'checklist_oiltank_na',
+                                type: ControlKeys.CheckBox,
+                                label: 'N/A',
+                                pdf: { 0: [{ x: 449 + 85, y: 249, width: 10, height: 15 }] },
                             },
                         ],
                     },
                     {
                         id: '3',
-                        label: 'sign',
-                        icon: 'photo-camera',
+                        label: 'Signoff',
+                        icon: 'perm-identity',
+                        type: ControlKeys.Tab,
                         controls: [
                             {
-                                id: '1',
-                                type: ControlKeys.ImageSelect,
-                                label: 'logo',
-                                param: 'Example',
-                                value: 'BASE64 ENCODED STRING',
+                                param: 'signoff_header',
+                                type: ControlKeys.Divider,
+                                label: 'Action Items',
                             },
                             {
-                                id: '2',
+                                param: 'signoff_comments',
+                                type: ControlKeys.TextArea,
+                                label: 'Comments',
+                                pdf: { 0: [{ x: 60, y: 185, width: 490, height: 35 }] },
+                            },
+                            {
+                                param: 'signoff_actions_disclaimer',
+                                type: ControlKeys.TextLabel,
+                                value: 'Identified non-conformances shall be entered in the site action register (Mango)',
+                            },
+                            {
+                                param: 'signoff_actions',
+                                type: ControlKeys.TextArea,
+                                label: 'Actions',
+                                pdf: { 0: [{ x: 60, y: 125, width: 490, height: 25 }] },
+                            },
+                            {
+                                param: 'signoff_inspected',
+                                type: ControlKeys.Divider,
+                                label: 'Inspected By',
+                            },
+                            {
+                                param: 'signoff_inspected_name',
                                 type: ControlKeys.TextField,
-                                label: 'Example',
-                                param: 'Example',
-                                value: 'This is some data',
-                                'controls': [
-                                    {
-                                        type: 'camera',
-                                        label: 'Evidence A',
-                                        value: null,
-                                    },
-                                ],
+                                label: 'Name',
+                                pdf: { 0: [{ x: 155, y: 94, width: 160, height: 15 }] },
+                            },
+                            {
+                                param: 'signoff_inspected_sig',
+                                type: ControlKeys.ImageSelect,
+                                label: 'Signature',
+                                pdf: { 0: [{ x: 415, y: 92, width: 100, height: 15 }] },
+                            },
+                            {
+                                param: 'signoff_supervisor',
+                                type: ControlKeys.Divider,
+                                label: 'Supervisor',
+                            },
+                            {
+                                param: 'signoff_supervisor_name',
+                                type: ControlKeys.TextField,
+                                label: 'Name',
+                                pdf: { 0: [{ x: 155, y: 77, width: 160, height: 15 }] },
+                            },
+                            {
+                                param: 'signoff_supervisor_sig',
+                                type: ControlKeys.ImageSelect,
+                                label: 'Signature',
+                                pdf: { 0: [{ x: 415, y: 75, width: 100, height: 15 }] },
                             },
                         ],
                     },
@@ -590,7 +719,6 @@ const fakeDB =
                     },
                 ],
             },
-
         ],
 };
 
