@@ -2,32 +2,44 @@ import React from 'react';
 
 import { DatePicker} from 'native-base';
 import Colors from '../../utils/ReportColors';
-import  InlineLabelItem  from './Layout/InlineLabelItem';
+import InlineLabelItem from './Layout/InlineLabelItem';
 
-const Control_Date = (props) =>
+export default class Control_Date extends React.Component
 {
-    const dateFormat = require('dateformat');
+    dateFormat = require('dateformat');
 
-    const { label, param, format, minValue, maxValue, onChange } = props;
+    state = { key: 0 }
 
-    return (
-        <InlineLabelItem label={label}>
-            <DatePicker
-                    placeHolderText={'Select date'}
+    componentWillReceiveProps(nextProps)
+    {
+        if ((nextProps.value ? nextProps.value.getTime() : 0)
+        !=  (this.props.value ? this.props.value.getTime() : 0)
+            )
+            this.setState({ key: this.state.key + 1 });
+    }
+
+    render()
+    {
+        const { label, param, value, format, minValue, maxValue, onChange } = this.props;
+        const { key } = this.state;
+
+        return (
+            <InlineLabelItem label={label}>
+                <DatePicker
+                    key={param + key}
                     minimumDate={minValue}
                     maximumDate={maxValue}
+                    defaultDate={value}
+                    placeHolderText={value ? undefined : 'Select date'}
+                    placeHolderTextStyle={value ? undefined : { color: Colors.light }}
                     onDateChange={date => onChange(date, param)}
                     locale={'en'}
                     modalTransparent={false}
                     animationType={'fade'}
-                    androidMode={'calendar'}
                     textStyle={{ color: Colors.black }}
-                    placeHolderTextStyle={{ color: Colors.light }}
-                    formatChosenDate={(date) => dateFormat(date, format || "d mmm yyyy")}
+                    formatChosenDate={(date) => this.dateFormat(date, format || "d mmm yyyy")}
                 />
-        </InlineLabelItem>
-    );
-  
-};
-
-export default Control_Date;
+            </InlineLabelItem>
+        );
+    }
+}
