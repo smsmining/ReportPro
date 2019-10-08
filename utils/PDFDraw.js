@@ -1,4 +1,4 @@
-import { PDFDocument } from 'pdf-lib';
+import { PDFDocument, rgb } from 'pdf-lib';
 import fontkit from '@pdf-lib/fontkit';
 import RNFetchBlob from 'rn-fetch-blob';
 
@@ -17,6 +17,17 @@ export default class PDFDraw
     {
         const date = new Date();
         return date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + " " + (date.getHours() + 1) + "." + date.getMinutes() + "." + date.getSeconds();
+    }
+
+    hexTest = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i;
+    hexShorthandTest = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
+    hexToRgb = (hex) =>
+    {
+        hex = hex.replace(this.shorthandRegex, function (m, r, g, b)
+            { return r + r + g + g + b + b; });
+
+        const result = this.hexTest.exec(hex);
+        return result && rgb(parseInt(result[1], 16) / 255, parseInt(result[2], 16) / 255, parseInt(result[3], 16) / 255);
     }
 
     _guid;
@@ -59,6 +70,16 @@ export default class PDFDraw
     {
         if (!this._page || !style)
             return;
+
+        style.color = undefined;
+        if (style.backgroundColor)
+            style.color = style.backgroundColor;
+
+        if (typeof style.color == "string")
+            style.color = this.hexToRgb(style.color);
+
+        if (typeof style.borderColor == "string")
+            style.borderColor = this.hexToRgb(style.borderColor);
 
         this._page.drawRectangle(style);
     }
@@ -123,6 +144,9 @@ export default class PDFDraw
             font = { name: style.fontName, embed: fontEmbed };
             this._cachedFonts.push(font);
         }
+
+        if (typeof style.color == "string")
+            style.color = this.hexToRgb(style.color);
 
         this._page.drawText
             (content
