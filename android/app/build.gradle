@@ -194,6 +194,10 @@ android {
     dexOptions {
       jumboMode = true
     }
+
+    aaptOptions {
+        noCompress "pdf", "ttf"
+    }
 }
 
 dependencies {

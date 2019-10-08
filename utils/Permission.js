@@ -7,10 +7,18 @@ export const RequestStoragePermissions = async (onSuccess, onError) =>
         const granted = await PermissionsAndroid.request( PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE );
 
         if (granted === PermissionsAndroid.RESULTS.GRANTED);
-            return onSuccess();
+        {
+            if (onSuccess)
+                onSuccess();
 
-        return onError("User denied storage permissions.");
+            return true;
+        }
+
+        if (onError)
+            onError("User denied storage permissions.");
+
+        return false;
     }
     catch (err)
-        { onError(err); }
+        { onError(err); return false; }
 }

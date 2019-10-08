@@ -17,13 +17,17 @@ import { jsonHelper } from '../utils/jsonHelper';
 
 const Get = (guid, onSuccess) =>
 {
-    return createFetcher( async () =>
+    const request = createFetcher( async () =>
             fakeDB
                 .forms
                 .find(form => form.guid === guid)
             )
-            .read()
-            .then((data) => onSuccess(data));
+            .read();
+
+    if (onSuccess)
+        return request.then((data) => onSuccess(data));
+    else
+        return request;
 };
 
 const getInstancePath = (guid) => RNFetchBlob.fs.dirs.DCIMDir + '/Reports/' + guid + '/instance.json';
@@ -38,9 +42,8 @@ const LoadInstance = (guid, onSuccess) =>
         .readFile(getInstancePath(guid), 'utf8')
         .then(result =>
             onSuccess(
-                JSON.parse(
-                    jsonHelper.parseJsonObject(result)
-                )));
+                jsonHelper.parseJsonObject(JSON.parse(result))
+            ));
 
 const SaveInstance = (guid, instance, onSuccess) =>
     RNFetchBlob.fs

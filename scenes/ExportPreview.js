@@ -21,39 +21,27 @@ export default class PDF extends React.Component
         ,error: []
         };
 
-    _pdfGenerator;
-
     componentDidMount()
+    {
+        this.generatePDF();
+    }
+
+    onError = (error) => this.state.error.push(error);
+
+    generatePDF = async () =>
     {
         const { guid, instance } = this.props;
 
         this.setState({ loading: true, loadingState: "Initialising" });
+        pdfGenerator = await new ExportPDF(guid, instance, this.onError).Load();
 
-        this._pdfGenerator = new ExportPDF(guid, instance, this.onError);
-        this._pdfGenerator.Load(this.onPDFLoaded);
-    }
-
-    componentWillUnmount()
-    {
-        if (this._pdfGenerator)
-            this._pdfGenerator.deconstructor();
-    }
-
-    onError = (error) => this.state.error.push(error);
-    onPDFLoaded = () =>
-    {
-        this.setState({ loadingState: "Copying Template" });
-        this._pdfGenerator.Clone(this.onPDFCloned);
-    }
-    onPDFCloned = () =>
-    {
-        this.setState({ loadingState: "Generating Layout" });
-        const layout = this._pdfGenerator.GenerateLayout();
+        const layout = pdfGenerator.GenerateLayout();
 
         this.setState({ loadingState: "Printing Document" });
-        this._pdfGenerator.PrintLayout(layout, this.onPDFPrinted);
+        let path = await pdfGenerator.PrintLayout(layout, page => this.setState({ loadingState: page ? "Printing Page " + page : "Saving Document" }));
+
+        this.setState({ pdf: path, loadingState: "Loading Document" })
     }
-    onPDFPrinted = (data) => this.setState({ pdf: data, loadingState: "Loading Document" });
 
     handleEmail = () =>
         Mailer.mail(

@@ -25,38 +25,22 @@ export default class ExportPDF
         this._onError = onError;
     }
 
-    Load = (onLoaded) =>
+    Load = async () =>
     {
-        this._onLoaded = onLoaded;
-        this._asyncReqForm = Forms.Get(this._guid, this.handleFormResponse);
+        let form = await Forms.Get(this._guid);
+
+        if (!form)
+            return this._onError("Export to PDF failed to find form data.");
+
+        this._formConfig = form;
+
+        return this;
     }
 
     deconstructor = () =>
     {
         if (this._asyncReqForm)
             this._asyncReqForm.cancel();
-    }
-
-    handleFormResponse = (response) =>
-    {
-        this._asyncReqForm = null;
-
-        if (!response)
-            return this._onError("Export to PDF failed to find form data.");
-
-        this._formConfig = response;
-
-        this._onLoaded();
-    }
-
-
-    Clone = (onSucceed) =>
-    {
-        if (!this._formConfig)
-            return this._onError("Export to PDF not configured.");
-
-        this._writeFile = new PDFDraw(this._onError);
-        this._writeFile.Clone(this._guid, this._formConfig.pdfname, onSucceed);
     }
 
 
@@ -260,34 +244,43 @@ export default class ExportPDF
     }
 
 
-    PrintLayout = (layout, onSucceed) =>
+    PrintLayout = async (layout, onUpdate, onSucceed) =>
     {
-        for (page in layout)
-        {
-            this._writeFile.SetPage(parseInt(page, 10));
+            writeFile = new PDFDraw();
+            await writeFile.Clone(this._guid, this._formConfig.pdfname); 
 
-            for (let i = 0; i < layout[page].length; i++)
+            for (page in layout)
             {
-                const draw = layout[page][i];
+                const pageNo = parseInt(page, 10);
+                onUpdate(pageNo + 1);
+                writeFile.SetPage(pageNo);
 
-                if (draw.style.backgroundColor)
-                    this._writeFile.DrawRectangle({ ...draw.style, color: draw.style.backgroundColor });
-
-                if (!draw.value)
-                    continue;
-
-                if (ControlKeys.ImageSelect === draw.type)
+                for (let i = 0; i < layout[page].length; i++)
                 {
-                    this._writeFile.DrawImage(draw.value, draw.style);
-                    continue;
+                    const draw = layout[page][i];
+
+                    if (draw.style.backgroundColor)
+                        writeFile.DrawRectangle({ ...draw.style, color: draw.style.backgroundColor });
+                    
+                    if (!draw.value)
+                        continue;
+
+                    if (ControlKeys.ImageSelect === draw.type)
+                    {
+                        await writeFile.DrawImage(draw.value, draw.style);
+                        continue;
+                    }
+
+                    await writeFile.DrawText(draw.value, draw.style);
                 }
-                
-                this._writeFile.DrawText(draw.value, draw.style);
             }
 
-            this._writeFile.Apply();
-        }
+            onUpdate();
+            await writeFile.Apply();
 
-        onSucceed(this._writeFile.path);
+            if (onSucceed)
+                return onSucceed(writeFile.path);
+
+            return writeFile.path;
     }
 }
