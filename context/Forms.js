@@ -77,7 +77,7 @@ const fakeDB =
                                 type: ControlKeys.TextField,
                                 label: 'PIN/VIN No',
                                 param: 'PIN/VIN No',
-                                pdf: { 0: [{ x: 120, y: 720, fontSize: 15 }] },
+                                pdf: { 0: [{ x: 120, y: 720, size: 15 }] },
                             },
                             {
                                 id: '3',
@@ -85,28 +85,28 @@ const fakeDB =
                                 label: 'Report No',
                                 param: 'Report No',
                                 keyboardType: 'numeric',
-                                pdf: { 0: [{ x: 360, y: 720, fontSize: 15 }] },
+                                pdf: { 0: [{ x: 360, y: 720, size: 15 }] },
                             },
                             {
                                 id: '4',
                                 type: ControlKeys.Date,
                                 label: 'Inspection date',
                                 param: 'Inspection date',
-                                pdf: { 0: [{ x: 86, y: 680, fontSize: 15 }] },
+                                pdf: { 0: [{ x: 86, y: 680, size: 15 }] },
                             },
                             {
                                 id: '5',
                                 type: ControlKeys.TextField,
                                 label: 'Inspected by',
                                 param: 'Inspected by',
-                                pdf: { 0: [{ x: 393, y: 680, fontSize: 15 }] },
+                                pdf: { 0: [{ x: 393, y: 680, size: 15 }] },
                             },
                             {
                                 id: '6',
                                 type: ControlKeys.TextField,
                                 label: 'Inspection place',
                                 param: 'Inspection place',
-                                pdf: { 0: [{ x: 86, y: 644, fontSize: 15 }] },
+                                pdf: { 0: [{ x: 86, y: 644, size: 15 }] },
                             },
                             {
                                 id: '7',
@@ -119,7 +119,7 @@ const fakeDB =
                                 type: ControlKeys.TextField,
                                 label: 'Customer Name',
                                 param: 'Customer Name',
-                                pdf: { 0: [{ x: 86, y: 605, fontSize: 15 }] },
+                                pdf: { 0: [{ x: 86, y: 605, size: 15 }] },
                             },
                             {
                                 id: '9',
@@ -127,7 +127,7 @@ const fakeDB =
                                 label: 'Customer Address',
                                 param: 'Customer Address',
                                 keyboardType: 'default',
-                                pdf: { 0: [{ x: 86, y: 588, fontSize: 15 }] },
+                                pdf: { 0: [{ x: 86, y: 588, size: 15 }] },
                             },
                             {
                                 id: '10',
@@ -135,7 +135,7 @@ const fakeDB =
                                 label: 'Customer Phone',
                                 param: 'Customer Phone',
                                 keyboardType: 'phone-pad',
-                                pdf: { 0: [{ x: 393, y: 588, fontSize: 15 }] },
+                                pdf: { 0: [{ x: 393, y: 588, size: 15 }] },
                             },
                             {
                                 id: '11',
@@ -149,8 +149,8 @@ const fakeDB =
                                 param: 'Model Code',
                                 keyboardType: 'default',
                                 pdf: {
-                                    0: [{ x: 86, y: 538, fontSize: 15 }],
-                                    1: [{ x: 124, y: 710, fontSize: 15 }]
+                                    0: [{ x: 86, y: 538, size: 15 }],
+                                    1: [{ x: 124, y: 710, size: 15 }]
                                 },
                             },
                             {
@@ -159,8 +159,8 @@ const fakeDB =
                                 label: 'Model Name',
                                 param: 'Model Name',
                                 pdf: {
-                                    0: [{ x: 188, y: 538, fontSize: 15 }],
-                                    1: [{ x: 225, y: 710, fontSize: 15 }]
+                                    0: [{ x: 188, y: 538, size: 15 }],
+                                    1: [{ x: 225, y: 710, size: 15 }]
                                 },
                             },
                             {
@@ -170,8 +170,8 @@ const fakeDB =
                                 param: 'S/N',
                                 keyboardType: 'numeric',
                                 pdf: {
-                                    0: [{ x: 313, y: 538, fontSize: 15 }],
-                                    1: [{ x: 350, y: 710, fontSize: 15 }]
+                                    0: [{ x: 313, y: 538, size: 15 }],
+                                    1: [{ x: 350, y: 710, size: 15 }]
                                 },
                             },
                             {
@@ -180,8 +180,8 @@ const fakeDB =
                                 label: 'Machine ID',
                                 param: 'Machine ID',
                                 pdf: {
-                                    0: [{ x: 393, y: 538, fontSize: 15 }],
-                                    1: [{ x: 430, y: 710, fontSize: 15 }]
+                                    0: [{ x: 393, y: 538, size: 15 }],
+                                    1: [{ x: 430, y: 710, size: 15 }]
                                 },
                             },
                             {
@@ -201,7 +201,7 @@ const fakeDB =
                                 label: 'Operated Hours',
                                 param: 'Operated Hours',
                                 keyboardType: 'numeric',
-                                pdf: { 0: [{ x: 86, y: 460, fontSize: 22 }] },
+                                pdf: { 0: [{ x: 86, y: 460, size: 22 }] },
                             },
                             {
                                 id: '19',
@@ -209,8 +209,8 @@ const fakeDB =
                                 label: 'Time since Delivery',
                                 param: 'Time since Delivery',
                                 pdf: {
-                                    0: [{ x: 333, y: 460, fontSize: 22 }],
-                                    1: [{ x: 394, y: 674, fontSize: 22 }],
+                                    0: [{ x: 333, y: 460, size: 22 }],
+                                    1: [{ x: 394, y: 674, size: 22 }],
                                 },
                             },
                             {
@@ -218,7 +218,7 @@ const fakeDB =
                                 type: ControlKeys.TextField,
                                 label: 'Emergency repair',
                                 param: 'Emergency repair',
-                                pdf: { 0: [{ x: 86, y: 415, fontSize: 22 }] },
+                                pdf: { 0: [{ x: 86, y: 415, size: 22 }] },
                             },
 
                             {
@@ -226,7 +226,7 @@ const fakeDB =
                                 type: ControlKeys.TextField,
                                 label: 'Condition',
                                 param: 'Condition',
-                                pdf: { 0: [{ x: 333, y: 415, fontSize: 22 }] },
+                                pdf: { 0: [{ x: 333, y: 415, size: 22 }] },
                             },
                             {
                                 id: '22',
@@ -234,14 +234,14 @@ const fakeDB =
                                 label: 'Overall inspection result',
                                 param: 'Overall inspection result',
                                 placeholder: 'Comment',
-                                pdf: { 0: [{ x: 45, y: 370, fontSize: 15 }] },
+                                pdf: { 0: [{ x: 45, y: 370, size: 15 }] },
                             },
                             {
                                 id: '23',
                                 type: ControlKeys.TextField,
                                 label: 'Latest hr',
                                 param: 'Latest hr',
-                                pdf: { 1: [{ x: 190, y: 674, fontSize: 22 }] },
+                                pdf: { 1: [{ x: 190, y: 674, size: 22 }] },
                             },
                             {
                                 id: '24',
@@ -274,7 +274,7 @@ const fakeDB =
                                         label: 'Type',
                                         param: 'Attachment_Type',
                                         value: "Example {}",
-                                        pdf: { 0: [{ x: 10, y: 100, width: 90, height: 50, fontSize: 10, backgroundColor: "#009900" }] },
+                                        pdf: { 0: [{ x: 10, y: 100, width: 90, height: 50, size: 10, backgroundColor: "#009900" }] },
                                     },
                                     {
                                         id: '993',
@@ -288,7 +288,7 @@ const fakeDB =
                                             { label: 'Attention', value: 'Attention', pdf: { backgroundColor: "#ff3838" }},
                                             { label: 'Failure', value: 'Failure', pdf: { backgroundColor: "#ff3838" }},
                                         ],
-                                        pdf: { 0: [{ x: 20, y: 200, width: 80, height: 50, fontSize: 10 }] },
+                                        pdf: { 0: [{ x: 20, y: 200, width: 80, height: 50, size: 10 }] },
                                     },
                                     {
                                         id: '994',
@@ -487,28 +487,28 @@ const fakeDB =
                                 setLength: 24,
                                 value:
                                     [{ 'checklist_name': 'Are fire extinguishers accessible and clear to remove?' }
-                                    ,{ 'checklist_name': 'Are fire extinguishers in serviceable condition?' }
-                                    ,{ 'checklist_name': 'Is all signage clean and visible?' }
-                                    ,{ 'checklist_name': 'Are all oxy-acetylene bottles stored in an upright position and secured?' }
-                                    ,{ 'checklist_name': 'Are all oxy-acetylene hoses in good condition?' }
-                                    ,{ 'checklist_name': 'Are flashback arrestors fitted to all oxy and acetylene kits?' }
-                                    ,{ 'checklist_name': 'Is gas storage secure and stored as per racking requirements?' }
-                                    ,{ 'checklist_name': 'Are all workshop tools in a safe and serviceable condition?' }
-                                    ,{ 'checklist_name': 'Are dangerous goods stored in appropriate cupboards?' }
-                                    ,{ 'checklist_name': 'Lighting is operational and suitable?' }
-                                    ,{ 'checklist_name': 'Are spill kits in place with correct quantities of spill response equipment and locked?' }
-                                    ,{ 'checklist_name': 'Are spill response kits free from rubbish e.g. oily rags cardboard material?' }
-                                    ,{ 'checklist_name': 'Are work benches tidy and free of clutter?' }
-                                    ,{ 'checklist_name': 'All storage pods are stored in appropriate bunded areas?' }
-                                    ,{ 'checklist_name': 'Is there any evidence of oil spillage in the work area?' }
-                                    ,{ 'checklist_name': 'Is the workshop floor clean and clear of trip hazards including rubbish?' }
-                                    ,{ 'checklist_name': 'Are emergency eyewash / shower(s) tested and is access unobstructed?' }
-                                    ,{ 'checklist_name': 'Are all hoses wound up and stored correctly?' }
-                                    ,{ 'checklist_name': 'Are the storage containers clean and clear of trip hazards?' }
-                                    ,{ 'checklist_name': 'Are machine guards in place and fitted with an E-Stop e.g. pedestal grinder(s)?' }
-                                    ,{ 'checklist_name': 'Are Safety Data Sheets (SDS) available and in date?' }
-                                    ,{ 'checklist_name': 'Is the overall condition of the workshop areas satisfactory?' }
-                                    ,{ 'checklist_name': 'Is PPE available in all areas needed?' }
+                                        , { 'checklist_name': 'Are fire extinguishers in serviceable condition?' }
+                                        , { 'checklist_name': 'Is all signage clean and visible?' }
+                                        , { 'checklist_name': 'Are all oxy-acetylene bottles stored in an upright position and secured?' }
+                                        , { 'checklist_name': 'Are all oxy-acetylene hoses in good condition?' }
+                                        , { 'checklist_name': 'Are flashback arrestors fitted to all oxy and acetylene kits?' }
+                                        , { 'checklist_name': 'Is gas storage secure and stored as per racking requirements?' }
+                                        , { 'checklist_name': 'Are all workshop tools in a safe and serviceable condition?' }
+                                        , { 'checklist_name': 'Are dangerous goods stored in appropriate cupboards?' }
+                                        , { 'checklist_name': 'Lighting is operational and suitable?' }
+                                        , { 'checklist_name': 'Are spill kits in place with correct quantities of spill response equipment and locked?' }
+                                        , { 'checklist_name': 'Are spill response kits free from rubbish e.g. oily rags cardboard material?' }
+                                        , { 'checklist_name': 'Are work benches tidy and free of clutter?' }
+                                        , { 'checklist_name': 'All storage pods are stored in appropriate bunded areas?' }
+                                        , { 'checklist_name': 'Is there any evidence of oil spillage in the work area?' }
+                                        , { 'checklist_name': 'Is the workshop floor clean and clear of trip hazards including rubbish?' }
+                                        , { 'checklist_name': 'Are emergency eyewash / shower(s) tested and is access unobstructed?' }
+                                        , { 'checklist_name': 'Are all hoses wound up and stored correctly?' }
+                                        , { 'checklist_name': 'Are the storage containers clean and clear of trip hazards?' }
+                                        , { 'checklist_name': 'Are machine guards in place and fitted with an E-Stop e.g. pedestal grinder(s)?' }
+                                        , { 'checklist_name': 'Are Safety Data Sheets (SDS) available and in date?' }
+                                        , { 'checklist_name': 'Is the overall condition of the workshop areas satisfactory?' }
+                                        , { 'checklist_name': 'Is PPE available in all areas needed?' }
                                     ],
                                 pdf: { 0: [{ x: 449, y: 263, width: 107, height: 459 }] },
                                 grid: { 0: [{ width: 100, height: 20 }] },
@@ -639,82 +639,613 @@ const fakeDB =
             },
             {
                 guid: "00000000-0000-0000-0000-000000000002",
-                name: 'hire-off',
+                name: 'Safe Act Observation-Mining',
+                pdfname: 'SMS-SAF-FRM-0013_03 Safe Act Observation - Mining Report',
                 version: '0.0.1',
                 tabs: [
                     {
                         id: '1',
-                        label: 'custom',
-                        icon: 'settings',
+                        type: ControlKeys.Tab,
+                        label: 'Details',
+                        icon: 'create',
                         controls: [
                             {
-                                id: '1',
-                                type: ControlKeys.ImageSelect,
-                                label: 'logo',
-                                param: 'logo',
-                                value: '',
+                                param: 'details_header',
+                                type: ControlKeys.Divider,
+                                label: 'Report Details',
                             },
                             {
-                                id: '2',
-                                type: 'textInput',
-                                label: 'Example',
-                                param: 'Example',
-                                value: 'This is some data',
+                                param: 'task',
+                                type: ControlKeys.TextField,
+                                label: 'Task',
+                                pdf: { 0: [{ x: 70, y: 765, size: 16 }] },
+                            },
+                            {
+                                param: 'location',
+                                type: ControlKeys.TextField,
+                                label: 'Location',
+                                pdf: { 0: [{ x: 300, y: 765, size: 16 }] },
+                            },
+                            {
+                                param: 'observer',
+                                type: ControlKeys.TextField,
+                                label: 'Observer',
+                                pdf: { 0: [{ x: 505, y: 765, size: 16 }] },
+                            },
+                            {
+                                param: 'date',
+                                type: ControlKeys.Date,
+                                label: 'Date',
+                                pdf: { 0: [{ x: 68, y: 745, size: 13 }] },
+                            },
+                            {
+                                param: 'time',
+                                type: ControlKeys.TextField,
+                                label: 'Time',
+                                pdf: { 0: [{ x: 68, y: 735, size: 14 }] },
                             },
                         ],
                     },
                     {
                         id: '2',
-                        label: 'machine',
-                        icon: 'settings',
+                        type: ControlKeys.Tab,
+                        label: 'Checklist',
+                        icon: 'assignment',
                         controls: [
                             {
-                                id: '1',
-                                type: ControlKeys.ImageSelect,
-                                label: 'logo',
-                                param: 'Example',
-                                value: 'BASE64 ENCODED STRING',
+                                param: 'risk_assessment_header',
+                                type: ControlKeys.Divider,
+                                label: 'Risk Assessments',
                             },
                             {
-                                id: '2',
-                                type: ControlKeys.TextField,
-                                label: 'Example',
-                                param: 'Example',
-                                value: 'This is some data',
-                                'controls': [
+                                param: 'risk_assessment_checklist',
+                                type: ControlKeys.Looper,
+                                setLength: 2,
+                                pdf: { 0: [{ x: 28, y: 0, width: 555, height: 715, vertical: true }] },
+                                grid: { 0: [{ width: 530, height: 5, margin: 10 }] },
+                                value: [{ 'risk_assessment_action': 'JHA Completed and Being Followed' }
+                                    , { 'risk_assessment_action': 'Take 5 Completed and Being Followed' }
+                                ],
+                                controls: [
                                     {
-                                        type: 'camera',
-                                        label: 'Evidence A',
-                                        value: null,
+                                        param: 'risk_assessment_action',
+                                        type: ControlKeys.TextLabel,
+                                    },
+                                    {
+                                        param: 'risk_assessment_yes',
+                                        type: ControlKeys.CheckBox,
+                                        label: 'Yes',
+                                        pdf: { 0: [{ x: 210, y: 0, size: 10 }] },
+                                    },
+                                    {
+                                        param: 'risk_assessment_no',
+                                        type: ControlKeys.CheckBox,
+                                        label: 'No',
+                                        pdf: { 0: [{ x: 238, y: 0, size: 10 }] },
+                                    },
+                                    {
+                                        param: 'risk_assessment_n/a',
+                                        type: ControlKeys.CheckBox,
+                                        label: 'N/A',
+                                        pdf: { 0: [{ x: 266, y: 0, size: 10 }] },
+                                    },
+                                    {
+                                        param: 'risk_assessment_sampled',
+                                        type: ControlKeys.TextField,
+                                        label: 'Number Sampled',
+                                        keyboardType: 'phone-pad',
+                                        pdf: { 0: [{ x: 294, y: 0, size: 10 }] },
+                                    },
+                                    {
+                                        param: 'risk_assessment_compliant',
+                                        type: ControlKeys.TextField,
+                                        label: 'Number Compliant',
+                                        keyboardType: 'phone-pad',
+                                        pdf: { 0: [{ x: 340, y: 0, size: 10 }] },
+                                    },
+                                    {
+                                        param: 'risk_assessment_comments',
+                                        type: ControlKeys.TextField,
+                                        label: 'Comments',
+                                        pdf: { 0: [{ x: 392, y: 0, size: 10 }] },
+                                    },
+                                    {
+                                        param: 'risk_assessment_divider',
+                                        type: ControlKeys.Divider,
                                     },
                                 ],
                             },
-                        ],
-                    },
-                    {
-                        id: '3',
-                        label: 'sign',
-                        icon: 'settings',
-                        controls: [
                             {
-                                type: ControlKeys.ImageSelect,
-                                label: 'logo',
-                                param: 'Example',
-                                value: 'BASE64 ENCODED STRING',
+                                param: 'compliance_to_procedures_header',
+                                type: ControlKeys.Divider,
+                                label: 'Compliance to Procedures',
                             },
                             {
-                                type: ControlKeys.TextField,
-                                label: 'Example',
-                                param: 'Example',
-                                value: 'This is some data',
-                                'controls': [
+                                param: 'compliance_to_procedures_checklist',
+                                type: ControlKeys.Looper,
+                                setLength: 2,
+                                pdf: { 0: [{ x: 28, y: 0, width: 555, height: 675, vertical: true }] },
+                                grid: { 0: [{ width: 530, height: 5, margin: 10 }] },
+                                value: [{ 'compliance_to_procedures_action': 'Work Area Suitable / Inspected' }
+                                    , { 'compliance_to_procedures_action': 'Hazards Identified' }
+                                ],
+                                controls: [
                                     {
-                                        type: 'camera',
-                                        label: 'Evidence A',
-                                        value: null,
+                                        param: 'compliance_to_procedures_action',
+                                        type: ControlKeys.TextLabel,
+                                    },
+                                    {
+                                        param: 'compliance_to_procedures_yes',
+                                        type: ControlKeys.CheckBox,
+                                        label: 'Yes',
+                                        pdf: { 0: [{ x: 210, y: 0, size: 10 }] },
+                                    },
+                                    {
+                                        param: 'compliance_to_procedures_no',
+                                        type: ControlKeys.CheckBox,
+                                        label: 'No',
+                                        pdf: { 0: [{ x: 238, y: 0, size: 10 }] },
+                                    },
+                                    {
+                                        param: 'compliance_to_procedures_n/a',
+                                        type: ControlKeys.CheckBox,
+                                        label: 'N/A',
+                                        pdf: { 0: [{ x: 266, y: 0, size: 10 }] },
+                                    },
+                                    {
+                                        param: 'compliance_to_procedures_sampled',
+                                        type: ControlKeys.TextField,
+                                        label: 'Number Sampled',
+                                        keyboardType: 'phone-pad',
+                                        pdf: { 0: [{ x: 294, y: 0, size: 10 }] },
+                                    },
+                                    {
+                                        param: 'compliance_to_procedures_compliant',
+                                        type: ControlKeys.TextField,
+                                        label: 'Number Compliant',
+                                        keyboardType: 'phone-pad',
+                                        pdf: { 0: [{ x: 340, y: 0, size: 10 }] },
+                                    },
+                                    {
+                                        param: 'compliance_to_procedures_comments',
+                                        type: ControlKeys.TextField,
+                                        label: 'Comments',
+                                        pdf: { 0: [{ x: 392, y: 0, size: 10 }] },
+                                    },
+                                    {
+                                        param: 'compliance_to_procedures_divider',
+                                        type: ControlKeys.Divider,
                                     },
                                 ],
                             },
+                            {
+                                param: 'Operator_divider',
+                                type: ControlKeys.Divider,
+                                label: 'Operator',
+                            },
+                            {
+                                param: 'operator_checklist',
+                                type: ControlKeys.Looper,
+                                setLength: 8,
+                                pdf: { 0: [{ x: 28, y: 0, width: 555, height: 625, vertical: true }] },
+                                grid: { 0: [{ width: 530, height: 5, margin: 7 }] },
+                                value: [
+                                    { 'operator_action': 'Employees VOC Trained' }
+                                    , { 'operator_action': 'Seat Belt Operational' }
+                                    , { 'operator_action': 'Load Sheet Completed Correctly' }
+                                    , { 'operator_action': 'Activity log sheet completed' }
+                                    , { 'operator_action': 'General operating skills' }
+                                    , { 'operator_action': 'Housekeeping in cab' }
+                                    , { 'operator_action': 'Obey traffic signage' }
+                                    , { 'operator_action': 'Correct/Positive Radio Communication' }
+                                ],
+                                controls: [
+                                    {
+                                        param: 'operator_action',
+                                        type: ControlKeys.TextLabel,
+                                    },
+                                    {
+                                        param: 'operator_yes',
+                                        type: ControlKeys.CheckBox,
+                                        label: 'Yes',
+                                        pdf: { 0: [{ x: 210, y: 0, size: 10 }] },
+                                    },
+                                    {
+                                        param: 'operator_no',
+                                        type: ControlKeys.CheckBox,
+                                        label: 'No',
+                                        pdf: { 0: [{ x: 238, y: 0, size: 10 }] },
+                                    },
+                                    {
+                                        param: 'operator_n/a',
+                                        type: ControlKeys.CheckBox,
+                                        label: 'N/A',
+                                        pdf: { 0: [{ x: 266, y: 0, size: 10 }] },
+                                    },
+                                    {
+                                        param: 'operator_sampled',
+                                        type: ControlKeys.TextField,
+                                        label: 'Number Sampled',
+                                        keyboardType: 'phone-pad',
+                                        pdf: { 0: [{ x: 294, y: 0, size: 10 }] },
+                                    },
+                                    {
+                                        param: 'operator_compliant',
+                                        type: ControlKeys.TextField,
+                                        label: 'Number Compliant',
+                                        keyboardType: 'phone-pad',
+                                        pdf: { 0: [{ x: 340, y: 0, size: 10 }] },
+                                    },
+                                    {
+                                        param: 'operator_comments',
+                                        type: ControlKeys.TextField,
+                                        label: 'Comments',
+                                        pdf: { 0: [{ x: 392, y: 0, size: 10 }] },
+                                    },
+                                    {
+                                        param: 'operator_divider',
+                                        type: ControlKeys.Divider,
+                                    },
+                                ],
+                            },
+                            {
+                                param: 'traffic_management_header',
+                                type: ControlKeys.Divider,
+                                label: 'Traffic Management',
+                            },
+                            {
+                                param: 'traffic_management_checklist',
+                                type: ControlKeys.Looper,
+                                setLength: 6,
+                                pdf: { 0: [{ x: 28, y: 0, width: 555, height: 515, vertical: true }] },
+                                grid: { 0: [{ width: 530, height: 5, margin: 7 }] },
+                                value: [
+                                    { 'traffic_management_action': 'Install and Cleaning Delineation' }
+                                    , { 'traffic_management_action': 'Install and Cleaning Traffic Signs' }
+                                    , { 'traffic_management_action': 'Correct Posture' }
+                                    , { 'traffic_management_action': 'Correct Lifting Technique' }
+                                    , { 'traffic_management_action': 'Intersection Compliance' }
+                                    , { 'traffic_management_action': 'Follow 50/20 Rule' }
+                                ],
+                                controls: [
+                                    {
+                                        param: 'traffic_management_action',
+                                        type: ControlKeys.TextLabel,
+                                    },
+                                    {
+                                        param: 'traffic_management_yes',
+                                        type: ControlKeys.CheckBox,
+                                        label: 'Yes',
+                                        pdf: { 0: [{ x: 210, y: 0, size: 10 }] },
+                                    },
+                                    {
+                                        param: 'traffic_management_no',
+                                        type: ControlKeys.CheckBox,
+                                        label: 'No',
+                                        pdf: { 0: [{ x: 238, y: 0, size: 10 }] },
+                                    },
+                                    {
+                                        param: 'traffic_management_n/a',
+                                        type: ControlKeys.CheckBox,
+                                        label: 'N/A',
+                                        pdf: { 0: [{ x: 266, y: 0, size: 10 }] },
+                                    },
+                                    {
+                                        param: 'traffic_management_sampled',
+                                        type: ControlKeys.TextField,
+                                        label: 'Number Sampled',
+                                        keyboardType: 'phone-pad',
+                                        pdf: { 0: [{ x: 294, y: 0, size: 10 }] },
+                                    },
+                                    {
+                                        param: 'traffic_management_compliant',
+                                        type: ControlKeys.TextField,
+                                        label: 'Number Compliant',
+                                        keyboardType: 'phone-pad',
+                                        pdf: { 0: [{ x: 340, y: 0, size: 10 }] },
+                                    },
+                                    {
+                                        param: 'traffic_management_comments',
+                                        type: ControlKeys.TextField,
+                                        label: 'Comments',
+                                        pdf: { 0: [{ x: 392, y: 0, size: 10 }] },
+                                    },
+                                    {
+                                        param: 'traffic_management_divider',
+                                        type: ControlKeys.Divider,
+                                    },
+                                ],
+                            },
+                            {
+                                param: 'mobile_equipment_divider',
+                                type: ControlKeys.Divider,
+                                label: 'Mobile Equipment (FRPP)',
+                            },
+                            {
+                                param: 'mobile_equipment_checklist',
+                                type: ControlKeys.Looper,
+                                setLength: 7,
+                                pdf: { 0: [{ x: 28, y: 0, width: 555, height: 420, vertical: true }] },
+                                grid: { 0: [{ width: 530, height: 5, margin: 7 }] },
+                                value: [
+                                    { 'mobile_equipment_action': 'Equipment Prestart Completed' }
+                                    , { 'mobile_equipment_action': 'Seat Belts Worn' }
+                                    , { 'mobile_equipment_action': 'Barricades in Place (if applicable)' }
+                                    , { 'mobile_equipment_action': 'Driving to Conditions' }
+                                    , { 'mobile_equipment_action': 'Use of Horn signalling' }
+                                    , { 'mobile_equipment_action': 'Correctly Parked/Grounded' }
+                                    , { 'mobile_equipment_action': 'Spotter in Place' }
+                                ],
+                                controls: [
+                                    {
+                                        param: 'mobile_equipment_action',
+                                        type: ControlKeys.TextLabel,
+                                    },
+                                    {
+                                        param: 'mobile_equipment_yes',
+                                        type: ControlKeys.CheckBox,
+                                        label: 'Yes',
+                                        pdf: { 0: [{ x: 210, y: 0, size: 10 }] },
+                                    },
+                                    {
+                                        param: 'mobile_equipment_no',
+                                        type: ControlKeys.CheckBox,
+                                        label: 'No',
+                                        pdf: { 0: [{ x: 238, y: 0, size: 10 }] },
+                                    },
+                                    {
+                                        param: 'mobile_equipment_n/a',
+                                        type: ControlKeys.CheckBox,
+                                        label: 'N/A',
+                                        pdf: { 0: [{ x: 266, y: 0, size: 10 }] },
+                                    },
+                                    {
+                                        param: 'mobile_equipment_sampled',
+                                        type: ControlKeys.TextField,
+                                        label: 'Number Sampled',
+                                        keyboardType: 'phone-pad',
+                                        pdf: { 0: [{ x: 294, y: 0, size: 10 }] },
+                                    },
+                                    {
+                                        param: 'mobile_equipment_compliant',
+                                        type: ControlKeys.TextField,
+                                        label: 'Number Compliant',
+                                        keyboardType: 'phone-pad',
+                                        pdf: { 0: [{ x: 340, y: 0, size: 10 }] },
+                                    },
+                                    {
+                                        param: 'mobile_equipment_comments',
+                                        type: ControlKeys.TextField,
+                                        label: 'Comments',
+                                        pdf: { 0: [{ x: 392, y: 0, size: 10 }] },
+                                    },
+                                    {
+                                        param: 'mobile_equipment_divider',
+                                        type: ControlKeys.Divider,
+                                    },
+                                ],
+                            },
+                            {
+                                param: 'prestart_equipment_divider',
+                                type: ControlKeys.Divider,
+                                label: 'Prestart Equipment',
+                            },
+                            {
+                                param: 'prestart_equipment_checklist',
+                                type: ControlKeys.Looper,
+                                setLength: 3,
+                                pdf: { 0: [{ x: 28, y: 0, width: 555, height: 320, vertical: true }] },
+                                grid: { 0: [{ width: 530, height: 5, margin: 8 }] },
+                                value: [
+                                    { 'prestart_equipment_action': 'Positive Isolation' }
+                                    , { 'prestart_equipment_action': 'SOP Followed' }
+                                    , { 'prestart_equipment_action': 'Equipment Wheels Chocked or Parked in Go Line' }
+                                ],
+                                controls: [
+                                    {
+                                        param: 'prestart_equipment_action',
+                                        type: ControlKeys.TextLabel,
+                                    },
+                                    {
+                                        param: 'prestart_equipment_yes',
+                                        type: ControlKeys.CheckBox,
+                                        label: 'Yes',
+                                        pdf: { 0: [{ x: 210, y: 0, size: 10 }] },
+                                    },
+                                    {
+                                        param: 'prestart_equipment_no',
+                                        type: ControlKeys.CheckBox,
+                                        label: 'No',
+                                        pdf: { 0: [{ x: 238, y: 0, size: 10 }] },
+                                    },
+                                    {
+                                        param: 'prestart_equipment_n/a',
+                                        type: ControlKeys.CheckBox,
+                                        label: 'N/A',
+                                        pdf: { 0: [{ x: 266, y: 0, size: 10 }] },
+                                    },
+                                    {
+                                        param: 'prestart_equipment_sampled',
+                                        type: ControlKeys.TextField,
+                                        label: 'Number Sampled',
+                                        keyboardType: 'phone-pad',
+                                        pdf: { 0: [{ x: 294, y: 0, size: 10 }] },
+                                    },
+                                    {
+                                        param: 'prestart_equipment_compliant',
+                                        type: ControlKeys.TextField,
+                                        label: 'Number Compliant',
+                                        keyboardType: 'phone-pad',
+                                        pdf: { 0: [{ x: 340, y: 0, size: 10 }] },
+                                    },
+                                    {
+                                        param: 'prestart_equipment_comments',
+                                        type: ControlKeys.TextField,
+                                        label: 'Comments',
+                                        pdf: { 0: [{ x: 392, y: 0, size: 10 }] },
+                                    },
+                                    {
+                                        param: 'prestart_equipment_divider',
+                                        type: ControlKeys.Divider,
+                                    },
+                                ],
+                            },
+                            {
+                                param: 'PPE_divider',
+                                type: ControlKeys.Divider,
+                                label: 'PPE',
+                            },
+                            {
+                                param: 'PPE_checklist',
+                                type: ControlKeys.Looper,
+                                setLength: 5,
+                                pdf: { 0: [{ x: 28, y: 0, width: 555, height: 257, vertical: true }] },
+                                grid: { 0: [{ width: 530, height: 5, margin: 7 }] },
+                                value: [
+                                    { 'PPE_action': 'Eye Protection' }
+                                    , { 'PPE_action': 'Hearing Protection' }
+                                    , { 'PPE_action': 'Hand Protection' }
+                                    , { 'PPE_action': 'Hard Hats' }
+                                    , { 'PPE_action': 'Steel Cap Boots (laced and secured to the top)' }
+                                ],
+                                controls: [
+                                    {
+                                        param: 'PPE_action',
+                                        type: ControlKeys.TextLabel,
+                                    },
+                                    {
+                                        param: 'PPE_yes',
+                                        type: ControlKeys.CheckBox,
+                                        label: 'Yes',
+                                        pdf: { 0: [{ x: 210, y: 0, size: 10 }] },
+                                    },
+                                    {
+                                        param: 'PPE_no',
+                                        type: ControlKeys.CheckBox,
+                                        label: 'No',
+                                        pdf: { 0: [{ x: 238, y: 0, size: 10 }] },
+                                    },
+                                    {
+                                        param: 'PPE_n/a',
+                                        type: ControlKeys.CheckBox,
+                                        label: 'N/A',
+                                        pdf: { 0: [{ x: 266, y: 0, size: 10 }] },
+                                    },
+                                    {
+                                        param: 'PPE_sampled',
+                                        type: ControlKeys.TextField,
+                                        label: 'Number Sampled',
+                                        keyboardType: 'phone-pad',
+                                        pdf: { 0: [{ x: 294, y: 0, size: 10 }] },
+                                    },
+                                    {
+                                        param: 'PPE_compliant',
+                                        type: ControlKeys.TextField,
+                                        label: 'Number Compliant',
+                                        keyboardType: 'phone-pad',
+                                        pdf: { 0: [{ x: 340, y: 0, size: 10 }] },
+                                    },
+                                    {
+                                        param: 'PPE_comments',
+                                        type: ControlKeys.TextField,
+                                        label: 'Comments',
+                                        pdf: { 0: [{ x: 392, y: 0, size: 10 }] },
+                                    },
+                                    {
+                                        param: 'PPE_divider',
+                                        type: ControlKeys.Divider,
+                                    },
+                                ],
+                            },
+                            {
+                                param: 'environmental_divider',
+                                type: ControlKeys.Divider,
+                                label: 'Environmental',
+                            },
+                            {
+                                param: 'environmental_checklist',
+                                type: ControlKeys.Looper,
+                                setLength: 3,
+                                pdf: { 0: [{ x: 28, y: 0, width: 555, height: 170, vertical: true }] },
+                                grid: { 0: [{ width: 530, height: 5, margin: 8 }] },
+                                value: [
+                                    { 'environmental_action': 'Oil Leaks Spillage' }
+                                    , { 'environmental_action': 'Dust' }
+                                    , { 'environmental_action': 'Required Permit in Place' }
+                                ],
+                                controls: [
+                                    {
+                                        param: 'environmental_divider',
+                                        type: ControlKeys.Divider,
+                                    },
+                                    {
+                                        param: 'environmental_action',
+                                        type: ControlKeys.TextLabel,
+                                    },
+                                    {
+                                        param: 'environmental_yes',
+                                        type: ControlKeys.CheckBox,
+                                        label: 'Yes',
+                                        pdf: { 0: [{ x: 210, y: 0, size: 10 }] },
+                                    },
+                                    {
+                                        param: 'environmental_no',
+                                        type: ControlKeys.CheckBox,
+                                        label: 'No',
+                                        pdf: { 0: [{ x: 238, y: 0, size: 10 }] },
+                                    },
+                                    {
+                                        param: 'environmental_n/a',
+                                        type: ControlKeys.CheckBox,
+                                        label: 'N/A',
+                                        pdf: { 0: [{ x: 266, y: 0, size: 10 }] },
+                                    },
+                                    {
+                                        param: 'environmental_sampled',
+                                        type: ControlKeys.TextField,
+                                        label: 'Number Sampled',
+                                        keyboardType: 'phone-pad',
+                                        pdf: { 0: [{ x: 294, y: 0, size: 10 }] },
+                                    },
+                                    {
+                                        param: 'environmental_compliant',
+                                        type: ControlKeys.TextField,
+                                        label: 'Number Compliant',
+                                        keyboardType: 'phone-pad',
+                                        pdf: { 0: [{ x: 340, y: 0, size: 10 }] },
+                                    },
+                                    {
+                                        param: 'environmental_comments',
+                                        type: ControlKeys.TextField,
+                                        label: 'Comments',
+                                        pdf: { 0: [{ x: 392, y: 0, size: 10 }] },
+                                    },
+                                ],
+                            },
+                            {
+                                param: 'total_divider',
+                                type: ControlKeys.Divider,
+                                label: 'Total',
+                            },
+                            {
+                                param: 'total_Compliant_yes',
+                                type: ControlKeys.CheckBox,
+                                label: 'Compliant',
+                                pdf: { 0: [{ x: 320, y: 119, size: 10 }] },
+                            },
+                            {
+                                param: 'total_Compliant_no',
+                                type: ControlKeys.CheckBox,
+                                label: 'Non-Compliant',
+                                pdf: { 0: [{ x: 375, y: 123, size: 10 }] },
+                            },
+                            {
+                                param: 'total_comments',
+                                type: ControlKeys.TextField,
+                                label: 'Comments',
+                                pdf: { 0: [{ x: 422, y: 122, size: 10 }] },
+                            },
+
                         ],
                     },
                 ],
