@@ -1,6 +1,6 @@
 import React from 'react';
+import { DatePicker } from 'native-base';
 
-import { DatePicker} from 'native-base';
 import Colors from '../../utils/ReportColors';
 import InlineLabelItem from './Layout/InlineLabelItem';
 
@@ -8,19 +8,31 @@ export default class Control_Date extends React.Component
 {
     dateFormat = require('dateformat');
 
-    state = { key: 0 }
+    state =
+        {key: 0
+        ,observeValue: null
+        }
 
     componentWillReceiveProps(nextProps)
     {
-        if ((nextProps.value ? nextProps.value.getTime() : 0)
-        !=  (this.props.value ? this.props.value.getTime() : 0)
+        if ((nextProps.value ? nextProps.value.getTime() : -1)
+        !=  (this.state.observeValue ? this.state.observeValue.getTime() : -1)
             )
-            this.setState({ key: this.state.key + 1 });
+            this.setState({ key: this.state.key + 1, observeValue: nextProps.value });
+    }
+
+    onChange(value)
+    {
+        const { param, onChange } = this.props;
+
+        this.setState({ observeValue: value });
+
+        onChange(value, param);
     }
 
     render()
     {
-        const { label, param, value, format, minValue, maxValue, onChange } = this.props;
+        const { label, param, value, format, minValue, maxValue } = this.props;
         const { key } = this.state;
 
         return (
@@ -32,7 +44,7 @@ export default class Control_Date extends React.Component
                     defaultDate={value}
                     placeHolderText={value ? undefined : 'Select date'}
                     placeHolderTextStyle={value ? undefined : { color: Colors.light }}
-                    onDateChange={date => onChange(date, param)}
+                    onDateChange={this.onChange}
                     locale={'en'}
                     modalTransparent={false}
                     animationType={'fade'}
