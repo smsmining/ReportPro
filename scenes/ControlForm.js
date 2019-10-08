@@ -84,7 +84,7 @@ export default class ControlForm extends React.Component
     onLoad = () => ConfirmAlert
         ("Load Form"
         ,"If you proceed you will loose any unsaved progress"
-        ,() => { console.log(this.state); Forms.LoadInstance(this.props.guid, (result) => { this.setState({ instance: result }); MessageAlert("Load Form", "Loaded Successfully") } )}
+        ,() => Forms.LoadInstance(this.props.guid, result => this.setState({ instance: result }) )
         );
 
     onNew = () => ConfirmAlert
