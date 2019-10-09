@@ -207,19 +207,33 @@ export default class ExportPDF
 
         let renderValue = (values || { })[param] || value;
 
-        if (renderValue === true)
-            renderValue = pdf.trueValue || '\u2611';
-        else if (renderValue === false)
-            renderValue = pdf.falseValue || '\u2610';
+        if (type == ControlKeys.CheckBox)
+            renderValue = !(!renderValue);
 
         else if (!renderValue) return;
 
-        else if (renderValue instanceof Date)
+
+        if (renderValue instanceof Date)
         {
             const dateFormat = require('dateformat');
             renderValue = dateFormat(renderValue, control.format || "d mmm yyyy");
         }
-        
+
+        let fallbackFont;
+        if (renderValue === true)
+        {
+            renderValue = pdf.trueValue || '\u2713';
+            fallbackFont = "ZapfDingbats";
+        }
+        else if (renderValue === false)
+        {
+            if (!pdf.falseValue)
+                return;
+
+            renderValue = pdf.falseValue;
+            fallbackFont = "ZapfDingbats";
+        }
+
 
         for (page in pdf)
         {
@@ -233,6 +247,9 @@ export default class ExportPDF
                 if(option)
                     additionalStyle = { ...additionalStyle, ...option.pdf };
             }
+
+            if (fallbackFont)
+                additionalStyle = { ...additionalStyle, font: pdf[page][style].font || fallbackFont }
 
             for (style in pdf[page])
                 layout[page].push(

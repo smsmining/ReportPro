@@ -1,4 +1,4 @@
-import { PDFDocument, rgb } from 'pdf-lib';
+import { PDFDocument, StandardFonts, rgb } from 'pdf-lib';
 import fontkit from '@pdf-lib/fontkit';
 import RNFetchBlob from 'rn-fetch-blob';
 
@@ -8,8 +8,6 @@ export default class PDFDraw
 {
     GetResourcesPath = () => RNFetchBlob.fs.asset('resources/' + this._guid + '/');
     GetTemplatePath = () => this.GetResourcesPath() + 'template.pdf';
-    GetFontPath = (fontName) => RNFetchBlob.fs.asset('fonts/' + fontName + '.ttf');
-    GetResFontPath = (fontName) => this.GetResourcesPath() + 'fonts/' + fontName + '.ttf';
 
     GetSavePath = (filename) => RNFetchBlob.fs.dirs.DCIMDir + '/Reports/' + this._guid + '/' + filename + ".pdf";
 
@@ -128,17 +126,15 @@ export default class PDFDraw
         if (!this._cachedFonts)
             this._cachedFonts = [];
 
-        style.font = style.font || "FreeSerif";
+        style.font = style.font || "Helvetica";
 
         let font = this._cachedFonts.find(cachedFont => cachedFont.name == style.font);
         if (!font)
         {
-            let fontPath = this.GetResFontPath(style.font);
-            let fontExists = await RNFetchBlob.fs.exists(fontPath);
-            if (!fontExists)
-                fontPath = this.GetFontPath(style.font);
+            let fontData = StandardFonts[style.font];
+            if (!StandardFonts)
+                fontData = StandardFonts.Helvetica;
 
-            let fontData = await RNFetchBlob.fs.readFile(fontPath, 'base64');
             let fontEmbed = await this._document.embedFont(fontData);
 
             font = { name: style.fontName, embed: fontEmbed };
