@@ -11,7 +11,8 @@
     "ra": "react-native run-android",
     "test": "jest",
     "lint": "eslint .",
-    "keygen": "keytool -genkey -v -keystore debug.keystore -storepass android -alias androiddebugkey -keypass android -keyalg RSA -keysize 2048 -validity 10000"
+    "keygen": "keytool -genkey -v -keystore debug.keystore -storepass android -alias androiddebugkey -keypass android -keyalg RSA -keysize 2048 -validity 10000",
+    "postinstall": "node ./android-release-gradle-fix.js"
   },
   "dependencies": {
     "@pdf-lib/fontkit": "0.0.4",
