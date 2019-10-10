@@ -55,7 +55,7 @@ export default class FormList extends React.Component
         const { forms, loading } = this.state;
 
         return (
-            <PageLayout header="Reports">
+            <PageLayout header="SMS Reports">
                 <Container>
                     <Content>
                         {loading &&

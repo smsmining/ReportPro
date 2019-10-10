@@ -11,6 +11,7 @@ import ControlItem from '../components/ControlItem';
 import PageLayout from '../components/Layout/PageLayout';
 import SaveLoadFab from '../components/ControlForm/SaveLoadFAB';
 import { MessageAlert, ConfirmAlert } from '../components/Alerts';
+import ReportColors from '../utils/ReportColors';
 
 
 export default class ControlForm extends React.Component
@@ -99,13 +100,15 @@ export default class ControlForm extends React.Component
 
     setInstanceValue = (value, param) => this.setState({ instance: { ...this.state.instance, [param]: value } });
 
-
-    renderIcon = (props) => (<Icon name={props.route.icon} type="FontAwesome" />)
+    renderIcon = ({ route }) => (<Icon name={route.icon} style={{ color: this.state.navigation.index == route.key ? ReportColors.primary : ReportColors.border, fontSize: 18 }} type="FontAwesome" />)
     renderTabBar = (props) => (
         <TabBar
             {...props}
             renderIcon={this.renderIcon}
-            style={LayoutPartials.absoluteBottom}
+            activeColor={ReportColors.primary}
+            inactiveColor={ReportColors.border}
+            style={{ ...LayoutPartials.absoluteBottom, backgroundColor: ReportColors.secondary, borderTopColor: ReportColors.border, borderTopWidth: 2.5 }}
+            indicatorStyle={{ backgroundColor: ReportColors.primary, height: 2.5 }}
         />)
 
     renderList = ({ route }) =>

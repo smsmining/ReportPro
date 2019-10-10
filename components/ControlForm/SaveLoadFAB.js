@@ -50,7 +50,7 @@ export default class SaveLoadFab extends React.Component
             <Fab
                 active={expanded}
                 direction="up"
-                containerStyle={{ bottom: 76 }}
+                containerStyle={{ bottom: 100 }}
                 position="bottomRight"
                 style={FabStyles.main}
                 onPress={this.toggleExpanded}

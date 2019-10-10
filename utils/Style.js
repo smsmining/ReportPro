@@ -45,6 +45,10 @@ export const AlignmentStyles = StyleSheet.create(
     ,center:
         {alignItems: 'center'
         }
+    ,column:
+        {flex: 1
+        ,flexDirection: 'column'
+        }
     ,auto:
         {flex: 1
         ,justifyContent: 'center'

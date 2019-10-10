@@ -1,8 +1,8 @@
 import React from 'react';
 import { Actions } from 'react-native-router-flux';
-import { ListItem, Text, Left, Right, Icon } from 'native-base';
+import { View, ListItem, Text, Left, Right, Icon } from 'native-base';
 
-import { styles } from '../../utils/Style';
+import { styles, AlignmentStyles } from '../../utils/Style';
 
 export default FormItem = (props) =>
 {
@@ -10,8 +10,13 @@ export default FormItem = (props) =>
 
     return (
         <ListItem style={styles.borderBottom} onPress={() => Actions.Main({ guid: item.guid })}>
-            <Left>
-                <Text>{item.name} V:{item.version}</Text>
+            <Left style={AlignmentStyles.column}>
+                <View>
+                    <Text>{item.name}</Text>
+                </View>
+                <View>
+                    <Text style={{ fontSize: 8 }}> V:{item.version}</Text>
+                </View>
             </Left>
             <Right>
                 <Icon name="arrow-forward" />
