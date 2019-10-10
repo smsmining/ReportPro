@@ -26,6 +26,45 @@ export const LoadingStyles = StyleSheet.create(
     });
 
 
+export const LayoutPartials =
+    {absoluteBottom:
+        {container:
+            {position: 'absolute'
+            ,bottom: 0
+            ,left: 0
+            ,right: 0
+            }
+        }
+    }
+
+export const AlignmentStyles = StyleSheet.create(
+    {middle:
+        {flex: 1
+        ,justifyContent: 'center'
+        }
+    ,center:
+        {alignItems: 'center'
+        }
+    ,auto:
+        {flex: 1
+        ,justifyContent: 'center'
+        ,alignItems: 'center'
+        }
+    });
+
+
+export const GlobalStyles = StyleSheet.create(
+    {screenWidth:
+        {width: Dimensions.get('window').width
+        }
+    ,screenHeight:
+        {height: Dimensions.get('window').height
+        }
+    });
+
+
+
+
 export const styles = StyleSheet.create({
     scrollView: {
         backgroundColor: Colors.lighter,
@@ -156,5 +195,5 @@ export const styles = StyleSheet.create({
         fontWeight: '600',
         textDecorationStyle: 'solid',
     },
-
+    height: { height: Dimensions.get('window').height }
 });

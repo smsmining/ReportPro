@@ -1,12 +1,12 @@
 import React from 'react';
-import { Alert } from 'react-native';
-import { Content, Footer, List, Text } from 'native-base';
+import { View, ScrollView } from 'react-native';
+import { List, Text, Icon } from 'native-base';
 import { Actions } from 'react-native-router-flux';
+import { TabView, TabBar } from 'react-native-tab-view';
 
 import Forms from '../context/Forms';
-import { styles } from '../utils/Style';
+import { GlobalStyles, LayoutPartials, AlignmentStyles } from '../utils/Style';
 
-import FormNavigation from '../components/ControlForm/FormNavigation';
 import ControlItem from '../components/ControlItem';
 import PageLayout from '../components/Layout/PageLayout';
 import SaveLoadFab from '../components/ControlForm/SaveLoadFAB';
@@ -17,34 +17,32 @@ export default class ControlForm extends React.Component
 {
     state =
         {form: null
-        ,openTab: null
-        ,hasSaved: null
+        ,navigation: {index: -1, routes: []}
         ,instance: null
+
+        ,hasSaved: null
         ,loading: false
         };
 
     componentDidMount()
-    {
-        this.loadForm();
-    }
+        { this.loadForm(); }
 
     componentWillUnmount()
-    {
-        this.clearAsync();
-    }
+        { this.clearAsync(); }
 
     clearAsync = () =>
-    {
-        if (this._asyncReqForm)     this._asyncReqForm.cancel();
-    }
+        { if (this._asyncReqForm) this._asyncReqForm.cancel(); }
 
 
     loadForm = () =>
     {
         const { guid } = this.props;
+        const { loading } = this.state;
+
+        if (loading)
+            return;
 
         this.setState({ loading: true });
-
         this._asyncReqForm = Forms.Get(guid, this.loadFormResponse);
 
         Forms.HasInstance(guid, response => this.setState({ hasSaved: response }));
@@ -55,13 +53,16 @@ export default class ControlForm extends React.Component
         const { tabs } = response || {};
 
         this._asyncReqForm = null;
-        
+
+        let routes = [];
+        for (let pos in tabs)
+            routes.push({ key: pos, title: tabs[pos].label, icon: tabs[pos].icon });
+
         this.setState(
             {form: response
+            ,navigation: { index: 0, routes: routes }
             ,loading: false
             });
-
-        this.onOpenTab(tabs && tabs[0].id);
     }
 
     onSave = () =>
@@ -96,17 +97,47 @@ export default class ControlForm extends React.Component
 
     onCreatePDF = () => Actions.PDF({ guid: this.props.guid, instance: this.state.instance });
 
-
-    onOpenTab = (id) => this.setState({ openTab: id });
-
     setInstanceValue = (value, param) => this.setState({ instance: { ...this.state.instance, [param]: value } });
+
+
+    renderIcon = (props) => (<Icon name={props.route.icon} type="FontAwesome" />)
+    renderTabBar = (props) => (
+        <TabBar
+            {...props}
+            renderIcon={this.renderIcon}
+            style={LayoutPartials.absoluteBottom}
+        />)
+
+    renderList = ({ route }) =>
+    {
+        const { form, instance } = this.state;
+        const { tabs } = form;
+
+        const tab = route && tabs[route.key];
+        if (!tab)
+            return null;
+
+        return (
+            <ScrollView>
+                <List>
+                    {tab.controls.map(control => (
+                        <ControlItem
+                            {...control}
+                            key={control.param}
+                            value={instance && instance[control.param] || control.value}
+                            onChange={this.setInstanceValue}
+                        />
+                    ))}
+                </List>
+            </ScrollView>
+        );
+    }
+    
 
     render()
     {
-        const { form, openTab, instance, hasSaved, loading } = this.state;
-
+        const { form, navigation, instance, hasSaved, loading } = this.state;
         const { tabs, title } = form || {};
-        const tab = tabs && tabs.find(tabItem => tabItem.id === openTab);
 
         return (
             <PageLayout
@@ -114,34 +145,23 @@ export default class ControlForm extends React.Component
                 next={{ label: "Create PDF", onPress: this.onCreatePDF }}
                 header={title}
             >
-                <Content>
+                <View style={{ height: GlobalStyles.screenHeight.height - 80 }}>
                     {loading &&
-                    <Text style={styles.center}>Loading ...</Text>
+                    <Text style={AlignmentStyles.auto}>Loading ...</Text>
                     }
-                    {tab &&
-                    <List>
-                        {tab.controls.map(control => (
-                            <ControlItem
-                                {...control}
-                                key={control.param}
-                                value={instance && instance[control.param] || control.value }
-                                onChange={this.setInstanceValue}
-                            />
-                            ))
-                        }
-                    </List>
+                    {tabs &&
+                    <TabView
+                        navigationState={navigation}
+                        onIndexChange={index => this.setState({ navigation: { ...navigation, index: index } })}
+                        renderScene={this.renderList}
+                        renderTabBar={this.renderTabBar}
+                        tabBarPosition='bottom'
+                        initialLayout={GlobalStyles.screenWidth}
+                    />
                     }
-                </Content>
+                </View>
                 {hasSaved !== null &&
                 <SaveLoadFab onSave={this.onSave} onLoad={hasSaved && this.onLoad} onNew={instance && this.onNew} />
-                }
-                {tabs && tabs.length > 1 &&
-                <Footer>
-                    <FormNavigation
-                        tabs={tabs}
-                        onPress={this.onOpenTab}
-                    />
-                </Footer>
                 }
             </PageLayout>
         );

@@ -64,7 +64,7 @@ const fakeDB =
                     {
                         id: '1',
                         label: 'Details',
-                        icon: 'create',
+                        icon: 'edit',
                         type: ControlKeys.Tab,
                         controls: [
                             {
@@ -112,7 +112,7 @@ const fakeDB =
                     {
                         id: '2',
                         label: 'Checklist',
-                        icon: 'assignment',
+                        icon: 'check-square-o',
                         type: ControlKeys.Tab,
                         controls: [
                             {
@@ -213,7 +213,7 @@ const fakeDB =
                     {
                         id: '3',
                         label: 'Signoff',
-                        icon: 'perm-identity',
+                        icon: 'user-o',
                         type: ControlKeys.Tab,
                         controls: [
                             {
@@ -286,7 +286,7 @@ const fakeDB =
                         id: '1',
                         type: ControlKeys.Tab,
                         label: 'Details',
-                        icon: 'create',
+                        icon: 'edit',
                         controls: [
                             {
                                 param: 'details_header',
@@ -329,7 +329,7 @@ const fakeDB =
                         id: '2',
                         type: ControlKeys.Tab,
                         label: 'Checklist',
-                        icon: 'assignment',
+                        icon: 'check-square-o',
                         controls: [
                             {
                                 param: 'risk_assessment_header',
