@@ -1,38 +1,31 @@
 package com.reportsms;
 
 import android.app.Application;
-import android.util.Log;
-
 
 import com.facebook.react.PackageList;
-import com.facebook.hermes.reactexecutor.HermesExecutorFactory;
-import com.facebook.react.bridge.JavaScriptExecutorFactory;
 import com.facebook.react.ReactApplication;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.soloader.SoLoader;
 
 import java.util.List;
-// import the package
-import com.facebook.react.shell.MainReactPackage;
 
-public class MainApplication extends Application implements ReactApplication {
+import cl.json.ShareApplication;
 
-  private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
+public class MainApplication extends Application implements ReactApplication, ShareApplication
+{
+  private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this)
+  {
     @Override
     public boolean getUseDeveloperSupport() {
       return BuildConfig.DEBUG;
     }
 
     @Override
-    protected List<ReactPackage> getPackages() {
-      
+    protected List<ReactPackage> getPackages()
+    {
       @SuppressWarnings("UnnecessaryLocalVariable")
       List<ReactPackage> packages = new PackageList(this).getPackages();
-      // Packages that cannot be autolinked yet can be added manually here, for example:
-      // packages.add(new MyReactNativePackage());
-      // packages.add(new MainReactPackage());
-      // packages.add(new RNHTMLtoPDFPackage());
       return packages;
     }
 
@@ -45,6 +38,11 @@ public class MainApplication extends Application implements ReactApplication {
   @Override
   public ReactNativeHost getReactNativeHost() {
     return mReactNativeHost;
+  }
+
+  @Override
+  public String getFileProviderAuthority() {
+    return BuildConfig.APPLICATION_ID + ".provider";
   }
 
   @Override

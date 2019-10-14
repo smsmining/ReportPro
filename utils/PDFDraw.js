@@ -142,8 +142,6 @@ export default class PDFDraw
         if (typeof style.color == "string")
             style.color = this.hexToRgb(style.color);
 
-        console.log(content, style);
-
         this._page.drawText
             (content
             ,{size: 12

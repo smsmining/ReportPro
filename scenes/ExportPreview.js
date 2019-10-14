@@ -1,20 +1,19 @@
 import React from 'react';
 import { Text } from 'react-native';
 import { Actions } from 'react-native-router-flux';
-import Mailer from 'react-native-mail';
+import Share from 'react-native-share';
 
-import { styles, LoadingStyles } from '../utils/Style';
+import { LoadingStyles } from '../utils/Style';
 import { ExportPDF } from '../export';
 
 import PDFDisplay from '../components/PDFDisplay';
-import MessageAlert from '../components/Alerts';
 import PageLayout from '../components/Layout/PageLayout';
 
 
 export default class PDF extends React.Component
 {
     state =
-        {pdf: null
+        {pdfPath: null
 
         ,loading: false
         ,loadingState: null
@@ -40,29 +39,32 @@ export default class PDF extends React.Component
         this.setState({ loadingState: "Printing Document" });
         let path = await pdfGenerator.PrintLayout(layout, page => this.setState({ loadingState: page ? "Printing Page " + page : "Saving Document" }));
 
-        this.setState({ pdf: path, loadingState: "Loading Document" })
+        this.setState({ pdfPath: path, loadingState: "Loading Document" })
     }
 
-    handleEmail = () =>
-        Mailer.mail(
-            {subject: this.pdfName
-            ,body: '<b>Please check</b>'
-            ,isHTML: true
-            ,attachment:
-                {path: this.state.pdf
-                ,type: 'pdf'
-                ,name: this.pdfName,
-                }
-            }, (error) => MessageAlert('Email Error ', error));
+    handleShare = async () =>
+    {
+        const { pdfPath } = this.state;
+
+        let intentTitle = pdfPath.substring(pdfPath.lastIndexOf('/') + 1, pdfPath.length - 4);
+
+        await Share.open(
+            {title: intentTitle
+            ,url: "file://" + pdfPath
+            ,type: 'application/pdf'
+            });
+
+        Actions.pop();
+    }
 
     render()
     {
-        const { pdf, loading, loadingState, error } = this.state;
+        const { pdfPath, loading, loadingState, error } = this.state;
 
         return (
             <PageLayout
                 back={{ icon: "arrow-back", onPress: Actions.pop }}
-                next={pdf && { label: "Send PDF", onPress: this.handleEmail }}
+                next={pdfPath && { label: "Send PDF", onPress: this.handleShare }}
             >
                 {loading &&
                 <React.Fragment>
@@ -75,9 +77,9 @@ export default class PDF extends React.Component
                 {error &&
                 <Text>{error.map((error) => "- " + error + "\n")}</Text>
                 }
-                {pdf &&
+                {pdfPath &&
                 <PDFDisplay
-                    pdfPath={pdf}
+                    pdfPath={pdfPath}
                     onLoadComplete={() => this.setState({ loading: false })}
                     onError={this.onError}
                 />
