@@ -278,9 +278,9 @@ const fakeDB =
             },
             {
                 guid: "00000000-0000-0000-0000-000000000002",
-                name: 'Safe Act Observation-Mining',
+                name: 'Safe Act Observation - Mining',
                 pdfname: 'SMS-SAF-FRM-0013_03 Safe Act Observation - Mining Report',
-                version: '0.0.1',
+                version: 'SMS-SAF-FRM-0013_03',
                 tabs: [
                     {
                         id: '1',
@@ -885,6 +885,923 @@ const fakeDB =
                                 pdf: { 0: [{ x: 422, y: 122, size: 10 }] },
                             },
 
+                        ],
+                    },
+                ],
+            },
+            {
+                guid: "00000000-0000-0000-0000-000000000003",
+                name: 'Safe Act Observation - General',
+                pdfname: 'SMS-SAF-FRM-0014_02 Safe Act Observation - General',
+                version: 'SMS-SAF-FRM-0014_02',
+                tabs: [
+                    {
+                        id: '1',
+                        type: ControlKeys.Tab,
+                        label: 'Details',
+                        icon: 'edit',
+                        controls: [
+                            {
+                                param: 'details_header',
+                                type: ControlKeys.Divider,
+                                label: 'Report Details',
+                            },
+                            {
+                                param: 'task',
+                                type: ControlKeys.TextField,
+                                label: 'Task',
+                                pdf: { 0: [{ x: 70, y: 765, size: 14 }] },
+                            },
+                            {
+                                param: 'location',
+                                type: ControlKeys.TextField,
+                                label: 'Location',
+                                pdf: { 0: [{ x: 300, y: 765, size: 14 }] },
+                            },
+                            {
+                                param: 'observer',
+                                type: ControlKeys.TextField,
+                                label: 'Observer',
+                                pdf: { 0: [{ x: 505, y: 765, size: 14 }] },
+                            },
+                            {
+                                param: 'date',
+                                type: ControlKeys.Date,
+                                label: 'Date',
+                                pdf: { 0: [{ x: 68, y: 748, size: 8 }] },
+                            },
+                            {
+                                param: 'time',
+                                type: ControlKeys.TextField,
+                                label: 'Time',
+                                pdf: { 0: [{ x: 68, y: 739, size: 8 }] },
+                            },
+                        ],
+                    },
+                    {
+                        id: '2',
+                        type: ControlKeys.Tab,
+                        label: 'Checklist',
+                        icon: 'check-square-o',
+                        controls: [
+                            {
+                                param: 'risk_assessment_header',
+                                type: ControlKeys.Divider,
+                                label: 'Risk Assessments',
+                            },
+                            {
+                                param: 'risk_assessment_checklist',
+                                type: ControlKeys.Looper,
+                                setLength: 2,
+                                pdf: { 0: [{ x: 242, y: 705, width: 339, height: 22 }] },
+                                grid: { 0: [{ width: 339, height: 10.5 }] },
+                                value: [{ 'risk_assessment_action': 'JHA Completed and Being Followed' }
+                                       ,{ 'risk_assessment_action': 'Take 5 Completed and Being Followed' }
+                                ],
+                                controls: [
+                                    {
+                                        param: 'risk_assessment_action',
+                                        type: ControlKeys.TextLabel,
+                                    },
+                                    {
+                                        param: 'risk_assessment_yes',
+                                        type: ControlKeys.CheckBox,
+                                        label: 'Yes',
+                                        pdf: { 0: [{ x: 11, y: 2, size: 10 }] },
+                                    },
+                                    {
+                                        param: 'risk_assessment_no',
+                                        type: ControlKeys.CheckBox,
+                                        label: 'No',
+                                        pdf: { 0: [{ x: 36, y: 2, size: 10 }] },
+                                    },
+                                    {
+                                        param: 'risk_assessment_na',
+                                        type: ControlKeys.CheckBox,
+                                        label: 'N/A',
+                                        pdf: { 0: [{ x: 57, y: 2, size: 10 }] },
+                                    },
+                                    {
+                                        param: 'risk_assessment_sampled',
+                                        type: ControlKeys.TextField,
+                                        label: 'Number Sampled',
+                                        keyboardType: 'phone-pad',
+                                        pdf: { 0: [{ x: 70, y: 0, width: 49, height: 10, size: 10 }] },
+                                    },
+                                    {
+                                        param: 'risk_assessment_compliant',
+                                        type: ControlKeys.TextField,
+                                        label: 'Number Compliant',
+                                        keyboardType: 'phone-pad',
+                                        pdf: { 0: [{ x: 120, y: 0, width: 49, height: 10, size: 10 }] },
+                                    },
+                                    {
+                                        param: 'risk_assessment_comments',
+                                        type: ControlKeys.TextField,
+                                        label: 'Comments',
+                                        pdf: { 0: [{ x: 170, y: 0, width: 169, height: 10, size: 10 }] },
+                                    },
+                                    {
+                                        param: 'risk_assessment_divider',
+                                        type: ControlKeys.Divider,
+                                    },
+                                ],
+                            },
+                            {
+                                param: 'compliance_to_procedures_header',
+                                type: ControlKeys.Divider,
+                                label: 'Compliance to Procedures',
+                            },
+                            {
+                                param: 'compliance_to_procedures_checklist',
+                                type: ControlKeys.Looper,
+                                setLength: 3,
+                                pdf: { 0: [{ x: 242, y: 662.5, width: 339, height: 32.5 }] },
+                                grid: { 0: [{ width: 339, height: 10.5 }] },
+                                value: [{ 'compliance_to_procedures_action': 'Work Area Suitable / Inspected' }
+                                       ,{ 'compliance_to_procedures_action': 'Hazards Identified' }
+                                       ,{ 'compliance_to_procedures_action': 'Permits in Place' }
+                                       ],
+                                controls: [
+                                    {
+                                        param: 'compliance_to_procedures_action',
+                                        type: ControlKeys.TextLabel,
+                                    },
+                                    {
+                                        param: 'compliance_to_procedures_yes',
+                                        type: ControlKeys.CheckBox,
+                                        label: 'Yes',
+                                        pdf: { 0: [{ x: 11, y: 2, size: 10 }] },
+                                    },
+                                    {
+                                        param: 'compliance_to_procedures_no',
+                                        type: ControlKeys.CheckBox,
+                                        label: 'No',
+                                        pdf: { 0: [{ x: 36, y: 2, size: 10 }] },
+                                    },
+                                    {
+                                        param: 'compliance_to_procedures_na',
+                                        type: ControlKeys.CheckBox,
+                                        label: 'N/A',
+                                        pdf: { 0: [{ x: 57, y: 2, size: 10 }] },
+                                    },
+                                    {
+                                        param: 'compliance_to_procedures_sampled',
+                                        type: ControlKeys.TextField,
+                                        label: 'Number Sampled',
+                                        keyboardType: 'phone-pad',
+                                        pdf: { 0: [{ x: 70, y: 0, width: 49, height: 10, size: 10 }] },
+                                    },
+                                    {
+                                        param: 'compliance_to_procedures_compliant',
+                                        type: ControlKeys.TextField,
+                                        label: 'Number Compliant',
+                                        keyboardType: 'phone-pad',
+                                        pdf: { 0: [{ x: 120, y: 0, width: 49, height: 10, size: 10 }] },
+                                    },
+                                    {
+                                        param: 'compliance_to_procedures_comments',
+                                        type: ControlKeys.TextField,
+                                        label: 'Comments',
+                                        pdf: { 0: [{ x: 170, y: 0, width: 169, height: 10, size: 10 }] },
+                                    },
+                                    {
+                                        param: 'compliance_to_procedures_divider',
+                                        type: ControlKeys.Divider,
+                                    },
+                                ],
+                            },
+                            {
+                                param: 'working_at_heights_divider',
+                                type: ControlKeys.Divider,
+                                label: 'Working at Heights (FRPP)',
+                            },
+                            {
+                                param: 'working_at_heights_checklist',
+                                type: ControlKeys.Looper,
+                                setLength: 5,
+                                pdf: { 0: [{ x: 242, y: 598.5, width: 339, height: 53.5 }] },
+                                grid: { 0: [{ width: 339, height: 10.5 }] },
+                                value: [{ 'working_at_heights_action': 'Employees Trained' }
+                                       ,{ 'working_at_heights_action': 'Fall Prevention Barriers in Place' }
+                                       ,{ 'working_at_heights_action': 'Certified and Fit for Purpose platforms in use' }
+                                       ,{ 'working_at_heights_action': 'Permits in Place' }
+                                       ,{ 'working_at_heights_action': 'Fall Restraints / Arrest in use and in date' }
+                                       ],
+                                controls: [
+                                    {
+                                        param: 'working_at_heights_action',
+                                        type: ControlKeys.TextLabel,
+                                    },
+                                    {
+                                        param: 'working_at_heights_yes',
+                                        type: ControlKeys.CheckBox,
+                                        label: 'Yes',
+                                        pdf: { 0: [{ x: 11, y: 2, size: 10 }] },
+                                    },
+                                    {
+                                        param: 'working_at_heights_no',
+                                        type: ControlKeys.CheckBox,
+                                        label: 'No',
+                                        pdf: { 0: [{ x: 36, y: 2, size: 10 }] },
+                                    },
+                                    {
+                                        param: 'working_at_heights_na',
+                                        type: ControlKeys.CheckBox,
+                                        label: 'N/A',
+                                        pdf: { 0: [{ x: 57, y: 2, size: 10 }] },
+                                    },
+                                    {
+                                        param: 'working_at_heights_sampled',
+                                        type: ControlKeys.TextField,
+                                        label: 'Number Sampled',
+                                        keyboardType: 'phone-pad',
+                                        pdf: { 0: [{ x: 70, y: 0, width: 49, height: 10, size: 10 }] },
+                                    },
+                                    {
+                                        param: 'working_at_heights_compliant',
+                                        type: ControlKeys.TextField,
+                                        label: 'Number Compliant',
+                                        keyboardType: 'phone-pad',
+                                        pdf: { 0: [{ x: 120, y: 0, width: 49, height: 10, size: 10 }] },
+                                    },
+                                    {
+                                        param: 'working_at_heights_comments',
+                                        type: ControlKeys.TextField,
+                                        label: 'Comments',
+                                        pdf: { 0: [{ x: 170, y: 0, width: 169, height: 10, size: 10 }] },
+                                    },
+                                    {
+                                        param: 'working_at_heights_divider',
+                                        type: ControlKeys.Divider,
+                                    },
+                                ],
+                            },
+                            {
+                                param: 'confined_space_header',
+                                type: ControlKeys.Divider,
+                                label: 'Confined Space (FRPP)',
+                            },
+                            {
+                                param: 'confined_space_checklist',
+                                type: ControlKeys.Looper,
+                                setLength: 3,
+                                pdf: { 0: [{ x: 242, y: 557, width: 339, height: 32.5 }] },
+                                grid: { 0: [{ width: 339, height: 10.5 }] },
+                                value: [{ 'confined_space_action': 'Employees Trained' }
+                                       ,{ 'confined_space_action': 'Atmospheric testing' }
+                                       ,{ 'confined_space_action': 'Sentry' }
+                                       ],
+                                controls: [
+                                    {
+                                        param: 'confined_space_action',
+                                        type: ControlKeys.TextLabel,
+                                    },
+                                    {
+                                        param: 'confined_space_yes',
+                                        type: ControlKeys.CheckBox,
+                                        label: 'Yes',
+                                        pdf: { 0: [{ x: 11, y: 2, size: 10 }] },
+                                    },
+                                    {
+                                        param: 'confined_space_no',
+                                        type: ControlKeys.CheckBox,
+                                        label: 'No',
+                                        pdf: { 0: [{ x: 36, y: 2, size: 10 }] },
+                                    },
+                                    {
+                                        param: 'confined_space_na',
+                                        type: ControlKeys.CheckBox,
+                                        label: 'N/A',
+                                        pdf: { 0: [{ x: 57, y: 2, size: 10 }] },
+                                    },
+                                    {
+                                        param: 'confined_space_sampled',
+                                        type: ControlKeys.TextField,
+                                        label: 'Number Sampled',
+                                        keyboardType: 'phone-pad',
+                                        pdf: { 0: [{ x: 70, y: 0, width: 49, height: 10, size: 10 }] },
+                                    },
+                                    {
+                                        param: 'confined_space_compliant',
+                                        type: ControlKeys.TextField,
+                                        label: 'Number Compliant',
+                                        keyboardType: 'phone-pad',
+                                        pdf: { 0: [{ x: 120, y: 0, width: 49, height: 10, size: 10 }] },
+                                    },
+                                    {
+                                        param: 'confined_space_comments',
+                                        type: ControlKeys.TextField,
+                                        label: 'Comments',
+                                        pdf: { 0: [{ x: 170, y: 0, width: 169, height: 10, size: 10 }] },
+                                    },
+                                    {
+                                        param: 'traffic_management_divider',
+                                        type: ControlKeys.Divider,
+                                    },
+                                ],
+                            },
+                            {
+                                param: 'isolation_divider',
+                                type: ControlKeys.Divider,
+                                label: 'Isolation (FRPP)',
+                            },
+                            {
+                                param: 'isolation_checklist',
+                                type: ControlKeys.Looper,
+                                setLength: 4,
+                                pdf: { 0: [{ x: 242, y: 504.5, width: 339, height: 43 }] },
+                                grid: { 0: [{ width: 339, height: 10.5 }] },
+                                value: [{ 'isolation_action': 'Positive Isolation' }
+                                       ,{ 'isolation_action': 'Tags and Locks Attached' }
+                                       ,{ 'isolation_action': 'Stored Energy Released' }
+                                       ,{ 'isolation_action': 'Equipment Secured against Movement' }
+                                       ],
+                                controls: [
+                                    {
+                                        param: 'isolation_action',
+                                        type: ControlKeys.TextLabel,
+                                    },
+                                    {
+                                        param: 'isolation_yes',
+                                        type: ControlKeys.CheckBox,
+                                        label: 'Yes',
+                                        pdf: { 0: [{ x: 11, y: 2, size: 10 }] },
+                                    },
+                                    {
+                                        param: 'isolation_no',
+                                        type: ControlKeys.CheckBox,
+                                        label: 'No',
+                                        pdf: { 0: [{ x: 36, y: 2, size: 10 }] },
+                                    },
+                                    {
+                                        param: 'isolation_na',
+                                        type: ControlKeys.CheckBox,
+                                        label: 'N/A',
+                                        pdf: { 0: [{ x: 57, y: 2, size: 10 }] },
+                                    },
+                                    {
+                                        param: 'isolation_sampled',
+                                        type: ControlKeys.TextField,
+                                        label: 'Number Sampled',
+                                        keyboardType: 'phone-pad',
+                                        pdf: { 0: [{ x: 70, y: 0, width: 49, height: 10, size: 10 }] },
+                                    },
+                                    {
+                                        param: 'isolation_compliant',
+                                        type: ControlKeys.TextField,
+                                        label: 'Number Compliant',
+                                        keyboardType: 'phone-pad',
+                                        pdf: { 0: [{ x: 120, y: 0, width: 49, height: 10, size: 10 }] },
+                                    },
+                                    {
+                                        param: 'isolation_comments',
+                                        type: ControlKeys.TextField,
+                                        label: 'Comments',
+                                        pdf: { 0: [{ x: 170, y: 0, width: 169, height: 10, size: 10 }] },
+                                    },
+                                    {
+                                        param: 'isolation_divider',
+                                        type: ControlKeys.Divider,
+                                    },
+                                ],
+                            },
+                            {
+                                param: 'mobile_equipment_divider',
+                                type: ControlKeys.Divider,
+                                label: 'Mobile Equipment (FRPP)',
+                            },
+                            {
+                                param: 'mobile_equipment_checklist',
+                                type: ControlKeys.Looper,
+                                setLength: 5,
+                                pdf: { 0: [{ x: 242, y: 441, width: 339, height: 53.5 }] },
+                                grid: { 0: [{ width: 339, height: 10.5 }] },
+                                value: [{ 'mobile_equipment_action': 'VoC completed' }
+                                       ,{ 'mobile_equipment_action': 'Seat Belts Worn' }
+                                       ,{ 'mobile_equipment_action': 'Barricades in Place (If Applicable)' }
+                                       ,{ 'mobile_equipment_action': 'Driving to Conditions' }
+                                       ,{ 'mobile_equipment_action': 'Use of Horns' }
+                                       ],
+                                controls: [
+                                    {
+                                        param: 'mobile_equipment_action',
+                                        type: ControlKeys.TextLabel,
+                                    },
+                                    {
+                                        param: 'mobile_equipment_yes',
+                                        type: ControlKeys.CheckBox,
+                                        label: 'Yes',
+                                        pdf: { 0: [{ x: 11, y: 2, size: 10 }] },
+                                    },
+                                    {
+                                        param: 'mobile_equipment_no',
+                                        type: ControlKeys.CheckBox,
+                                        label: 'No',
+                                        pdf: { 0: [{ x: 36, y: 2, size: 10 }] },
+                                    },
+                                    {
+                                        param: 'mobile_equipment_na',
+                                        type: ControlKeys.CheckBox,
+                                        label: 'N/A',
+                                        pdf: { 0: [{ x: 57, y: 2, size: 10 }] },
+                                    },
+                                    {
+                                        param: 'mobile_equipment_sampled',
+                                        type: ControlKeys.TextField,
+                                        label: 'Number Sampled',
+                                        keyboardType: 'phone-pad',
+                                        pdf: { 0: [{ x: 70, y: 0, width: 49, height: 10, size: 10 }] },
+                                    },
+                                    {
+                                        param: 'mobile_equipment_compliant',
+                                        type: ControlKeys.TextField,
+                                        label: 'Number Compliant',
+                                        keyboardType: 'phone-pad',
+                                        pdf: { 0: [{ x: 120, y: 0, width: 49, height: 10, size: 10 }] },
+                                    },
+                                    {
+                                        param: 'mobile_equipment_comments',
+                                        type: ControlKeys.TextField,
+                                        label: 'Comments',
+                                        pdf: { 0: [{ x: 170, y: 0, width: 169, height: 10, size: 10 }] },
+                                    },
+                                    {
+                                        param: 'mobile_equipment_divider',
+                                        type: ControlKeys.Divider,
+                                    },
+                                ],
+                            },
+                            {
+                                param: 'electrical_equipment_divider',
+                                type: ControlKeys.Divider,
+                                label: 'Electrical Equipment (FRPP)',
+                            },
+                            {
+                                param: 'electrical_equipment_checklist',
+                                type: ControlKeys.Looper,
+                                setLength: 2,
+                                pdf: { 0: [{ x: 242, y: 410, width: 339, height: 22 }] },
+                                grid: { 0: [{ width: 339, height: 10.5 }] },
+                                value: [{ 'electrical_equipment_action': 'Correct color test tag' }
+                                       ,{ 'electrical_equipment_action': 'Electrical Equipment protected from Damage' }
+                                       ],
+                                controls: [
+                                    {
+                                        param: 'electrical_equipment_action',
+                                        type: ControlKeys.TextLabel,
+                                    },
+                                    {
+                                        param: 'electrical_equipment_yes',
+                                        type: ControlKeys.CheckBox,
+                                        label: 'Yes',
+                                        pdf: { 0: [{ x: 11, y: 2, size: 10 }] },
+                                    },
+                                    {
+                                        param: 'electrical_equipment_no',
+                                        type: ControlKeys.CheckBox,
+                                        label: 'No',
+                                        pdf: { 0: [{ x: 36, y: 2, size: 10 }] },
+                                    },
+                                    {
+                                        param: 'electrical_equipment_n/a',
+                                        type: ControlKeys.CheckBox,
+                                        label: 'N/A',
+                                        pdf: { 0: [{ x: 57, y: 2, size: 10 }] },
+                                    },
+                                    {
+                                        param: 'electrical_equipment_sampled',
+                                        type: ControlKeys.TextField,
+                                        label: 'Number Sampled',
+                                        keyboardType: 'phone-pad',
+                                        pdf: { 0: [{ x: 70, y: 0, width: 49, height: 10, size: 10 }] },
+                                    },
+                                    {
+                                        param: 'electrical_equipment_compliant',
+                                        type: ControlKeys.TextField,
+                                        label: 'Number Compliant',
+                                        keyboardType: 'phone-pad',
+                                        pdf: { 0: [{ x: 120, y: 0, width: 49, height: 10, size: 10 }] },
+                                    },
+                                    {
+                                        param: 'electrical_equipment_comments',
+                                        type: ControlKeys.TextField,
+                                        label: 'Comments',
+                                        pdf: { 0: [{ x: 170, y: 0, width: 169, height: 10, size: 10 }] },
+                                    },
+                                    {
+                                        param: 'electrical_equipment_divider',
+                                        type: ControlKeys.Divider,
+                                    },
+                                ],
+                            },
+                            {
+                                param: 'lifting_divider',
+                                type: ControlKeys.Divider,
+                                label: 'Lifting',
+                            },
+                            {
+                                param: 'lifting_checklist',
+                                type: ControlKeys.Looper,
+                                setLength: 4,
+                                pdf: { 0: [{ x: 242, y: 357, width: 339, height: 43 }] },
+                                grid: { 0: [{ width: 339, height: 10.5 }] },
+                                value: [{ 'lifting_action': 'Employees Trained' }
+                                       ,{ 'lifting_action': 'Lifting Plan in Place' }
+                                       ,{ 'lifting_action': 'Area Barricaded' }
+                                       ,{ 'lifting_action': 'Lifting Slings - Chains in Date' }
+                                       ],
+                                controls: [
+                                    {
+                                        param: 'lifting_action',
+                                        type: ControlKeys.TextLabel,
+                                    },
+                                    {
+                                        param: 'lifting_yes',
+                                        type: ControlKeys.CheckBox,
+                                        label: 'Yes',
+                                        pdf: { 0: [{ x: 11, y: 2, size: 10 }] },
+                                    },
+                                    {
+                                        param: 'lifting_no',
+                                        type: ControlKeys.CheckBox,
+                                        label: 'No',
+                                        pdf: { 0: [{ x: 36, y: 2, size: 10 }] },
+                                    },
+                                    {
+                                        param: 'lifting_na',
+                                        type: ControlKeys.CheckBox,
+                                        label: 'N/A',
+                                        pdf: { 0: [{ x: 57, y: 2, size: 10 }] },
+                                    },
+                                    {
+                                        param: 'lifting_sampled',
+                                        type: ControlKeys.TextField,
+                                        label: 'Number Sampled',
+                                        keyboardType: 'phone-pad',
+                                        pdf: { 0: [{ x: 70, y: 0, width: 49, height: 10, size: 10 }] },
+                                    },
+                                    {
+                                        param: 'lifting_compliant',
+                                        type: ControlKeys.TextField,
+                                        label: 'Number Compliant',
+                                        keyboardType: 'phone-pad',
+                                        pdf: { 0: [{ x: 120, y: 0, width: 49, height: 10, size: 10 }] },
+                                    },
+                                    {
+                                        param: 'lifting_comments',
+                                        type: ControlKeys.TextField,
+                                        label: 'Comments',
+                                        pdf: { 0: [{ x: 170, y: 0, width: 169, height: 10, size: 10 }] },
+                                    },
+                                    {
+                                        param: 'lifting_divider',
+                                        type: ControlKeys.Divider,
+                                    },
+                                ],
+                            },
+                            {
+                                param: 'manual_handling_divider',
+                                type: ControlKeys.Divider,
+                                label: 'Manual Handling',
+                            },
+                            {
+                                param: 'manual_handling_checklist',
+                                type: ControlKeys.Looper,
+                                setLength: 2,
+                                pdf: { 0: [{ x: 242, y: 325.3, width: 339, height: 22 }] },
+                                grid: { 0: [{ width: 339, height: 10.5 }] },
+                                value: [{ 'manual_handling_action': 'Correct Posture' }
+                                       ,{ 'manual_handling_action': 'Correct Lifting Techniques' }
+                                       ],
+                                controls: [
+                                    {
+                                        param: 'manual_handling_action',
+                                        type: ControlKeys.TextLabel,
+                                    },
+                                    {
+                                        param: 'manual_handling_yes',
+                                        type: ControlKeys.CheckBox,
+                                        label: 'Yes',
+                                        pdf: { 0: [{ x: 11, y: 2, size: 10 }] },
+                                    },
+                                    {
+                                        param: 'manual_handling_no',
+                                        type: ControlKeys.CheckBox,
+                                        label: 'No',
+                                        pdf: { 0: [{ x: 36, y: 2, size: 10 }] },
+                                    },
+                                    {
+                                        param: 'manual_handling_na',
+                                        type: ControlKeys.CheckBox,
+                                        label: 'N/A',
+                                        pdf: { 0: [{ x: 57, y: 2, size: 10 }] },
+                                    },
+                                    {
+                                        param: 'manual_handling_sampled',
+                                        type: ControlKeys.TextField,
+                                        label: 'Number Sampled',
+                                        keyboardType: 'phone-pad',
+                                        pdf: { 0: [{ x: 70, y: 0, width: 49, height: 10, size: 10 }] },
+                                    },
+                                    {
+                                        param: 'manual_handling_compliant',
+                                        type: ControlKeys.TextField,
+                                        label: 'Number Compliant',
+                                        keyboardType: 'phone-pad',
+                                        pdf: { 0: [{ x: 120, y: 0, width: 49, height: 10, size: 10 }] },
+                                    },
+                                    {
+                                        param: 'manual_handling_comments',
+                                        type: ControlKeys.TextField,
+                                        label: 'Comments',
+                                        pdf: { 0: [{ x: 170, y: 0, width: 169, height: 10, size: 10 }] },
+                                    },
+                                    {
+                                        param: 'manual_handling_divider',
+                                        type: ControlKeys.Divider,
+                                    },
+                                ],
+                            },
+                            {
+                                param: 'tooling_divider',
+                                type: ControlKeys.Divider,
+                                label: 'Tooling',
+                            },
+                            {
+                                param: 'tooling_checklist',
+                                type: ControlKeys.Looper,
+                                setLength: 2,
+                                pdf: { 0: [{ x: 242, y: 293.8, width: 339, height: 22 }] },
+                                grid: { 0: [{ width: 339, height: 10.5 }] },
+                                value: [{ 'tooling_action': 'Correct Tooling for the Job' }
+                                       ,{ 'tooling_action': 'Tooling in Good Condition' }
+                                       ],
+                                controls: [
+                                    {
+                                        param: 'tooling_action',
+                                        type: ControlKeys.TextLabel,
+                                    },
+                                    {
+                                        param: 'tooling_yes',
+                                        type: ControlKeys.CheckBox,
+                                        label: 'Yes',
+                                        pdf: { 0: [{ x: 11, y: 2, size: 10 }] },
+                                    },
+                                    {
+                                        param: 'tooling_no',
+                                        type: ControlKeys.CheckBox,
+                                        label: 'No',
+                                        pdf: { 0: [{ x: 36, y: 2, size: 10 }] },
+                                    },
+                                    {
+                                        param: 'tooling_na',
+                                        type: ControlKeys.CheckBox,
+                                        label: 'N/A',
+                                        pdf: { 0: [{ x: 57, y: 2, size: 10 }] },
+                                    },
+                                    {
+                                        param: 'tooling_sampled',
+                                        type: ControlKeys.TextField,
+                                        label: 'Number Sampled',
+                                        keyboardType: 'phone-pad',
+                                        pdf: { 0: [{ x: 70, y: 0, width: 49, height: 10, size: 10 }] },
+                                    },
+                                    {
+                                        param: 'tooling_compliant',
+                                        type: ControlKeys.TextField,
+                                        label: 'Number Compliant',
+                                        keyboardType: 'phone-pad',
+                                        pdf: { 0: [{ x: 120, y: 0, width: 49, height: 10, size: 10 }] },
+                                    },
+                                    {
+                                        param: 'tooling_comments',
+                                        type: ControlKeys.TextField,
+                                        label: 'Comments',
+                                        pdf: { 0: [{ x: 170, y: 0, width: 169, height: 10, size: 10 }] },
+                                    },
+                                    {
+                                        param: 'tooling_divider',
+                                        type: ControlKeys.Divider,
+                                    },
+                                ],
+                            },
+                            {
+                                param: 'housekeeping_divider',
+                                type: ControlKeys.Divider,
+                                label: 'Housekeeping',
+                            },
+                            {
+                                param: 'housekeeping_checklist',
+                                type: ControlKeys.Looper,
+                                setLength: 2,
+                                pdf: { 0: [{ x: 242, y: 261.8, width: 339, height: 22 }] },
+                                grid: { 0: [{ width: 339, height: 10.5 }] },
+                                value: [{ 'housekeeping_action': 'Area clean with Approperiate Barricade' }
+                                       ,{ 'housekeeping_action': 'Trips / Slips Hazards' }
+                                       ],
+                                controls: [
+                                    {
+                                        param: 'housekeeping_action',
+                                        type: ControlKeys.TextLabel,
+                                    },
+                                    {
+                                        param: 'housekeeping_yes',
+                                        type: ControlKeys.CheckBox,
+                                        label: 'Yes',
+                                        pdf: { 0: [{ x: 11, y: 2, size: 10 }] },
+                                    },
+                                    {
+                                        param: 'housekeeping_no',
+                                        type: ControlKeys.CheckBox,
+                                        label: 'No',
+                                        pdf: { 0: [{ x: 36, y: 2, size: 10 }] },
+                                    },
+                                    {
+                                        param: 'housekeeping_na',
+                                        type: ControlKeys.CheckBox,
+                                        label: 'N/A',
+                                        pdf: { 0: [{ x: 57, y: 2, size: 10 }] },
+                                    },
+                                    {
+                                        param: 'housekeeping_sampled',
+                                        type: ControlKeys.TextField,
+                                        label: 'Number Sampled',
+                                        keyboardType: 'phone-pad',
+                                        pdf: { 0: [{ x: 70, y: 0, width: 49, height: 10, size: 10 }] },
+                                    },
+                                    {
+                                        param: 'housekeeping_compliant',
+                                        type: ControlKeys.TextField,
+                                        label: 'Number Compliant',
+                                        keyboardType: 'phone-pad',
+                                        pdf: { 0: [{ x: 120, y: 0, width: 49, height: 10, size: 10 }] },
+                                    },
+                                    {
+                                        param: 'housekeeping_comments',
+                                        type: ControlKeys.TextField,
+                                        label: 'Comments',
+                                        pdf: { 0: [{ x: 170, y: 0, width: 169, height: 10, size: 10 }] },
+                                    },
+                                    {
+                                        param: 'housekeeping_divider',
+                                        type: ControlKeys.Divider,
+                                    },
+                                ],
+                            },
+                            {
+                                param: 'ppe_divider',
+                                type: ControlKeys.Divider,
+                                label: 'PPE',
+                            },
+                            {
+                                param: 'ppe_checklist',
+                                type: ControlKeys.Looper,
+                                setLength: 5,
+                                pdf: { 0: [{ x: 242, y: 198.3, width: 339, height: 53.5 }] },
+                                grid: { 0: [{ width: 339, height: 10.5 }] },
+                                value: [{ 'ppe_action': 'Glasses / Goggles / Shields worn' }
+                                       ,{ 'ppe_action': 'Hearing Protection' }
+                                       ,{ 'ppe_action': 'Respiratory Protection' }
+                                       ,{ 'ppe_action': 'Hand Protection - Leather / Rubber Gloves' }
+                                       ,{ 'ppe_action': 'Apron' }
+                                       ],
+                                controls: [
+                                    {
+                                        param: 'ppe_action',
+                                        type: ControlKeys.TextLabel,
+                                    },
+                                    {
+                                        param: 'ppe_yes',
+                                        type: ControlKeys.CheckBox,
+                                        label: 'Yes',
+                                        pdf: { 0: [{ x: 11, y: 2, size: 10 }] },
+                                    },
+                                    {
+                                        param: 'ppe_no',
+                                        type: ControlKeys.CheckBox,
+                                        label: 'No',
+                                        pdf: { 0: [{ x: 36, y: 2, size: 10 }] },
+                                    },
+                                    {
+                                        param: 'ppe_na',
+                                        type: ControlKeys.CheckBox,
+                                        label: 'N/A',
+                                        pdf: { 0: [{ x: 57, y: 2, size: 10 }] },
+                                    },
+                                    {
+                                        param: 'ppe_sampled',
+                                        type: ControlKeys.TextField,
+                                        label: 'Number Sampled',
+                                        keyboardType: 'phone-pad',
+                                        pdf: { 0: [{ x: 70, y: 0, width: 49, height: 10, size: 10 }] },
+                                    },
+                                    {
+                                        param: 'ppe_compliant',
+                                        type: ControlKeys.TextField,
+                                        label: 'Number Compliant',
+                                        keyboardType: 'phone-pad',
+                                        pdf: { 0: [{ x: 120, y: 0, width: 49, height: 10, size: 10 }] },
+                                    },
+                                    {
+                                        param: 'ppe_comments',
+                                        type: ControlKeys.TextField,
+                                        label: 'Comments',
+                                        pdf: { 0: [{ x: 170, y: 0, width: 169, height: 10, size: 10 }] },
+                                    },
+                                    {
+                                        param: 'ppe_divider',
+                                        type: ControlKeys.Divider,
+                                    },
+                                ],
+                            },
+                            {
+                                param: 'environmental_divider',
+                                type: ControlKeys.Divider,
+                                label: 'Environmental',
+                            },
+                            {
+                                param: 'environmental_checklist',
+                                type: ControlKeys.Looper,
+                                setLength: 3,
+                                pdf: { 0: [{ x: 242, y: 155.3, width: 339, height: 33.5 }] },
+                                grid: { 0: [{ width: 339, height: 10.5 }] },
+                                value: [{ 'environmental_action': 'Hydrocarbons contained' }
+                                       ,{ 'environmental_action': 'Correct labelling' }
+                                       ,{ 'environmental_action': 'Spill trays' }
+                                       ],
+                                controls: [
+                                    {
+                                        param: 'environmental_action',
+                                        type: ControlKeys.TextLabel,
+                                    },
+                                    {
+                                        param: 'environmental_yes',
+                                        type: ControlKeys.CheckBox,
+                                        label: 'Yes',
+                                        pdf: { 0: [{ x: 11, y: 2, size: 10 }] },
+                                    },
+                                    {
+                                        param: 'environmental_no',
+                                        type: ControlKeys.CheckBox,
+                                        label: 'No',
+                                        pdf: { 0: [{ x: 36, y: 2, size: 10 }] },
+                                    },
+                                    {
+                                        param: 'environmental_na',
+                                        type: ControlKeys.CheckBox,
+                                        label: 'N/A',
+                                        pdf: { 0: [{ x: 57, y: 2, size: 10 }] },
+                                    },
+                                    {
+                                        param: 'environmental_sampled',
+                                        type: ControlKeys.TextField,
+                                        label: 'Number Sampled',
+                                        keyboardType: 'phone-pad',
+                                        pdf: { 0: [{ x: 70, y: 0, width: 49, height: 10, size: 10 }] },
+                                    },
+                                    {
+                                        param: 'environmental_compliant',
+                                        type: ControlKeys.TextField,
+                                        label: 'Number Compliant',
+                                        keyboardType: 'phone-pad',
+                                        pdf: { 0: [{ x: 120, y: 0, width: 49, height: 10, size: 10 }] },
+                                    },
+                                    {
+                                        param: 'environmental_comments',
+                                        type: ControlKeys.TextField,
+                                        label: 'Comments',
+                                        pdf: { 0: [{ x: 170, y: 0, width: 169, height: 10, size: 10 }] },
+                                    },
+                                    {
+                                        param: 'environmental_divider',
+                                        type: ControlKeys.Divider,
+                                    },
+                                ],
+                            },
+                            {
+                                param: 'total_divider',
+                                type: ControlKeys.Divider,
+                                label: 'Total',
+                            },
+                            {
+                                param: 'total_Compliant_yes',
+                                type: ControlKeys.CheckBox,
+                                label: 'Compliant',
+                                pdf: { 0: [{ x: 320, y: 138, size: 10 }] },
+                            },
+                            {
+                                param: 'total_Compliant_no',
+                                type: ControlKeys.CheckBox,
+                                label: 'Non-Compliant',
+                                pdf: { 0: [{ x: 375, y: 138, size: 10 }] },
+                            },
+                            {
+                                param: 'total_comments',
+                                type: ControlKeys.TextField,
+                                label: 'Comments',
+                                pdf: { 0: [{ x: 422, y: 138, size: 10 }] },
+                            },
                         ],
                     },
                 ],

@@ -126,8 +126,6 @@ export default class PDFDraw
         if (!this._cachedFonts)
             this._cachedFonts = [];
 
-        style.font = style.font || "Helvetica";
-
         let font = this._cachedFonts.find(cachedFont => cachedFont.name == style.font);
         if (!font)
         {
@@ -143,6 +141,8 @@ export default class PDFDraw
 
         if (typeof style.color == "string")
             style.color = this.hexToRgb(style.color);
+
+        console.log(content, style);
 
         this._page.drawText
             (content

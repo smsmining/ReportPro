@@ -219,11 +219,11 @@ export default class ExportPDF
             renderValue = dateFormat(renderValue, control.format || "d mmm yyyy");
         }
 
-        let fallbackFont;
+        let defaultFont = "Helvetica";
         if (renderValue === true)
         {
             renderValue = pdf.trueValue || '\u2713';
-            fallbackFont = "ZapfDingbats";
+            defaultFont = "ZapfDingbats";
         }
         else if (renderValue === false)
         {
@@ -231,7 +231,7 @@ export default class ExportPDF
                 return;
 
             renderValue = pdf.falseValue;
-            fallbackFont = "ZapfDingbats";
+            defaultFont = "ZapfDingbats";
         }
 
 
@@ -248,14 +248,11 @@ export default class ExportPDF
                     additionalStyle = { ...additionalStyle, ...option.pdf };
             }
 
-            if (fallbackFont)
-                additionalStyle = { ...additionalStyle, font: pdf[page][style].font || fallbackFont }
-
-            for (style in pdf[page])
+            for (alias in pdf[page])
                 layout[page].push(
                     {type: type
                     ,value: renderValue
-                    ,style: { ...pdf[page][style], ...additionalStyle }
+                    ,style: { ...pdf[page][alias], ...additionalStyle, font: pdf[page][alias].font || defaultFont }
                     });
         }
     }
