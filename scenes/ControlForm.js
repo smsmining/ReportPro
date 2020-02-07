@@ -1,11 +1,12 @@
 import React from 'react';
 import { View, ScrollView } from 'react-native';
+import { Overlay } from 'react-native-elements'
 import { List, Text, Icon } from 'native-base';
 import { Actions } from 'react-native-router-flux';
-import { TabView, TabBar } from 'react-native-tab-view';
+import { TabView, TabBar, SceneMap } from 'react-native-tab-view';
 
 import Forms from '../context/Forms';
-import { GlobalStyles, LayoutPartials, AlignmentStyles } from '../utils/Style';
+import { GlobalStyles, LayoutPartials, AlignmentStyles, LoadingStyles } from '../utils/Style';
 
 import ControlItem from '../components/ControlItem';
 import PageLayout from '../components/Layout/PageLayout';
@@ -18,21 +19,18 @@ export default class ControlForm extends React.Component
 {
     state =
         {form: null
-        ,navigation: {index: -1, routes: []}
+        ,navigation: -1
         ,instance: null
 
         ,hasSaved: null
-        ,loading: false
+
+        ,loading: null
         };
 
-    componentDidMount()
-        { this.loadForm(); }
+    componentDidMount() { this.loadForm(); }
+    componentWillUnmount() { this.clearAsync(); }
 
-    componentWillUnmount()
-        { this.clearAsync(); }
-
-    clearAsync = () =>
-        { if (this._asyncReqForm) this._asyncReqForm.cancel(); }
+    clearAsync = () => { if (this._asyncReqForm) this._asyncReqForm.cancel(); }
 
 
     loadForm = () =>
@@ -51,17 +49,10 @@ export default class ControlForm extends React.Component
 
     loadFormResponse = (response) =>
     {
-        const { tabs } = response || {};
-
         this._asyncReqForm = null;
-
-        let routes = [];
-        for (let pos in tabs)
-            routes.push({ key: pos, title: tabs[pos].label, icon: tabs[pos].icon });
-
         this.setState(
             {form: response
-            ,navigation: { index: 0, routes: routes }
+            ,index: 0
             ,loading: false
             });
     }
@@ -100,7 +91,7 @@ export default class ControlForm extends React.Component
 
     setInstanceValue = (value, param) => this.setState({ instance: { ...this.state.instance, [param]: value } });
 
-    renderIcon = ({ route }) => (<Icon name={route.icon} style={{ color: this.state.navigation.index == route.key ? ReportColors.primary : ReportColors.border, fontSize: 18 }} type="FontAwesome" />)
+    renderIcon = ({ route }) => (<Icon name={route.icon} style={{ color: this.state.index == route.key ? ReportColors.primary : ReportColors.border, fontSize: 18 }} type="FontAwesome" />)
     renderTabBar = (props) => (
         <TabBar
             {...props}
@@ -111,62 +102,88 @@ export default class ControlForm extends React.Component
             indicatorStyle={{ backgroundColor: ReportColors.primary, height: 2.5 }}
         />)
 
-    renderList = ({ route }) =>
+    componentDidUpdate()
     {
-        const { form, instance } = this.state;
-        const { tabs } = form;
+        const { loading } = this.state;
 
-        const tab = route && tabs[route.key];
-        if (!tab)
-            return null;
-
-        return (
-            <ScrollView>
-                <List>
-                    {tab.controls.map(control => (
-                        <ControlItem
-                            {...control}
-                            key={control.param}
-                            value={instance && instance[control.param] || control.value}
-                            onChange={this.setInstanceValue}
-                        />
-                    ))}
-                </List>
-            </ScrollView>
-        );
+        if (loading === false)
+            setTimeout(() => this.setState({ loading: null }), 1);
     }
-    
 
     render()
     {
-        const { form, navigation, instance, hasSaved, loading } = this.state;
+        const { form, index, instance, hasSaved, loading } = this.state;
         const { tabs, title } = form || {};
+
+        let routes = [];
+
+        if(form)
+        for (let pos in tabs)
+        {
+            const tab = tabs[pos];
+
+            routes.push(
+                {key: pos
+                ,title: tab.label
+                ,icon: tab.icon
+                ,active: pos == index
+                ,controls: tab.controls.map(c => (
+                    {...c
+                    ,key: c.param
+                    ,value: instance && instance[c.param] || c.value
+                    ,onChange: this.setInstanceValue
+                    }
+                ))});
+        }
 
         return (
             <PageLayout
                 back={{ icon: "arrow-back", onPress: Actions.pop }}
-                next={{ label: "Create PDF", onPress: this.onCreatePDF }}
+                next={tabs && loading === null && { label: "Create PDF", onPress: this.onCreatePDF }}
                 header={title}
             >
+                {loading !== null &&
+                <Overlay height={100} containerStyle={AlignmentStyles.auto} >
+                    <Text style={{ ...LoadingStyles.label, marginTop: 25 }}>Loading ...</Text>
+                </Overlay>
+                }
+                {tabs &&
                 <View style={{ height: GlobalStyles.screenHeight.height - 80 }}>
-                    {loading &&
-                    <Text style={AlignmentStyles.auto}>Loading ...</Text>
-                    }
-                    {tabs &&
                     <TabView
-                        navigationState={navigation}
-                        onIndexChange={index => this.setState({ navigation: { ...navigation, index: index } })}
-                        renderScene={this.renderList}
+                        navigationState={{ index: index, routes: routes }}
+                        onIndexChange={index => this.setState({ index: index })}
+                        renderScene={(props) => (<ControlFormList {...props} />)}
                         renderTabBar={this.renderTabBar}
                         tabBarPosition='bottom'
                         initialLayout={GlobalStyles.screenWidth}
                     />
-                    }
                 </View>
+                }
                 {hasSaved !== null &&
                 <SaveLoadFab onSave={this.onSave} onLoad={hasSaved && this.onLoad} onNew={instance && this.onNew} />
                 }
             </PageLayout>
+        );
+    }
+}
+
+class ControlFormList extends React.Component
+{
+    shouldComponentUpdate(newProps) { return newProps.route.active !== false; }
+
+    render()
+    {
+        const { route } = this.props;
+        const { controls } = route;
+
+        if (!controls) return null;
+
+        return (
+            <ScrollView>
+                <List>
+                    {controls.map(ControlItem)}
+                </List>
+            </ScrollView>
         );
     }
 }

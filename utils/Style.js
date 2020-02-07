@@ -10,8 +10,7 @@ export const FabStyles = StyleSheet.create(
 
 export const LoadingStyles = StyleSheet.create(
     {label:
-        {marginTop: 200
-        ,textAlign: 'center'
+        {textAlign: 'center'
         ,fontSize: 20
         ,fontWeight: '600'
         ,textDecorationStyle: 'solid'

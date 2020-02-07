@@ -68,7 +68,7 @@ export default class PDF extends React.Component
             >
                 {loading &&
                 <React.Fragment>
-                <Text style={LoadingStyles.label}>Loading ...</Text>
+                <Text style={{ ...LoadingStyles.label, marginTop: 200 }}>Loading ...</Text>
                 {loadingState &&
                 <Text style={LoadingStyles.subtitle}>{loadingState}</Text>
                 }
