@@ -143,7 +143,7 @@ export default class ControlForm extends React.Component
                 header={title}
             >
                 {loading !== null &&
-                <Overlay height={100} containerStyle={AlignmentStyles.auto} >
+                <Overlay height={100} containerStyle={AlignmentStyles.auto} isVisible>
                     <Text style={{ ...LoadingStyles.label, marginTop: 25 }}>Loading ...</Text>
                 </Overlay>
                 }

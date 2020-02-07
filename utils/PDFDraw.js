@@ -8,6 +8,7 @@ export default class PDFDraw
 {
     GetResourcesPath = () => RNFetchBlob.fs.asset('resources/' + this._guid + '/');
     GetTemplatePath = () => this.GetResourcesPath() + 'template.pdf';
+    GetAppendixPath = () => this.GetResourcesPath() + 'appendix.pdf';
 
     GetSavePath = (filename) => RNFetchBlob.fs.dirs.DCIMDir + '/Reports/' + this._guid + '/' + filename + ".pdf";
 
@@ -30,6 +31,7 @@ export default class PDFDraw
 
     _guid;
     _document;
+    _appendix;
     _page;
 
     path;
@@ -46,10 +48,23 @@ export default class PDFDraw
         this._guid = guid;
 
         this.path = this.GetSavePath(filename + " " + this.GetDateStamp());
-        let rawTemplate = await RNFetchBlob.fs.readFile(this.GetTemplatePath(), 'base64');
+        const rawTemplate = await RNFetchBlob.fs.readFile(this.GetTemplatePath(), 'base64');
 
         this._document = await PDFDocument.load(rawTemplate);
         this._document.registerFontkit(fontkit);
+
+        const appendixPath = this.GetAppendixPath();
+
+        //  RNFetchBlob.fs.exists crashes where the file doesnt exist
+        let appendixExists = false;
+        try { appendixExists = await RNFetchBlob.fs.exists(appendixPath); }
+        catch (e) { appendixExists = false; }
+
+        if (appendixExists)
+        {
+            const rawAppendix = await RNFetchBlob.fs.readFile(appendixPath, 'base64');
+            this._appendix = await PDFDocument.load(rawAppendix);
+        }
 
         if (onSuccess)
             onSuccess();
@@ -62,6 +77,20 @@ export default class PDFDraw
         this._page = pages.length > page
         ?   pages[page]
         :   this._document.addPage();
+    }
+
+    CloneAppendix = async (page) =>
+    {
+        if (!this._appendix)
+            return false;
+
+        const pages = this._appendix.getPages();
+
+        if (pages.length < page)
+            return false;
+
+        const [copy] = await this._document.copyPages(this._appendix, [page]);
+        this._page = this._document.addPage(copy);
     }
 
     DrawRectangle = (style) =>
