@@ -1,5 +1,5 @@
 import React from 'react';
-import { FlatList } from 'react-native';
+import { FlatList, BackHandler } from 'react-native';
 import { Container, Content, Text, Image } from 'native-base';
 
 import Forms from '../context/Forms';
@@ -49,13 +49,15 @@ export default class FormList extends React.Component
             this._asyncReqForm.cancel();
     }
 
-
     render()
     {
         const { forms, loading } = this.state;
 
         return (
-            <PageLayout header="SMS Reports">
+            <PageLayout
+                header="SMS Reports"
+                next={{ label: 'Exit', onPress: BackHandler.exitApp}}
+            >
                 <Container>
                     <Content>
                         {loading &&
