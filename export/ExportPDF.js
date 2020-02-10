@@ -233,6 +233,15 @@ export default class ExportPDF
 
         else if (!renderValue) return;
 
+        let option = null;
+        if (controls && ControlKeys.Spinner === type)
+        {
+            option = controls.find(option => option.value === renderValue);
+
+            if (option && option.renderValue)
+                renderValue = option.renderValue;
+        }
+
 
         if (renderValue instanceof Date)
         {
@@ -261,13 +270,8 @@ export default class ExportPDF
             if (!layout[page]) layout[page] = [];
 
             let additionalStyle = {};
-            if (controls && ControlKeys.Spinner === type)
-            {
-                const option = controls.find(option => option.value === renderValue);
-
-                if(option)
-                    additionalStyle = { ...additionalStyle, ...option.pdf };
-            }
+            if (option && option.pdf)
+                additionalStyle = { ...additionalStyle, ...option.pdf };
 
             for (alias in pdf[page])
                 layout[page].push(
