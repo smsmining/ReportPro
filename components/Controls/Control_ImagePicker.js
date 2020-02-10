@@ -3,7 +3,9 @@ import ImagePicker from 'react-native-image-picker';
 import { Text, TouchableOpacity,View,Image} from 'react-native';
 import { styles } from '../../utils/Style';
 import Colors from '../../utils/ReportColors';
+import InlineLabelItem from './Layout/InlineLabelItem';
 import FloatingLabelItem from './Layout/FloatingLabelItem';
+
 const selectImage = (param, onChange) =>
 {
     const options =
@@ -24,19 +26,27 @@ const Control_ImagePicker = (props) =>
 {
     const { label, value, param, onChange } = props;
 
+    if (value)
+        return (
+            <FloatingLabelItem label={label}>
+                <TouchableOpacity style={styles.center} onPress={() => selectImage(param, onChange)}>
+                    <View style={styles.ImageContainer}>
+                        <Image style={styles.image} source={value} />
+                    </View>
+                </TouchableOpacity>
+            </FloatingLabelItem >
+            );
+
     return (
-        <FloatingLabelItem label={label}>
-            <TouchableOpacity  style={styles.center} onPress={() => selectImage(param, onChange)}>
-                <View style={ styles.ImageContainer}>
-                    {value
-                ?   <Image style={styles.image} source={value} />
-                :   <Text style={{ color: Colors.light }}>
+        <InlineLabelItem label={label}>
+            <TouchableOpacity style={styles.center} onPress={() => selectImage(param, onChange)}>
+                <View style={styles.ImageContainer}>
+                    <Text style={{ color: Colors.secondary, margin: 5 }}>
                         Select a Photo
                     </Text>
-                    }
                 </View>
             </TouchableOpacity>
-        </FloatingLabelItem>
+        </InlineLabelItem>
     );
 };
 

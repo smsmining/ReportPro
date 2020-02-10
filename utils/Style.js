@@ -132,7 +132,9 @@ export const styles = StyleSheet.create({
         borderBottomWidth: 0,
     },
     FormBody: {
-        marginLeft: 32,
+        marginLeft: 0,
+        borderBottomWidth: 1,
+        borderColor: Colors.secondary,
     },
     container: {
         flex: 1,
@@ -148,6 +150,7 @@ export const styles = StyleSheet.create({
         fontSize: 13,
         fontWeight: 'bold',
         color: Colors.dark,
+        width: '35%',
     },
 
     logo: {
