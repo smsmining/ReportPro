@@ -11,7 +11,7 @@ import { GlobalStyles, LayoutPartials, AlignmentStyles, LoadingStyles } from '..
 import ControlItem from '../components/ControlItem';
 import PageLayout from '../components/Layout/PageLayout';
 import SaveLoadFab from '../components/ControlForm/SaveLoadFAB';
-import { MessageAlert, ConfirmAlert } from '../components/Alerts';
+import { MessageAlert, GeneralAlertDialog } from '../components/Alerts';
 import ReportColors from '../utils/ReportColors';
 
 
@@ -62,7 +62,7 @@ export default class ControlForm extends React.Component
         const { hasSaved } = this.state;
 
         if (hasSaved)
-            ConfirmAlert
+            GeneralAlertDialog
                 ("Save Form"
                 ,"If you proceed you will override any saved progress"
                 ,this.onSaveCall
@@ -74,20 +74,22 @@ export default class ControlForm extends React.Component
     onSaveCall = () =>
         Forms.SaveInstance(this.props.guid, this.state.instance, () => { this.setState({ hasSaved: true }); MessageAlert("Save Form", "Saved Successfully") });
 
-    onLoad = () => ConfirmAlert
+    onLoad = () => GeneralAlertDialog
         ("Load Form"
         ,"If you proceed you will loose any unsaved progress"
         ,() => Forms.LoadInstance(this.props.guid, result => this.setState({ instance: result }) )
         );
 
-    onNew = () => ConfirmAlert
+    onNew = () => GeneralAlertDialog
         ("New Form"
         ,"If you proceed you will loose any unsaved progress"
         ,() => {this.setState({ instance: null })}
         );
 
 
-    onCreatePDF = () => Actions.PDF({ guid: this.props.guid, instance: this.state.instance });
+    onCreatePDF = () => Actions.PDF({ guid: this.props.guid, instance: this.state.instance ,onChange: this.clearInstanceValue  });
+
+    clearInstanceValue = () => this.setState({ instance: null });
 
     setInstanceValue = (value, param) => this.setState({ instance: { ...this.state.instance, [param]: value } });
 

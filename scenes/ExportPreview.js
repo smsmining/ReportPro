@@ -8,6 +8,8 @@ import { ExportPDF } from '../export';
 
 import PDFDisplay from '../components/PDFDisplay';
 import PageLayout from '../components/Layout/PageLayout';
+import { GeneralAlertDialog } from '../components/Alerts';
+import { keys } from '../scenes';
 
 
 export default class PDF extends React.Component
@@ -48,13 +50,21 @@ export default class PDF extends React.Component
 
         let intentTitle = pdfPath.substring(pdfPath.lastIndexOf('/') + 1, pdfPath.length - 4);
 
-        await Share.open(
-            {title: intentTitle
-            ,url: "file://" + pdfPath
-            ,type: 'application/pdf'
-            });
+        try {
+            await Share.open(
+                {title: intentTitle
+                ,url: "file://" + pdfPath
+                ,type: 'application/pdf'
+                });
 
-        Actions.pop();
+            Actions.popTo(keys.Main, this.props.onChange());
+          }
+        catch (e) {
+            GeneralAlertDialog
+            ("Send Error"
+            ,"An issue occured sending the document"
+            );
+          }  
     }
 
     render()
