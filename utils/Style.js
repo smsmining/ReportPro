@@ -153,12 +153,22 @@ export const styles = StyleSheet.create({
         width: '35%',
     },
 
+    header: {
+        flex: 1,
+    },
+
+    appName: {
+        color: Colors.white,
+        fontSize: 14,
+    },
+
     logo: {
-        opacity: 0.8,
         overflow: 'visible',
-        resizeMode: 'cover',
-        marginLeft: -128,
-        marginBottom: -192,
+        resizeMode: 'stretch',
+        margin: 0,
+        width: 140,
+        height: '100%',
+        padding:0,
     },
     text: {
         fontSize: 40,

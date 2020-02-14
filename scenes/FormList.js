@@ -55,7 +55,6 @@ export default class FormList extends React.Component
 
         return (
             <PageLayout
-                header="SMS Reports"
                 next={{ label: 'Exit', onPress: BackHandler.exitApp}}
             >
                 <Container>
