@@ -51,6 +51,16 @@ const SaveInstance = (guid, instance, onSuccess) =>
         .then(onSuccess);
 
 
+const SiteSpinnerControls = [
+    { label: 'Aquarious Gold', value: 'Aquarious Gold' },
+    { label: 'Kirkolocka', value: 'Kirkolocka' },
+    { label: 'Bald Hill', value: 'Bald Hill' },
+    { label: 'Matts Dam South', value: 'Matts Dam South' },
+    { label: 'GEKO SMS', value: 'GEKO SMS' },
+    { label: 'Thunder Box', value: 'Thunder Box' },
+    { label: 'Manual Input', value: '', manual: true },
+];
+
 const fakeDB =
 {
     forms:
@@ -74,8 +84,9 @@ const fakeDB =
                             },
                             {
                                 param: 'details_minesite',
-                                type: ControlKeys.TextField,
+                                type: ControlKeys.Spinner,
                                 label: 'Site',
+                                controls: SiteSpinnerControls,
                                 pdf: { 0: [{ x: 160, y: 760, width: 100, height: 15 }] },
                             },
                             {
@@ -289,8 +300,9 @@ const fakeDB =
                             },
                             {
                                 param: 'location',
-                                type: ControlKeys.TextField,
+                                type: ControlKeys.Spinner,
                                 label: 'Location',
+                                controls: SiteSpinnerControls,
                                 pdf: { 0: [{ x: 300, y: 765, size: 16 }] },
                             },
                             {
@@ -902,8 +914,9 @@ const fakeDB =
                             },
                             {
                                 param: 'location',
-                                type: ControlKeys.TextField,
+                                type: ControlKeys.Spinner,
                                 label: 'Location',
+                                controls: SiteSpinnerControls,
                                 pdf: { 0: [{ x: 300, y: 765, size: 14 }] },
                             },
                             {
@@ -1825,8 +1838,9 @@ const fakeDB =
                             },
                             {
                                 param: 'location',
-                                type: ControlKeys.TextField,
+                                type: ControlKeys.Spinner,
                                 label: 'Location',
+                                controls: SiteSpinnerControls,
                                 pdf: { 0: [{ x: 75, y: 640, width: 200, height: 15, size: 14 }] },
                             },
                             {

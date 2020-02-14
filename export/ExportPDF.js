@@ -228,6 +228,9 @@ export default class ExportPDF
 
         let renderValue = (values || { })[param] || value;
 
+        if (typeof renderValue === 'object' && renderValue.manual)
+            renderValue = renderValue.value;
+
         if (type == ControlKeys.CheckBox)
             renderValue = !(!renderValue);
 
