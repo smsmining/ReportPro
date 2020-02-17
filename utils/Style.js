@@ -157,6 +157,11 @@ export const styles = StyleSheet.create({
         flex: 1,
     },
 
+    navText: {
+        textAlign: 'right',
+    },
+
+
     appName: {
         color: Colors.white,
         fontSize: 14,

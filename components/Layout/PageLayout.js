@@ -4,10 +4,14 @@ import { Image} from 'react-native';
 import NavButton from './NavButton';
 import ReportColors from '../../utils/ReportColors';
 import { styles } from '../../utils/Style';
+import { GlobalStyles } from '../../utils/Style';
 
 export default PageLayout = (props) =>
 {
     const {  back, next, children } = props;
+
+    const imageWidth = Math.min(GlobalStyles.screenWidth.width, 410) / 2.9;
+    const imageHeight = imageWidth / 3.4;
 
     return (
         <Container>
@@ -15,11 +19,11 @@ export default PageLayout = (props) =>
                 <Left style={styles.header}>
                     {back && <NavButton {...back} />}
                 </Left>
-                <Body style={styles.header}>
-                    <Image source={require('../../images/SMS-Logo.png')} style={styles.logo}/>
+                <Body>
+                    <Image source={require('../../images/SMS-Logo.png')} style={{ width: imageWidth, height: imageHeight }}/>
                 </Body>
                 <Right style={styles.header}>
-                    {next && <NavButton {...next} />}
+                    {next && <NavButton {...next}  labelStyle = {styles.navText} />}
                 </Right>
             </Header>
             {children}
