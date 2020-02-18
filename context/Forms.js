@@ -111,6 +111,7 @@ const fakeDB =
                                     { label: 'Night', value: 'Night Shift', pdf: { x: 521 }, renderValue: true },
                                 ],
                                 pdf: { 0: [{ y: 744 }] },
+                                radio: true,
                             },
                             {
                                 param: 'details_weather',
@@ -172,13 +173,13 @@ const fakeDB =
                                         param: 'checklist_selector',
                                         type: ControlKeys.Spinner,
                                         label: 'safety condition',
-                                        value: 'Safe',
                                         controls: [
                                             {label: 'Safe', value: 'Safe', pdf: { x: 14 }, renderValue: true },
                                             {label: 'At Risk', value: 'At Risk', pdf: { x: 49 }, renderValue: true },
                                             {label: 'N/A', value: 'N/A', pdf: { x: 85 }, renderValue: true },
                                         ],
                                         pdf: { 0: [{ y: 6 }] },
+                                        radio: true,
                                     },
                                     ]
                             },
@@ -199,13 +200,13 @@ const fakeDB =
                                 param: 'checklist_oiltank_selector',
                                 type: ControlKeys.Spinner,
                                 label: 'safety condition',
-                                value: 'Safe',
                                 controls: [
                                     { label: 'Safe', value: 'Safe', pdf: { x: 463 }, renderValue: true },
                                     { label: 'At Risk', value: 'At Risk', pdf: { x: 498 }, renderValue: true },
                                     { label: 'N/A', value: 'N/A', pdf: { x: 534 }, renderValue: true },
                                 ],
                                 pdf: { 0: [{ y: 249, width: 100, height: 15 }] },
+                                radio: true,
                             },
                         ],
                     },
@@ -2016,13 +2017,13 @@ const fakeDB =
                                                 type: ControlKeys.Spinner,
                                                 label: 'Severity',
                                                 pdf: { 0: [{ x: 0, y: 75, width: 260, height: 13, size: 12 }] },
-                                                value: "Normal:",
                                                 controls: [
                                                     {label: "Normal", value: "Normal:", pdf: { backgroundColor: "#99FF33" }},
                                                     {label: "Watch Closely", value: "Watch Closely:", pdf: { backgroundColor: "#FF9933" }},
                                                     {label: "Attention", value: "Attention:", pdf: { backgroundColor: "#FF3333" }},
                                                     {label: "Failure", value: "Failure:", pdf: { backgroundColor: "#FF3333" }},
-                                                    ]
+                                                    ],
+                                                radio: true,
                                             },
                                             {
                                                 param: 'inspection_attachment_image',
