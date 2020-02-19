@@ -171,13 +171,89 @@ export default class PDFDraw
         if (typeof style.color == "string")
             style.color = this.hexToRgb(style.color);
 
-        this._page.drawText
-            (content
-            ,{size: 12
-             ,...style
-             ,font: font.embed
-             }
-            );
+        let textY = style.y;
+        const textHeight = font.embed.heightAtSize(style.size || 12) + 1;
+        if (style.height && style.height > textHeight)
+            textY = style.y + style.height - textHeight;
+
+        const textW = font.embed.widthOfTextAtSize(content, style.size || 12);
+        if (!style.width || style.width > textW)
+            return this._page.drawText
+                (content
+                ,{size: 12
+                ,...style
+                ,y: textY
+                ,font: font.embed
+                });
+
+        let i = 0;
+        let words = content.split(' ');
+        while (i < words.length)
+        {
+            let line = words.slice(0, i + 1).join(' ');
+            const lineW = font.embed.widthOfTextAtSize(line, style.size || 12);
+
+            if (lineW < style.width)
+            {
+                if (i == words.length - 1)
+                    return this._page.drawText
+                        (line
+                        ,{size: 12
+                        ,...style
+                        ,y: textY
+                        ,font: font.embed
+                        });
+
+                i++;
+                continue;
+            }
+
+            if (i === 0)
+            {
+                let word = words[0];
+                if (font.embed.widthOfTextAtSize(word.charAt(0), style.size || 12) > style.width)
+                    throw "Cannot fit text in width";
+
+                for (let j = 1; j < word.length; j++)
+                {
+                    const part = word.substring(0, j) + "-";
+                    let wordW = font.embed.widthOfTextAtSize(part, style.size || 12);
+
+                    if (wordW < style.width)
+                        continue;
+
+                    this._page.drawText
+                        (part
+                        ,{size: 12
+                        ,...style
+                        ,y: textY
+                        ,font: font.embed
+                            });
+
+                    words[0] = word.substring(j + 1);
+                    break;
+                }
+            }
+            else
+            {
+                line = words.slice(0, i).join(' ');
+                this._page.drawText
+                    (line
+                    ,{size: 12
+                    ,...style
+                    ,y: textY
+                    ,font: font.embed
+                    });
+
+                words.splice(0, i + 1);
+            }
+
+            textY -= textHeight;
+            if (textY < style.y)
+                break;
+
+            i = 0;
+        }
     }
 
     Apply = async () =>
