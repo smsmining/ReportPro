@@ -9,7 +9,7 @@ const DividerLabelItem = (props) =>
     const { label } = props;
     return (
         <ListItem style={{ backgroundColor: ReportColors.secondary }} itemDivider>
-            <Text style={styles.Label}>{label}</Text>
+            <Text style={{ ...styles.Label, width: "100%" }}>{label}</Text>
         </ListItem>
     );
 };

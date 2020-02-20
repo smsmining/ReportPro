@@ -8,7 +8,9 @@ const FloatingLabelItem = (props) =>
     return (
         <ListItem style={styles.borderBottom}>
             <Body>
+                {props.label &&
                 <Label style={styles.Label}>{props.label}</Label>
+                }
                 <View style={styles.container}>
                     {props.children}
                 </View>

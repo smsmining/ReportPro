@@ -7,7 +7,9 @@ const InlineLabelItem = (props) =>
 {
     return (
         <ListItem style={styles.borderBottom}>
+            {props.label &&
             <Label style={styles.Label}>{props.label}</Label>
+            }
             <Body style={styles.FormBody}>
                 <View style={styles.container}>
                     {props.children}
