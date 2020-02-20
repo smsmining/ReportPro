@@ -1,6 +1,6 @@
 import React from 'react';
-import { FlatList, BackHandler } from 'react-native';
-import { Container, Content, Text, Image } from 'native-base';
+import { Platform, FlatList, BackHandler, Linking } from 'react-native';
+import { Container, Content, Text } from 'native-base';
 
 import Forms from '../context/Forms';
 import { styles } from '../utils/Style';
@@ -55,6 +55,7 @@ export default class FormList extends React.Component
 
         return (
             <PageLayout
+                back={Platform.OS === 'android' ? { icon: 'cloud-download', onPress: () => Linking.openURL('http://smsmining.ga/') } : undefined}
                 next={{ label: 'Exit', onPress: BackHandler.exitApp}}
             >
                 <Container>
