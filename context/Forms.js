@@ -992,7 +992,7 @@ const fakeDB =
                                 grid: { 0: [{ width: 339, height: 10.5 }] },
                                 value: [{ 'risk_assessment_action': 'JHA Completed and Being Followed' }
                                        ,{ 'risk_assessment_action': 'Take 5 Completed and Being Followed' }
-                                ],
+                                       ],
                                 controls: [
                                     {
                                         param: 'risk_assessment_action',
@@ -1001,7 +1001,6 @@ const fakeDB =
                                     {
                                         param: 'risk_assessment_choice',
                                         type: ControlKeys.Spinner,
-                                        label: 'Compliant',
                                         pdf: { 0: [{ y: 2, size: 10 }] },
                                         controls: [
                                             { label: "Yes", value: "Yes", pdf: { x: 11 }, renderValue: true },
@@ -1011,31 +1010,36 @@ const fakeDB =
                                         radio: true,
                                     },
                                     {
-                                        param: 'risk_assessment_sampled',
-                                        type: ControlKeys.TextField,
-                                        label: 'Number Sampled',
-                                        keyboardType: 'phone-pad',
-                                        pdf: { 0: [{ x: 70, y: 0, width: 49, height: 10, size: 10 }] },
-                                    },
-                                    {
-                                        param: 'risk_assessment_compliant',
-                                        type: ControlKeys.TextField,
-                                        label: 'Number Compliant',
-                                        keyboardType: 'phone-pad',
-                                        pdf: { 0: [{ x: 120, y: 0, width: 49, height: 10, size: 10 }] },
-                                    },
-                                    {
-                                        param: 'risk_assessment_comments',
-                                        type: ControlKeys.TextField,
-                                        label: 'Comments',
-                                        pdf: { 0: [{ x: 170, y: 0, width: 169, height: 10, size: 10 }] },
-                                    },
-                                    {
                                         param: 'risk_assessment_divider',
                                         type: ControlKeys.Divider,
                                     },
                                 ],
                             },
+                            {
+                                param: 'risk_assessment_sampled',
+                                type: ControlKeys.TextField,
+                                label: 'Risk Sampled',
+                                keyboardType: 'phone-pad',
+                                pdf: { 0: [{ x: 315, y: 708, width: 43, height: 21 }] },
+                            },
+                            {
+                                param: 'risk_assessment_compliant',
+                                type: ControlKeys.TextField,
+                                label: 'Risk Compliant',
+                                keyboardType: 'phone-pad',
+                                pdf: { 0: [{ x: 365, y: 708, width: 43, height: 21 }] },
+                            },
+                            {
+                                param: 'risk_assessment_comments',
+                                type: ControlKeys.TextField,
+                                label: 'Risk Comments',
+                                pdf: { 0: [{ x: 415, y: 708, width: 163, height: 21 }] },
+                            },
+                            {
+                                param: 'risk_assessment_spacer',
+                                type: ControlKeys.Divider,
+                            },
+
                             {
                                 param: 'compliance_to_procedures_header',
                                 type: ControlKeys.Divider,
@@ -1059,7 +1063,6 @@ const fakeDB =
                                     {
                                         param: 'compliance_to_procedures_choice',
                                         type: ControlKeys.Spinner,
-                                        label: 'Compliant',
                                         pdf: { 0: [{ y: 2, size: 10 }] },
                                         controls: [
                                             { label: "Yes", value: "Yes", pdf: { x: 11 }, renderValue: true },
@@ -1069,31 +1072,36 @@ const fakeDB =
                                         radio: true,
                                     },
                                     {
-                                        param: 'compliance_to_procedures_sampled',
-                                        type: ControlKeys.TextField,
-                                        label: 'Number Sampled',
-                                        keyboardType: 'phone-pad',
-                                        pdf: { 0: [{ x: 70, y: 0, width: 49, height: 10, size: 10 }] },
-                                    },
-                                    {
-                                        param: 'compliance_to_procedures_compliant',
-                                        type: ControlKeys.TextField,
-                                        label: 'Number Compliant',
-                                        keyboardType: 'phone-pad',
-                                        pdf: { 0: [{ x: 120, y: 0, width: 49, height: 10, size: 10 }] },
-                                    },
-                                    {
-                                        param: 'compliance_to_procedures_comments',
-                                        type: ControlKeys.TextField,
-                                        label: 'Comments',
-                                        pdf: { 0: [{ x: 170, y: 0, width: 169, height: 10, size: 10 }] },
-                                    },
-                                    {
                                         param: 'compliance_to_procedures_divider',
                                         type: ControlKeys.Divider,
                                     },
                                 ],
                             },
+                            {
+                                param: 'compliance_to_procedures_sampled',
+                                type: ControlKeys.TextField,
+                                label: 'Compliance Sampled',
+                                keyboardType: 'phone-pad',
+                                pdf: { 0: [{ x: 315, y: 665.5, width: 43, height: 32 }] },
+                            },
+                            {
+                                param: 'compliance_to_procedures_compliant',
+                                type: ControlKeys.TextField,
+                                label: 'Compliance Compliant',
+                                keyboardType: 'phone-pad',
+                                pdf: { 0: [{ x: 365, y: 665.5, width: 43, height: 32 }] },
+                            },
+                            {
+                                param: 'compliance_to_procedures_comments',
+                                type: ControlKeys.TextField,
+                                label: 'Compliance Comments',
+                                pdf: { 0: [{ x: 415, y: 665.5, width: 163, height: 32 }] },
+                            },
+                            {
+                                param: 'compliance_to_procedures_spacer',
+                                type: ControlKeys.Divider,
+                            },
+
                             {
                                 param: 'working_at_heights_divider',
                                 type: ControlKeys.Divider,
@@ -1119,7 +1127,6 @@ const fakeDB =
                                     {
                                         param: 'working_at_heights_choice',
                                         type: ControlKeys.Spinner,
-                                        label: 'Compliant',
                                         pdf: { 0: [{ y: 2, size: 10 }] },
                                         controls: [
                                             { label: "Yes", value: "Yes", pdf: { x: 11 }, renderValue: true },
@@ -1129,31 +1136,36 @@ const fakeDB =
                                         radio: true,
                                     },
                                     {
-                                        param: 'working_at_heights_sampled',
-                                        type: ControlKeys.TextField,
-                                        label: 'Number Sampled',
-                                        keyboardType: 'phone-pad',
-                                        pdf: { 0: [{ x: 70, y: 0, width: 49, height: 10, size: 10 }] },
-                                    },
-                                    {
-                                        param: 'working_at_heights_compliant',
-                                        type: ControlKeys.TextField,
-                                        label: 'Number Compliant',
-                                        keyboardType: 'phone-pad',
-                                        pdf: { 0: [{ x: 120, y: 0, width: 49, height: 10, size: 10 }] },
-                                    },
-                                    {
-                                        param: 'working_at_heights_comments',
-                                        type: ControlKeys.TextField,
-                                        label: 'Comments',
-                                        pdf: { 0: [{ x: 170, y: 0, width: 169, height: 10, size: 10 }] },
-                                    },
-                                    {
                                         param: 'working_at_heights_divider',
                                         type: ControlKeys.Divider,
                                     },
                                 ],
                             },
+                            {
+                                param: 'working_at_heights_sampled',
+                                type: ControlKeys.TextField,
+                                label: 'W@H Sampled',
+                                keyboardType: 'phone-pad',
+                                pdf: { 0: [{ x: 315, y: 601.5, width: 43, height: 53 }] },
+                            },
+                            {
+                                param: 'working_at_heights_compliant',
+                                type: ControlKeys.TextField,
+                                label: 'W@H Compliant',
+                                keyboardType: 'phone-pad',
+                                pdf: { 0: [{ x: 365, y: 601.5, width: 43, height: 53 }] },
+                            },
+                            {
+                                param: 'working_at_heights_comments',
+                                type: ControlKeys.TextField,
+                                label: 'W@H Comments',
+                                pdf: { 0: [{ x: 415, y: 601.5, width: 163, height: 53 }] },
+                            },
+                            {
+                                param: 'working_at_heights_spacer',
+                                type: ControlKeys.Divider,
+                            },
+
                             {
                                 param: 'confined_space_header',
                                 type: ControlKeys.Divider,
@@ -1177,7 +1189,6 @@ const fakeDB =
                                     {
                                         param: 'confined_space_choice',
                                         type: ControlKeys.Spinner,
-                                        label: 'Compliant',
                                         pdf: { 0: [{ y: 2, size: 10 }] },
                                         controls: [
                                             { label: "Yes", value: "Yes", pdf: { x: 11 }, renderValue: true },
@@ -1187,31 +1198,36 @@ const fakeDB =
                                         radio: true,
                                     },
                                     {
-                                        param: 'confined_space_sampled',
-                                        type: ControlKeys.TextField,
-                                        label: 'Number Sampled',
-                                        keyboardType: 'phone-pad',
-                                        pdf: { 0: [{ x: 70, y: 0, width: 49, height: 10, size: 10 }] },
-                                    },
-                                    {
-                                        param: 'confined_space_compliant',
-                                        type: ControlKeys.TextField,
-                                        label: 'Number Compliant',
-                                        keyboardType: 'phone-pad',
-                                        pdf: { 0: [{ x: 120, y: 0, width: 49, height: 10, size: 10 }] },
-                                    },
-                                    {
-                                        param: 'confined_space_comments',
-                                        type: ControlKeys.TextField,
-                                        label: 'Comments',
-                                        pdf: { 0: [{ x: 170, y: 0, width: 169, height: 10, size: 10 }] },
-                                    },
-                                    {
-                                        param: 'traffic_management_divider',
+                                        param: 'confined_space_divider',
                                         type: ControlKeys.Divider,
                                     },
                                 ],
                             },
+                            {
+                                param: 'confined_space_sampled',
+                                type: ControlKeys.TextField,
+                                label: 'Confined Sampled',
+                                keyboardType: 'phone-pad',
+                                pdf: { 0: [{ x: 315, y: 560, width: 43, height: 32 }] },
+                            },
+                            {
+                                param: 'confined_space_compliant',
+                                type: ControlKeys.TextField,
+                                label: 'Confined Compliant',
+                                keyboardType: 'phone-pad',
+                                pdf: { 0: [{ x: 365, y: 560, width: 43, height: 32 }] },
+                            },
+                            {
+                                param: 'confined_space_comments',
+                                type: ControlKeys.TextField,
+                                label: 'Confined Comments',
+                                pdf: { 0: [{ x: 415, y: 560, width: 163, height: 32 }] },
+                            },
+                            {
+                                param: 'confined_space_spacer',
+                                type: ControlKeys.Divider,
+                            },
+
                             {
                                 param: 'isolation_divider',
                                 type: ControlKeys.Divider,
@@ -1236,7 +1252,6 @@ const fakeDB =
                                     {
                                         param: 'isolation_choice',
                                         type: ControlKeys.Spinner,
-                                        label: 'Compliant',
                                         pdf: { 0: [{ y: 2, size: 10 }] },
                                         controls: [
                                             { label: "Yes", value: "Yes", pdf: { x: 11 }, renderValue: true },
@@ -1246,31 +1261,36 @@ const fakeDB =
                                         radio: true,
                                     },
                                     {
-                                        param: 'isolation_sampled',
-                                        type: ControlKeys.TextField,
-                                        label: 'Number Sampled',
-                                        keyboardType: 'phone-pad',
-                                        pdf: { 0: [{ x: 70, y: 0, width: 49, height: 10, size: 10 }] },
-                                    },
-                                    {
-                                        param: 'isolation_compliant',
-                                        type: ControlKeys.TextField,
-                                        label: 'Number Compliant',
-                                        keyboardType: 'phone-pad',
-                                        pdf: { 0: [{ x: 120, y: 0, width: 49, height: 10, size: 10 }] },
-                                    },
-                                    {
-                                        param: 'isolation_comments',
-                                        type: ControlKeys.TextField,
-                                        label: 'Comments',
-                                        pdf: { 0: [{ x: 170, y: 0, width: 169, height: 10, size: 10 }] },
-                                    },
-                                    {
                                         param: 'isolation_divider',
                                         type: ControlKeys.Divider,
                                     },
                                 ],
                             },
+                            {
+                                param: 'isolation_sampled',
+                                type: ControlKeys.TextField,
+                                label: 'Isolation Sampled',
+                                keyboardType: 'phone-pad',
+                                pdf: { 0: [{ x: 315, y: 507.5, width: 43, height: 42 }] },
+                            },
+                            {
+                                param: 'isolation_compliant',
+                                type: ControlKeys.TextField,
+                                label: 'Isolation Compliant',
+                                keyboardType: 'phone-pad',
+                                pdf: { 0: [{ x: 365, y: 507.5, width: 43, height: 42 }] },
+                            },
+                            {
+                                param: 'isolation_comments',
+                                type: ControlKeys.TextField,
+                                label: 'Isolation Comments',
+                                pdf: { 0: [{ x: 415, y: 507.5, width: 163, height: 42 }] },
+                            },
+                            {
+                                param: 'isolation_spacer',
+                                type: ControlKeys.Divider,
+                            },
+
                             {
                                 param: 'mobile_equipment_divider',
                                 type: ControlKeys.Divider,
@@ -1296,7 +1316,6 @@ const fakeDB =
                                     {
                                         param: 'mobile_equipment_choice',
                                         type: ControlKeys.Spinner,
-                                        label: 'Compliant',
                                         pdf: { 0: [{ y: 2, size: 10 }] },
                                         controls: [
                                             { label: "Yes", value: "Yes", pdf: { x: 11 }, renderValue: true },
@@ -1306,31 +1325,36 @@ const fakeDB =
                                         radio: true,
                                     },
                                     {
-                                        param: 'mobile_equipment_sampled',
-                                        type: ControlKeys.TextField,
-                                        label: 'Number Sampled',
-                                        keyboardType: 'phone-pad',
-                                        pdf: { 0: [{ x: 70, y: 0, width: 49, height: 10, size: 10 }] },
-                                    },
-                                    {
-                                        param: 'mobile_equipment_compliant',
-                                        type: ControlKeys.TextField,
-                                        label: 'Number Compliant',
-                                        keyboardType: 'phone-pad',
-                                        pdf: { 0: [{ x: 120, y: 0, width: 49, height: 10, size: 10 }] },
-                                    },
-                                    {
-                                        param: 'mobile_equipment_comments',
-                                        type: ControlKeys.TextField,
-                                        label: 'Comments',
-                                        pdf: { 0: [{ x: 170, y: 0, width: 169, height: 10, size: 10 }] },
-                                    },
-                                    {
                                         param: 'mobile_equipment_divider',
                                         type: ControlKeys.Divider,
                                     },
                                 ],
                             },
+                            {
+                                param: 'mobile_equipment_sampled',
+                                type: ControlKeys.TextField,
+                                label: 'Mobile Sampled',
+                                keyboardType: 'phone-pad',
+                                pdf: { 0: [{ x: 315, y: 444, width: 43, height: 53 }] },
+                            },
+                            {
+                                param: 'mobile_equipment_compliant',
+                                type: ControlKeys.TextField,
+                                label: 'Mobile Compliant',
+                                keyboardType: 'phone-pad',
+                                pdf: { 0: [{ x: 365, y: 444, width: 43, height: 53 }] },
+                            },
+                            {
+                                param: 'mobile_equipment_comments',
+                                type: ControlKeys.TextField,
+                                label: 'Mobile Comments',
+                                pdf: { 0: [{ x: 415, y: 444, width: 163, height: 53 }] },
+                            },
+                            {
+                                param: 'mobile_equipment_spacer',
+                                type: ControlKeys.Divider,
+                            },
+
                             {
                                 param: 'electrical_equipment_divider',
                                 type: ControlKeys.Divider,
@@ -1353,7 +1377,6 @@ const fakeDB =
                                     {
                                         param: 'electrical_equipment_choice',
                                         type: ControlKeys.Spinner,
-                                        label: 'Compliant',
                                         pdf: { 0: [{ y: 2, size: 10 }] },
                                         controls: [
                                             { label: "Yes", value: "Yes", pdf: { x: 11 }, renderValue: true },
@@ -1363,31 +1386,36 @@ const fakeDB =
                                         radio: true,
                                     },
                                     {
-                                        param: 'electrical_equipment_sampled',
-                                        type: ControlKeys.TextField,
-                                        label: 'Number Sampled',
-                                        keyboardType: 'phone-pad',
-                                        pdf: { 0: [{ x: 70, y: 0, width: 49, height: 10, size: 10 }] },
-                                    },
-                                    {
-                                        param: 'electrical_equipment_compliant',
-                                        type: ControlKeys.TextField,
-                                        label: 'Number Compliant',
-                                        keyboardType: 'phone-pad',
-                                        pdf: { 0: [{ x: 120, y: 0, width: 49, height: 10, size: 10 }] },
-                                    },
-                                    {
-                                        param: 'electrical_equipment_comments',
-                                        type: ControlKeys.TextField,
-                                        label: 'Comments',
-                                        pdf: { 0: [{ x: 170, y: 0, width: 169, height: 10, size: 10 }] },
-                                    },
-                                    {
                                         param: 'electrical_equipment_divider',
                                         type: ControlKeys.Divider,
                                     },
                                 ],
                             },
+                            {
+                                param: 'electrical_equipment_sampled',
+                                type: ControlKeys.TextField,
+                                label: 'Electrical Sampled',
+                                keyboardType: 'phone-pad',
+                                pdf: { 0: [{ x: 315, y: 413, width: 43, height: 21 }] },
+                            },
+                            {
+                                param: 'electrical_equipment_compliant',
+                                type: ControlKeys.TextField,
+                                label: 'Electrical Compliant',
+                                keyboardType: 'phone-pad',
+                                pdf: { 0: [{ x: 365, y: 413, width: 43, height: 21 }] },
+                            },
+                            {
+                                param: 'electrical_equipment_comments',
+                                type: ControlKeys.TextField,
+                                label: 'Electrical Comments',
+                                pdf: { 0: [{ x: 415, y: 413, width: 163, height: 21 }] },
+                            },
+                            {
+                                param: 'electrical_equipment_spacer',
+                                type: ControlKeys.Divider,
+                            },
+
                             {
                                 param: 'lifting_divider',
                                 type: ControlKeys.Divider,
@@ -1412,7 +1440,6 @@ const fakeDB =
                                     {
                                         param: 'lifting_choice',
                                         type: ControlKeys.Spinner,
-                                        label: 'Compliant',
                                         pdf: { 0: [{ y: 2, size: 10 }] },
                                         controls: [
                                             { label: "Yes", value: "Yes", pdf: { x: 11 }, renderValue: true },
@@ -1422,31 +1449,36 @@ const fakeDB =
                                         radio: true,
                                     },
                                     {
-                                        param: 'lifting_sampled',
-                                        type: ControlKeys.TextField,
-                                        label: 'Number Sampled',
-                                        keyboardType: 'phone-pad',
-                                        pdf: { 0: [{ x: 70, y: 0, width: 49, height: 10, size: 10 }] },
-                                    },
-                                    {
-                                        param: 'lifting_compliant',
-                                        type: ControlKeys.TextField,
-                                        label: 'Number Compliant',
-                                        keyboardType: 'phone-pad',
-                                        pdf: { 0: [{ x: 120, y: 0, width: 49, height: 10, size: 10 }] },
-                                    },
-                                    {
-                                        param: 'lifting_comments',
-                                        type: ControlKeys.TextField,
-                                        label: 'Comments',
-                                        pdf: { 0: [{ x: 170, y: 0, width: 169, height: 10, size: 10 }] },
-                                    },
-                                    {
                                         param: 'lifting_divider',
                                         type: ControlKeys.Divider,
                                     },
                                 ],
                             },
+                            {
+                                param: 'lifting_sampled',
+                                type: ControlKeys.TextField,
+                                label: 'Electrical Sampled',
+                                keyboardType: 'phone-pad',
+                                pdf: { 0: [{ x: 315, y: 360, width: 43, height: 42 }] },
+                            },
+                            {
+                                param: 'lifting_compliant',
+                                type: ControlKeys.TextField,
+                                label: 'Electrical Compliant',
+                                keyboardType: 'phone-pad',
+                                pdf: { 0: [{ x: 365, y: 360, width: 43, height: 42 }] },
+                            },
+                            {
+                                param: 'lifting_comments',
+                                type: ControlKeys.TextField,
+                                label: 'Electrical Comments',
+                                pdf: { 0: [{ x: 415, y: 360, width: 163, height: 42 }] },
+                            },
+                            {
+                                param: 'lifting_spacer',
+                                type: ControlKeys.Divider,
+                            },
+
                             {
                                 param: 'manual_handling_divider',
                                 type: ControlKeys.Divider,
@@ -1469,7 +1501,6 @@ const fakeDB =
                                     {
                                         param: 'manual_handling_choice',
                                         type: ControlKeys.Spinner,
-                                        label: 'Compliant',
                                         pdf: { 0: [{ y: 2, size: 10 }] },
                                         controls: [
                                             { label: "Yes", value: "Yes", pdf: { x: 11 }, renderValue: true },
@@ -1479,31 +1510,36 @@ const fakeDB =
                                         radio: true,
                                     },
                                     {
-                                        param: 'manual_handling_sampled',
-                                        type: ControlKeys.TextField,
-                                        label: 'Number Sampled',
-                                        keyboardType: 'phone-pad',
-                                        pdf: { 0: [{ x: 70, y: 0, width: 49, height: 10, size: 10 }] },
-                                    },
-                                    {
-                                        param: 'manual_handling_compliant',
-                                        type: ControlKeys.TextField,
-                                        label: 'Number Compliant',
-                                        keyboardType: 'phone-pad',
-                                        pdf: { 0: [{ x: 120, y: 0, width: 49, height: 10, size: 10 }] },
-                                    },
-                                    {
-                                        param: 'manual_handling_comments',
-                                        type: ControlKeys.TextField,
-                                        label: 'Comments',
-                                        pdf: { 0: [{ x: 170, y: 0, width: 169, height: 10, size: 10 }] },
-                                    },
-                                    {
                                         param: 'manual_handling_divider',
                                         type: ControlKeys.Divider,
                                     },
                                 ],
                             },
+                            {
+                                param: 'manual_handling_sampled',
+                                type: ControlKeys.TextField,
+                                label: 'Manual Sampled',
+                                keyboardType: 'phone-pad',
+                                pdf: { 0: [{ x: 315, y: 328.3, width: 43, height: 21 }] },
+                            },
+                            {
+                                param: 'manual_handling_compliant',
+                                type: ControlKeys.TextField,
+                                label: 'Manual Compliant',
+                                keyboardType: 'phone-pad',
+                                pdf: { 0: [{ x: 365, y: 328.3, width: 43, height: 21 }] },
+                            },
+                            {
+                                param: 'manual_handling_comments',
+                                type: ControlKeys.TextField,
+                                label: 'Manual Comments',
+                                pdf: { 0: [{ x: 415, y: 328.3, width: 163, height: 21 }] },
+                            },
+                            {
+                                param: 'manual_handling_spacer',
+                                type: ControlKeys.Divider,
+                            },
+
                             {
                                 param: 'tooling_divider',
                                 type: ControlKeys.Divider,
@@ -1526,7 +1562,6 @@ const fakeDB =
                                     {
                                         param: 'tooling_choice',
                                         type: ControlKeys.Spinner,
-                                        label: 'Compliant',
                                         pdf: { 0: [{ y: 2, size: 10 }] },
                                         controls: [
                                             { label: "Yes", value: "Yes", pdf: { x: 11 }, renderValue: true },
@@ -1536,31 +1571,36 @@ const fakeDB =
                                         radio: true,
                                     },
                                     {
-                                        param: 'tooling_sampled',
-                                        type: ControlKeys.TextField,
-                                        label: 'Number Sampled',
-                                        keyboardType: 'phone-pad',
-                                        pdf: { 0: [{ x: 70, y: 0, width: 49, height: 10, size: 10 }] },
-                                    },
-                                    {
-                                        param: 'tooling_compliant',
-                                        type: ControlKeys.TextField,
-                                        label: 'Number Compliant',
-                                        keyboardType: 'phone-pad',
-                                        pdf: { 0: [{ x: 120, y: 0, width: 49, height: 10, size: 10 }] },
-                                    },
-                                    {
-                                        param: 'tooling_comments',
-                                        type: ControlKeys.TextField,
-                                        label: 'Comments',
-                                        pdf: { 0: [{ x: 170, y: 0, width: 169, height: 10, size: 10 }] },
-                                    },
-                                    {
                                         param: 'tooling_divider',
                                         type: ControlKeys.Divider,
                                     },
                                 ],
                             },
+                            {
+                                param: 'tooling_sampled',
+                                type: ControlKeys.TextField,
+                                label: 'Tooling Sampled',
+                                keyboardType: 'phone-pad',
+                                pdf: { 0: [{ x: 315, y: 296.8, width: 43, height: 21 }] },
+                            },
+                            {
+                                param: 'tooling_compliant',
+                                type: ControlKeys.TextField,
+                                label: 'Tooling Compliant',
+                                keyboardType: 'phone-pad',
+                                pdf: { 0: [{ x: 365, y: 296.8, width: 43, height: 21 }] },
+                            },
+                            {
+                                param: 'tooling_comments',
+                                type: ControlKeys.TextField,
+                                label: 'Tooling Comments',
+                                pdf: { 0: [{ x: 415, y: 296.8, width: 163, height: 21 }] },
+                            },
+                            {
+                                param: 'tooling_spacer',
+                                type: ControlKeys.Divider,
+                            },
+
                             {
                                 param: 'housekeeping_divider',
                                 type: ControlKeys.Divider,
@@ -1583,7 +1623,6 @@ const fakeDB =
                                     {
                                         param: 'housekeeping_choice',
                                         type: ControlKeys.Spinner,
-                                        label: 'Compliant',
                                         pdf: { 0: [{ y: 2, size: 10 }] },
                                         controls: [
                                             { label: "Yes", value: "Yes", pdf: { x: 11 }, renderValue: true },
@@ -1593,31 +1632,36 @@ const fakeDB =
                                         radio: true,
                                     },
                                     {
-                                        param: 'housekeeping_sampled',
-                                        type: ControlKeys.TextField,
-                                        label: 'Number Sampled',
-                                        keyboardType: 'phone-pad',
-                                        pdf: { 0: [{ x: 70, y: 0, width: 49, height: 10, size: 10 }] },
-                                    },
-                                    {
-                                        param: 'housekeeping_compliant',
-                                        type: ControlKeys.TextField,
-                                        label: 'Number Compliant',
-                                        keyboardType: 'phone-pad',
-                                        pdf: { 0: [{ x: 120, y: 0, width: 49, height: 10, size: 10 }] },
-                                    },
-                                    {
-                                        param: 'housekeeping_comments',
-                                        type: ControlKeys.TextField,
-                                        label: 'Comments',
-                                        pdf: { 0: [{ x: 170, y: 0, width: 169, height: 10, size: 10 }] },
-                                    },
-                                    {
                                         param: 'housekeeping_divider',
                                         type: ControlKeys.Divider,
                                     },
                                 ],
                             },
+                            {
+                                param: 'housekeeping_sampled',
+                                type: ControlKeys.TextField,
+                                label: 'Housekeeping Sampled',
+                                keyboardType: 'phone-pad',
+                                pdf: { 0: [{ x: 315, y: 264.8, width: 43, height: 21 }] },
+                            },
+                            {
+                                param: 'housekeeping_compliant',
+                                type: ControlKeys.TextField,
+                                label: 'Housekeeping Compliant',
+                                keyboardType: 'phone-pad',
+                                pdf: { 0: [{ x: 365, y: 264.8, width: 43, height: 21 }] },
+                            },
+                            {
+                                param: 'housekeeping_comments',
+                                type: ControlKeys.TextField,
+                                label: 'Housekeeping Comments',
+                                pdf: { 0: [{ x: 415, y: 264.8, width: 163, height: 21 }] },
+                            },
+                            {
+                                param: 'housekeeping_spacer',
+                                type: ControlKeys.Divider,
+                            },
+
                             {
                                 param: 'ppe_divider',
                                 type: ControlKeys.Divider,
@@ -1643,7 +1687,6 @@ const fakeDB =
                                     {
                                         param: 'ppe_choice',
                                         type: ControlKeys.Spinner,
-                                        label: 'Compliant',
                                         pdf: { 0: [{ y: 2, size: 10 }] },
                                         controls: [
                                             { label: "Yes", value: "Yes", pdf: { x: 11 }, renderValue: true },
@@ -1653,31 +1696,36 @@ const fakeDB =
                                         radio: true,
                                     },
                                     {
-                                        param: 'ppe_sampled',
-                                        type: ControlKeys.TextField,
-                                        label: 'Number Sampled',
-                                        keyboardType: 'phone-pad',
-                                        pdf: { 0: [{ x: 70, y: 0, width: 49, height: 10, size: 10 }] },
-                                    },
-                                    {
-                                        param: 'ppe_compliant',
-                                        type: ControlKeys.TextField,
-                                        label: 'Number Compliant',
-                                        keyboardType: 'phone-pad',
-                                        pdf: { 0: [{ x: 120, y: 0, width: 49, height: 10, size: 10 }] },
-                                    },
-                                    {
-                                        param: 'ppe_comments',
-                                        type: ControlKeys.TextField,
-                                        label: 'Comments',
-                                        pdf: { 0: [{ x: 170, y: 0, width: 169, height: 10, size: 10 }] },
-                                    },
-                                    {
                                         param: 'ppe_divider',
                                         type: ControlKeys.Divider,
                                     },
                                 ],
                             },
+                            {
+                                param: 'ppe_sampled',
+                                type: ControlKeys.TextField,
+                                label: 'PPE Sampled',
+                                keyboardType: 'phone-pad',
+                                pdf: { 0: [{ x: 315, y: 201.3, width: 43, height: 53 }] },
+                            },
+                            {
+                                param: 'ppe_compliant',
+                                type: ControlKeys.TextField,
+                                label: 'PPE Compliant',
+                                keyboardType: 'phone-pad',
+                                pdf: { 0: [{ x: 365, y: 201.3, width: 43, height: 53 }] },
+                            },
+                            {
+                                param: 'ppe_comments',
+                                type: ControlKeys.TextField,
+                                label: 'PPE Comments',
+                                pdf: { 0: [{ x: 415, y: 201.3, width: 163, height: 53 }] },
+                            },
+                            {
+                                param: 'ppe_spacer',
+                                type: ControlKeys.Divider,
+                            },
+
                             {
                                 param: 'environmental_divider',
                                 type: ControlKeys.Divider,
@@ -1701,7 +1749,6 @@ const fakeDB =
                                     {
                                         param: 'environmental_choice',
                                         type: ControlKeys.Spinner,
-                                        label: 'Compliant',
                                         pdf: { 0: [{ y: 2, size: 10 }] },
                                         controls: [
                                             { label: "Yes", value: "Yes", pdf: { x: 11 }, renderValue: true },
@@ -1711,31 +1758,36 @@ const fakeDB =
                                         radio: true,
                                     },
                                     {
-                                        param: 'environmental_sampled',
-                                        type: ControlKeys.TextField,
-                                        label: 'Number Sampled',
-                                        keyboardType: 'phone-pad',
-                                        pdf: { 0: [{ x: 70, y: 0, width: 49, height: 10, size: 10 }] },
-                                    },
-                                    {
-                                        param: 'environmental_compliant',
-                                        type: ControlKeys.TextField,
-                                        label: 'Number Compliant',
-                                        keyboardType: 'phone-pad',
-                                        pdf: { 0: [{ x: 120, y: 0, width: 49, height: 10, size: 10 }] },
-                                    },
-                                    {
-                                        param: 'environmental_comments',
-                                        type: ControlKeys.TextField,
-                                        label: 'Comments',
-                                        pdf: { 0: [{ x: 170, y: 0, width: 169, height: 10, size: 10 }] },
-                                    },
-                                    {
                                         param: 'environmental_divider',
                                         type: ControlKeys.Divider,
                                     },
                                 ],
                             },
+                            {
+                                param: 'environmental_sampled',
+                                type: ControlKeys.TextField,
+                                label: 'Environmental Sampled',
+                                keyboardType: 'phone-pad',
+                                pdf: { 0: [{ x: 315, y: 158.3, width: 43, height: 33 }] },
+                            },
+                            {
+                                param: 'environmental_compliant',
+                                type: ControlKeys.TextField,
+                                label: 'Environmental Compliant',
+                                keyboardType: 'phone-pad',
+                                pdf: { 0: [{ x: 365, y: 158.3, width: 43, height: 33 }] },
+                            },
+                            {
+                                param: 'environmental_comments',
+                                type: ControlKeys.TextField,
+                                label: 'Environmental Comments',
+                                pdf: { 0: [{ x: 415, y: 158.3, width: 163, height: 33 }] },
+                            },
+                            {
+                                param: 'environmental_spacer',
+                                type: ControlKeys.Divider,
+                            },
+
                             {
                                 param: 'total_divider',
                                 type: ControlKeys.Divider,
@@ -1758,6 +1810,60 @@ const fakeDB =
                                 type: ControlKeys.TextField,
                                 label: 'Comments',
                                 pdf: { 0: [{ x: 422, y: 138, size: 10 }] },
+                            },
+                        ],
+                    },
+                    {
+                        id: '3',
+                        type: ControlKeys.Tab,
+                        label: 'Issues',
+                        icon: 'camera',
+                        controls: [
+                            {
+                                param: 'attachment_page',
+                                type: ControlKeys.Looper,
+                                label: '+ Add Page',
+                                pdf: { 'A0[{}]': [{ x: 32, y: 125, width: 532, height: 650 }] },
+                                grid: { 'A0[{}]': [{ width: 532, height: 650 }] },
+                                controls: [
+                                    {
+                                        param: 'attachment_page_header',
+                                        type: ControlKeys.Divider,
+                                        label: 'Page {}'
+                                    },
+                                    {
+                                        param: 'attachment_looper',
+                                        type: ControlKeys.Looper,
+                                        label: '+ Add Attachment',
+                                        minLength: 1,
+                                        maxLength: 6,
+                                        pdf: { 0: [{ x: 0, y: 0, width: 532, height: 650 }] },
+                                        grid: { 0: [{ width: 260, height: 208, margin: 6 }] },
+                                        controls: [
+                                            {
+                                                param: 'attachment_header',
+                                                type: ControlKeys.Divider,
+                                                label: 'Attachment {}'
+                                            },
+                                            {
+                                                param: 'attachment_attachment_image',
+                                                type: ControlKeys.ImageSelect,
+                                                label: 'Image',
+                                                pdf: { 0: [{ x: 0, y: 88, width: 260, height: 120 }] },
+                                            },
+                                            {
+                                                param: 'inspection_attachment_comments',
+                                                type: ControlKeys.TextArea,
+                                                label: 'Comments',
+                                                pdf: { 0: [{ x: 0, y: 0, width: 260, height: 85, size: 12 }] },
+                                            },
+                                        ]
+                                    },
+                                    {
+                                        param: 'inspection_page_footer',
+                                        type: ControlKeys.Divider,
+                                    },
+                                ],
                             },
                         ],
                     },
