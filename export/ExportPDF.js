@@ -249,7 +249,7 @@ export default class ExportPDF
         if (renderValue instanceof Date)
         {
             const dateFormat = require('dateformat');
-            renderValue = dateFormat(renderValue, control.format || "d mmm yyyy");
+            renderValue = dateFormat(renderValue, control.renderFormat || "d mmm yyyy");
         }
 
         let defaultFont = "Helvetica";

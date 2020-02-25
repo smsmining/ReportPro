@@ -322,7 +322,8 @@ const fakeDB =
                                 param: 'date',
                                 type: ControlKeys.Date,
                                 label: 'Date',
-                                pdf: { 0: [{ x: 68, y: 745, size: 13 }] },
+                                renderFormat: 'dd   mm   yyyy',
+                                pdf: { 0: [{ x: 74, y: 745 }] },
                             },
                             {
                                 param: 'time',
@@ -969,7 +970,8 @@ const fakeDB =
                                 param: 'date',
                                 type: ControlKeys.Date,
                                 label: 'Date',
-                                pdf: { 0: [{ x: 68, y: 748, size: 8 }] },
+                                renderFormat: 'dd     mm    yyyy',
+                                pdf: { 0: [{ x: 72, y: 748, size: 8 }] },
                             },
                             {
                                 param: 'time',
