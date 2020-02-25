@@ -74,7 +74,7 @@ export default class PDF extends React.Component
         return (
             <PageLayout
                 back={{ icon: "arrow-back", onPress: Actions.pop }}
-                next={pdfPath && { label: "Send PDF", onPress: this.handleShare }}
+                next={pdfPath && { icon: "send", iconType:"Feather", onPress: this.handleShare }}
             >
                 {loading &&
                 <React.Fragment>

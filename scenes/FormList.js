@@ -56,7 +56,7 @@ export default class FormList extends React.Component
         return (
             <PageLayout
                 back={Platform.OS === 'android' ? { icon: 'cloud-download', onPress: () => Linking.openURL('http://smsmining.ga/') } : undefined}
-                next={{ label: 'Exit', onPress: BackHandler.exitApp}}
+                next={{ icon: 'window-close', iconType: "MaterialCommunityIcons", onPress: BackHandler.exitApp }}
             >
                 <Container>
                     <Content>

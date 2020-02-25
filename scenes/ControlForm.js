@@ -141,7 +141,7 @@ export default class ControlForm extends React.Component
         return (
             <PageLayout
                 back={{ icon: "home", onPress: Actions.pop }}
-                next={tabs && loading === null && { label: "Create PDF", onPress: this.onCreatePDF }}
+                next={tabs && loading === null && { icon: "file-pdf-outline", iconType: "MaterialCommunityIcons", onPress: this.onCreatePDF }}
                 header={title}
             >
                 {loading !== null &&
