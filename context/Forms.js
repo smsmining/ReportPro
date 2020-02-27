@@ -52,11 +52,11 @@ const SaveInstance = (guid, instance, onSuccess) =>
 
 
 const SiteSpinnerControls = [
-    { label: 'Aquarious Gold', value: 'Aquarious Gold' },
-    { label: 'Kirkolocka', value: 'Kirkolocka' },
+    { label: 'Aquarius Gold', value: 'Aquarius Gold' },
+    { label: 'Kirkalocka', value: 'Kirkalocka' },
     { label: 'Bald Hill', value: 'Bald Hill' },
     { label: 'Matts Dam South', value: 'Matts Dam South' },
-    { label: 'GEKO SMS', value: 'GEKO SMS' },
+    { label: 'GEKO', value: 'GEKO' },
     { label: 'Thunder Box', value: 'Thunder Box' },
     { label: 'Manual Input', value: '', manual: true },
 ];
