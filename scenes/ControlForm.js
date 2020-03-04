@@ -1,19 +1,27 @@
 import React from 'react';
 import { View, ScrollView } from 'react-native';
-import { Overlay } from 'react-native-elements'
 import { List, Text, Icon } from 'native-base';
+import { Overlay } from 'react-native-elements'
 import { Actions } from 'react-native-router-flux';
-import { TabView, TabBar, SceneMap } from 'react-native-tab-view';
+import { TabView, TabBar } from 'react-native-tab-view';
 
 import Forms from '../context/Forms';
-import { GlobalStyles, LayoutPartials, AlignmentStyles, LoadingStyles } from '../utils/Style';
 
-import ControlItem from '../components/ControlItem';
+import { GlobalStyles, LayoutPartials, AlignmentStyles, LoadingStyles } from '../utils/Style';
+import ReportColors from '../utils/ReportColors';
+
+import ControlList from '../components/ControlList';
 import PageLayout from '../components/Layout/PageLayout';
 import SaveLoadFab from '../components/ControlForm/SaveLoadFAB';
 import { MessageAlert, GeneralAlertDialog } from '../components/Alerts';
-import ReportColors from '../utils/ReportColors';
 
+const ControlFormList = (props) => (
+    <ScrollView>
+        <List>
+            <ControlList {...props.route} />
+        </List>
+    </ScrollView>
+);
 
 export default class ControlForm extends React.Component
 {
@@ -154,7 +162,7 @@ export default class ControlForm extends React.Component
                     <TabView
                         navigationState={{ index: index, routes: routes }}
                         onIndexChange={index => this.setState({ index: index })}
-                        renderScene={(props) => (<ControlFormList {...props} />)}
+                        renderScene={ControlFormList}
                         renderTabBar={this.renderTabBar}
                         tabBarPosition='bottom'
                         initialLayout={GlobalStyles.screenWidth}
@@ -165,27 +173,6 @@ export default class ControlForm extends React.Component
                 <SaveLoadFab onSave={this.onSave} onLoad={hasSaved && this.onLoad} onNew={instance && this.onNew} />
                 }
             </PageLayout>
-        );
-    }
-}
-
-class ControlFormList extends React.Component
-{
-    shouldComponentUpdate(newProps) { return newProps.route.active !== false; }
-
-    render()
-    {
-        const { route } = this.props;
-        const { controls } = route;
-
-        if (!controls) return null;
-
-        return (
-            <ScrollView>
-                <List>
-                    {controls.map(ControlItem)}
-                </List>
-            </ScrollView>
         );
     }
 }

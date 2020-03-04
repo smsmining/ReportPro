@@ -1,5 +1,4 @@
 import React from 'react';
-import { Content } from 'native-base';
 import { Button, Text } from 'native-base';
 
 import ControlItem from '../ControlItem';
@@ -64,15 +63,15 @@ export default class Control_looper extends React.Component
         let children = [];
         const length = (value && value.length) || setLength || minLength || 0;
         for (let i = 0; i < length; i++)
-            { children.push(this.renderLoop((value && value[i]) || {}, i)); }
+            children.push(this.renderLoop((value && value[i]) || {}, i));
 
         return (
-            <Content>
-                {children}
-                {!setLength &&
-                <Button success onPress={this.onLoopAdd} disabled={value && maxLength && value.length === maxLength}><Text>{label || "+ Add Row"}</Text></Button>
-                }
-            </Content>
+            <React.Fragment>
+            {children}
+            {!setLength &&
+            <Button success onPress={this.onLoopAdd} disabled={value && maxLength && value.length === maxLength}><Text>{label || "+ Add Row"}</Text></Button>
+            }
+            </React.Fragment>
         );
     }
    

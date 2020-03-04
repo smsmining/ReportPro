@@ -3,8 +3,11 @@ import { Text } from 'native-base';
 
 import { styles } from '../utils/Style';
 
-import Control_Date from './Controls/Control_Date';
 import DividerLabelItem from './Controls/Layout/DividerLabelItem';
+
+import Control_CheckBox from './Controls/Control_CheckBox';
+import Control_Collapse from './Controls/Control_Collapse';
+import Control_Date from './Controls/Control_Date';
 import Control_ImagePicker from './Controls/Control_ImagePicker';
 import Control_ImageStatic from './Controls/Control_ImageStatic';
 import Control_Looper from './Controls/Control_Looper';
@@ -12,22 +15,21 @@ import Control_Spinner from './Controls/Control_Spinner';
 import Control_TextArea from './Controls/Control_TextArea';
 import Control_TextField from './Controls/Control_TextField';
 import Control_TextLabel from './Controls/Control_TextLabel';
-import Control_CheckBox from './Controls/Control_CheckBox';
-
 
 export const ControlKeys = 
-    {Date:          'date'
+    {Tab:           'tab'
     ,Divider:       'divider'
+
+    ,CheckBox:      'checkBox'
+    ,Collapse:      'collapse'
+    ,Date:          'date'
     ,ImageSelect:   'imageSelect'
     ,ImageStatic:   'imageStatic'
     ,Looper:        'looper'
     ,Spinner:       'spinner'
-    ,Tab:           'tab'
     ,TextArea:      'textArea'
     ,TextField:     'textField'
     ,TextLabel:     'textLabel'
-    ,CheckBox:      'checkBox'
-    ,
     };
 
 
@@ -49,6 +51,7 @@ export default ControlItem = (props) =>
         case ControlKeys.ImageStatic:  return (<Control_ImageStatic {...props} />);
         case ControlKeys.Looper:       return (<Control_Looper {...props} />);
         case ControlKeys.CheckBox:     return (<Control_CheckBox {...props} />);
+        case ControlKeys.Collapse:     return (<Control_Collapse {...props} />);
     }
 
     return (<Text style={styles.center}>WARNING: Unknown control type</Text>);
