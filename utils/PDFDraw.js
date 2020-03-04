@@ -212,7 +212,7 @@ export default class PDFDraw
             {
                 let word = words[0];
                 if (font.embed.widthOfTextAtSize(word.charAt(0), style.size || 12) > style.width)
-                    throw "Cannot fit text in width";
+                    throw "Cannot fit text in width [" + style.width + "; '" + content + "':'" + word + "']";
 
                 for (let j = 1; j < word.length; j++)
                 {
