@@ -15,14 +15,6 @@ import PageLayout from '../components/Layout/PageLayout';
 import SaveLoadFab from '../components/ControlForm/SaveLoadFAB';
 import { MessageAlert, GeneralAlertDialog } from '../components/Alerts';
 
-const ControlFormList = (props) => (
-    <ScrollView>
-        <List>
-            <ControlList {...props.route} />
-        </List>
-    </ScrollView>
-);
-
 export default class ControlForm extends React.Component
 {
     state =
@@ -120,6 +112,12 @@ export default class ControlForm extends React.Component
             setTimeout(() => this.setState({ loading: null }), 1);
     }
 
+    renderScene = (props) => (
+        <ScrollView>
+            <ControlList {...props.route} instance={this.state.instance} onChange={this.setInstanceValue} />
+        </ScrollView>
+    );
+
     render()
     {
         const { form, index, instance, hasSaved, loading } = this.state;
@@ -137,13 +135,8 @@ export default class ControlForm extends React.Component
                 ,title: tab.label
                 ,icon: tab.icon
                 ,active: pos == index
-                ,controls: tab.controls.map(c => (
-                    {...c
-                    ,key: c.param
-                    ,value: instance && instance[c.param] || c.value
-                    ,onChange: this.setInstanceValue
-                    }
-                ))});
+                ,controls: tab.controls
+                });
         }
 
         return (
@@ -162,7 +155,7 @@ export default class ControlForm extends React.Component
                     <TabView
                         navigationState={{ index: index, routes: routes }}
                         onIndexChange={index => this.setState({ index: index })}
-                        renderScene={ControlFormList}
+                        renderScene={this.renderScene}
                         renderTabBar={this.renderTabBar}
                         tabBarPosition='bottom'
                         initialLayout={GlobalStyles.screenWidth}

@@ -61,7 +61,9 @@ export default class ExportPDF
     {
         const { type, controls } = control || {};
 
-        if (ControlKeys.Tab === type)
+        if (ControlKeys.Tab === type
+        ||  ControlKeys.Collapse === type
+            )
         {
             for (child in controls)
                 this.generateLayoutData(layout, controls[child], values);

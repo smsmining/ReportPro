@@ -10,14 +10,14 @@ export default ControlCollapse = (props) =>
 
     return (
         <React.Fragment>
-            <Button onPress={() => props.onExpand(props.param)} dark={!expanded} danger={expanded} rounded={false} bordered iconLeft iconRight>
-                {props.icon && <Icon name={props.icon} type={props.iconType} />}
-                <Text>{props.label}</Text>
-                <Icon name={expanded ? "expand-less" : "expand-more"} type="MaterialIcons" />
-            </Button>
-            <Collapsible collapsed={!expanded}>
-                <ControlList {...props} active={expanded} depth={props.depth + 1} />
-            </Collapsible>
+        <Button onPress={() => props.onExpand(props.param)} dark={!expanded} danger={expanded} rounded={false} full bordered iconLeft iconRight>
+            {props.icon && <Icon name={props.icon} type={props.iconType} />}
+            <Text>{props.label}</Text>
+            <Icon name={expanded ? "expand-less" : "expand-more"} type="MaterialIcons" />
+        </Button>
+        <Collapsible collapsed={!expanded} duration={150}>
+            <ControlList {...props} active={expanded}/>
+        </Collapsible>
         </React.Fragment>
     )
 };

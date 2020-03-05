@@ -10,23 +10,32 @@ export default class ControlList extends React.Component
 
     onExpand = (param) => this.setState({ expand: param === this.state.expand ? null : param });
 
-    controlMap = (props) => (
-        <ControlItem
-            {...props}
-            expand={this.state.expand}
-            depth={(this.props.depth || 0) + 1}
-            onExpand={this.onExpand}
-        />);
+    renderControl = (props) =>
+    {
+        const { instance, depth, onChange } = this.props;
+        const { expand } = this.state;
+
+        return (
+            <ControlItem
+                {...props}
+                key={props.param}
+                value={instance && instance[props.param] || props.value}
+                instance={instance}
+                onChange={onChange}
+
+                expand={expand}
+                depth={(depth || 0) + 1}
+                onExpand={this.onExpand}
+            />);
+    }
+        
 
     render()
     {
-        const { controls } = this.props;
-        if (!controls) return null;
-
-        return (
-            <React.Fragment>
-            {controls.map(this.controlMap)}
+        return this.props.controls
+        ?   <React.Fragment>
+                {this.props.controls.map(this.renderControl)}
             </React.Fragment>
-        );
+        :   null;
     }
 }

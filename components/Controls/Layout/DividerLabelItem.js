@@ -1,17 +1,10 @@
 import React from 'react';
 import { ListItem, Text } from 'native-base';
 
-import { styles } from '../../../utils/Style';
-import ReportColors from '../../../utils/ReportColors';
+import { styles, Colors } from '../../../utils/Style';
 
-const DividerLabelItem = (props) =>
-{
-    const { label } = props;
-    return (
-        <ListItem style={{ backgroundColor: ReportColors.secondary }} itemDivider>
-            <Text style={{ ...styles.Label, width: "100%" }}>{label}</Text>
-        </ListItem>
-    );
-};
-
-export default DividerLabelItem;
+export default DividerLabelItem = (props) => (
+    <ListItem style={{ backgroundColor: Colors.secondary }} itemDivider>
+        <Text style={{ ...styles.Label, width: "100%" }}>{props.label}</Text>
+    </ListItem>
+);

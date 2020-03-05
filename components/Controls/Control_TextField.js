@@ -1,24 +1,18 @@
 import React from 'react';
-
 import { Input } from 'native-base';
+
+import { Colors } from '../../utils/Style';
 import InlineLabelItem from './Layout/InlineLabelItem';
-import Colors from '../../utils/ReportColors';
 
-const Control_TextField = (props) =>
-{
-    const { label, value, param, onChange, maxLength, keyboardType, placeholder } = props;
-
-    return (
-        <InlineLabelItem label={label}>
-            <Input
-                value={value}
-                onChangeText={text => onChange(text, param)}
-                maxLength={maxLength}
-                placeholder={placeholder}
-                placeholderTextColor={Colors.light}
-                keyboardType={keyboardType} />
-        </InlineLabelItem>
-    );
-};
-
-export default Control_TextField;
+export default Control_TextField = (props) => (
+    <InlineLabelItem label={props.label} height={50}>
+        <Input
+            value={props.value}
+            onChangeText={text => props.onChange(text, props.param)}
+            maxLength={props.maxLength}
+            placeholder={props.placeholder}
+            placeholderTextColor={Colors.light}
+            keyboardType={props.keyboardType}
+        />
+    </InlineLabelItem>
+);

@@ -2,6 +2,8 @@ import { StyleSheet, Dimensions } from 'react-native';
 
 import Colors from './ReportColors';
 
+export { Colors }
+
 export const FabStyles = StyleSheet.create(
     {main: { backgroundColor: '#da291c', borderColor: '#54585a' }
     ,node: { backgroundColor: '#ebebeb', borderColor: '#54585a', borderWidth: 1 }
@@ -131,13 +133,10 @@ export const styles = StyleSheet.create({
         marginTop: 0,
         borderBottomWidth: 0,
     },
-    FormBody: {
+    InlineBody: {
         marginLeft: 0,
         borderBottomWidth: 1,
         borderColor: Colors.secondary,
-    },
-    container: {
-        flex: 1,
     },
 
     ImageContainer: {
@@ -179,9 +178,6 @@ export const styles = StyleSheet.create({
         fontWeight: '600',
         textAlign: 'center',
         color: Colors.black,
-    },
-    image: {
-        width: Dimensions.get('window').width,
     },
     FabContainerBottom: {
         bottom: 76,
