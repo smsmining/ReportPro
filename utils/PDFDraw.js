@@ -140,9 +140,32 @@ export default class PDFDraw
             this._cachedImages.push(image);
         }
 
+        let renderstyle = { ...style };
+
+        const ratio = content.width / content.height;
+        if (style.width > style.height)
+        {
+            renderstyle.height = style.width / ratio;
+
+            const shrink = style.height / renderstyle.height;
+            renderstyle.width *= shrink;
+            renderstyle.height *= shrink;
+        }
+        else
+        {
+            renderstyle.width = style.height * ratio;
+
+            const shrink = style.width / renderstyle.width;
+            renderstyle.width *= shrink;
+            renderstyle.height *= shrink;
+        }
+
+        renderstyle.x += (style.width - renderstyle.width) / 2;
+        renderstyle.y += (style.height - renderstyle.height) / 2;
+
         this._page.drawImage
             (image.embed
-            ,style
+            ,renderstyle
             );
     }
 
