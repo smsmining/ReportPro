@@ -3597,7 +3597,8 @@ const fakeDB =
                                             },
                                             {
                                                 param: 'comments',
-                                                type: ControlKeys.TextField,
+                                                type: ControlKeys.TextArea,
+                                                HeightRows: 2,
                                                 label: 'Comments',
                                                 pdf: { 0: [{ x: 118, y: 0 }] },
                                             },
@@ -3646,7 +3647,8 @@ const fakeDB =
                                             },
                                             {
                                                 param: 'comments',
-                                                type: ControlKeys.TextField,
+                                                type: ControlKeys.TextArea,
+                                                HeightRows: 2,
                                                 label: 'Comments',
                                                 pdf: { 0: [{ x: 100, y: 0 }] },
                                             },
@@ -3694,7 +3696,8 @@ const fakeDB =
                                             },
                                             {
                                                 param: 'comments',
-                                                type: ControlKeys.TextField,
+                                                type: ControlKeys.TextArea,
+                                                HeightRows: 2,
                                                 label: 'Comments',
                                                 pdf: { 0: [{ x: 100, y: 0 }] },
                                             },
@@ -3735,7 +3738,8 @@ const fakeDB =
                                             },
                                             {
                                                 param: 'comments',
-                                                type: ControlKeys.TextField,
+                                                type: ControlKeys.TextArea,
+                                                HeightRows: 2,
                                                 label: 'Comments',
                                                 pdf: { 0: [{ x: 250, y: 0 }] },
                                             },
@@ -3745,13 +3749,14 @@ const fakeDB =
                                             },
                                             ]
                                     },
-
-                                    {
-                                        param: 'hygiene_checklist_header',
-                                        type: ControlKeys.Divider,
-                                        label: 'Hygiene Inspection Certificate',
-                                    },
-                                    {
+                                    ],
+                            },
+                            {
+                                param: 'hygiene_collapse',
+                                type: ControlKeys.Collapse,
+                                label: 'Hygiene',
+                                controls:
+                                    [{
                                         param: 'hygiene_checklist',
                                         type: ControlKeys.Looper,
                                         setLength: 9,
@@ -3784,7 +3789,8 @@ const fakeDB =
                                             },
                                             {
                                                 param: 'comments',
-                                                type: ControlKeys.TextField,
+                                                type: ControlKeys.TextArea,
+                                                HeightRows: 2,
                                                 label: 'Comments',
                                                 pdf: { 0: [{ x: 97, y: 0 }] },
                                             },
@@ -3811,11 +3817,65 @@ const fakeDB =
                                     },
                                     {
                                         param: 'hygiene_checklist_comments_wash',
-                                        type: ControlKeys.TextField,
+                                        type: ControlKeys.TextArea,
+                                        HeightRows: 2,
                                         label: 'Comments',
                                         pdf: { 5: [{ x: 298 + 97, y: 461 }] },
                                     },
                                     ],
+                            },
+                        ],
+                    },
+                    {
+                        type: ControlKeys.Tab,
+                        label: 'Issues',
+                        icon: 'camera',
+                        controls: [
+                            {
+                                param: 'attachment_page',
+                                type: ControlKeys.Looper,
+                                label: '+ Add Page',
+                                pdf: { 'A0[{}]': [{ x: 32, y: 125, width: 532, height: 650 }] },
+                                grid: { 'A0[{}]': [{ width: 532, height: 650 }] },
+                                controls: [
+                                    {
+                                        param: 'attachment_page_header',
+                                        type: ControlKeys.Divider,
+                                        label: 'Page {}'
+                                    },
+                                    {
+                                        param: 'attachment_looper',
+                                        type: ControlKeys.Looper,
+                                        label: '+ Add Attachment',
+                                        minLength: 1,
+                                        maxLength: 6,
+                                        pdf: { 0: [{ x: 0, y: 0, width: 532, height: 650 }] },
+                                        grid: { 0: [{ width: 260, height: 208, margin: 6 }] },
+                                        controls: [
+                                            {
+                                                param: 'attachment_header',
+                                                type: ControlKeys.Divider,
+                                                label: 'Attachment {}'
+                                            },
+                                            {
+                                                param: 'attachment_attachment_image',
+                                                type: ControlKeys.ImageSelect,
+                                                label: 'Image',
+                                                pdf: { 0: [{ x: 0, y: 88, width: 260, height: 120 }] },
+                                            },
+                                            {
+                                                param: 'inspection_attachment_comments',
+                                                type: ControlKeys.TextArea,
+                                                label: 'Comments',
+                                                pdf: { 0: [{ x: 0, y: 0, width: 260, height: 85, size: 12 }] },
+                                            },
+                                        ]
+                                    },
+                                    {
+                                        param: 'inspection_page_footer',
+                                        type: ControlKeys.Divider,
+                                    },
+                                ],
                             },
                         ],
                     },
