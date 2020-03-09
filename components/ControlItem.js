@@ -67,7 +67,7 @@ export const ShouldUpdate = (props, newProps) => (
 export const ShouldUpdateForDate = (props, newProps) => (
     ShouldUpdate(props, newProps)
 ||  (props.value && newProps.value
-&&  props.value.getTime() === props.value.getTime()
+&&  props.value.getTime() !== newProps.value.getTime()
     )
 )
 
