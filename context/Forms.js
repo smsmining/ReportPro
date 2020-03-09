@@ -2071,7 +2071,6 @@ const fakeDB =
                 version: 'HAZ_001',
                 tabs: [
                     {
-                        id: '1',
                         type: ControlKeys.Tab,
                         label: 'Details',
                         icon: 'edit',
@@ -2152,7 +2151,59 @@ const fakeDB =
                         ],
                     },
                     {
-                        id: '2',
+                        type: ControlKeys.Tab,
+                        label: 'Issues',
+                        icon: 'camera',
+                        controls: [
+                            {
+                                param: 'attachment_page',
+                                type: ControlKeys.Looper,
+                                label: '+ Add Page',
+                                pdf: { 'A0[{}]': [{ x: 32, y: 125, width: 532, height: 650 }] },
+                                grid: { 'A0[{}]': [{ width: 532, height: 650 }] },
+                                controls: [
+                                    {
+                                        param: 'attachment_page_header',
+                                        type: ControlKeys.Divider,
+                                        label: 'Page {}'
+                                    },
+                                    {
+                                        param: 'attachment_looper',
+                                        type: ControlKeys.Looper,
+                                        label: '+ Add Attachment',
+                                        minLength: 1,
+                                        maxLength: 6,
+                                        pdf: { 0: [{ x: 0, y: 0, width: 532, height: 650 }] },
+                                        grid: { 0: [{ width: 260, height: 208, margin: 6 }] },
+                                        controls: [
+                                            {
+                                                param: 'attachment_header',
+                                                type: ControlKeys.Divider,
+                                                label: 'Attachment {}'
+                                            },
+                                            {
+                                                param: 'attachment_attachment_image',
+                                                type: ControlKeys.ImageSelect,
+                                                label: 'Image',
+                                                pdf: { 0: [{ x: 0, y: 88, width: 260, height: 120 }] },
+                                            },
+                                            {
+                                                param: 'inspection_attachment_comments',
+                                                type: ControlKeys.TextArea,
+                                                label: 'Comments',
+                                                pdf: { 0: [{ x: 0, y: 0, width: 260, height: 85, size: 12 }] },
+                                            },
+                                        ]
+                                    },
+                                    {
+                                        param: 'inspection_page_footer',
+                                        type: ControlKeys.Divider,
+                                    },
+                                ],
+                            },
+                        ],
+                    },
+                    {
                         type: ControlKeys.Tab,
                         label: 'Matrix',
                         icon: 'table',
