@@ -56,3 +56,28 @@ export default ControlItem = (props) =>
 
     return (<Text style={styles.center}>WARNING: Unknown control type</Text>);
 };
+
+export const ShouldUpdate = (props, newProps) => (
+    newProps.label ^ props.label
+||  newProps.label !== props.label
+
+||  newProps.value ^ props.value
+)
+
+export const ShouldUpdateForDate = (props, newProps) => (
+    ShouldUpdate(props, newProps)
+||  (props.value && newProps.value
+&&  props.value.getTime() === props.value.getTime()
+    )
+)
+
+export const ShouldUpdateForImage = (props, newProps) => (
+    ShouldUpdate(props, newProps)
+||  (newProps.value || {}).uri !== (props.value || {}).uri
+)
+
+export const ShouldUpdateForString = (props, newProps) => (
+        ShouldUpdate(props, newProps)
+    ||  newProps.value !== props.value
+)
+

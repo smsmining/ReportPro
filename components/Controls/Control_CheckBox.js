@@ -1,21 +1,24 @@
 import React from 'react';
 import { CheckBox, Body, Text, ListItem } from 'native-base';
 
-import ReportColors from '../../utils/ReportColors';
+import { Colors } from '../../utils/Style';
+import { ShouldUpdate } from '../ControlItem';
 
-export default Control_CheckBox = (props) =>
+export default class Control_CheckBox extends React.Component
 {
-    const { label, value, param, onChange } = props;
+    shouldComponentUpdate(newProps) { return ShouldUpdate(this.props, newProps); }
 
-    return (
-        <ListItem>
-            <CheckBox checked={value} color={ReportColors.primary} onPress={() => onChange(!value, param)} />
-            <Body>
-                <Text>{label}</Text>
-            </Body>
-        </ListItem>
-    );
-};
+    render()
+    {
+        const { label, value, param, onChange } = this.props;
 
-
-
+        return (
+            <ListItem>
+                <CheckBox checked={value} color={Colors.primary} onPress={() => onChange(!value, param)} />
+                <Body>
+                    <Text>{label}</Text>
+                </Body>
+            </ListItem>
+        );
+    }
+}

@@ -1,16 +1,21 @@
 import React from 'react';
 import { Text } from 'native-base';
+
 import FloatingLabelItem from './Layout/FloatingLabelItem';
+import { ShouldUpdateForString } from '../ControlItem';
 
-const Control_TextLabel = (props) =>
+export default class Control_TextLabel extends React.Component
 {
-    const { label, value } = props;
+    shouldComponentUpdate(newProps) { return ShouldUpdateForString(this.props, newProps); }
 
-    return (
-        <FloatingLabelItem label={label}>
-            <Text>{value}</Text>
-        </FloatingLabelItem>
-    );
-};
+    render()
+    {
+        const { label, value } = this.props;
 
-export default Control_TextLabel;
+        return (
+            <FloatingLabelItem label={label}>
+                <Text>{value}</Text>
+            </FloatingLabelItem>
+        );
+    }
+}

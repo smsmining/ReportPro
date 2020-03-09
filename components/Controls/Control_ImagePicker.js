@@ -6,6 +6,7 @@ import { styles, GlobalStyles, Colors } from '../../utils/Style';
 
 import InlineLabelItem from './Layout/InlineLabelItem';
 import FloatingLabelItem from './Layout/FloatingLabelItem';
+import { ShouldUpdateForImage } from '../ControlItem';
 
 const options =
         {quality: 1.0
@@ -24,37 +25,42 @@ const selectImage = (param, onChange) =>
         onChange({ uri: response.uri, width: response.width, height: response.height }, param);
     });
 
-export default Control_ImagePicker = (props) =>
+export default class Control_ImagePicker extends React.Component
 {
-    const { label, value, param, onChange } = props;
+    shouldComponentUpdate(newProps) { return ShouldUpdateForImage(this.props, newProps); }
 
-    if (value)
+    render()
     {
-        let renderStyle =
-            {width: GlobalStyles.screenWidth.width
-            ,height: value.height * GlobalStyles.screenWidth.width / value.width
-            };
+        const { label, value, param, onChange } = this.props;
+
+        if (value)
+        {
+            let renderStyle =
+                {width: GlobalStyles.screenWidth.width
+                ,height: value.height * GlobalStyles.screenWidth.width / value.width
+                };
+
+            return (
+                <FloatingLabelItem label={label} height={renderStyle.height}>
+                    <TouchableOpacity style={styles.center} onPress={() => selectImage(param, onChange)}>
+                        <View style={styles.ImageContainer}>
+                            <Image style={renderStyle} source={value} />
+                        </View>
+                    </TouchableOpacity>
+                </FloatingLabelItem >
+                );
+            }
 
         return (
-            <FloatingLabelItem label={label} height={renderStyle.height}>
+            <InlineLabelItem label={label}>
                 <TouchableOpacity style={styles.center} onPress={() => selectImage(param, onChange)}>
                     <View style={styles.ImageContainer}>
-                        <Image style={renderStyle} source={value} />
+                        <Text style={{ color: Colors.secondary, margin: 5 }}>
+                            Select a Photo
+                        </Text>
                     </View>
                 </TouchableOpacity>
-            </FloatingLabelItem >
-            );
-        }
-
-    return (
-        <InlineLabelItem label={label}>
-            <TouchableOpacity style={styles.center} onPress={() => selectImage(param, onChange)}>
-                <View style={styles.ImageContainer}>
-                    <Text style={{ color: Colors.secondary, margin: 5 }}>
-                        Select a Photo
-                    </Text>
-                </View>
-            </TouchableOpacity>
-        </InlineLabelItem>
-    );
-};
+            </InlineLabelItem>
+        );
+    }
+}

@@ -1,11 +1,14 @@
 import React from 'react';
-
 import { DatePicker} from 'native-base';
-import Colors from '../../utils/ReportColors';
+
+import { Colors } from '../../utils/Style';
 import InlineLabelItem from './Layout/InlineLabelItem';
+import { ShouldUpdateForDate } from '../ControlItem';
 
 export default class Control_Date extends React.Component
 {
+    shouldComponentUpdate(newProps) { return ShouldUpdateForDate(this.props, newProps); }
+
     dateFormat = require('dateformat');
 
     state = { key: 0 }
