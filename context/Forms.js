@@ -257,7 +257,7 @@ const fakeDB =
                             },
                             {
                                 param: 'signoff_inspected_sig',
-                                type: ControlKeys.ImageSelect,
+                                type: ControlKeys.Signature,
                                 label: 'Signature',
                                 pdf: { 0: [{ x: 415, y: 92, width: 100, height: 15 }] },
                             },
@@ -274,7 +274,7 @@ const fakeDB =
                             },
                             {
                                 param: 'signoff_supervisor_sig',
-                                type: ControlKeys.ImageSelect,
+                                type: ControlKeys.Signature,
                                 label: 'Signature',
                                 pdf: { 0: [{ x: 415, y: 75, width: 100, height: 15 }] },
                             },
@@ -2144,7 +2144,7 @@ const fakeDB =
                             },
                             {
                                 param: 'signature',
-                                type: ControlKeys.ImageSelect,
+                                type: ControlKeys.Signature,
                                 label: 'Sign',
                                 pdf: { 0: [{ x: 275, y: 127, width: 103, height: 30, size: 14, backgroundColor: "#0000FF" }] },
                             },
@@ -3948,7 +3948,7 @@ const fakeDB =
                             },
                             {
                                 param: 'signoff_sig',
-                                type: ControlKeys.ImageSelect,
+                                type: ControlKeys.Signature,
                                 label: 'Signature',
                                 pdf: { 5: [{ x: 320, y: 75, width: 150, height: 75 }] },
                             },

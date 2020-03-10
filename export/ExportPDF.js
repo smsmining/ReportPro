@@ -371,7 +371,9 @@ export default class ExportPDF
         if (!draw.value)
             return;
 
-        if (ControlKeys.ImageSelect === draw.type)
+        if (ControlKeys.ImageSelect === draw.type
+        ||  ControlKeys.Signature === draw.type
+            )
         {
             await doc.DrawImage(draw.value, draw.style);
             return;

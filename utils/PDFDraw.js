@@ -120,13 +120,21 @@ export default class PDFDraw
         if (!this._cachedImages)
             this._cachedImages = [];
 
-        const imagePath = content.uri.substr(content.uri.indexOf('/storage'));
-
-        let image = this._cachedImages.find(chachedImage => chachedImage.path == imagePath);
+        let image = this._cachedImages.find(chachedImage => chachedImage.path == content.uri);
         if (!image)
         {
-            let imageData = await RNFetchBlob.fs.readFile(imagePath, 'base64');
-            const imageType = imagePath.substring(imagePath.lastIndexOf('.'));
+            let imageData = content.uri;
+            let imageType = '.png';
+
+            if (imageData.startsWith('data:image/png;base64,'))
+                imageData = imageData.replace('data:image/png;base64,', '').replace(/\n/g, '');
+            else
+            {
+                const imagePath = content.uri.substr(content.uri.indexOf('/storage'));
+
+                imageData = await RNFetchBlob.fs.readFile(imagePath, 'base64');
+                imageType = imagePath.substring(imagePath.lastIndexOf('.'));
+            }
 
             let imageEmbed;
             if ('.png' == imageType)
@@ -136,7 +144,7 @@ export default class PDFDraw
             else
                 return;
 
-            image = { path: imagePath, embed: imageEmbed };
+            image = { path: content.uri, embed: imageEmbed };
             this._cachedImages.push(image);
         }
 

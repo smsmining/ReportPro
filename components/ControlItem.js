@@ -15,6 +15,7 @@ import Control_Spinner from './Controls/Control_Spinner';
 import Control_TextArea from './Controls/Control_TextArea';
 import Control_TextField from './Controls/Control_TextField';
 import Control_TextLabel from './Controls/Control_TextLabel';
+import Control_Signature from './Controls/Control_Signature';
 
 export const ControlKeys = 
     {Tab:           'tab'
@@ -26,6 +27,7 @@ export const ControlKeys =
     ,ImageSelect:   'imageSelect'
     ,ImageStatic:   'imageStatic'
     ,Looper:        'looper'
+    ,Signature:     'signature'
     ,Spinner:       'spinner'
     ,TextArea:      'textArea'
     ,TextField:     'textField'
@@ -49,6 +51,7 @@ export default ControlItem = (props) =>
         case ControlKeys.ImageSelect:  return (<Control_ImagePicker {...props} />);
         case ControlKeys.TextLabel:    return (<Control_TextLabel {...props} />);
         case ControlKeys.ImageStatic:  return (<Control_ImageStatic {...props} />);
+        case ControlKeys.Signature:    return (<Control_Signature {...props} />);
         case ControlKeys.Looper:       return (<Control_Looper {...props} />);
         case ControlKeys.CheckBox:     return (<Control_CheckBox {...props} />);
         case ControlKeys.Collapse:     return (<Control_Collapse {...props} />);

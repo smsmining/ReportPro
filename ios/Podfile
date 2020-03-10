@@ -30,6 +30,8 @@ target 'ReportSMS' do
 
 
 
+  pod 'react-native-signature-capture', :path => '../node_modules/react-native-signature-capture'
+
   target 'ReportSMSTests' do
     inherit! :search_paths
     # Pods for testing
