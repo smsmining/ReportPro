@@ -30,7 +30,10 @@ target 'ReportSMS' do
 
 
 
+  pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
   pod 'react-native-signature-capture', :path => '../node_modules/react-native-signature-capture'
+
+  pod 'react-native-camera', :path => '../node_modules/react-native-camera'
 
   target 'ReportSMSTests' do
     inherit! :search_paths

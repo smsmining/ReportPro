@@ -1,8 +1,7 @@
-import RNFetchBlob from 'rn-fetch-blob';
-
 import { createFetcher } from './CreateFetcher';
 import { ControlKeys } from '../components/ControlItem';
 import { jsonHelper } from '../utils/jsonHelper';
+import { Exists, Read, Write, Internal } from '../utils/Storage';
 
  const List = (onSuccess) =>
 {
@@ -30,25 +29,9 @@ const Get = (guid, onSuccess) =>
         return request;
 };
 
-const getInstancePath = (guid) => RNFetchBlob.fs.dirs.DCIMDir + '/Reports/' + guid + '/instance.json';
-
-const HasInstance = (guid, onSuccess) =>
-    RNFetchBlob.fs
-        .exists(getInstancePath(guid))
-        .then(onSuccess);
-
-const LoadInstance = (guid, onSuccess) =>
-    RNFetchBlob.fs
-        .readFile(getInstancePath(guid), 'utf8')
-        .then(result =>
-            onSuccess(
-                jsonHelper.parseJsonObject(JSON.parse(result))
-            ));
-
-const SaveInstance = (guid, instance, onSuccess) =>
-    RNFetchBlob.fs
-        .writeFile(getInstancePath(guid), JSON.stringify(instance), 'utf8')
-        .then(onSuccess);
+const HasInstance = (guid, onSuccess) => Exists(Internal + guid + '.json').then(onSuccess);
+const LoadInstance = (guid, onSuccess) => Read(Internal + guid + '.json').then(result => onSuccess(jsonHelper.parseJsonObject(JSON.parse(result))));
+const SaveInstance = (guid, instance, onSuccess) => Write(Internal + guid + '.json', JSON.stringify(instance)).then(onSuccess);
 
 
 const SiteSpinnerControls = [

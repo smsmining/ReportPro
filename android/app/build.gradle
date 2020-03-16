@@ -135,6 +135,7 @@ android {
         versionCode 6
         versionName "1.5"
         multiDexEnabled true // This is for method limit
+        missingDimensionStrategy 'react-native-camera', 'mlkit' // <--- replace general with mlkit
     }
     dexOptions {
       jumboMode true  // This for string limit
@@ -202,6 +203,8 @@ android {
 }
 
 dependencies {
+    implementation project(':react-native-camera')
+    implementation project(':react-native-vector-icons')
     implementation project(':react-native-signature-capture')
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "com.facebook.react:react-native:+"  // From node_modules

@@ -72,11 +72,14 @@ export const ShouldUpdateForDate = (props, newProps) => (
 ||  (props.value && newProps.value
 &&  props.value.getTime() !== newProps.value.getTime()
     )
+||  false
 )
 
 export const ShouldUpdateForImage = (props, newProps) => (
     ShouldUpdate(props, newProps)
 ||  (newProps.value || {}).uri !== (props.value || {}).uri
+    ?   true
+    :   false
 )
 
 export const ShouldUpdateForString = (props, newProps) => (

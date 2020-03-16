@@ -8,52 +8,28 @@ import InlineLabelItem from './Layout/InlineLabelItem';
 import FloatingLabelItem from './Layout/FloatingLabelItem';
 import { ShouldUpdateForImage } from '../ControlItem';
 import { GeneralAlertDialog } from '../Alerts';
+import CameraOverlay from '../CameraOverlay';
 
-const options =
-        {quality: 1.0
-        ,mediaType: 'photo'
-        ,noData: true
-        ,storageOptions: { skipBackup: true, privateDirectory: true },
-        };
 
 export default class Control_ImagePicker extends React.Component
 {
-    shouldComponentUpdate(newProps) { return ShouldUpdateForImage(this.props, newProps); }
+    state = { show: false };
 
-    selectImage = () => ImagePicker.launchCamera(options, response =>
+    shouldComponentUpdate(newProps, newState) { return newState.show ^ this.state.show || ShouldUpdateForImage(this.props, newProps); }
+
+    toggleCamera = () => this.setState({ show: !this.state.show });
+    onChange = (value) =>
     {
-        const { param, onChange, pdf } = this.props;
+        const { param, onChange } = this.props;
 
-        if (response.error || response.didCancel)
-            return;
-
-        if (response.width === response.height || !pdf)
-            return onChange({ uri: response.uri, width: response.width, height: response.height }, param);
-
-        const imgVert = (response.width / response.height) < 1;
-        for (let page in Object.values(pdf))
-        {
-            const pdfVert = (page.width / page.height) < 1;
-        
-            if (pdfVert === imgVert)
-                continue;
-
-            return GeneralAlertDialog
-                ('Confirm Rotation'
-                ,'The image was expected to be ' + (pdfVert ? 'vertical' : 'horizontal') + '.\nWould you like to take it again?'
-                ,this.selectImage
-                ,() => onChange({ uri: response.uri, width: response.width, height: response.height }, param)
-                ,'Retake'
-                ,'Keep'
-                );
-        }
-
-        onChange({ uri: response.uri, width: response.width, height: response.height }, param);
-    });
+        this.toggleCamera();
+        onChange(value ? { uri: "data:image/" + value.uri.substr(value.uri.lastIndexOf('.') + 1) + ";base64," + value.base64, width: value.width, height: value.height } : value, param);
+    }
 
     render()
     {
         const { label, value } = this.props;
+        const { show } = this.state;
 
         if (value)
         {
@@ -64,24 +40,26 @@ export default class Control_ImagePicker extends React.Component
 
             return (
                 <FloatingLabelItem label={label} height={renderStyle.height}>
-                    <TouchableOpacity style={styles.center} onPress={this.selectImage}>
+                    <TouchableOpacity style={styles.center} onPress={this.toggleCamera}>
                         <View style={styles.ImageContainer}>
                             <Image style={renderStyle} source={value} />
                         </View>
                     </TouchableOpacity>
+                    {show && <CameraOverlay onCapture={this.onChange} onClose={this.toggleCamera} onError={console.log}/>}
                 </FloatingLabelItem >
                 );
             }
 
         return (
             <InlineLabelItem label={label}>
-                <TouchableOpacity style={styles.center} onPress={this.selectImage}>
+                <TouchableOpacity style={styles.center} onPress={this.toggleCamera}>
                     <View style={styles.ImageContainer}>
                         <Text style={{ color: Colors.secondary, margin: 5 }}>
                             Select a Photo
                         </Text>
                     </View>
                 </TouchableOpacity>
+                {show && <CameraOverlay onCapture={this.onChange} onClose={this.toggleCamera} onError={console.log}/>}
             </InlineLabelItem>
         );
     }

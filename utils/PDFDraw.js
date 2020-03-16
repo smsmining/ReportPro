@@ -1,17 +1,24 @@
 import { PDFDocument, StandardFonts, rgb } from 'pdf-lib';
 import fontkit from '@pdf-lib/fontkit';
-import RNFetchBlob from 'rn-fetch-blob';
 
-import { RequestStoragePermissions } from './Permission';
+import { StoragePermission } from './Permission';
+import { Write, Read, Output, Asset } from './Storage';
+
+const Hash = (string) =>
+{
+    let hash = 0, i, chr;
+    if (string.length === 0) return hash;
+    for (i = 0; i < string.length; i++)
+    {
+        chr = string.charCodeAt(i);
+        hash = ((hash << 5) - hash) + chr;
+        hash |= 0;
+    }
+    return hash;
+};
 
 export default class PDFDraw
 {
-    GetResourcesPath = () => RNFetchBlob.fs.asset('resources/' + this._guid + '/');
-    GetTemplatePath = () => this.GetResourcesPath() + 'template.pdf';
-    GetAppendixPath = () => this.GetResourcesPath() + 'appendix.pdf';
-
-    GetSavePath = (filename) => RNFetchBlob.fs.dirs.DCIMDir + '/Reports/' + this._guid + '/' + filename + ".pdf";
-
     GetDateStamp = () =>
     {
         const date = new Date();
@@ -38,7 +45,7 @@ export default class PDFDraw
 
     Clone = async (guid, filename, onSuccess) =>
     {
-        let hasPermission = await RequestStoragePermissions();
+        let hasPermission = await StoragePermission();
         if (!hasPermission)
         {
             this._onError("User denied storage permissions.");
@@ -47,24 +54,15 @@ export default class PDFDraw
 
         this._guid = guid;
 
-        this.path = this.GetSavePath(filename + " " + this.GetDateStamp());
-        const rawTemplate = await RNFetchBlob.fs.readFile(this.GetTemplatePath(), 'base64');
+        this.path = Output + this._guid + '/' + filename + ".pdf";
+        const rawTemplate = await Read(Asset + this._guid + '/' + 'template.pdf', 'base64');
 
         this._document = await PDFDocument.load(rawTemplate);
         this._document.registerFontkit(fontkit);
 
-        const appendixPath = this.GetAppendixPath();
-
-        //  RNFetchBlob.fs.exists crashes where the file doesnt exist
-        let appendixExists = false;
-        try { appendixExists = await RNFetchBlob.fs.exists(appendixPath); }
-        catch (e) { appendixExists = false; }
-
-        if (appendixExists)
-        {
-            const rawAppendix = await RNFetchBlob.fs.readFile(appendixPath, 'base64');
-            this._appendix = await PDFDocument.load(rawAppendix);
-        }
+        const appendixRaw = await Read(Asset + this._guid + '/' + 'appendix.pdf', 'base64');
+        if (appendixRaw)
+            this._appendix = await PDFDocument.load(appendixRaw);
 
         if (onSuccess)
             onSuccess();
@@ -120,31 +118,36 @@ export default class PDFDraw
         if (!this._cachedImages)
             this._cachedImages = [];
 
-        let image = this._cachedImages.find(chachedImage => chachedImage.path == content.uri);
+        let hash = Hash(content.uri);
+        let image = this._cachedImages.find(chachedImage => chachedImage.hash == hash);
         if (!image)
         {
             let imageData = content.uri;
-            let imageType = '.png';
+            let imageType = '';
 
-            if (imageData.startsWith('data:image/png;base64,'))
-                imageData = imageData.replace('data:image/png;base64,', '').replace(/\n/g, '');
+            const isBase = /^data:image\/([a-zA-Z]+);base64,.+/g.exec(imageData);
+            if(isBase)
+            {
+                 imageData = imageData.replace('data:image/' + isBase[1] + ';base64,', '').replace(/\n/g, '');
+                 imageType = isBase[1];
+            }
             else
             {
                 const imagePath = content.uri.substr(content.uri.indexOf('/storage'));
 
-                imageData = await RNFetchBlob.fs.readFile(imagePath, 'base64');
-                imageType = imagePath.substring(imagePath.lastIndexOf('.'));
+                imageData = await Read(imagePath, 'base64');
+                imageType = imagePath.substring(imagePath.lastIndexOf('.') + 1);
             }
 
             let imageEmbed;
-            if ('.png' == imageType)
+            if ('png' == imageType)
                 imageEmbed = await this._document.embedPng(imageData);
-            else if (['.jpg', '.jpeg'].includes(imageType))
+            else if (['jpg', 'jpeg'].includes(imageType))
                 imageEmbed = await this._document.embedJpg(imageData);
             else
-                return;
+                return console.log("Unknown image type: " + imageType);
 
-            image = { path: content.uri, embed: imageEmbed };
+            image = { path: content.uri, embed: imageEmbed, hash: hash };
             this._cachedImages.push(image);
         }
 
@@ -171,7 +174,7 @@ export default class PDFDraw
         renderstyle.x += (style.width - renderstyle.width) / 2;
         renderstyle.y += (style.height - renderstyle.height) / 2;
 
-        this._page.drawImage
+        await this._page.drawImage
             (image.embed
             ,renderstyle
             );
@@ -293,6 +296,6 @@ export default class PDFDraw
             return;
 
         let saveBytes64 = await this._document.saveAsBase64();
-        await RNFetchBlob.fs.writeFile(this.path, saveBytes64, 'base64');
+        await Write(this.path, saveBytes64, 'base64');
     };
 }

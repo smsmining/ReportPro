@@ -58,8 +58,33 @@ export const AlignmentStyles = StyleSheet.create(
     });
 
 
+export const CameraStyles = StyleSheet.create(
+    {button:
+        {backgroundColor: Colors.secondary
+        ,borderRadius: 5
+        ,padding: 15
+        ,paddingHorizontal: 20
+        ,alignSelf: 'center'
+        ,margin: 20
+        }
+    ,camera:
+        {flex: 1
+        ,justifyContent: 'flex-end'
+        ,alignItems: 'center'
+        }
+    ,overlay:
+        {flex: 0
+        ,flexDirection: 'row'
+        ,justifyContent: 'center'
+        }
+    });
+
 export const GlobalStyles = StyleSheet.create(
-    {screenWidth:
+    {screen:
+        {width: Dimensions.get('window').width
+        ,height: Dimensions.get('window').height
+        }
+    ,screenWidth:
         {width: Dimensions.get('window').width
         }
     ,screenHeight:
@@ -67,7 +92,11 @@ export const GlobalStyles = StyleSheet.create(
         }
     });
 
-
+export const MiscStyles = StyleSheet.create(
+    {icon:
+        {color: Colors.white
+        }
+    });
 
 
 export const styles = StyleSheet.create({

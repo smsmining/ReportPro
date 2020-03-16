@@ -12,37 +12,29 @@ export default class App extends React.Component
 {
     state =
         {unlocked: null
-
-        ,unlockLoading: false
         ,unlockFailed: false
         };
 
     componentDidMount()
     {
-        Access.IsUnlocked(unlocked => this.setState({ unlocked: unlocked }));
+        Access.IsUnlocked().then(unlocked => this.setState({ unlocked: unlocked }));
     }
 
     render()
     {
-        const { unlocked, unlockLoading, unlockFailed } = this.state;
+        const { unlocked, unlockFailed } = this.state;
 
         if (unlocked === null)
             return null;
 
         if (!unlocked)
         {
-            if (unlockLoading) return null;
-
             const now = new Date();
             return (
                 <DialogInput isDialogVisible
                     title="Access Key"
                     message={(unlockFailed ? "The entered token is invalid.\n" : "") + "Please input access key for " + (now.getMonth() + 1) + "/" + now.getFullYear()}
-                    submitInput={(token) =>
-                        {
-                            this.setState({ unlockLoading: true });
-                            Access.Unlock(token, unlocked => this.setState({ unlocked: unlocked, unlockFailed: !unlocked, unlockLoading: false }));
-                        }}
+                    submitInput={(token) => Access.Unlock(token).then(unlocked => this.setState({ unlocked: unlocked, unlockFailed: !unlocked }))}
                     cancelText="Exit"
                     closeDialog={BackHandler.exitApp}
                 />);

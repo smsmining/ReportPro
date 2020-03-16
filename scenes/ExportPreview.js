@@ -39,9 +39,14 @@ export default class PDF extends React.Component
         const layout = pdfGenerator.GenerateLayout();
 
         this.setState({ loadingState: "Printing Document" });
-        let path = await pdfGenerator.PrintLayout(layout, page => this.setState({ loadingState: page ? "Printing Page " + page : "Saving Document" }));
-
-        this.setState({ pdfPath: path, loadingState: "Loading Document" })
+        pdfGenerator
+            .PrintLayout(layout, page => this.setState({ loadingState: page ? "Printing Page " + page : "Saving Document" }))
+            .then(path => this.setState({ pdfPath: path, loadingState: "Loading Document" }))
+            .catch(err =>
+            {
+                console.log(err);
+                this.setState({ loadingState: "An error occured generating the document." })
+            });
     }
 
     handleShare = async () =>

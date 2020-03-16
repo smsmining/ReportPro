@@ -1,52 +1,39 @@
-import RNFetchBlob from 'rn-fetch-blob';
-import { RequestStoragePermissions } from '../utils/Permission';
+import { StoragePermission } from '../utils/Permission';
+import { Read, Write, Internal } from '../utils/Storage';
 
-const getAccessPath = () => RNFetchBlob.fs.dirs.DCIMDir + '/Reports/access.token';
+const AccessPath = Internal + 'access.token';
 
-const IsUnlocked = async (onSuccess) =>
+const IsUnlocked = async () =>
 {
-    let hasPermission = await RequestStoragePermissions();
+    let hasPermission = await StoragePermission();
     if (!hasPermission)
-        return onSuccess(false);
+        return false;
 
-    let exists = await RNFetchBlob.fs
-                        .exists(getAccessPath());
+    let token = await Read(AccessPath);
 
-    if (!exists) onSuccess(false);
-
-    let token = await RNFetchBlob.fs
-                        .readFile(getAccessPath(), 'utf8');
-
-    return onSuccess(token === GetNowToken());
+    return token === GetNowToken();
 }
    
-const Unlock = async (token, onSuccess) =>
+const Unlock = async (token) =>
 {
-    let hasPermission = await RequestStoragePermissions();
-    if (!hasPermission)
-        return onSuccess(false);
-
-    if (token != GetNowToken())
-        return onSuccess(false);
-
-    RNFetchBlob.fs
-        .writeFile(getAccessPath(), token, 'utf8')
-        .then(() => onSuccess(true));
-}
-
-const GetNowToken = () =>
-{
-    return fakeDB.accessKeys[new Date().getFullYear()];
+    let hasPermission = await StoragePermission();
+    if (!hasPermission
+    ||  token !== GetNowToken()
+        )
+        return false;
+    
+    return await Write(AccessPath, token);
 }
 
 
 const fakeDB =
 {
     accessKeys:
-    {'2019': "edf33509"
-    ,'2020': "04f78750"
-    }
+        {'2019': "edf33509"
+        ,'2020': "04f78750"
+        }
 };
+const GetNowToken = () => fakeDB.accessKeys[new Date().getFullYear()];
 
 export default
     {IsUnlocked
