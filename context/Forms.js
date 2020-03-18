@@ -3,6 +3,8 @@ import { ControlKeys } from '../components/ControlItem';
 import { jsonHelper } from '../utils/jsonHelper';
 import { Exists, Read, Write, Internal } from '../utils/Storage';
 
+import SMS_MN_INS_0009_01 from './forms/SMS-MN-INS-0009_01';
+
  const List = (onSuccess) =>
 {
     return createFetcher( async () =>
@@ -3939,6 +3941,7 @@ const fakeDB =
                     },
                 ],
             },
+            SMS_MN_INS_0009_01,
         ],
 };
 
