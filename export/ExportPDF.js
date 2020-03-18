@@ -124,12 +124,26 @@ export default class ExportPDF
 
 
             const isApp = IsAppendix.exec(page);
+            const maxX = x + width;
 
             let loopLayouts = [];
             let loopTracking = { x: x, y: y + height };
 
             for (loop in sublayouts)
             {
+                if (loopTracking.y < y)
+                {
+                    this._onError("Error: Looper exceeds height (" + param + ")");
+                    break;
+                }
+
+                if (loopTracking.x > maxX)
+                {
+                    this._onError("Error: Looper exceeds width (" + param + ")");
+                    break;
+                }
+
+
                 let draws = sublayouts[loop];
                 let drawResults = [];
 
@@ -171,7 +185,7 @@ export default class ExportPDF
                     {
                         loopTracking.y -= cellHeight + (cellMargin || 0);
 
-                        if (loopTracking.y - cellHeight > y)
+                        if (loopTracking.y - cellHeight >= y)
                             continue;
 
                         loopTracking.y = height;
@@ -181,7 +195,7 @@ export default class ExportPDF
                     {
                         loopTracking.x += cellWidth + (cellMargin || 0);
 
-                        if (loopTracking.x + cellWidth < width)
+                        if (loopTracking.x + cellWidth <= maxX)
                             continue;
 
                         loopTracking.x = x || 0;
