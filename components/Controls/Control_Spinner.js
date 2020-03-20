@@ -65,6 +65,12 @@ export default class Control_Spinner extends React.Component
             renderValue = value.value;
             renderManual = true;
         }
+        else
+        {
+            const selected = renderControls.find(c => renderValue === c.value);
+            if (!selected)
+                renderControls.unshift({label: ""});
+        }
 
         if (radio)
             return (
