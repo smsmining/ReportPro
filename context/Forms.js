@@ -5,6 +5,7 @@ import { Exists, Read, Write, Internal } from '../utils/Storage';
 
 import SMS_MN_INS_0005_01 from './forms/SMS-MN-INS-0005_01';
 import SMS_MN_INS_0006_01 from './forms/SMS-MN-INS-0006_01';
+import SMS_MN_INS_0007_01 from './forms/SMS-MN-INS-0007_01';
 import SMS_MN_INS_0008_01 from './forms/SMS-MN-INS-0008_01';
 import SMS_MN_INS_0009_01 from './forms/SMS-MN-INS-0009_01';
 
@@ -3946,6 +3947,7 @@ const fakeDB =
             },
             SMS_MN_INS_0005_01,
             SMS_MN_INS_0006_01,
+            SMS_MN_INS_0007_01,
             SMS_MN_INS_0008_01,
             SMS_MN_INS_0009_01,
         ],
