@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Text } from 'native-base';
 
-import ControlItem from '../ControlItem';
+import ControlList from '../ControlList';
 
 export default class Control_looper extends React.Component
 {
@@ -24,7 +24,7 @@ export default class Control_looper extends React.Component
         let { value } = this.props;
 
         if (!value)
-            value = this.getDefaultValue();;
+            value = this.getDefaultValue();
 
         value.push(null);
         onChange(value, param);
@@ -42,20 +42,6 @@ export default class Control_looper extends React.Component
         this.props.onChange(newValue, this.props.param);
     };
 
-    renderLoop = (value, index) =>
-    {
-        const { controls } = this.props;
-
-        return controls.map(control =>
-            <ControlItem
-                {...control}
-                key={control.param + "_" + index}
-                label={control.label && control.label.replace('{}', index + 1)}
-                value={(value && value[control.param]) || (control.value && control.value.replace('{}', index + 1))}
-                onChange={(loopValue, loopParam) => this.onLoopChange(loopValue, loopParam, index)}
-            />);
-    }
-
     render ()
     {
         const { value, label, minLength, maxLength, setLength } = this.props;
@@ -63,7 +49,15 @@ export default class Control_looper extends React.Component
         let children = [];
         const length = (value && value.length) || setLength || minLength || 0;
         for (let i = 0; i < length; i++)
-            children.push(this.renderLoop((value && value[i]) || {}, i));
+            children.push(
+                <ControlList
+                    {...this.props}
+                    key={i}
+                    index={i}
+                    instance={(value && value[i]) || {}}
+                    onChange={(loopValue, loopParam) => this.onLoopChange(loopValue, loopParam, i)}
+                    active
+                />)
 
         return (
             <React.Fragment>

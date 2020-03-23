@@ -12,14 +12,29 @@ export default class ControlList extends React.Component
 
     renderControl = (props) =>
     {
-        const { instance, depth, onChange } = this.props;
+        const { instance, depth, index, onChange } = this.props;
         const { expand } = this.state;
+
+        let label = props.label;
+        let value = instance && instance[props.param] || props.value;
+
+        if (index || index === 0)
+        {
+            if (label)
+                label = label.replace('{}', index + 1);
+
+            if (value && typeof value === 'string')
+                value = value.replace('{}', index + 1);
+        }
 
         return (
             <ControlItem
                 {...props}
                 key={props.param}
-                value={instance && instance[props.param] || props.value}
+                index={undefined}
+
+                label={label}
+                value={value}
                 instance={instance}
                 onChange={onChange}
 
