@@ -78,7 +78,7 @@ export default class Control_Spinner extends React.Component
                     <FloatingLabelItem label={label}>
                         <List dataArray={renderControls} horizontal
                             renderRow={(option) =>
-                                <ListItem style={{ borderBottomWidth: 0, marginLeft: 0, paddingLeft: 0 }}>
+                                <ListItem key={option.value} style={{ borderBottomWidth: 0, marginLeft: 0, paddingLeft: 0 }}>
                                     <CheckBox checked={renderValue === option.value} color={ReportColors.primary} onPress={() => onItemChange(option.value)} />
                                     <Body>
                                         <Text>{option.label}</Text>
