@@ -83,7 +83,12 @@ export default class ExportPDF
         if (!pdf) return;
         if (pdf.length > 1) return this._onError("Error: Multipage looper (" + param + "; " + pdf.length + ")");
 
-        const renderValues = (values || {})[param] || value;
+        let renderValues = (values || {})[param];
+        if (renderValues)
+            renderValues = renderValues.value;
+        else
+            renderValues = value;
+
         if (!renderValues) return;
 
         let sublayouts = [];
@@ -242,7 +247,15 @@ export default class ExportPDF
 
         if (!pdf || !param) return;
 
-        let renderValue = (values || { })[param] || value;
+        let renderValue = (values || {})[param];
+        if (renderValue)
+            renderValue = renderValue.value;
+        else if (typeof value === 'object'
+            && !(value instanceof Date)
+            )
+            renderValue = value.value;
+        else
+            renderValue = value;
 
         if (typeof renderValue === 'object' && renderValue.manual)
             renderValue = renderValue.value;

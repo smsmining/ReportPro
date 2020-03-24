@@ -15,8 +15,10 @@ export default class ControlList extends React.Component
         const { instance, depth, index, onChange } = this.props;
         const { expand } = this.state;
 
+        let control = instance && instance[props.param];
+
         let label = props.label;
-        let value = instance && instance[props.param] || props.value;
+        let value = control && control.value || props.value;
 
         if (index || index === 0)
         {

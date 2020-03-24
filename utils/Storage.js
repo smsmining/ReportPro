@@ -1,6 +1,8 @@
 import { Platform } from 'react-native';
 import RNFetchBlob from 'rn-fetch-blob';
 
+export const INSTANCE_VERSION = '.v2';
+
 export const Internal = RNFetchBlob.fs.dirs.CacheDir + '/Reports/';
 export const Asset = Platform.select({
                                      ios: RNFetchBlob.fs.dirs.MainBundleDir + '/',

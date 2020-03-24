@@ -2,6 +2,7 @@ import React from 'react';
 import { Button, Text } from 'native-base';
 
 import ControlList from '../ControlList';
+import { jsonHelper } from '../../utils/jsonHelper';
 
 export default class Control_looper extends React.Component
 {
@@ -32,12 +33,12 @@ export default class Control_looper extends React.Component
 
     onLoopChange = (value, param, index) =>
     {
-        let newValue = this.props.value || this.getDefaultValue();
+        let newValue = (this.props.value && jsonHelper.Clone(this.props.value)) || this.getDefaultValue();
 
         if (!newValue[index])
             newValue[index] = {};
 
-        newValue[index][param] = value;
+        newValue[index][param] = { ...newValue[index][param], value: value };
 
         this.props.onChange(newValue, this.props.param);
     };

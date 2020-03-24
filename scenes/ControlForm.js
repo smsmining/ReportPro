@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, ScrollView } from 'react-native';
-import { List, Text, Icon } from 'native-base';
+import { Text, Icon } from 'native-base';
 import { Overlay } from 'react-native-elements'
 import { Actions } from 'react-native-router-flux';
 import { TabView, TabBar } from 'react-native-tab-view';
@@ -14,6 +14,8 @@ import ControlList from '../components/ControlList';
 import PageLayout from '../components/Layout/PageLayout';
 import SaveLoadFab from '../components/ControlForm/SaveLoadFAB';
 import { MessageAlert, GeneralAlertDialog } from '../components/Alerts';
+import { INSTANCE_VERSION } from '../utils/Storage';
+import { ControlKeys } from '../components/ControlItem';
 
 export default class ControlForm extends React.Component
 {
@@ -44,17 +46,45 @@ export default class ControlForm extends React.Component
         this.setState({ loading: true });
         this._asyncReqForm = Forms.Get(guid, this.loadFormResponse);
 
-        Forms.HasInstance(guid, response => this.setState({ hasSaved: response }));
+        Forms.HasInstance(guid + INSTANCE_VERSION, response => this.setState({ hasSaved: response }));
     }
 
     loadFormResponse = (response) =>
     {
         this._asyncReqForm = null;
         this.setState(
-            {form: response
+            {form: {...response, tabs: response.tabs.map(tab => this.validateLoadControl(tab)) }
             ,index: 0
             ,loading: false
             });
+    }
+
+    validateLoadControl = (control) =>
+    {
+        if (control.type === ControlKeys.Tab
+        ||  control.type === ControlKeys.Collapse
+            )
+            return { ...control, controls: control.controls.map(child => this.validateLoadControl(child)) };
+
+        if (control.type === ControlKeys.Looper)
+            return { ...control, controls: control.controls.map(child => this.validateLoadControl(child)), value: control.value && control.value.map(this.validateLoadValue)};
+
+        return control;
+    }
+
+    validateLoadValue = (data) =>
+    {
+        for (const [key, value] of Object.entries(data))
+        {
+            if (typeof value === 'object'
+            && !(value instanceof Date)
+                )
+                continue;
+
+            data[key] = { value: value };
+        }
+
+        return data;
     }
 
     onSave = () =>
@@ -72,12 +102,12 @@ export default class ControlForm extends React.Component
     }
 
     onSaveCall = () =>
-        Forms.SaveInstance(this.props.guid, this.state.instance, () => { this.setState({ hasSaved: true }); MessageAlert("Save Form", "Saved Successfully") });
+        Forms.SaveInstance(this.props.guid + INSTANCE_VERSION, this.state.instance, () => { this.setState({ hasSaved: true }); MessageAlert("Save Form", "Saved Successfully") });
 
     onLoad = () => GeneralAlertDialog
         ("Load Form"
         ,"If you proceed you will loose any unsaved progress"
-        ,() => Forms.LoadInstance(this.props.guid, result => this.setState({ instance: result }) )
+        ,() => Forms.LoadInstance(this.props.guid + INSTANCE_VERSION, result => this.setState({ instance: result }) )
         );
 
     onNew = () => GeneralAlertDialog
@@ -91,7 +121,7 @@ export default class ControlForm extends React.Component
 
     clearInstanceValue = () => this.setState({ instance: null });
 
-    setInstanceValue = (value, param) => this.setState({ instance: { ...this.state.instance, [param]: value } });
+    setInstanceValue = (value, param) => this.setState({ instance: { ...this.state.instance, [param]: { ...(this.state.instance || {})[param], value: value } } });
 
     renderIcon = ({ route }) => (<Icon name={route.icon} style={{ color: this.state.index == route.key ? ReportColors.primary : ReportColors.border, fontSize: 18 }} type="FontAwesome" />)
     renderTabBar = (props) => (
