@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, ScrollView } from 'react-native';
 import { Text, Icon } from 'native-base';
-import { Overlay } from 'react-native-elements'
+import { Overlay, Badge } from 'react-native-elements'
 import { Actions } from 'react-native-router-flux';
 import { TabView, TabBar } from 'react-native-tab-view';
 
@@ -23,6 +23,9 @@ export default class ControlForm extends React.Component
         {form: null
         ,navigation: -1
         ,instance: null
+        ,dirty: false
+
+        ,highlightRequired: false
 
         ,hasSaved: null
 
@@ -31,6 +34,17 @@ export default class ControlForm extends React.Component
 
     componentDidMount() { this.loadForm(); }
     componentWillUnmount() { this.clearAsync(); }
+
+    componentDidUpdate()
+    {
+        const { loading, dirty } = this.state;
+
+        if (loading === false)
+            setTimeout(() => this.setState({ loading: null }), 1);
+
+        if (dirty)
+            this.setState({ dirty: false });
+    }
 
     clearAsync = () => { if (this._asyncReqForm) this._asyncReqForm.cancel(); }
 
@@ -87,6 +101,7 @@ export default class ControlForm extends React.Component
         return data;
     }
 
+
     onSave = () =>
     {
         const { hasSaved } = this.state;
@@ -101,29 +116,62 @@ export default class ControlForm extends React.Component
             this.onSaveCall();
     }
 
-    onSaveCall = () =>
-        Forms.SaveInstance(this.props.guid + INSTANCE_VERSION, this.state.instance, () => { this.setState({ hasSaved: true }); MessageAlert("Save Form", "Saved Successfully") });
+    onSaveCall = () => Forms.SaveInstance
+        (this.props.guid + INSTANCE_VERSION
+        ,this.state.instance
+        ,() => { this.setState({ hasSaved: true }); MessageAlert("Save Form", "Saved Successfully") }
+        );
 
     onLoad = () => GeneralAlertDialog
         ("Load Form"
         ,"If you proceed you will loose any unsaved progress"
-        ,() => Forms.LoadInstance(this.props.guid + INSTANCE_VERSION, result => this.setState({ instance: result }) )
+        ,() => Forms.LoadInstance(this.props.guid + INSTANCE_VERSION, result => this.setState({ instance: result, dirty: true }))
         );
 
     onNew = () => GeneralAlertDialog
         ("New Form"
         ,"If you proceed you will loose any unsaved progress"
-        ,() => {this.setState({ instance: null })}
+        ,() => this.setState({ instance: null, dirty: true })
         );
 
+    onCreatePDF = () =>
+    {
+        const required = Object.keys(this.missingRequired).length;
 
-    onCreatePDF = () => Actions.PDF({ guid: this.props.guid, instance: this.state.instance ,onChange: this.clearInstanceValue  });
+        this.setState({ highlightRequired: required });
+        if (required)
+            return MessageAlert
+                ("Missing Fields"
+                ,"There are required fields that have not been filled."
+            +  "\nPlease complete the highlighted areas before proceeding."
+                );
 
-    clearInstanceValue = () => this.setState({ instance: null });
+        Actions.PDF({ guid: this.props.guid, instance: this.state.instance, onChange: this.clearInstanceValue });
+    }
+
+
+    clearInstanceValue = () => this.setState({ instance: null, dirty: true });
 
     setInstanceValue = (value, param) => this.setState({ instance: { ...this.state.instance, [param]: { ...(this.state.instance || {})[param], value: value } } });
 
-    renderIcon = ({ route }) => (<Icon name={route.icon} style={{ color: this.state.index == route.key ? ReportColors.primary : ReportColors.border, fontSize: 18 }} type="FontAwesome" />)
+    missingRequired = {};
+    setMissingRequired = (missing, param) =>
+    {
+        if (missing)
+            this.missingRequired[param] = missing;
+        else
+            delete this.missingRequired[param];
+    }
+
+
+    renderIcon = ({ route }) => (
+        <View>
+            {!(!this.state.highlightRequired || !this.missingRequired[route.param]) &&
+            <Badge status="error" containerStyle={{ position: 'absolute', top: -4, right: -4 }} />
+            }
+            <Icon name={route.icon} style={{ color: this.state.index == route.key ? ReportColors.primary : ReportColors.border, fontSize: 18 }} type="FontAwesome" />
+        </View>
+    );
     renderTabBar = (props) => (
         <TabBar
             {...props}
@@ -134,23 +182,15 @@ export default class ControlForm extends React.Component
             indicatorStyle={{ backgroundColor: ReportColors.primary, height: 2.5 }}
         />)
 
-    componentDidUpdate()
-    {
-        const { loading } = this.state;
-
-        if (loading === false)
-            setTimeout(() => this.setState({ loading: null }), 1);
-    }
-
     renderScene = (props) => (
         <ScrollView>
-            <ControlList {...props.route} instance={this.state.instance} onChange={this.setInstanceValue} />
+            <ControlList {...props.route} instance={this.state.instance} onChange={this.setInstanceValue} onMissingRequired={this.setMissingRequired} highlightRequired={this.state.highlightRequired} />
         </ScrollView>
     );
 
     render()
     {
-        const { form, index, instance, hasSaved, loading } = this.state;
+        const { form, index, instance, hasSaved, loading, dirty } = this.state;
         const { tabs, title } = form || {};
 
         let routes = [];
@@ -162,9 +202,11 @@ export default class ControlForm extends React.Component
 
             routes.push(
                 {key: pos
+                ,param: pos
                 ,title: tab.label
                 ,icon: tab.icon
                 ,active: pos == index
+                ,dirty: dirty
                 ,controls: tab.controls
                 });
         }

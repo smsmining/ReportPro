@@ -11,16 +11,16 @@ export default class Control_ImageStatic extends React.Component
 
     render()
     {
-        const { label, value, size } = this.props;
+        const { value, size } = this.props;
 
         const { w, h } = size || {};
         const ratio = w ? w / GlobalStyles.screenWidth.width : 1;
 
         return (
-            <FloatingLabelItem label={label}>
+            <FloatingLabelItem {...this.props} >
                 <View style={styles.ImageContainer}>
                     <Image source={{ uri: value }} style={{ width: (w || GlobalStyles.screenWidth.width) / ratio, height: (h || 200) / ratio }}/>
-            </View>
+                </View>
             </FloatingLabelItem>
         );
     }

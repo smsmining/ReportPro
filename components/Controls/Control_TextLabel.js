@@ -10,11 +10,9 @@ export default class Control_TextLabel extends React.Component
 
     render()
     {
-        const { label, value } = this.props;
-
         return (
-            <FloatingLabelItem label={label}>
-                <Text>{value}</Text>
+            <FloatingLabelItem {...this.props} >
+                <Text>{this.props.value}</Text>
             </FloatingLabelItem>
         );
     }

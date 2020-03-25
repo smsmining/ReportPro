@@ -60,7 +60,7 @@ export default class Control_Signature extends React.Component
                 };
 
             return (
-                <FloatingLabelItem label={label} height={renderStyle.height}>
+                <FloatingLabelItem {...this.props} height={renderStyle.height}>
                     <TouchableOpacity style={styles.center} onPress={this.toggleDialog}>
                         <View style={styles.ImageContainer}>
                             <Image style={renderStyle} source={value} />
@@ -72,7 +72,7 @@ export default class Control_Signature extends React.Component
             }
 
         return (
-            <InlineLabelItem label={label}>
+            <InlineLabelItem {...this.props} >
                 <TouchableOpacity style={styles.center} onPress={this.toggleDialog}>
                     <View style={styles.ImageContainer}>
                         <Text style={{ color: Colors.secondary, margin: 5 }}>

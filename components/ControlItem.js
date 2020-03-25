@@ -65,6 +65,9 @@ export const ShouldUpdate = (props, newProps) => (
 ||  newProps.label !== props.label
 
 ||  newProps.value ^ props.value
+
+||  newProps.required ^ props.required
+||  newProps.highlightRequired ^ props.highlightRequired
 )
 
 export const ShouldUpdateForDate = (props, newProps) => (

@@ -8,6 +8,7 @@ import FloatingLabelItem from './Layout/FloatingLabelItem';
 import InlineLabelItem from './Layout/InlineLabelItem';
 
 import { ShouldUpdate } from '../ControlItem';
+import { HighlightStyles } from '../../utils/Style';
 
 export default class Control_Spinner extends React.Component
 {
@@ -33,7 +34,7 @@ export default class Control_Spinner extends React.Component
 
     render()
     {
-        const { label, value, param, onChange, controls, radio } = this.props;
+        const { value, param, onChange, controls, radio } = this.props;
 
         const onItemChange = (newValue) =>
         {
@@ -49,7 +50,7 @@ export default class Control_Spinner extends React.Component
         if (!controls)
             return (
                 <View>
-                    <InlineLabelItem label={label}>
+                    <InlineLabelItem {...this.props} >
                         <Text>No Options</Text>
                     </InlineLabelItem>
                 </View>);
@@ -75,7 +76,7 @@ export default class Control_Spinner extends React.Component
         if (radio)
             return (
                 <View>
-                    <FloatingLabelItem label={label}>
+                    <FloatingLabelItem {...this.props} >
                         <List dataArray={renderControls} horizontal
                             renderRow={(option) =>
                                 <ListItem key={option.value} style={{ borderBottomWidth: 0, marginLeft: 0, paddingLeft: 0 }}>
@@ -97,12 +98,13 @@ export default class Control_Spinner extends React.Component
 
         return (
             <View>
-                <InlineLabelItem label={label}>
+                <InlineLabelItem {...this.props} >
                     <Picker
                         mode="dropdown"
                         Icon={<Icon name="arrow-down" />}
                         selectedValue={renderValue}
                         onValueChange={onItemChange}
+                        style={HighlightStyles.maintain}
                     >
                         {renderControls.map(option => (<Picker.Item key={option.value} label={option.label} value={option.value} />))}
                     </Picker>

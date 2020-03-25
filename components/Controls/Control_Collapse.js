@@ -1,23 +1,42 @@
 import React from 'react';
-import { Icon, Button, Text } from 'native-base';
+import { Icon, Button, Text, View } from 'native-base';
+import { Badge } from 'react-native-elements'
 import Collapsible from 'react-native-collapsible';
 
 import ControlList from '../ControlList';
 
-export default ControlCollapse = (props) =>
+export default class ControlCollapse extends React.Component
 {
-    const expanded = props.param === props.expand;
+    state = { missingRequired: null }
 
-    return (
-        <React.Fragment>
-        <Button onPress={() => props.onExpand(props.param)} dark={!expanded} danger={expanded} rounded={false} full bordered iconLeft iconRight>
-            {props.icon && <Icon name={props.icon} type={props.iconType} />}
-            <Text>{props.label}</Text>
-            <Icon name={expanded ? "expand-less" : "expand-more"} type="MaterialIcons" />
-        </Button>
-        <Collapsible collapsed={!expanded} duration={150}>
-            <ControlList {...props} active={expanded}/>
-        </Collapsible>
-        </React.Fragment>
-    )
+    onMissingRequired = (missing, param) =>
+    {
+        this.setState({ missingRequired: missing });
+        this.props.onMissingRequired(missing, param);
+    }
+
+    render()
+    {
+        const { param, label, highlightRequired, expand, icon, iconType, onExpand } = this.props;
+        const { missingRequired } = this.state;
+
+        const expanded = param === expand;
+        const showRequired = highlightRequired && missingRequired;
+
+        return (
+            <React.Fragment>
+            <Button onPress={() => onExpand(param)} dark={!expanded} danger={expanded} rounded={false} full bordered iconLeft iconRight>
+                {icon && <Icon name={icon} type={iconType} />}
+                <Text>{label}</Text>
+                <View>
+                    {showRequired ? <Badge status="error" containerStyle={{ position: 'absolute', top: -4, right: -4 }} /> : null}
+                    <Icon name={expanded ? "expand-less" : "expand-more"} type="MaterialIcons" />
+                </View>
+            </Button>
+            <Collapsible collapsed={!expanded} duration={150}>
+                <ControlList {...this.props} active={expanded} onMissingRequired={this.onMissingRequired}/>
+            </Collapsible>
+            </React.Fragment>
+        )
+    }
 };

@@ -3,6 +3,11 @@ export default
     ,secondary: '#ebebeb'
     ,border: '#54585a'
 
+    ,highlight:
+        {error: '#fff5f5'
+        ,warning: '#FFFCF8'
+        }
+
     ,white: '#FFF'
     ,lighter: '#F3F3F3'
     ,light: '#DAE1E7'

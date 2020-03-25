@@ -3,6 +3,7 @@ import { Button, Text } from 'native-base';
 
 import ControlList from '../ControlList';
 import { jsonHelper } from '../../utils/jsonHelper';
+import MissingRequired from '../MissingRequired';
 
 export default class Control_looper extends React.Component
 {
@@ -54,6 +55,7 @@ export default class Control_looper extends React.Component
                 <ControlList
                     {...this.props}
                     key={i}
+                    param={i}
                     index={i}
                     instance={(value && value[i]) || {}}
                     onChange={(loopValue, loopParam) => this.onLoopChange(loopValue, loopParam, i)}
@@ -62,7 +64,9 @@ export default class Control_looper extends React.Component
 
         return (
             <React.Fragment>
-            {children}
+            <MissingRequired {...this.props}>
+                {children}
+            </MissingRequired>
             {!setLength &&
             <Button success onPress={this.onLoopAdd} disabled={value && maxLength && value.length === maxLength}><Text>{label || "+ Add Row"}</Text></Button>
             }

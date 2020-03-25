@@ -1,7 +1,7 @@
 import React from 'react';
-import { DatePicker} from 'native-base';
+import { DatePicker, View} from 'native-base';
 
-import { Colors } from '../../utils/Style';
+import { Colors, HighlightStyles } from '../../utils/Style';
 import InlineLabelItem from './Layout/InlineLabelItem';
 import { ShouldUpdateForDate } from '../ControlItem';
 
@@ -23,25 +23,27 @@ export default class Control_Date extends React.Component
 
     render()
     {
-        const { label, param, value, format, minValue, maxValue, onChange } = this.props;
+        const { param, value, format, minValue, maxValue, onChange } = this.props;
         const { key } = this.state;
 
         return (
-            <InlineLabelItem label={label}>
-                <DatePicker
-                    key={param + key}
-                    minimumDate={minValue}
-                    maximumDate={maxValue}
-                    defaultDate={value}
-                    placeHolderText={value ? undefined : 'Select date'}
-                    placeHolderTextStyle={value ? undefined : { color: Colors.light }}
-                    onDateChange={date => onChange(date, param)}
-                    locale={'en'}
-                    modalTransparent={false}
-                    animationType={'fade'}
-                    textStyle={{ color: Colors.black }}
-                    formatChosenDate={(date) => this.dateFormat(date, format || "d mmm yyyy")}
-                />
+            <InlineLabelItem {...this.props} >
+                <View style={HighlightStyles.maintain}>
+                    <DatePicker
+                        key={param + key}
+                        minimumDate={minValue}
+                        maximumDate={maxValue}
+                        defaultDate={value}
+                        placeHolderText={value ? undefined : 'Select date'}
+                        placeHolderTextStyle={value ? undefined : { color: Colors.secondary }}
+                        onDateChange={date => onChange(date, param)}
+                        locale={'en'}
+                        modalTransparent={false}
+                        animationType={'fade'}
+                        textStyle={{ color: Colors.black }}
+                        formatChosenDate={(date) => this.dateFormat(date, format || "d mmm yyyy")}
+                    />
+                </View>
             </InlineLabelItem>
         );
     }

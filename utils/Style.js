@@ -98,6 +98,19 @@ export const MiscStyles = StyleSheet.create(
         }
     });
 
+export const HighlightStyles = StyleSheet.create(
+    {error:
+        {backgroundColor: Colors.highlight.error
+        }
+    ,warning:
+        {backgroundColor: Colors.highlight.warning
+        }
+    ,maintain:
+        {backgroundColor: Colors.white
+        ,borderTopRightRadius: 7.5
+        ,borderTopLeftRadius: 7.5
+        }
+    });
 
 export const styles = StyleSheet.create({
     scrollView: {
@@ -169,7 +182,8 @@ export const styles = StyleSheet.create({
     },
 
     ImageContainer: {
-        backgroundColor: '#ffffff',
+        ...HighlightStyles.maintain,
+        width: '100%',
         justifyContent: 'center',
         alignItems: 'center',
     },

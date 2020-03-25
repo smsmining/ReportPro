@@ -2,7 +2,7 @@ import React from 'react';
 import { Keyboard } from 'react-native';
 import { Textarea } from 'native-base';
 
-import { Colors } from '../../utils/Style';
+import { Colors, HighlightStyles } from '../../utils/Style';
 import FloatingLabelItem from './Layout/FloatingLabelItem';
 import { ShouldUpdateForString } from '../ControlItem';
 
@@ -12,10 +12,10 @@ export default class Control_TextArea extends React.Component
 
     render()
     {
-        const { label, value, param, onChange, HeightRows, maxLength, keyboardType, placeholder } = this.props;
+        const { value, param, onChange, HeightRows, maxLength, keyboardType, placeholder } = this.props;
 
         return (
-            <FloatingLabelItem label={label}>
+            <FloatingLabelItem {...this.props} >
                 <Textarea
                     value={value}
                     rowSpan={HeightRows ? HeightRows : 5}
@@ -28,6 +28,7 @@ export default class Control_TextArea extends React.Component
                     keyboardType = {keyboardType}
                     maxLength={maxLength ? maxLength : 200}
                     onSubmitEditing={Keyboard.dismiss}
+                    style={HighlightStyles.maintain}
                  />
             </FloatingLabelItem>
         );

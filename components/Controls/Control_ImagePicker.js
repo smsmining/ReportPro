@@ -1,13 +1,11 @@
 import React from 'react';
 import { Text, TouchableOpacity, View, Image } from 'react-native';
-import ImagePicker from 'react-native-image-picker';
 
 import { styles, GlobalStyles, Colors } from '../../utils/Style';
 
 import InlineLabelItem from './Layout/InlineLabelItem';
 import FloatingLabelItem from './Layout/FloatingLabelItem';
 import { ShouldUpdateForImage } from '../ControlItem';
-import { GeneralAlertDialog } from '../Alerts';
 import CameraOverlay from '../CameraOverlay';
 
 
@@ -28,7 +26,7 @@ export default class Control_ImagePicker extends React.Component
 
     render()
     {
-        const { label, value } = this.props;
+        const { value } = this.props;
         const { show } = this.state;
 
         if (value)
@@ -39,7 +37,7 @@ export default class Control_ImagePicker extends React.Component
                 };
 
             return (
-                <FloatingLabelItem label={label} height={renderStyle.height}>
+                <FloatingLabelItem {...this.props} height={renderStyle.height}>
                     <TouchableOpacity style={styles.center} onPress={this.toggleCamera}>
                         <View style={styles.ImageContainer}>
                             <Image style={renderStyle} source={value} />
@@ -51,7 +49,7 @@ export default class Control_ImagePicker extends React.Component
             }
 
         return (
-            <InlineLabelItem label={label}>
+            <InlineLabelItem {...this.props} >
                 <TouchableOpacity style={styles.center} onPress={this.toggleCamera}>
                     <View style={styles.ImageContainer}>
                         <Text style={{ color: Colors.secondary, margin: 5 }}>

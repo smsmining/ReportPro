@@ -1,18 +1,18 @@
 import React from 'react';
 
 import ControlItem from './ControlItem';
+import MissingRequired from './MissingRequired';
 
 export default class ControlList extends React.Component
 {
-    shouldComponentUpdate(newProps) { return newProps.active; }
+    shouldComponentUpdate(newProps) { return newProps.active || newProps.dirty; }
 
     state = { expand: null };
-
     onExpand = (param) => this.setState({ expand: param === this.state.expand ? null : param });
 
     renderControl = (props) =>
     {
-        const { instance, depth, index, onChange } = this.props;
+        const { instance, depth, index, onChange, highlightRequired, dirty } = this.props;
         const { expand } = this.state;
 
         let control = instance && instance[props.param];
@@ -29,16 +29,22 @@ export default class ControlList extends React.Component
                 value = value.replace('{}', index + 1);
         }
 
+        const required = props.required;
+
         return (
             <ControlItem
                 {...props}
                 key={props.param}
                 index={undefined}
+                dirty={dirty}
 
                 label={label}
                 value={value}
                 instance={instance}
                 onChange={onChange}
+
+                required={required}
+                highlightRequired={highlightRequired}
 
                 expand={expand}
                 depth={(depth || 0) + 1}
@@ -50,9 +56,9 @@ export default class ControlList extends React.Component
     render()
     {
         return this.props.controls
-        ?   <React.Fragment>
+        ?   <MissingRequired {...this.props} >
                 {this.props.controls.map(this.renderControl)}
-            </React.Fragment>
+            </MissingRequired>
         :   null;
     }
 }
