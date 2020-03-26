@@ -25,18 +25,21 @@ export default SMS_MN_INS_0005_01 =
                     type: ControlKeys.Date,
                     label: 'Date',
                     pdf: { 0: [{ x: 70, y: 415, size: 15 }] },
+                    required: true,
                 },
                 {
                     param: 'inspection_location',
                     type: ControlKeys.TextField,
                     label: 'Location',
                     pdf: { 0: [{ x: 225, y: 415, size: 15 }] },
+                    required: true,
                 },
                 {
                     param: 'inspection_inspector',
                     type: ControlKeys.TextField,
                     label: 'Inspector',
                     pdf: { 0: [{ x: 400, y: 415, size: 15 }] },
+                    required: true,
                 },
 
                 {
@@ -49,12 +52,14 @@ export default SMS_MN_INS_0005_01 =
                     type: ControlKeys.TextField,
                     label: 'Name',
                     pdf: { 0: [{ x: 70, y: 330, size: 15 }] },
+                    required: true,
                 },
                 {
                     ...SiteSpinner,
                     param: 'customer_site',
                     label: 'Site',
                     pdf: { 0: [{ x: 225, y: 330, size: 15 }] },
+                    required: true,
                 },
 
                 {
@@ -67,36 +72,42 @@ export default SMS_MN_INS_0005_01 =
                     type: ControlKeys.TextField,
                     label: 'Machine ID',
                     pdf: { 0: [{ x: 70, y: 235, size: 15 }] },
+                    required: true,
                 },
                 {
                     param: 'machine_make',
                     type: ControlKeys.TextField,
                     label: 'Make',
                     pdf: { 0: [{ x: 225, y: 235, size: 15 }] },
+                    required: true,
                 },
                 {
                     param: 'machine_model',
                     type: ControlKeys.TextField,
                     label: 'Model',
                     pdf: { 0: [{ x: 400, y: 235, size: 15 }] },
+                    required: true,
                 },
                 {
                     param: 'machine_sn',
                     type: ControlKeys.TextField,
                     label: 'Serial No.',
                     pdf: { 0: [{ x: 70, y: 180, size: 15 }] },
+                    required: true,
                 },
                 {
                     param: 'machine_rego',
                     type: ControlKeys.TextField,
                     label: 'Rego No.',
                     pdf: { 0: [{ x: 225, y: 180, size: 15 }] },
+                    required: true,
                 },
                 {
                     param: 'machine_smu',
                     type: ControlKeys.TextField,
                     label: 'SMU Reading',
                     pdf: { 0: [{ x: 400, y: 180, size: 15 }] },
+                    required: true,
                 },
             ],
         },
@@ -139,6 +150,7 @@ export default SMS_MN_INS_0005_01 =
                                 ],
                                 pdf: { 0: [{ y: 0 }] },
                                 radio: true,
+                                required: true,
                             },
                             {
                                 param: 'comments',
@@ -186,6 +198,7 @@ export default SMS_MN_INS_0005_01 =
                                 ],
                                 pdf: { 0: [{ y: 0 }] },
                                 radio: true,
+                                required: true,
                             },
                             {
                                 param: 'comments',
@@ -254,6 +267,7 @@ export default SMS_MN_INS_0005_01 =
                                 ],
                                 pdf: { 0: [{ y: 0 }] },
                                 radio: true,
+                                required: true,
                             },
                             {
                                 param: 'comments',
@@ -307,6 +321,7 @@ export default SMS_MN_INS_0005_01 =
                                 ],
                                 pdf: { 0: [{ y: 0 }] },
                                 radio: true,
+                                required: true,
                             },
                             {
                                 param: 'comments',
@@ -345,6 +360,7 @@ export default SMS_MN_INS_0005_01 =
                                 ],
                                 pdf: { 0: [{ y: 0 }] },
                                 radio: true,
+                                required: true,
                             },
                             {
                                 param: 'comments',
@@ -394,6 +410,7 @@ export default SMS_MN_INS_0005_01 =
                                 ],
                                 pdf: { 0: [{ y: 0 }] },
                                 radio: true,
+                                required: true,
                             },
                             {
                                 param: 'comments',
@@ -438,6 +455,7 @@ export default SMS_MN_INS_0005_01 =
                                 ],
                                 pdf: { 0: [{ y: 0 }] },
                                 radio: true,
+                                required: true,
                             },
                             {
                                 param: 'comments',
@@ -487,6 +505,7 @@ export default SMS_MN_INS_0005_01 =
                                 ],
                                 pdf: { 0: [{ y: 0 }] },
                                 radio: true,
+                                required: true,
                             },
                             {
                                 param: 'comments',
@@ -542,6 +561,7 @@ export default SMS_MN_INS_0005_01 =
                                 ],
                                 pdf: { 0: [{ y: 0 }] },
                                 radio: true,
+                                required: true,
                             },
                             {
                                 param: 'comments',
@@ -578,6 +598,7 @@ export default SMS_MN_INS_0005_01 =
                         ],
                         pdf: { 3: [{ y: 730 }] },
                         radio: true,
+                        required: true,
                     },
                     {
                         param: 'electrics_checklist_comments_batt',
@@ -619,6 +640,7 @@ export default SMS_MN_INS_0005_01 =
                                 ],
                                 pdf: { 0: [{ y: 0 }] },
                                 radio: true,
+                                required: true,
                             },
                             {
                                 param: 'comments',
@@ -671,6 +693,7 @@ export default SMS_MN_INS_0005_01 =
                                 ],
                                 pdf: { 0: [{ y: 0 }] },
                                 radio: true,
+                                required: true,
                             },
                             {
                                 param: 'comments',
@@ -725,18 +748,21 @@ export default SMS_MN_INS_0005_01 =
                                     { label: 'Manual', value: 'Manual' },
                                 ],
                                 pdf: { 0: [{ x: 0, y: 0 }] },
+                                required: true,
                             },
                             {
                                 param: 'left',
                                 type: ControlKeys.TextField,
                                 label: 'Left',
                                 pdf: { 0: [{ x: 105, y: 0 }] },
+                                required: true,
                             },
                             {
                                 param: 'right',
                                 type: ControlKeys.TextField,
                                 label: 'Right',
                                 pdf: { 0: [{ x: 175, y: 0 }] },
+                                required: true,
                             },
                             {
                                 param: 'spacer',
@@ -768,12 +794,14 @@ export default SMS_MN_INS_0005_01 =
                                 type: ControlKeys.TextField,
                                 label: 'Left',
                                 pdf: { 0: [{ x: 105, y: 0 }] },
+                                required: true,
                             },
                             {
                                 param: 'right',
                                 type: ControlKeys.TextField,
                                 label: 'Right',
                                 pdf: { 0: [{ x: 175, y: 0 }] },
+                                required: true,
                             },
                             {
                                 param: 'spacer',
@@ -812,6 +840,7 @@ export default SMS_MN_INS_0005_01 =
                                 ],
                                 pdf: { 0: [{ y: 0 }] },
                                 radio: true,
+                                required: true,
                             },
                             {
                                 param: 'comments',
@@ -845,6 +874,7 @@ export default SMS_MN_INS_0005_01 =
                                 type: ControlKeys.TextField,
                                 label: 'Quantity',
                                 pdf: { 0: [{ x: 20, y: 0 }] },
+                                required: true,
                             },
                             {
                                 param: 'selector',
@@ -856,6 +886,7 @@ export default SMS_MN_INS_0005_01 =
                                 ],
                                 pdf: { 0: [{ y: 0 }] },
                                 radio: true,
+                                required: true,
                             },
                             {
                                 param: 'comments',
@@ -900,6 +931,7 @@ export default SMS_MN_INS_0005_01 =
                                 ],
                                 pdf: { 0: [{ y: 0 }] },
                                 radio: true,
+                                required: true,
                             },
                             {
                                 param: 'spacer',
@@ -947,6 +979,7 @@ export default SMS_MN_INS_0005_01 =
                                 ],
                                 pdf: { 0: [{ y: 0 }] },
                                 radio: true,
+                                required: true,
                             },
                             {
                                 param: 'comments',
@@ -995,6 +1028,7 @@ export default SMS_MN_INS_0005_01 =
                                 ],
                                 pdf: { 0: [{ y: 0 }] },
                                 radio: true,
+                                required: true,
                             },
                             {
                                 param: 'comments',
@@ -1028,6 +1062,7 @@ export default SMS_MN_INS_0005_01 =
                                 type: ControlKeys.TextField,
                                 label: 'Name',
                                 pdf: { 0: [{ x: 0, y: 0 }] },
+                                required: true,
                             },
                             {
                                 param: 'pass',
@@ -1038,6 +1073,7 @@ export default SMS_MN_INS_0005_01 =
                                 ],
                                 pdf: { 0: [{ y: 0 }] },
                                 radio: true,
+                                required: true,
                             },
                             {
                                 param: 'comments',
@@ -1089,6 +1125,7 @@ export default SMS_MN_INS_0005_01 =
                                 ],
                                 pdf: { 0: [{ y: 0 }] },
                                 radio: true,
+                                required: true,
                             },
                             {
                                 param: 'comments',
@@ -1117,6 +1154,7 @@ export default SMS_MN_INS_0005_01 =
                         ],
                         pdf: { 5: [{ y: 461 }] },
                         radio: true,
+                        required: true,
                     },
                     {
                         param: 'hygiene_checklist_comments_wash',
@@ -1162,12 +1200,14 @@ export default SMS_MN_INS_0005_01 =
                                 type: ControlKeys.TextField,
                                 label: 'New Thickness (mm)',
                                 pdf: { 0: [{ x: 0, y: 0 }] },
+                                required: true,
                             },
                             {
                                 param: 'worn',
                                 type: ControlKeys.TextField,
                                 label: 'Most Worn Measurement (mm)',
                                 pdf: { 0: [{ x: 103, y: 0 }] },
+                                required: true,
                             },
                             {
                                 param: 'spacer',
@@ -1215,6 +1255,7 @@ export default SMS_MN_INS_0005_01 =
                                     type: ControlKeys.ImageSelect,
                                     label: 'Image',
                                     pdf: { 0: [{ x: 0, y: 88, width: 260, height: 120 }] },
+                                    required: true,
                                 },
                                 {
                                     param: 'inspection_attachment_comments',
@@ -1247,12 +1288,14 @@ export default SMS_MN_INS_0005_01 =
                     type: ControlKeys.TextField,
                     label: 'Name',
                     pdf: { 7: [{ x: 75, y: 110, size: 15 }] },
+                    required: true,
                 },
                 {
                     param: 'signoff_sig',
                     type: ControlKeys.Signature,
                     label: 'Signature',
                     pdf: { 7: [{ x: 385, y: 68, width: 150, height: 55 }] },
+                    required: true,
                 },
             ],
         },

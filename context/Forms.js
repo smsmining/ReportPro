@@ -83,36 +83,40 @@ const fakeDB =
                                 label: 'Site',
                                 controls: SiteSpinnerControls,
                                 pdf: { 0: [{ x: 160, y: 760, width: 100, height: 15 }] },
+                                required: true,
                             },
                             {
                                 param: 'details_date',
                                 type: ControlKeys.Date,
                                 label: 'Date',
                                 pdf: { 0: [{ x: 320, y: 760, width: 70, height: 15 }] },
+                                required: true,
                             },
                             {
                                 param: 'details_time',
                                 type: ControlKeys.TextField,
                                 label: 'Time',
                                 pdf: { 0: [{ x: 450, y: 760, width: 100, height: 15 }] },
+                                required: true,
                             },
                             {
                                 param: 'details_shift',
                                 type: ControlKeys.Spinner,
                                 label: 'Shift',
-                                value: 'Day Shift',
                                 controls: [
                                     { label: 'Day', value: 'Day Shift', pdf: { x: 476 }, renderValue: true },
                                     { label: 'Night', value: 'Night Shift', pdf: { x: 521 }, renderValue: true },
                                 ],
                                 pdf: { 0: [{ y: 744 }] },
                                 radio: true,
+                                required: true,
                             },
                             {
                                 param: 'details_weather',
                                 type: ControlKeys.TextField,
                                 label: 'Weather',
                                 pdf: { 0: [{ x: 160, y: 742, width: 230, height: 15 }] },
+                                required: true,
                             },
                         ],
                     },
@@ -175,6 +179,11 @@ const fakeDB =
                                         ],
                                         pdf: { 0: [{ y: 6 }] },
                                         radio: true,
+                                        required: true,
+                                    },
+                                    {
+                                        param: 'checklist_spacer',
+                                        type: ControlKeys.Divider,
                                     },
                                     ]
                             },
@@ -202,6 +211,11 @@ const fakeDB =
                                 ],
                                 pdf: { 0: [{ y: 249, width: 100, height: 15 }] },
                                 radio: true,
+                                required: true,
+                            },
+                            {
+                                param: 'checklist_oiltank_spacer',
+                                type: ControlKeys.Divider,
                             },
                         ],
                     },
@@ -243,12 +257,14 @@ const fakeDB =
                                 type: ControlKeys.TextField,
                                 label: 'Name',
                                 pdf: { 0: [{ x: 155, y: 94, width: 160, height: 15 }] },
+                                required: true,
                             },
                             {
                                 param: 'signoff_inspected_sig',
                                 type: ControlKeys.Signature,
                                 label: 'Signature',
                                 pdf: { 0: [{ x: 415, y: 92, width: 100, height: 15 }] },
+                                required: true,
                             },
                             {
                                 param: 'signoff_supervisor',
@@ -260,12 +276,14 @@ const fakeDB =
                                 type: ControlKeys.TextField,
                                 label: 'Name',
                                 pdf: { 0: [{ x: 155, y: 77, width: 160, height: 15 }] },
+                                required: true,
                             },
                             {
                                 param: 'signoff_supervisor_sig',
                                 type: ControlKeys.Signature,
                                 label: 'Signature',
                                 pdf: { 0: [{ x: 415, y: 75, width: 100, height: 15 }] },
+                                required: true,
                             },
                         ],
                     },
@@ -293,6 +311,7 @@ const fakeDB =
                                 type: ControlKeys.TextField,
                                 label: 'Task',
                                 pdf: { 0: [{ x: 70, y: 765, size: 16 }] },
+                                required: true,
                             },
                             {
                                 param: 'location',
@@ -300,12 +319,14 @@ const fakeDB =
                                 label: 'Location',
                                 controls: SiteSpinnerControls,
                                 pdf: { 0: [{ x: 300, y: 765, size: 16 }] },
+                                required: true,
                             },
                             {
                                 param: 'observer',
                                 type: ControlKeys.TextField,
                                 label: 'Observer',
                                 pdf: { 0: [{ x: 505, y: 765, size: 16 }] },
+                                required: true,
                             },
                             {
                                 param: 'date',
@@ -313,12 +334,14 @@ const fakeDB =
                                 label: 'Date',
                                 renderFormat: 'dd   mm   yyyy',
                                 pdf: { 0: [{ x: 74, y: 745 }] },
+                                required: true,
                             },
                             {
                                 param: 'time',
                                 type: ControlKeys.TextField,
                                 label: 'Time',
                                 pdf: { 0: [{ x: 68, y: 735, size: 14 }] },
+                                required: true,
                             },
                         ],
                     },
@@ -357,6 +380,7 @@ const fakeDB =
                                                     { label: "N/A", value: "NA", pdf: { x: 266 }, renderValue: true },
                                                 ],
                                                 radio: true,
+                                                required: true,
                                             },
                                             {
                                                 param: 'risk_assessment_divider',
@@ -370,6 +394,7 @@ const fakeDB =
                                         label: 'Risk Sampled',
                                         keyboardType: 'phone-pad',
                                         pdf: { 0: [{ x: 315, y: 697, height: 30, width: 38 }] },
+                                        required: true,
                                     },
                                     {
                                         param: 'risk_assessment_compliant',
@@ -377,6 +402,7 @@ const fakeDB =
                                         label: 'Risk Compliant',
                                         keyboardType: 'phone-pad',
                                         pdf: { 0: [{ x: 364, y: 697, height: 30, width: 38 }] },
+                                        required: true,
                                     },
                                     {
                                         param: 'risk_assessment_comments',
@@ -415,6 +441,7 @@ const fakeDB =
                                                     { label: "N/A", value: "NA", pdf: { x: 266 }, renderValue: true },
                                                 ],
                                                 radio: true,
+                                                required: true,
                                             },
                                             {
                                                 param: 'compliance_to_procedures_divider',
@@ -428,6 +455,7 @@ const fakeDB =
                                         label: 'Compliance Sampled',
                                         keyboardType: 'phone-pad',
                                         pdf: { 0: [{ x: 315, y: 644, height: 46, width: 38 }] },
+                                        required: true,
                                     },
                                     {
                                         param: 'compliance_to_procedures_compliant',
@@ -435,6 +463,7 @@ const fakeDB =
                                         label: 'Compliance Compliant',
                                         keyboardType: 'phone-pad',
                                         pdf: { 0: [{ x: 364, y: 644, height: 46, width: 38 }] },
+                                        required: true,
                                     },
                                     {
                                         param: 'compliance_to_procedures_comments',
@@ -480,6 +509,7 @@ const fakeDB =
                                                     { label: "N/A", value: "NA", pdf: { x: 266 }, renderValue: true },
                                                 ],
                                                 radio: true,
+                                                required: true,
                                             },
                                             {
                                                 param: 'operator_divider',
@@ -493,6 +523,7 @@ const fakeDB =
                                         label: 'Operator Sampled',
                                         keyboardType: 'phone-pad',
                                         pdf: { 0: [{ x: 315, y: 535, height: 102, width: 38 }] },
+                                        required: true,
                                     },
                                     {
                                         param: 'operator_compliant',
@@ -500,6 +531,7 @@ const fakeDB =
                                         label: 'Operator Compliant',
                                         keyboardType: 'phone-pad',
                                         pdf: { 0: [{ x: 364, y: 535, height: 102, width: 38 }] },
+                                        required: true,
                                     },
                                     {
                                         param: 'operator_comments',
@@ -543,6 +575,7 @@ const fakeDB =
                                                     { label: "N/A", value: "NA", pdf: { x: 266 }, renderValue: true },
                                                 ],
                                                 radio: true,
+                                                required: true,
                                             },
                                             {
                                                 param: 'traffic_management_divider',
@@ -556,6 +589,7 @@ const fakeDB =
                                         label: 'Traffic Sampled',
                                         keyboardType: 'phone-pad',
                                         pdf: { 0: [{ x: 315, y: 443, height: 84, width: 38 }] },
+                                        required: true,
                                     },
                                     {
                                         param: 'traffic_management_compliant',
@@ -563,6 +597,7 @@ const fakeDB =
                                         label: 'Traffic Compliant',
                                         keyboardType: 'phone-pad',
                                         pdf: { 0: [{ x: 364, y: 443, height: 84, width: 38 }] },
+                                        required: true,
                                     },
                                     {
                                         param: 'traffic_management_comments',
@@ -607,6 +642,7 @@ const fakeDB =
                                                     { label: "N/A", value: "NA", pdf: { x: 266 }, renderValue: true },
                                                 ],
                                                 radio: true,
+                                                required: true,
                                             },
                                             {
                                                 param: 'mobile_equipment_divider',
@@ -620,6 +656,7 @@ const fakeDB =
                                         label: 'Mobile Sampled',
                                         keyboardType: 'phone-pad',
                                         pdf: { 0: [{ x: 315, y: 347, height: 85, width: 38 }] },
+                                        required: true,
                                     },
                                     {
                                         param: 'mobile_equipment_compliant',
@@ -627,6 +664,7 @@ const fakeDB =
                                         label: 'Mobile Compliant',
                                         keyboardType: 'phone-pad',
                                         pdf: { 0: [{ x: 364, y: 347, height: 85, width: 38 }] },
+                                        required: true,
                                     },
                                     {
                                         param: 'mobile_equipment_comments',
@@ -667,6 +705,7 @@ const fakeDB =
                                                     { label: "N/A", value: "NA", pdf: { x: 266 }, renderValue: true },
                                                 ],
                                                 radio: true,
+                                                required: true,
                                             },
                                             {
                                                 param: 'prestart_equipment_divider',
@@ -680,6 +719,7 @@ const fakeDB =
                                         label: 'Prestart Sampled',
                                         keyboardType: 'phone-pad',
                                         pdf: { 0: [{ x: 315, y: 278, height: 54, width: 38 }] },
+                                        required: true,
                                     },
                                     {
                                         param: 'prestart_equipment_compliant',
@@ -687,6 +727,7 @@ const fakeDB =
                                         label: 'Prestart Compliant',
                                         keyboardType: 'phone-pad',
                                         pdf: { 0: [{ x: 364, y: 278, height: 54, width: 38 }] },
+                                        required: true,
                                     },
                                     {
                                         param: 'prestart_equipment_comments',
@@ -729,6 +770,7 @@ const fakeDB =
                                                     { label: "N/A", value: "NA", pdf: { x: 266 }, renderValue: true },
                                                 ],
                                                 radio: true,
+                                                required: true,
                                             },
                                             {
                                                 param: 'PPE_divider',
@@ -742,6 +784,7 @@ const fakeDB =
                                         label: 'PPE Sampled',
                                         keyboardType: 'phone-pad',
                                         pdf: { 0: [{ x: 315, y: 195, height: 74, width: 38 }] },
+                                        required: true,
                                     },
                                     {
                                         param: 'PPE_compliant',
@@ -749,6 +792,7 @@ const fakeDB =
                                         label: 'PPE Compliant',
                                         keyboardType: 'phone-pad',
                                         pdf: { 0: [{ x: 364, y: 195, height: 74, width: 38 }] },
+                                        required: true,
                                     },
                                     {
                                         param: 'PPE_comments',
@@ -776,10 +820,6 @@ const fakeDB =
                                         ],
                                         controls: [
                                             {
-                                                param: 'environmental_divider',
-                                                type: ControlKeys.Divider,
-                                            },
-                                            {
                                                 param: 'environmental_action',
                                                 type: ControlKeys.TextLabel,
                                             },
@@ -793,6 +833,7 @@ const fakeDB =
                                                     { label: "N/A", value: "NA", pdf: { x: 266 }, renderValue: true },
                                                 ],
                                                 radio: true,
+                                                required: true,
                                             },
                                             {
                                                 param: 'environmental_divider',
@@ -806,6 +847,7 @@ const fakeDB =
                                         label: 'Environmental Sampled',
                                         keyboardType: 'phone-pad',
                                         pdf: { 0: [{ x: 315, y: 142, height: 40, width: 38 }] },
+                                        required: true,
                                     },
                                     {
                                         param: 'environmental_compliant',
@@ -813,6 +855,7 @@ const fakeDB =
                                         label: 'Environmental Compliant',
                                         keyboardType: 'phone-pad',
                                         pdf: { 0: [{ x: 364, y: 142, height: 40, width: 38 }] },
+                                        required: true,
                                     },
                                     {
                                         param: 'environmental_comments',
@@ -828,16 +871,15 @@ const fakeDB =
                                 label: 'Total',
                             },
                             {
-                                param: 'total_Compliant_yes',
-                                type: ControlKeys.CheckBox,
-                                label: 'Compliant',
-                                pdf: { 0: [{ x: 320, y: 119, size: 10 }] },
-                            },
-                            {
-                                param: 'total_Compliant_no',
-                                type: ControlKeys.CheckBox,
-                                label: 'Non-Compliant',
-                                pdf: { 0: [{ x: 375, y: 123, size: 10 }] },
+                                param: 'total_compliant',
+                                type: ControlKeys.Spinner,
+                                pdf: { 0: [{ y: 119, size: 10 }] },
+                                controls: [
+                                    { label: "Compliant", value: "Compliant", pdf: { x: 330 }, renderValue: true },
+                                    { label: "Non-Compliant", value: "Non-Compliant", pdf: { x: 380 }, renderValue: true },
+                                ],
+                                radio: true,
+                                required: true,
                             },
                             {
                                 param: 'total_comments',
@@ -884,6 +926,7 @@ const fakeDB =
                                                 type: ControlKeys.ImageSelect,
                                                 label: 'Image',
                                                 pdf: { 0: [{ x: 0, y: 88, width: 260, height: 120 }] },
+                                                required: true,
                                             },
                                             {
                                                 param: 'inspection_attachment_comments',
@@ -925,6 +968,7 @@ const fakeDB =
                                 type: ControlKeys.TextField,
                                 label: 'Task',
                                 pdf: { 0: [{ x: 70, y: 765, size: 14 }] },
+                                required: true,
                             },
                             {
                                 param: 'location',
@@ -932,12 +976,14 @@ const fakeDB =
                                 label: 'Location',
                                 controls: SiteSpinnerControls,
                                 pdf: { 0: [{ x: 300, y: 765, size: 14 }] },
+                                required: true,
                             },
                             {
                                 param: 'observer',
                                 type: ControlKeys.TextField,
                                 label: 'Observer',
                                 pdf: { 0: [{ x: 505, y: 765, size: 14 }] },
+                                required: true,
                             },
                             {
                                 param: 'date',
@@ -945,12 +991,14 @@ const fakeDB =
                                 label: 'Date',
                                 renderFormat: 'dd     mm    yyyy',
                                 pdf: { 0: [{ x: 72, y: 748, size: 8 }] },
+                                required: true,
                             },
                             {
                                 param: 'time',
                                 type: ControlKeys.TextField,
                                 label: 'Time',
                                 pdf: { 0: [{ x: 68, y: 739, size: 8 }] },
+                                required: true,
                             },
                         ],
                     },
@@ -989,6 +1037,7 @@ const fakeDB =
                                                     { label: "N/A", value: "NA", pdf: { x: 57 }, renderValue: true },
                                                 ],
                                                 radio: true,
+                                                required: true,
                                             },
                                             {
                                                 param: 'risk_assessment_divider',
@@ -1002,6 +1051,7 @@ const fakeDB =
                                         label: 'Risk Sampled',
                                         keyboardType: 'phone-pad',
                                         pdf: { 0: [{ x: 315, y: 708, width: 43, height: 21 }] },
+                                        required: true,
                                     },
                                     {
                                         param: 'risk_assessment_compliant',
@@ -1009,6 +1059,7 @@ const fakeDB =
                                         label: 'Risk Compliant',
                                         keyboardType: 'phone-pad',
                                         pdf: { 0: [{ x: 365, y: 708, width: 43, height: 21 }] },
+                                        required: true,
                                     },
                                     {
                                         param: 'risk_assessment_comments',
@@ -1048,6 +1099,7 @@ const fakeDB =
                                                     { label: "N/A", value: "NA", pdf: { x: 57 }, renderValue: true },
                                                 ],
                                                 radio: true,
+                                                required: true,
                                             },
                                             {
                                                 param: 'compliance_to_procedures_divider',
@@ -1061,6 +1113,7 @@ const fakeDB =
                                         label: 'Compliance Sampled',
                                         keyboardType: 'phone-pad',
                                         pdf: { 0: [{ x: 315, y: 665.5, width: 43, height: 32 }] },
+                                        required: true,
                                     },
                                     {
                                         param: 'compliance_to_procedures_compliant',
@@ -1068,6 +1121,7 @@ const fakeDB =
                                         label: 'Compliance Compliant',
                                         keyboardType: 'phone-pad',
                                         pdf: { 0: [{ x: 365, y: 665.5, width: 43, height: 32 }] },
+                                        required: true,
                                     },
                                     {
                                         param: 'compliance_to_procedures_comments',
@@ -1109,6 +1163,7 @@ const fakeDB =
                                                     { label: "N/A", value: "NA", pdf: { x: 57 }, renderValue: true },
                                                 ],
                                                 radio: true,
+                                                required: true,
                                             },
                                             {
                                                 param: 'working_at_heights_divider',
@@ -1122,6 +1177,7 @@ const fakeDB =
                                         label: 'W@H Sampled',
                                         keyboardType: 'phone-pad',
                                         pdf: { 0: [{ x: 315, y: 601.5, width: 43, height: 53 }] },
+                                        required: true,
                                     },
                                     {
                                         param: 'working_at_heights_compliant',
@@ -1129,6 +1185,7 @@ const fakeDB =
                                         label: 'W@H Compliant',
                                         keyboardType: 'phone-pad',
                                         pdf: { 0: [{ x: 365, y: 601.5, width: 43, height: 53 }] },
+                                        required: true,
                                     },
                                     {
                                         param: 'working_at_heights_comments',
@@ -1168,6 +1225,7 @@ const fakeDB =
                                                     { label: "N/A", value: "NA", pdf: { x: 57 }, renderValue: true },
                                                 ],
                                                 radio: true,
+                                                required: true,
                                             },
                                             {
                                                 param: 'confined_space_divider',
@@ -1181,6 +1239,7 @@ const fakeDB =
                                         label: 'Confined Sampled',
                                         keyboardType: 'phone-pad',
                                         pdf: { 0: [{ x: 315, y: 560, width: 43, height: 32 }] },
+                                        required: true,
                                     },
                                     {
                                         param: 'confined_space_compliant',
@@ -1188,6 +1247,7 @@ const fakeDB =
                                         label: 'Confined Compliant',
                                         keyboardType: 'phone-pad',
                                         pdf: { 0: [{ x: 365, y: 560, width: 43, height: 32 }] },
+                                        required: true,
                                     },
                                     {
                                         param: 'confined_space_comments',
@@ -1228,6 +1288,7 @@ const fakeDB =
                                                     { label: "N/A", value: "NA", pdf: { x: 57 }, renderValue: true },
                                                 ],
                                                 radio: true,
+                                                required: true,
                                             },
                                             {
                                                 param: 'isolation_divider',
@@ -1241,6 +1302,7 @@ const fakeDB =
                                         label: 'Isolation Sampled',
                                         keyboardType: 'phone-pad',
                                         pdf: { 0: [{ x: 315, y: 507.5, width: 43, height: 42 }] },
+                                        required: true,
                                     },
                                     {
                                         param: 'isolation_compliant',
@@ -1248,6 +1310,7 @@ const fakeDB =
                                         label: 'Isolation Compliant',
                                         keyboardType: 'phone-pad',
                                         pdf: { 0: [{ x: 365, y: 507.5, width: 43, height: 42 }] },
+                                        required: true,
                                     },
                                     {
                                         param: 'isolation_comments',
@@ -1289,6 +1352,7 @@ const fakeDB =
                                                     { label: "N/A", value: "NA", pdf: { x: 57 }, renderValue: true },
                                                 ],
                                                 radio: true,
+                                                required: true,
                                             },
                                             {
                                                 param: 'mobile_equipment_divider',
@@ -1302,6 +1366,7 @@ const fakeDB =
                                         label: 'Mobile Sampled',
                                         keyboardType: 'phone-pad',
                                         pdf: { 0: [{ x: 315, y: 444, width: 43, height: 53 }] },
+                                        required: true,
                                     },
                                     {
                                         param: 'mobile_equipment_compliant',
@@ -1309,6 +1374,7 @@ const fakeDB =
                                         label: 'Mobile Compliant',
                                         keyboardType: 'phone-pad',
                                         pdf: { 0: [{ x: 365, y: 444, width: 43, height: 53 }] },
+                                        required: true,
                                     },
                                     {
                                         param: 'mobile_equipment_comments',
@@ -1347,6 +1413,7 @@ const fakeDB =
                                                     { label: "N/A", value: "NA", pdf: { x: 57 }, renderValue: true },
                                                 ],
                                                 radio: true,
+                                                required: true,
                                             },
                                             {
                                                 param: 'electrical_equipment_divider',
@@ -1360,6 +1427,7 @@ const fakeDB =
                                         label: 'Electrical Sampled',
                                         keyboardType: 'phone-pad',
                                         pdf: { 0: [{ x: 315, y: 413, width: 43, height: 21 }] },
+                                        required: true,
                                     },
                                     {
                                         param: 'electrical_equipment_compliant',
@@ -1367,6 +1435,7 @@ const fakeDB =
                                         label: 'Electrical Compliant',
                                         keyboardType: 'phone-pad',
                                         pdf: { 0: [{ x: 365, y: 413, width: 43, height: 21 }] },
+                                        required: true,
                                     },
                                     {
                                         param: 'electrical_equipment_comments',
@@ -1407,6 +1476,7 @@ const fakeDB =
                                                     { label: "N/A", value: "NA", pdf: { x: 57 }, renderValue: true },
                                                 ],
                                                 radio: true,
+                                                required: true,
                                             },
                                             {
                                                 param: 'lifting_divider',
@@ -1420,6 +1490,7 @@ const fakeDB =
                                         label: 'Electrical Sampled',
                                         keyboardType: 'phone-pad',
                                         pdf: { 0: [{ x: 315, y: 360, width: 43, height: 42 }] },
+                                        required: true,
                                     },
                                     {
                                         param: 'lifting_compliant',
@@ -1427,6 +1498,7 @@ const fakeDB =
                                         label: 'Electrical Compliant',
                                         keyboardType: 'phone-pad',
                                         pdf: { 0: [{ x: 365, y: 360, width: 43, height: 42 }] },
+                                        required: true,
                                     },
                                     {
                                         param: 'lifting_comments',
@@ -1465,6 +1537,7 @@ const fakeDB =
                                                     { label: "N/A", value: "NA", pdf: { x: 57 }, renderValue: true },
                                                 ],
                                                 radio: true,
+                                                required: true,
                                             },
                                             {
                                                 param: 'manual_handling_divider',
@@ -1478,6 +1551,7 @@ const fakeDB =
                                         label: 'Manual Sampled',
                                         keyboardType: 'phone-pad',
                                         pdf: { 0: [{ x: 315, y: 328.3, width: 43, height: 21 }] },
+                                        required: true,
                                     },
                                     {
                                         param: 'manual_handling_compliant',
@@ -1485,6 +1559,7 @@ const fakeDB =
                                         label: 'Manual Compliant',
                                         keyboardType: 'phone-pad',
                                         pdf: { 0: [{ x: 365, y: 328.3, width: 43, height: 21 }] },
+                                        required: true,
                                     },
                                     {
                                         param: 'manual_handling_comments',
@@ -1523,6 +1598,7 @@ const fakeDB =
                                                     { label: "N/A", value: "NA", pdf: { x: 57 }, renderValue: true },
                                                 ],
                                                 radio: true,
+                                                required: true,
                                             },
                                             {
                                                 param: 'tooling_divider',
@@ -1536,6 +1612,7 @@ const fakeDB =
                                         label: 'Tooling Sampled',
                                         keyboardType: 'phone-pad',
                                         pdf: { 0: [{ x: 315, y: 296.8, width: 43, height: 21 }] },
+                                        required: true,
                                     },
                                     {
                                         param: 'tooling_compliant',
@@ -1543,6 +1620,7 @@ const fakeDB =
                                         label: 'Tooling Compliant',
                                         keyboardType: 'phone-pad',
                                         pdf: { 0: [{ x: 365, y: 296.8, width: 43, height: 21 }] },
+                                        required: true,
                                     },
                                     {
                                         param: 'tooling_comments',
@@ -1581,6 +1659,7 @@ const fakeDB =
                                                     { label: "N/A", value: "NA", pdf: { x: 57 }, renderValue: true },
                                                 ],
                                                 radio: true,
+                                                required: true,
                                             },
                                             {
                                                 param: 'housekeeping_divider',
@@ -1594,6 +1673,7 @@ const fakeDB =
                                         label: 'Housekeeping Sampled',
                                         keyboardType: 'phone-pad',
                                         pdf: { 0: [{ x: 315, y: 264.8, width: 43, height: 21 }] },
+                                        required: true,
                                     },
                                     {
                                         param: 'housekeeping_compliant',
@@ -1601,6 +1681,7 @@ const fakeDB =
                                         label: 'Housekeeping Compliant',
                                         keyboardType: 'phone-pad',
                                         pdf: { 0: [{ x: 365, y: 264.8, width: 43, height: 21 }] },
+                                        required: true,
                                     },
                                     {
                                         param: 'housekeeping_comments',
@@ -1642,6 +1723,7 @@ const fakeDB =
                                                     { label: "N/A", value: "NA", pdf: { x: 57 }, renderValue: true },
                                                 ],
                                                 radio: true,
+                                                required: true,
                                             },
                                             {
                                                 param: 'ppe_divider',
@@ -1655,6 +1737,7 @@ const fakeDB =
                                         label: 'PPE Sampled',
                                         keyboardType: 'phone-pad',
                                         pdf: { 0: [{ x: 315, y: 201.3, width: 43, height: 53 }] },
+                                        required: true,
                                     },
                                     {
                                         param: 'ppe_compliant',
@@ -1662,6 +1745,7 @@ const fakeDB =
                                         label: 'PPE Compliant',
                                         keyboardType: 'phone-pad',
                                         pdf: { 0: [{ x: 365, y: 201.3, width: 43, height: 53 }] },
+                                        required: true,
                                     },
                                     {
                                         param: 'ppe_comments',
@@ -1701,6 +1785,7 @@ const fakeDB =
                                                     { label: "N/A", value: "NA", pdf: { x: 57 }, renderValue: true },
                                                 ],
                                                 radio: true,
+                                                required: true,
                                             },
                                             {
                                                 param: 'environmental_divider',
@@ -1714,6 +1799,7 @@ const fakeDB =
                                         label: 'Environmental Sampled',
                                         keyboardType: 'phone-pad',
                                         pdf: { 0: [{ x: 315, y: 158.3, width: 43, height: 33 }] },
+                                        required: true,
                                     },
                                     {
                                         param: 'environmental_compliant',
@@ -1721,6 +1807,7 @@ const fakeDB =
                                         label: 'Environmental Compliant',
                                         keyboardType: 'phone-pad',
                                         pdf: { 0: [{ x: 365, y: 158.3, width: 43, height: 33 }] },
+                                        required: true,
                                     },
                                     {
                                         param: 'environmental_comments',
@@ -1737,16 +1824,15 @@ const fakeDB =
                                 label: 'Total',
                             },
                             {
-                                param: 'total_Compliant_yes',
-                                type: ControlKeys.CheckBox,
-                                label: 'Compliant',
-                                pdf: { 0: [{ x: 320, y: 138, size: 10 }] },
-                            },
-                            {
-                                param: 'total_Compliant_no',
-                                type: ControlKeys.CheckBox,
-                                label: 'Non-Compliant',
-                                pdf: { 0: [{ x: 375, y: 138, size: 10 }] },
+                                param: 'total_compliant',
+                                type: ControlKeys.Spinner,
+                                pdf: { 0: [{ y: 138, size: 10 }] },
+                                controls: [
+                                    { label: "Compliant", value: "Compliant", pdf: { x: 330 }, renderValue: true },
+                                    { label: "Non-Compliant", value: "Non-Compliant", pdf: { x: 380 }, renderValue: true },
+                                ],
+                                radio: true,
+                                required: true,
                             },
                             {
                                 param: 'total_comments',
@@ -1793,6 +1879,7 @@ const fakeDB =
                                                 type: ControlKeys.ImageSelect,
                                                 label: 'Image',
                                                 pdf: { 0: [{ x: 0, y: 88, width: 260, height: 120 }] },
+                                                required: true,
                                             },
                                             {
                                                 param: 'inspection_attachment_comments',
@@ -1834,12 +1921,14 @@ const fakeDB =
                                 type: ControlKeys.Date,
                                 label: 'Date',
                                 pdf: { 0: [{ x: 75, y: 677, width: 150, height: 15, size: 14 }] },
+                                required: true,
                             },
                             {
                                 param: 'inspector',
                                 type: ControlKeys.TextField,
                                 label: 'Inspector',
                                 pdf: { 0: [{ x: 355, y: 677, width: 100, height: 15, size: 14 }] },
+                                required: true,
                             },
                             {
                                 param: 'location',
@@ -1847,18 +1936,21 @@ const fakeDB =
                                 label: 'Location',
                                 controls: SiteSpinnerControls,
                                 pdf: { 0: [{ x: 75, y: 640, width: 200, height: 15, size: 14 }] },
+                                required: true,
                             },
                             {
                                 param: 'pin_vin',
                                 type: ControlKeys.TextField,
                                 label: 'Pin / Vin',
                                 pdf: { 0: [{ x: 115, y: 717, width: 150, height: 15, size: 14 }] },
+                                required: true,
                             },
                             {
                                 param: 'rep_no',
                                 type: ControlKeys.TextField,
                                 label: 'Report Number',
                                 pdf: { 0: [{ x: 355, y: 717, width: 150, height: 15, size: 14 }] },
+                                required: true,
                             },
                             {
                                 param: 'customer_header',
@@ -1870,12 +1962,14 @@ const fakeDB =
                                 type: ControlKeys.TextArea,
                                 label: 'Information',
                                 pdf: { 0: [{ x: 75, y: 585, width: 285, height: 30, size: 12 }] },
+                                required: true,
                             },
                             {
                                 param: 'customer_phone',
                                 type: ControlKeys.TextField,
                                 label: 'Phone',
                                 pdf: { 0: [{ x: 400, y: 585, width: 150, height: 15, size: 14 }] },
+                                required: true,
                             },
                         ],
                     },
@@ -1897,6 +1991,7 @@ const fakeDB =
                                 pdf: { 0: [{ x: 82, y: 535, width: 110, height: 15, size: 14 }]
                                     , 'A0': [{ x: 73, y: 80, width: 110, height: 15, size: 12 }]
                                      },
+                                required: true,
                             },
                             {
                                 param: 'machine_model',
@@ -1905,6 +2000,7 @@ const fakeDB =
                                 pdf: { 0: [{ x: 200, y: 535, width: 85, height: 15, size: 14 }]
                                     , 'A0': [{ x: 192, y: 80, width: 110, height: 15, size: 12 }]
                                      },
+                                required: true,
                             },
                             {
                                 param: 'machine_sn',
@@ -1913,6 +2009,7 @@ const fakeDB =
                                 pdf: { 0: [{ x: 292, y: 535, width: 140, height: 15, size: 14 }]
                                     , 'A0': [{ x: 309, y: 80, width: 110, height: 15, size: 12 }]
                                      },
+                                required: true,
                             },
                             {
                                 param: 'machine_id',
@@ -1921,6 +2018,7 @@ const fakeDB =
                                 pdf: { 0: [{ x: 442, y: 535, width: 120, height: 15, size: 14 }]
                                     , 'A0': [{ x: 436, y: 80, width: 110, height: 15, size: 12 }]
                                      },
+                                required: true,
                             },
                             {
                                 param: 'machine_time_inspection',
@@ -1928,6 +2026,7 @@ const fakeDB =
                                 label: 'Inspection Time Limit',
                                 keyboard: 'decimal-pad',
                                 pdf: { 0: [{ x: 75, y: 498, width: 110, height: 13, size: 12 }] },
+                                required: true,
                             },
                             {
                                 param: 'machine_hours_operated',
@@ -1935,13 +2034,15 @@ const fakeDB =
                                 label: 'Operated Hours',
                                 keyboard: 'decimal-pad',
                                 pdf: { 0: [{ x: 75, y: 465, width: 110, height: 13, size: 12 }] },
+                                required: true,
                             },
                             {
                                 param: 'machine_hours_latest',
                                 type: ControlKeys.TextField,
                                 label: 'Latest Hour',
                                 keyboard: 'decimal-pad',
-                                pdf: {'A0': [{ x: 125, y: 47, width: 110, height: 15, size: 12 }] },
+                                pdf: { 'A0': [{ x: 125, y: 47, width: 110, height: 15, size: 12 }] },
+                                required: true,
                             },
                             {
                                 param: 'machine_time_delivery',
@@ -1950,30 +2051,35 @@ const fakeDB =
                                 pdf: { 0: [{ x: 355, y: 465, width: 110, height: 13, size: 12 }]
                                      ,'A0': [{ x: 345, y: 47, width: 110, height: 15, size: 12 }]
                                      },
+                                required: true,
                             },
                             {
                                 param: 'machine_repair',
                                 type: ControlKeys.TextField,
                                 label: 'Emergency Repair',
                                 pdf: { 0: [{ x: 75, y: 420, width: 110, height: 13, size: 12 }] },
+                                required: true,
                             },
                             {
                                 param: 'machine_condition',
                                 type: ControlKeys.TextField,
                                 label: 'Condition',
                                 pdf: { 0: [{ x: 355, y: 420, width: 110, height: 13, size: 12 }] },
+                                required: true,
                             },
                             {
                                 param: 'machine_result',
                                 type: ControlKeys.TextArea,
                                 label: 'Inspection Result',
                                 pdf: { 0: [{ x: 43, y: 290, width: 520, height: 90, size: 12 }] },
+                                required: true,
                             },
                             {
                                 param: 'machine_image',
                                 type: ControlKeys.ImageSelect,
                                 label: 'Image',
                                 pdf: { 0: [{ x: 157, y: 50, width: 300, height: 175 }] },
+                                required: true,
                             },
                         ],
                     },
@@ -2015,6 +2121,7 @@ const fakeDB =
                                                 type: ControlKeys.TextField,
                                                 label: 'Name',
                                                 pdf: { 0: [{ x: 100, y: 75, width: 160, height: 13, size: 12 }] },
+                                                required: true,
                                             },
                                             {
                                                 param: 'inspection_attachment_severity',
@@ -2028,12 +2135,14 @@ const fakeDB =
                                                     {label: "Failure", value: "Failure:", pdf: { backgroundColor: "#FF3333" }},
                                                     ],
                                                 radio: true,
+                                                required: true,
                                             },
                                             {
                                                 param: 'inspection_attachment_image',
                                                 type: ControlKeys.ImageSelect,
                                                 label: 'Image',
                                                 pdf: { 0: [{ x: 0, y: 88, width: 260, height: 120 }] },
+                                                required: true,
                                             },
                                             {
                                                 param: 'inspection_attachment_comments',
@@ -2074,12 +2183,14 @@ const fakeDB =
                                 type: ControlKeys.TextField,
                                 label: 'Name',
                                 pdf: { 0: [{ x: 85, y: 505, width: 156, height: 15 }] },
+                                required: true,
                             },
                             {
                                 param: 'date',
                                 type: ControlKeys.Date,
                                 label: 'Date',
                                 pdf: { 0: [{ x: 280, y: 505, width: 90, height: 15 }] },
+                                required: true,
                             },
                             {
                                 param: 'site',
@@ -2087,24 +2198,28 @@ const fakeDB =
                                 label: 'Site',
                                 controls: SiteSpinnerControls,
                                 pdf: { 0: [{ x: 85, y: 484, width: 156, height: 15 }] },
+                                required: true,
                             },
                             {
                                 param: 'time',
                                 type: ControlKeys.TextField,
                                 label: 'Time',
                                 pdf: { 0: [{ x: 280, y: 484, width: 90, height: 15 }] },
+                                required: true,
                             },
                             {
                                 param: 'location',
                                 type: ControlKeys.TextField,
                                 label: 'Location',
                                 pdf: { 0: [{ x: 85, y: 463, width: 156, height: 15 }] },
+                                required: true,
                             },
                             {
                                 param: 'description',
                                 type: ControlKeys.TextArea,
                                 label: 'Description',
                                 pdf: { 0: [{ x: 40, y: 320, width: 338, height: 125 }] },
+                                required: true,
                             },
                             {
                                 param: 'risk',
@@ -2118,24 +2233,28 @@ const fakeDB =
                                 ],
                                 pdf: { 0: [{ y: 294.9, width: 69, height: 22, align: "center", valign: "middle" }] },
                                 radio: true,
+                                required: true,
                             },
                             {
                                 param: 'actions',
                                 type: ControlKeys.TextArea,
                                 label: 'Actions Taken/Required',
                                 pdf: { 0: [{ x: 40, y: 163, width: 338, height: 115 }] },
+                                required: true,
                             },
                             {
                                 param: 'supervisor',
                                 type: ControlKeys.TextField,
                                 label: 'Supervisor',
                                 pdf: { 0: [{ x: 50, y: 132, width: 185, height: 15 }] },
+                                required: true,
                             },
                             {
                                 param: 'signature',
                                 type: ControlKeys.Signature,
                                 label: 'Sign',
                                 pdf: { 0: [{ x: 275, y: 127, width: 103, height: 30, size: 14, backgroundColor: "#0000FF" }] },
+                                required: true,
                             },
                         ],
                     },
@@ -2175,6 +2294,7 @@ const fakeDB =
                                                 type: ControlKeys.ImageSelect,
                                                 label: 'Image',
                                                 pdf: { 0: [{ x: 0, y: 88, width: 260, height: 120 }] },
+                                                required: true,
                                             },
                                             {
                                                 param: 'inspection_attachment_comments',
@@ -2235,18 +2355,21 @@ const fakeDB =
                                 type: ControlKeys.Date,
                                 label: 'Date',
                                 pdf: { 0: [{ x: 70, y: 511, size: 10 }] },
+                                required: true,
                             },
                             {
                                 param: 'name',
                                 type: ControlKeys.TextField,
                                 label: 'Name',
                                 pdf: { 0: [{ x: 70, y: 497, size: 10 }] },
+                                required: true,
                             },
                             {
                                 param: 'task',
                                 type: ControlKeys.TextField,
                                 label: 'Task',
                                 pdf: { 0: [{ x: 70, y: 483, size: 10 }] },
+                                required: true,
                             },
                             {
                                 param: 'details_divider',
@@ -2277,7 +2400,8 @@ const fakeDB =
                                     ,{ label: "No, *ACTION*", value: "No", pdf: { x: 369, color: "#C40E0E" }, renderValue: 'X' }
                                     ],
                                 pdf: { 0: [{ y: 446 }] },
-                                radio: true
+                                radio: true,
+                                required: true,
                             },
                             {
                                 param: 'think_spacer_0',
@@ -2296,7 +2420,8 @@ const fakeDB =
                                     ,{ label: "No, *ACTION*", value: "No", pdf: { x: 369, color: "#C40E0E" }, renderValue: 'X' }
                                     ],
                                 pdf: { 0: [{ y: 432 }] },
-                                radio: true
+                                radio: true,
+                                required: true,
                             },
                             {
                                 param: 'think_spacer_1',
@@ -2315,7 +2440,8 @@ const fakeDB =
                                     ,{ label: "No, *ACTION*", value: "No", pdf: { x: 369, color: "#C40E0E" }, renderValue: 'X' }
                                     ],
                                 pdf: { 0: [{ y: 418 }] },
-                                radio: true
+                                radio: true,
+                                required: true,
                             },
                             {
                                 param: 'think_spacer_2',
@@ -2346,7 +2472,8 @@ const fakeDB =
                                     ,{ label: "No, *ACTION*", value: "No", pdf: { x: 369, color: "#C40E0E" }, renderValue: 'X' }
                                 ],
                                 pdf: { 0: [{ y: 390 }] },
-                                radio: true
+                                radio: true,
+                                required: true,
                             },
                             {
                                 param: 'hazards_spacer_0',
@@ -2365,7 +2492,8 @@ const fakeDB =
                                     ,{ label: "No, *ACTION*", value: "No", pdf: { x: 369, color: "#C40E0E" }, renderValue: 'X' }
                                 ],
                                 pdf: { 0: [{ y: 376 }] },
-                                radio: true
+                                radio: true,
+                                required: true,
                             },
                             {
                                 param: 'hazards_spacer_1',
@@ -2384,7 +2512,8 @@ const fakeDB =
                                     ,{ label: "No, *ACTION*", value: "No", pdf: { x: 369, color: "#C40E0E" }, renderValue: 'X' }
                                 ],
                                 pdf: { 0: [{ y: 362 }] },
-                                radio: true
+                                radio: true,
+                                required: true,
                             },
                             {
                                 param: 'hazards_spacer_2',
@@ -2403,7 +2532,8 @@ const fakeDB =
                                     ,{ label: "No", value: "No", pdf: { x: 369 }, renderValue: true }
                                 ],
                                 pdf: { 0: [{ y: 348 }] },
-                                radio: true
+                                radio: true,
+                                required: true,
                             },
                             {
                                 param: 'hazards_spacer_4',
@@ -2422,7 +2552,8 @@ const fakeDB =
                                     ,{ label: "No", value: "No", pdf: { x: 369 }, renderValue: true }
                                 ],
                                 pdf: { 0: [{ y: 334 }] },
-                                radio: true
+                                radio: true,
+                                required: true,
                             },
                             {
                                 param: 'hazards_spacer_4',
@@ -2453,7 +2584,8 @@ const fakeDB =
                                     ,{ label: "No", value: "No", pdf: { x: 369 }, renderValue: true }
                                 ],
                                 pdf: { 0: [{ y: 306 }] },
-                                radio: true
+                                radio: true,
+                                required: true,
                             },
                             {
                                 param: 'risk_spacer_0',
@@ -2472,7 +2604,8 @@ const fakeDB =
                                     ,{ label: "No", value: "No", pdf: { x: 369 }, renderValue: true }
                                 ],
                                 pdf: { 0: [{ y: 292 }] },
-                                radio: true
+                                radio: true,
+                                required: true,
                             },
                             {
                                 param: 'risk_spacer_1',
@@ -2491,7 +2624,8 @@ const fakeDB =
                                     ,{ label: "No", value: "No", pdf: { x: 369 }, renderValue: true }
                                 ],
                                 pdf: { 0: [{ y: 278 }] },
-                                radio: true
+                                radio: true,
+                                required: true,
                             },
                             {
                                 param: 'risk_spacer_2',
@@ -2522,7 +2656,8 @@ const fakeDB =
                                     , { label: "No, *ACTION*", value: "No", pdf: { x: 369, color: "#C40E0E" }, renderValue: 'X' }
                                 ],
                                 pdf: { 0: [{ y: 250 }] },
-                                radio: true
+                                radio: true,
+                                required: true,
                             },
                             {
                                 param: 'control_spacer_0',
@@ -2541,7 +2676,8 @@ const fakeDB =
                                     , { label: "No", value: "No", pdf: { x: 369 }, renderValue: true }
                                 ],
                                 pdf: { 0: [{ y: 236 }] },
-                                radio: true
+                                radio: true,
+                                required: true,
                             },
                             {
                                 param: 'control_spacer_1',
@@ -2560,7 +2696,8 @@ const fakeDB =
                                     , { label: "No, *ACTION*", value: "No", pdf: { x: 369, color: "#C40E0E" }, renderValue: 'X' }
                                 ],
                                 pdf: { 0: [{ y: 222 }] },
-                                radio: true
+                                radio: true,
+                                required: true,
                             },
                             {
                                 param: 'control_spacer_2',
@@ -2579,7 +2716,8 @@ const fakeDB =
                                     , { label: "No, *ACTION*", value: "No", pdf: { x: 369, color: "#C40E0E" }, renderValue: 'X' }
                                 ],
                                 pdf: { 0: [{ y: 208 }] },
-                                radio: true
+                                radio: true,
+                                required: true,
                             },
                             {
                                 param: 'control_spacer_3',
@@ -2598,7 +2736,8 @@ const fakeDB =
                                     , { label: "No, *ACTION*", value: "No", pdf: { x: 369, color: "#C40E0E" }, renderValue: 'X' }
                                 ],
                                 pdf: { 0: [{ y: 194 }] },
-                                radio: true
+                                radio: true,
+                                required: true,
                             },
                             {
                                 param: 'control_spacer_4',
@@ -2629,7 +2768,8 @@ const fakeDB =
                                     ,{ label: "No, DO NOT START", value: "No", pdf: { x: 369, color: "#C40E0E" }, renderValue: 'X' }
                                 ],
                                 pdf: { 0: [{ y: 166 }] },
-                                radio: true
+                                radio: true,
+                                required: true,
                             },
                             {
                                 param: 'proceed_spacer_0',
@@ -2648,7 +2788,8 @@ const fakeDB =
                                     ,{ label: "No, DO NOT START", value: "No", pdf: { x: 369, color: "#C40E0E" }, renderValue: 'X' }
                                 ],
                                 pdf: { 0: [{ y: 152 }] },
-                                radio: true
+                                radio: true,
+                                required: true,
                             },
                         ],
                     },
@@ -2690,6 +2831,7 @@ const fakeDB =
                                                 HeightRows: 2,
                                                 label: 'Hazard',
                                                 pdf: { 0: [{ x: 0, y: 0, width: 110, height: 25, size: 10 }] },
+                                                required: true,
                                             },
                                             {
                                                 param: 'action_control',
@@ -2697,6 +2839,7 @@ const fakeDB =
                                                 HeightRows: 2,
                                                 label: 'Control',
                                                 pdf: { 0: [{ x: 115, y: 0, width: 110, height: 25, size: 10 }] },
+                                                required: true,
                                             },
                                             {
                                                 param: 'action_risk',
@@ -2704,6 +2847,7 @@ const fakeDB =
                                                 HeightRows: 2,
                                                 label: 'Risk',
                                                 pdf: { 0: [{ x: 230, y: 0, width: 110, height: 25, size: 10 }] },
+                                                required: true,
                                             },
                                         ]
                                     },
@@ -2758,18 +2902,21 @@ const fakeDB =
                                 type: ControlKeys.Date,
                                 label: 'Date',
                                 pdf: { 0: [{ x: 70, y: 415, size: 15 }] },
+                                required: true,
                             },
                             {
                                 param: 'inspection_location',
                                 type: ControlKeys.TextField,
                                 label: 'Location',
                                 pdf: { 0: [{ x: 225, y: 415, size: 15 }] },
+                                required: true,
                             },
                             {
                                 param: 'inspection_inspector',
                                 type: ControlKeys.TextField,
                                 label: 'Inspector',
                                 pdf: { 0: [{ x: 400, y: 415, size: 15 }] },
+                                required: true,
                             },
 
                             {
@@ -2782,6 +2929,7 @@ const fakeDB =
                                 type: ControlKeys.TextField,
                                 label: 'Name',
                                 pdf: { 0: [{ x: 70, y: 330, size: 15 }] },
+                                required: true,
                             },
                             {
                                 param: 'customer_site',
@@ -2789,6 +2937,7 @@ const fakeDB =
                                 label: 'Site',
                                 controls: SiteSpinnerControls,
                                 pdf: { 0: [{ x: 225, y: 330, size: 15 }] },
+                                required: true,
                             },
 
                             {
@@ -2801,36 +2950,42 @@ const fakeDB =
                                 type: ControlKeys.TextField,
                                 label: 'Machine ID',
                                 pdf: { 0: [{ x: 70, y: 235, size: 15 }] },
+                                required: true,
                             },
                             {
                                 param: 'machine_make',
                                 type: ControlKeys.TextField,
                                 label: 'Make',
                                 pdf: { 0: [{ x: 225, y: 235, size: 15 }] },
+                                required: true,
                             },
                             {
                                 param: 'machine_model',
                                 type: ControlKeys.TextField,
                                 label: 'Model',
                                 pdf: { 0: [{ x: 400, y: 235, size: 15 }] },
+                                required: true,
                             },
                             {
                                 param: 'machine_sn',
                                 type: ControlKeys.TextField,
                                 label: 'Serial No.',
                                 pdf: { 0: [{ x: 70, y: 180, size: 15 }] },
+                                required: true,
                             },
                             {
                                 param: 'machine_rego',
                                 type: ControlKeys.TextField,
                                 label: 'Rego No.',
                                 pdf: { 0: [{ x: 225, y: 180, size: 15 }] },
+                                required: true,
                             },
                             {
                                 param: 'machine_smu',
                                 type: ControlKeys.TextField,
                                 label: 'SMU Reading',
                                 pdf: { 0: [{ x: 400, y: 180, size: 15 }] },
+                                required: true,
                             },
                         ],
                     },
@@ -2873,6 +3028,7 @@ const fakeDB =
                                                 ],
                                                 pdf: { 0: [{ y: 0 }] },
                                                 radio: true,
+                                                required: true,
                                             },
                                             {
                                                 param: 'comments',
@@ -2918,6 +3074,7 @@ const fakeDB =
                                                 ],
                                                 pdf: { 0: [{ y: 0 }] },
                                                 radio: true,
+                                                required: true,
                                             },
                                             {
                                                 param: 'comments',
@@ -2986,6 +3143,7 @@ const fakeDB =
                                                 ],
                                                 pdf: { 0: [{ y: 0 }] },
                                                 radio: true,
+                                                required: true,
                                             },
                                             {
                                                 param: 'comments',
@@ -3041,6 +3199,7 @@ const fakeDB =
                                                 ],
                                                 pdf: { 0: [{ y: 0 }] },
                                                 radio: true,
+                                                required: true,
                                             },
                                             {
                                                 param: 'comments',
@@ -3080,6 +3239,7 @@ const fakeDB =
                                                 ],
                                                 pdf: { 0: [{ y: 0 }] },
                                                 radio: true,
+                                                required: true,
                                             },
                                             {
                                                 param: 'comments',
@@ -3130,6 +3290,7 @@ const fakeDB =
                                                 ],
                                                 pdf: { 0: [{ y: 0 }] },
                                                 radio: true,
+                                                required: true,
                                             },
                                             {
                                                 param: 'comments',
@@ -3176,6 +3337,7 @@ const fakeDB =
                                                 ],
                                                 pdf: { 0: [{ y: 0 }] },
                                                 radio: true,
+                                                required: true,
                                             },
                                             {
                                                 param: 'comments',
@@ -3224,6 +3386,7 @@ const fakeDB =
                                                 ],
                                                 pdf: { 0: [{ y: 0 }] },
                                                 radio: true,
+                                                required: true,
                                             },
                                             {
                                                 param: 'comments',
@@ -3275,6 +3438,7 @@ const fakeDB =
                                                 ],
                                                 pdf: { 0: [{ y: 0 }] },
                                                 radio: true,
+                                                required: true,
                                             },
                                             {
                                                 param: 'comments',
@@ -3322,6 +3486,7 @@ const fakeDB =
                                                 ],
                                                 pdf: { 0: [{ y: 0 }] },
                                                 radio: true,
+                                                required: true,
                                             },
                                             {
                                                 param: 'comments',
@@ -3370,6 +3535,7 @@ const fakeDB =
                                                 ],
                                                 pdf: { 0: [{ y: 0 }] },
                                                 radio: true,
+                                                required: true,
                                             },
                                             {
                                                 param: 'comments',
@@ -3418,6 +3584,7 @@ const fakeDB =
                                                 ],
                                                 pdf: { 0: [{ y: 0 }] },
                                                 radio: true,
+                                                required: true,
                                             },
                                             {
                                                 param: 'comments',
@@ -3469,6 +3636,7 @@ const fakeDB =
                                                 ],
                                                 pdf: { 0: [{ y: 0 }] },
                                                 radio: true,
+                                                required: true,
                                             },
                                             {
                                                 param: 'comments',
@@ -3505,6 +3673,7 @@ const fakeDB =
                                         ],
                                         pdf: { 3: [{ y: 369 }] },
                                         radio: true,
+                                        required: true,
                                     },
                                     {
                                         param: 'electrics_checklist_comments_batt',
@@ -3550,6 +3719,7 @@ const fakeDB =
                                                 ],
                                                 pdf: { 0: [{ y: 0 }] },
                                                 radio: true,
+                                                required: true,
                                             },
                                             {
                                                 param: 'comments',
@@ -3596,6 +3766,7 @@ const fakeDB =
                                                 ],
                                                 pdf: { 0: [{ y: 0 }] },
                                                 radio: true,
+                                                required: true,
                                             },
                                             {
                                                 param: 'comments',
@@ -3634,6 +3805,7 @@ const fakeDB =
                                                 type: ControlKeys.TextField,
                                                 label: 'Depth',
                                                 pdf: { 0: [{ x: 3, y: 0 }] },
+                                                required: true,
                                             },
                                             {
                                                 param: 'comments',
@@ -3684,6 +3856,7 @@ const fakeDB =
                                                 ],
                                                 pdf: { 0: [{ y: 0 }] },
                                                 radio: true,
+                                                required: true,
                                             },
                                             {
                                                 param: 'comments',
@@ -3733,6 +3906,7 @@ const fakeDB =
                                                 ],
                                                 pdf: { 0: [{ y: 0 }] },
                                                 radio: true,
+                                                required: true,
                                             },
                                             {
                                                 param: 'comments',
@@ -3765,6 +3939,7 @@ const fakeDB =
                                                 type: ControlKeys.TextField,
                                                 label: 'Name',
                                                 pdf: { 0: [{ x: 0, y: 0 }] },
+                                                required: true,
                                             },
                                             {
                                                 param: 'pass',
@@ -3775,6 +3950,7 @@ const fakeDB =
                                                 ],
                                                 pdf: { 0: [{ y: 0 }] },
                                                 radio: true,
+                                                required: true,
                                             },
                                             {
                                                 param: 'comments',
@@ -3826,6 +4002,7 @@ const fakeDB =
                                                 ],
                                                 pdf: { 0: [{ y: 0 }] },
                                                 radio: true,
+                                                required: true,
                                             },
                                             {
                                                 param: 'comments',
@@ -3854,6 +4031,7 @@ const fakeDB =
                                         ],
                                         pdf: { 5: [{ y: 461 }] },
                                         radio: true,
+                                        required: true,
                                     },
                                     {
                                         param: 'hygiene_checklist_comments_wash',
@@ -3902,6 +4080,7 @@ const fakeDB =
                                                 type: ControlKeys.ImageSelect,
                                                 label: 'Image',
                                                 pdf: { 0: [{ x: 0, y: 88, width: 260, height: 120 }] },
+                                                required: true,
                                             },
                                             {
                                                 param: 'inspection_attachment_comments',
@@ -3934,12 +4113,14 @@ const fakeDB =
                                 type: ControlKeys.TextField,
                                 label: 'Name',
                                 pdf: { 5: [{ x: 75, y: 140, size: 15 }] },
+                                required: true,
                             },
                             {
                                 param: 'signoff_sig',
                                 type: ControlKeys.Signature,
                                 label: 'Signature',
                                 pdf: { 5: [{ x: 320, y: 75, width: 150, height: 75 }] },
+                                required: true,
                             },
                         ],
                     },
