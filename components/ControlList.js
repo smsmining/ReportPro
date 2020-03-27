@@ -10,48 +10,22 @@ export default class ControlList extends React.Component
     state = { expand: null };
     onExpand = (param) => this.setState({ expand: param === this.state.expand ? null : param });
 
-    renderControl = (props) =>
-    {
-        const { instance, depth, index, onChange, highlightRequired, dirty } = this.props;
-        const { expand } = this.state;
+    renderControl = (props) => (
+        <ControlItem
+            {...props}
+            {...(this.props.instance && this.props.instance[props.param])}
 
-        let control = instance && instance[props.param];
+            key={props.param}
+            dirty={this.props.dirty}
+            highlightRequired={this.props.highlightRequired}
 
-        let label = props.label;
-        let value = control && control.value || props.value;
+            instance={this.props.instance}
+            onChange={this.props.onChange}
 
-        if (index || index === 0)
-        {
-            if (label)
-                label = label.replace('{}', index + 1);
-
-            if (value && typeof value === 'string')
-                value = value.replace('{}', index + 1);
-        }
-
-        const required = props.required;
-
-        return (
-            <ControlItem
-                {...props}
-                key={props.param}
-                index={undefined}
-                dirty={dirty}
-
-                label={label}
-                value={value}
-                instance={instance}
-                onChange={onChange}
-
-                required={required}
-                highlightRequired={highlightRequired}
-
-                expand={expand}
-                depth={(depth || 0) + 1}
-                onExpand={this.onExpand}
-            />);
-    }
-        
+            expand={this.state.expand}
+            depth={(this.props.depth || 0) + 1}
+            onExpand={this.onExpand}
+        />);
 
     render()
     {

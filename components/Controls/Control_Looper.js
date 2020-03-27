@@ -44,36 +44,61 @@ export default class Control_looper extends React.Component
         this.props.onChange(newValue, this.props.param);
     };
 
+    loopControlMap = (props, values, index) =>
+    {
+        const control = values && values[props.param];
+
+        let label = (control && control.label) || props.label;
+        if (label)
+            label = label.replace('{}', index + 1);
+
+        let value = (control && control.value) || props.value;
+        if (value && typeof value === 'string')
+            value = value.replace('{}', index + 1);
+
+        return { ...props, label: label, value: value };
+    }
+
     render ()
     {
-        const { value, label, minLength, maxLength, setLength } = this.props;
+        const { value, label, minLength, required, highlightRequired, maxLength, setLength, controls } = this.props;
 
         let children = [];
         const length = (value && value.length) || setLength || minLength || 0;
         for (let i = 0; i < length; i++)
-            children.push(
-                <ControlList
-                    {...this.props}
-                    key={i}
-                    param={i}
-                    index={i}
-                    instance={(value && value[i]) || {}}
-                    onChange={(loopValue, loopParam) => this.onLoopChange(loopValue, loopParam, i)}
-                    active
-                />)
+        {
+            const loop = (value && value[i]) || {};
 
+            let renderControls = jsonHelper.Clone(controls);
+            if (controls)
+                renderControls = renderControls.map((control) => this.loopControlMap(control, loop, i));
+
+            children.push(
+                    <ControlList
+                        {...this.props}
+                        key={i}
+                        param={i}
+                        controls={renderControls}
+
+                        instance={loop}
+                        onChange={(loopValue, loopParam) => this.onLoopChange(loopValue, loopParam, i)}
+                        active
+                    />)
+        }
+
+        let success = !required || !highlightRequired;
         return (
             <React.Fragment>
             <MissingRequired {...this.props}>
                 {children}
             </MissingRequired>
             {!setLength &&
-            <Button success onPress={this.onLoopAdd} disabled={value && maxLength && value.length === maxLength}><Text>{label || "+ Add Row"}</Text></Button>
+            <Button danger={!success} success={success} onPress={this.onLoopAdd} disabled={value && maxLength && value.length === maxLength}>
+                <Text>{label || "+ Add Row"}</Text>
+            </Button>
             }
             </React.Fragment>
         );
     }
    
 };
-
-
