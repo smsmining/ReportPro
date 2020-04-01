@@ -105,6 +105,9 @@ export const HighlightStyles = StyleSheet.create(
     ,warning:
         {backgroundColor: Colors.highlight.warning
         }
+    ,disabled:
+        {backgroundColor: Colors.highlight.disabled
+        }
     ,maintain:
         {backgroundColor: Colors.white
         ,borderTopRightRadius: 7.5

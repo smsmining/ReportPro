@@ -12,7 +12,7 @@ export default class Control_TextArea extends React.Component
 
     render()
     {
-        const { value, param, onChange, HeightRows, maxLength, keyboardType, placeholder } = this.props;
+        const { value, param, onChange, HeightRows, maxLength, keyboardType, placeholder, disabled } = this.props;
 
         return (
             <FloatingLabelItem {...this.props} >
@@ -25,10 +25,11 @@ export default class Control_TextArea extends React.Component
                     onChangeText={text => onChange(text, param)}
                     blurOnSubmit={true}
                     multiline={true}
-                    keyboardType = {keyboardType}
+                    keyboardType={keyboardType}
                     maxLength={maxLength ? maxLength : 200}
                     onSubmitEditing={Keyboard.dismiss}
                     style={HighlightStyles.maintain}
+                    disabled={disabled}
                  />
             </FloatingLabelItem>
         );

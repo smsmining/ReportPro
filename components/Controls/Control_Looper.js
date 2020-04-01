@@ -61,7 +61,7 @@ export default class Control_looper extends React.Component
 
     render ()
     {
-        const { value, label, minLength, required, highlightRequired, maxLength, setLength, controls } = this.props;
+        const { value, label, minLength, required, highlightRequired, maxLength, setLength, controls, disabled } = this.props;
 
         let children = [];
         const length = (value && value.length) || setLength || minLength || 0;
@@ -93,7 +93,7 @@ export default class Control_looper extends React.Component
                 {children}
             </MissingRequired>
             {!setLength &&
-            <Button danger={!success} success={success} onPress={this.onLoopAdd} disabled={value && maxLength && value.length === maxLength}>
+            <Button danger={!disabled && !success} success={!disabled && success} dark={disabled} onPress={this.onLoopAdd} disabled={disabled || (value && maxLength && value.length === maxLength)}>
                 <Text>{label || "+ Add Row"}</Text>
             </Button>
             }

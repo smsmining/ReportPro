@@ -27,7 +27,7 @@ export default class Control_Signature extends React.Component
 
     render()
     {
-        const { label, value } = this.props;
+        const { label, value, disabled } = this.props;
         const { open } = this.state;
 
         const input = (
@@ -61,7 +61,7 @@ export default class Control_Signature extends React.Component
 
             return (
                 <FloatingLabelItem {...this.props} height={renderStyle.height}>
-                    <TouchableOpacity style={styles.center} onPress={this.toggleDialog}>
+                    <TouchableOpacity style={styles.center} onPress={this.toggleDialog} disabled={disabled}>
                         <View style={styles.ImageContainer}>
                             <Image style={renderStyle} source={value} />
                         </View>
@@ -73,7 +73,7 @@ export default class Control_Signature extends React.Component
 
         return (
             <InlineLabelItem {...this.props} >
-                <TouchableOpacity style={styles.center} onPress={this.toggleDialog}>
+                <TouchableOpacity style={styles.center} onPress={this.toggleDialog} disabled={disabled}>
                     <View style={styles.ImageContainer}>
                         <Text style={{ color: Colors.secondary, margin: 5 }}>
                             Sign Here

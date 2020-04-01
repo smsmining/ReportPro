@@ -26,7 +26,7 @@ export default class Control_ImagePicker extends React.Component
 
     render()
     {
-        const { value } = this.props;
+        const { value, disabled } = this.props;
         const { show } = this.state;
 
         if (value)
@@ -38,7 +38,7 @@ export default class Control_ImagePicker extends React.Component
 
             return (
                 <FloatingLabelItem {...this.props} height={renderStyle.height}>
-                    <TouchableOpacity style={styles.center} onPress={this.toggleCamera}>
+                    <TouchableOpacity style={styles.center} onPress={this.toggleCamera} disabled={disabled}>
                         <View style={styles.ImageContainer}>
                             <Image style={renderStyle} source={value} />
                         </View>
@@ -50,7 +50,7 @@ export default class Control_ImagePicker extends React.Component
 
         return (
             <InlineLabelItem {...this.props} >
-                <TouchableOpacity style={styles.center} onPress={this.toggleCamera}>
+                <TouchableOpacity style={styles.center} onPress={this.toggleCamera} disabled={disabled}>
                     <View style={styles.ImageContainer}>
                         <Text style={{ color: Colors.secondary, margin: 5 }}>
                             Select a Photo

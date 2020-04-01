@@ -17,7 +17,7 @@ export default class ControlCollapse extends React.Component
 
     render()
     {
-        const { param, label, highlightRequired, expand, icon, iconType, onExpand } = this.props;
+        const { param, label, highlightRequired, expand, icon, iconType, onExpand, disabled } = this.props;
         const { missingRequired } = this.state;
 
         const expanded = param === expand;
@@ -25,7 +25,7 @@ export default class ControlCollapse extends React.Component
 
         return (
             <React.Fragment>
-            <Button onPress={() => onExpand(param)} dark={!expanded} danger={expanded} rounded={false} full bordered iconLeft iconRight>
+            <Button onPress={() => onExpand(param)} dark={!expanded || disabled} danger={!disabled && expanded} rounded={false} full bordered={!disabled} iconLeft iconRight disabled={disabled}>
                 {icon && <Icon name={icon} type={iconType} />}
                 <Text>{label}</Text>
                 <View>

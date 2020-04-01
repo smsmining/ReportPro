@@ -21,6 +21,7 @@ export default class Control_TextField extends React.Component
                     placeholderTextColor={Colors.light}
                     keyboardType={this.props.keyboardType}
                     style={{ ...HighlightStyles.maintain, padding: 0, margin: 0 }}
+                    disabled={this.props.disabled}
                 />
             </InlineLabelItem>
         );

@@ -12,11 +12,11 @@ export default class Control_CheckBox extends React.Component
 
     render()
     {
-        const { label, value, param, onChange } = this.props;
+        const { label, value, param, disabled, onChange } = this.props;
 
         return (
             <Item {...this.props}>
-                <CheckBox checked={value} color={Colors.primary} onPress={() => onChange(!value, param)} />
+                <CheckBox checked={value} color={Colors.primary} onPress={() => onChange(!value, param)} disabled={disabled} />
                 <Body>
                     <Text>{label}</Text>
                 </Body>

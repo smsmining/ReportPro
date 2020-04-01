@@ -23,7 +23,7 @@ export default class Control_Date extends React.Component
 
     render()
     {
-        const { param, value, format, minValue, maxValue, onChange } = this.props;
+        const { param, value, format, minValue, maxValue, onChange, disabled } = this.props;
         const { key } = this.state;
 
         return (
@@ -42,6 +42,7 @@ export default class Control_Date extends React.Component
                         animationType={'fade'}
                         textStyle={{ color: Colors.black }}
                         formatChosenDate={(date) => this.dateFormat(date, format || "d mmm yyyy")}
+                        disabled={disabled}
                     />
                 </View>
             </InlineLabelItem>

@@ -34,7 +34,7 @@ export default class Control_Spinner extends React.Component
 
     render()
     {
-        const { value, param, onChange, controls, radio } = this.props;
+        const { value, param, onChange, controls, radio, disabled } = this.props;
 
         const onItemChange = (newValue) =>
         {
@@ -58,13 +58,19 @@ export default class Control_Spinner extends React.Component
 
         let renderControls = jsonHelper.Clone(controls);
         let renderValue = value;
-        let renderManual = false;
+        let renderManual = null;
         if (typeof value === 'object' && value.manual)
         {
             const selected = renderControls.find(c => c.manual);
             selected.value = value.value;
             renderValue = value.value;
-            renderManual = true;
+            renderManual = (
+                <Input
+                    placeholder="Type Here"
+                    value={renderValue}
+                    onChangeText={onManualChange}
+                    disabled={disabled}
+                />);
         }
         else if (!radio)
         {
@@ -75,47 +81,32 @@ export default class Control_Spinner extends React.Component
 
         if (radio)
             return (
-                <View>
-                    <FloatingLabelItem {...this.props} >
-                        <List dataArray={renderControls} horizontal
-                            renderRow={(option) =>
-                                <ListItem key={option.value} style={{ borderBottomWidth: 0, marginLeft: 0, paddingLeft: 0 }}>
-                                    <CheckBox checked={renderValue === option.value} color={ReportColors.primary} onPress={() => onItemChange(option.value)} />
-                                    <Body>
-                                        <Text>{option.label}</Text>
-                                    </Body>
-                                </ListItem>}
-                        />
-                        {renderManual &&
-                        <Input
-                            placeholder="Type Here"
-                            value={renderValue}
-                            onChangeText={onManualChange}
-                        />
-                        }
-                    </FloatingLabelItem>
-                </View>);
+                <FloatingLabelItem {...this.props} >
+                    <List dataArray={renderControls} horizontal
+                        renderRow={(option) =>
+                            <ListItem key={option.value} style={{ borderBottomWidth: 0, marginLeft: 0, paddingLeft: 0 }}>
+                                <CheckBox checked={renderValue === option.value} color={ReportColors.primary} onPress={() => onItemChange(option.value)} disabled={disabled}/>
+                                <Body>
+                                    <Text>{option.label}</Text>
+                                </Body>
+                            </ListItem>}
+                    />
+                    {renderManual}
+                </FloatingLabelItem>);
 
         return (
-            <View>
-                <InlineLabelItem {...this.props} >
-                    <Picker
-                        mode="dropdown"
-                        Icon={<Icon name="arrow-down" />}
-                        selectedValue={renderValue}
-                        onValueChange={onItemChange}
-                        style={HighlightStyles.maintain}
-                    >
-                        {renderControls.map(option => (<Picker.Item key={option.value} label={option.label} value={option.value} />))}
-                    </Picker>
-                    {renderManual &&
-                    <Input
-                        placeholder="Type Here"
-                        value={renderValue}
-                        onChangeText={onManualChange}
-                    />
-                    }
-                </InlineLabelItem>
-            </View>);
+            <InlineLabelItem {...this.props} >
+                <Picker
+                    mode="dropdown"
+                    Icon={<Icon name="arrow-down" />}
+                    selectedValue={renderValue}
+                    onValueChange={onItemChange}
+                    style={HighlightStyles.maintain}
+                    enabled={!disabled}
+                >
+                    {renderControls.map(option => (<Picker.Item key={option.value} label={option.label} value={option.value} />))}
+                </Picker>
+                {renderManual}
+            </InlineLabelItem>);
     }
 };

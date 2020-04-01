@@ -6,6 +6,7 @@ export default
     ,highlight:
         {error: '#fff5f5'
         ,warning: '#FFFCF8'
+        ,disabled: '#f9f9f9'
         }
 
     ,white: '#FFF'
