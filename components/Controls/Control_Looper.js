@@ -59,6 +59,22 @@ export default class Control_looper extends React.Component
         return { ...props, label: label, value: value };
     }
 
+
+    mounting = [];
+    setMounting = (mounting, param) =>
+    {
+        const index = this.mounting.indexOf(param);
+
+        if (!!mounting === (index !== -1))
+            return;
+
+        if (mounting)
+            return this.mounting.push(param);
+
+        this.mounting.splice(index, 1);
+        this.props.onMounting(this.mounting.length, this.props.param)
+    }
+
     render ()
     {
         const { value, label, minLength, required, highlightRequired, maxLength, setLength, controls, disabled } = this.props;
@@ -74,16 +90,18 @@ export default class Control_looper extends React.Component
                 renderControls = renderControls.map((control) => this.loopControlMap(control, loop, i));
 
             children.push(
-                    <ControlList
-                        {...this.props}
-                        key={i}
-                        param={i}
-                        controls={renderControls}
+                <ControlList
+                    {...this.props}
+                    key={i}
+                    param={i}
+                    dirty={this.props.dirty || this.mounting.length}
+                    onMounting={this.setMounting}
+                    controls={renderControls}
 
-                        instance={loop}
-                        onChange={(loopValue, loopParam) => this.onLoopChange(loopValue, loopParam, i)}
-                        active
-                    />)
+                    instance={loop}
+                    onChange={(loopValue, loopParam) => this.onLoopChange(loopValue, loopParam, i)}
+                    active
+                />)
         }
 
         let success = !required || !highlightRequired;

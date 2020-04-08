@@ -27,9 +27,8 @@ export default class ControlForm extends React.Component
 
         ,highlightRequired: false
 
+        ,loading: false
         ,hasSaved: null
-
-        ,loading: null
         };
 
     componentDidMount() { this.loadForm(); }
@@ -37,12 +36,7 @@ export default class ControlForm extends React.Component
 
     componentDidUpdate()
     {
-        const { loading, dirty } = this.state;
-
-        if (loading === false)
-            setTimeout(() => this.setState({ loading: null }), 1);
-
-        if (dirty)
+        if (this.state.dirty)
             this.setState({ dirty: false });
     }
 
@@ -69,7 +63,6 @@ export default class ControlForm extends React.Component
         this.setState(
             {form: {...response, tabs: response.tabs.map(tab => this.validateLoadControl(tab)) }
             ,index: 0
-            ,loading: false
             });
     }
 
@@ -163,6 +156,22 @@ export default class ControlForm extends React.Component
             delete this.missingRequired[param];
     }
 
+    mounting = [];
+    setMounting = (mounting, param) =>
+    {
+        const index = this.mounting.indexOf(param);
+
+        if (!!mounting === (index !== -1))
+            return;
+
+        if (mounting)
+            return this.mounting.push(param);
+        else
+            this.mounting.splice(index, 1);
+            
+        setTimeout(() => this.setState({ loading: !!this.mounting.length }), 500);
+    }
+
 
     renderIcon = ({ route }) => (
         <View>
@@ -184,7 +193,14 @@ export default class ControlForm extends React.Component
 
     renderScene = (props) => (
         <ScrollView>
-            <ControlList {...props.route} instance={this.state.instance} onChange={this.setInstanceValue} onMissingRequired={this.setMissingRequired} highlightRequired={this.state.highlightRequired} />
+            <ControlList
+                {...props.route}
+                instance={this.state.instance}
+                onChange={this.setInstanceValue}
+                onMissingRequired={this.setMissingRequired}
+                highlightRequired={this.state.highlightRequired}
+                onMounting={this.setMounting}
+            />
         </ScrollView>
     );
 
@@ -206,7 +222,7 @@ export default class ControlForm extends React.Component
                 ,title: tab.label
                 ,icon: tab.icon
                 ,active: pos == index
-                ,dirty: dirty
+                ,dirty: loading || dirty
                 ,controls: tab.controls
                 });
         }
@@ -214,10 +230,10 @@ export default class ControlForm extends React.Component
         return (
             <PageLayout
                 back={{ icon: "home", onPress: Actions.pop }}
-                next={tabs && loading === null && { icon: "file-pdf-outline", iconType: "MaterialCommunityIcons", onPress: this.onCreatePDF }}
+                next={tabs && !loading && { icon: "file-pdf-outline", iconType: "MaterialCommunityIcons", onPress: this.onCreatePDF }}
                 header={title}
             >
-                {loading !== null &&
+                {loading &&
                 <Overlay height={100} containerStyle={AlignmentStyles.auto} isVisible>
                     <Text style={{ ...LoadingStyles.label, marginTop: 25 }}>Loading ...</Text>
                 </Overlay>
