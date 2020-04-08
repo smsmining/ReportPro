@@ -4,9 +4,20 @@ import { Button, Text } from 'native-base';
 import ControlList from '../ControlList';
 import { jsonHelper } from '../../utils/jsonHelper';
 import MissingRequired from '../MissingRequired';
+import RulesEngine from '../RulesEngine';
 
 export default class Control_looper extends React.Component
 {
+    state = { dirty: false }
+
+    componentDidUpdate()
+    {
+        const { dirty } = this.state;
+
+        if (dirty)
+            this.setState({ dirty: false });
+    }
+
     getDefaultValue = () =>
     {
         const { minLength, setLength } = this.props;
@@ -42,7 +53,21 @@ export default class Control_looper extends React.Component
         newValue[index][param] = { ...newValue[index][param], value: value };
 
         this.props.onChange(newValue, this.props.param);
-    };
+    }
+
+    onLoopSet = (values, index) =>
+    {
+        let newValue = (this.props.value && jsonHelper.Clone(this.props.value)) || this.getDefaultValue();
+
+        if (!newValue[index])
+            newValue[index] = {};
+
+        for (let [param, value] of Object.entries(values))
+            newValue[index][param] = { ...newValue[index][param], ...value };
+
+        this.props.onChange(newValue, this.props.param);
+        this.setState({ dirty: true });
+    }
 
     loopControlMap = (props, values, index) =>
     {
@@ -77,7 +102,7 @@ export default class Control_looper extends React.Component
 
     render ()
     {
-        const { value, label, minLength, required, highlightRequired, maxLength, setLength, controls, disabled } = this.props;
+        const { value, label, minLength, required, highlightRequired, maxLength, setLength, controls, dirty, disabled } = this.props;
 
         let children = [];
         const length = (value && value.length) || setLength || minLength || 0;
@@ -90,18 +115,20 @@ export default class Control_looper extends React.Component
                 renderControls = renderControls.map((control) => this.loopControlMap(control, loop, i));
 
             children.push(
-                <ControlList
-                    {...this.props}
-                    key={i}
-                    param={i}
-                    dirty={this.props.dirty || this.mounting.length}
-                    onMounting={this.setMounting}
-                    controls={renderControls}
+                <RulesEngine {...this.props} onChange={(loopValue, loopParam) => this.onLoopChange(loopValue, loopParam, i)} onSet={(loopValue) => this.onLoopSet(loopValue, i)}>
+                    <ControlList
+                        {...this.props}
+                        key={i}
+                        param={i}
+                        dirty={this.props.dirty || this.mounting.length}
+                        onMounting={this.setMounting}
+                        controls={renderControls}
 
-                    instance={loop}
-                    onChange={(loopValue, loopParam) => this.onLoopChange(loopValue, loopParam, i)}
-                    active
-                />)
+                        instance={loop}
+                        onChange={(loopValue, loopParam) => this.onLoopChange(loopValue, loopParam, i)}
+                        active
+                    />
+                </RulesEngine>)
         }
 
         let success = !required || !highlightRequired;

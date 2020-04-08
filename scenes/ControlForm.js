@@ -16,6 +16,8 @@ import SaveLoadFab from '../components/ControlForm/SaveLoadFAB';
 import { MessageAlert, GeneralAlertDialog } from '../components/Alerts';
 import { INSTANCE_VERSION } from '../utils/Storage';
 import { ControlKeys } from '../components/ControlItem';
+import RulesEngine from '../components/RulesEngine';
+import { jsonHelper } from '../utils/jsonHelper';
 
 export default class ControlForm extends React.Component
 {
@@ -146,6 +148,19 @@ export default class ControlForm extends React.Component
     clearInstanceValue = () => this.setState({ instance: null, dirty: true });
 
     setInstanceValue = (value, param) => this.setState({ instance: { ...this.state.instance, [param]: { ...(this.state.instance || {})[param], value: value } } });
+    setInstance = (values) =>
+    {
+        const { instance } = this.state;
+
+        if (!instance)
+            return this.setState({ instance: values });
+
+        let result = jsonHelper.Clone(instance);
+        for (let [key, value] of Object.entries(values))
+            result[key] = { ...result[key], ...value };
+
+        this.setState({ instance: result, dirty: true });
+    }
 
     missingRequired = {};
     setMissingRequired = (missing, param) =>
@@ -193,14 +208,16 @@ export default class ControlForm extends React.Component
 
     renderScene = (props) => (
         <ScrollView>
-            <ControlList
-                {...props.route}
-                instance={this.state.instance}
-                onChange={this.setInstanceValue}
-                onMissingRequired={this.setMissingRequired}
-                highlightRequired={this.state.highlightRequired}
-                onMounting={this.setMounting}
-            />
+            <RulesEngine {...props.route} rules={this.state.form.rules} instance={this.state.instance} onChange={this.setInstanceValue} onSet={this.setInstance}>
+                <ControlList
+                    {...props.route}
+                    instance={this.state.instance}
+                    onChange={this.setInstanceValue}
+                    onMissingRequired={this.setMissingRequired}
+                    highlightRequired={this.state.highlightRequired}
+                    onMounting={this.setMounting}
+                />
+            </RulesEngine>
         </ScrollView>
     );
 

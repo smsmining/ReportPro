@@ -18,6 +18,7 @@
     "@pdf-lib/fontkit": "0.0.4",
     "dateformat": "^3.0.3",
     "fb-watchman": "^2.0.0",
+    "json-rules-engine": "^5.0.3",
     "native-base": "^2.13.4",
     "pdf-lib": "^1.1.1",
     "react": "16.8.6",
@@ -37,7 +38,8 @@
     "react-native-signature-capture": "^0.4.10",
     "react-native-tab-view": "^2.10.0",
     "react-native-vector-icons": "^6.6.0",
-    "rn-fetch-blob": "^0.10.16"
+    "rn-fetch-blob": "^0.10.16",
+    "selectn": "^1.1.2"
   },
   "devDependencies": {
     "@babel/core": "7.5.5",
