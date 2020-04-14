@@ -9,7 +9,7 @@ import { ExportPDF } from '../export';
 import PDFDisplay from '../components/PDFDisplay';
 import PageLayout from '../components/Layout/PageLayout';
 import { GeneralAlertDialog } from '../components/Alerts';
-import { keys } from '../scenes';
+import { Scenes } from '../scenes';
 
 
 export default class PDF extends React.Component
@@ -62,7 +62,7 @@ export default class PDF extends React.Component
                 ,type: 'application/pdf'
                 });
 
-            Actions.popTo(keys.Main, this.props.onChange());
+            Actions.popTo(Scenes.ControlForm, this.props.onChange());
           }
         catch (e) {
             GeneralAlertDialog

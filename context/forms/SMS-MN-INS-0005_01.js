@@ -1,4 +1,4 @@
-import { ControlKeys, SiteSpinner } from "./_config";
+import { ControlKeys, Models } from "./_config";
 
 const bucket_measurements = "data:image/png;base64,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"
 
@@ -54,60 +54,51 @@ export default SMS_MN_INS_0005_01 =
                     required: true,
                 },
                 {
-                    ...SiteSpinner,
                     param: 'customer_site',
-                    label: 'Site',
-                    pdf: { 0: [{ x: 225, y: 330, size: 15 }] },
-                    required: true,
-                },
-
-                {
-                    param: 'machine_header',
-                    type: ControlKeys.Divider,
-                    label: 'Machine Details',
+                    type: ControlKeys.Model,
+                    model: Models.Machine,
+                    controls: [{
+                        param: 'site',
+                        pdf: { 0: [{ x: 225, y: 330, size: 15 }] },
+                        required: true,
+                        }]
                 },
                 {
-                    param: 'machine_id',
-                    type: ControlKeys.TextField,
-                    label: 'Machine ID',
-                    pdf: { 0: [{ x: 70, y: 235, size: 15 }] },
-                    required: true,
-                },
-                {
-                    param: 'machine_make',
-                    type: ControlKeys.TextField,
-                    label: 'Make',
-                    pdf: { 0: [{ x: 225, y: 235, size: 15 }] },
-                    required: true,
-                },
-                {
-                    param: 'machine_model',
-                    type: ControlKeys.TextField,
-                    label: 'Model',
-                    pdf: { 0: [{ x: 400, y: 235, size: 15 }] },
-                    required: true,
-                },
-                {
-                    param: 'machine_sn',
-                    type: ControlKeys.TextField,
-                    label: 'Serial No.',
-                    pdf: { 0: [{ x: 70, y: 180, size: 15 }] },
-                    required: true,
-                },
-                {
-                    param: 'machine_rego',
-                    type: ControlKeys.TextField,
-                    label: 'Rego No.',
-                    pdf: { 0: [{ x: 225, y: 180, size: 15 }] },
-                    required: true,
-                },
-                {
-                    param: 'machine_smu',
-                    type: ControlKeys.TextField,
-                    label: 'SMU Reading',
-                    pdf: { 0: [{ x: 400, y: 180, size: 15 }] },
-                    required: true,
-                },
+                    param: 'machine',
+                    type: ControlKeys.Model,
+                    model: Models.Machine,
+                    controls: [
+                        {
+                            param: 'machine_id',
+                            pdf: { 0: [{ x: 70, y: 235, size: 15 }] },
+                        },
+                        {
+                            param: 'machine_make',
+                            pdf: { 0: [{ x: 225, y: 235, size: 15 }] },
+                            required: true,
+                        },
+                        {
+                            param: 'machine_model',
+                            pdf: { 0: [{ x: 400, y: 235, size: 15 }] },
+                            required: true,
+                        },
+                        {
+                            param: 'machine_sn',
+                            pdf: { 0: [{ x: 70, y: 180, size: 15 }] },
+                            required: true,
+                        },
+                        {
+                            param: 'machine_rego',
+                            pdf: { 0: [{ x: 225, y: 180, size: 15 }] },
+                            required: true,
+                        },
+                        {
+                            param: 'machine_smu',
+                            pdf: { 0: [{ x: 400, y: 180, size: 15 }] },
+                            required: true,
+                        },
+                    ]
+                }
             ],
         },
         {

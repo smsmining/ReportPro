@@ -1,5 +1,5 @@
 import React from 'react';
-import { Platform, FlatList, BackHandler, Linking } from 'react-native';
+import { FlatList, BackHandler } from 'react-native';
 import { View, ListItem, Text, Left, Right, Icon, Container, Content } from 'native-base';
 import { Actions } from 'react-native-router-flux';
 
@@ -7,14 +7,18 @@ import Forms from '../context/Forms';
 import { styles, AlignmentStyles } from '../utils/Style';
 
 import PageLayout from '../components/Layout/PageLayout';
-import DevFlags from '../DevFlags';
+import { AppSettingsOverlay } from '../components/FormList';
 import { keys } from '.';
+
+import DevFlags from '../DevFlags';
 
 export default class FormList extends React.Component
 {
     state = {
         forms: null,
         loading: false,
+
+        showSettings: false,
         };
 
     componentDidMount()
@@ -72,14 +76,17 @@ export default class FormList extends React.Component
 
     render()
     {
-        const { forms, loading } = this.state;
+        const { forms, loading, showSettings } = this.state;
 
         return (
             <PageLayout
-                back={Platform.OS === 'android' ? { icon: 'cloud-download', onPress: () => Linking.openURL('http://smsmining.ga/') } : undefined}
+                back={{ icon: 'settings', onPress: () => this.setState({ showSettings: true }) }}
                 next={{ icon: 'window-close', iconType: "MaterialCommunityIcons", onPress: BackHandler.exitApp }}
             >
                 <Container>
+                    {showSettings &&
+                    <AppSettingsOverlay onClose={() => this.setState({ showSettings: false })}/>
+                    }
                     <Content>
                         {loading &&
                         <Text style={styles.center}>Loading ...</Text>

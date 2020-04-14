@@ -20,8 +20,8 @@ export default class Control_Spinner extends React.Component
         if(!this.props.value && !newProps.value)
             return false;
 
-        const wasManual = typeof this.props.value === 'object' && this.props.value.manual;
-        const isManual = typeof newProps.value === 'object' && newProps.value.manual;
+        const wasManual = this.props.value && typeof this.props.value === 'object' && this.props.value.manual;
+        const isManual = newProps.value && typeof newProps.value === 'object' && newProps.value.manual;
 
         if(wasManual ^ isManual)
             return true;
@@ -34,20 +34,9 @@ export default class Control_Spinner extends React.Component
 
     render()
     {
-        const { value, param, onChange, controls, radio, disabled } = this.props;
+        const { value, param, onChange, controls, db, database, radio, disabled } = this.props;
 
-        const onItemChange = (newValue) =>
-        {
-            const selected = controls && controls.find(c => c.value === newValue);
-            onChange(
-                 selected.manual ? { manual: true, value: newValue } : newValue
-                ,param
-                );
-        }
-    
-        const onManualChange = (newValue) => onChange({ manual: true, value: newValue }, param );
-
-        if (!controls)
+        if (!controls && !db)
             return (
                 <View>
                     <InlineLabelItem {...this.props} >
@@ -56,10 +45,27 @@ export default class Control_Spinner extends React.Component
                 </View>);
 
 
-        let renderControls = jsonHelper.Clone(controls);
+        let renderControls = controls ? jsonHelper.Clone(controls) : [];
+        if (db && database)
+        {
+            const { table, column } = db;
+
+            const dbTable = database[table];
+            const dbColumn = column || param;
+
+            let renderDb = [];
+            if (dbTable && dbTable.length)
+                for (let i = 0; i < dbTable.length; i++)
+                    if (dbTable[i] && dbTable[i][dbColumn] !== undefined)
+                        renderDb.push({ label: dbTable[i][dbColumn], value: dbTable[i][dbColumn] });
+
+            renderDb.sort((a, b) => a.label.toLowerCase() > b.label.toLowerCase());
+            renderControls = renderControls.concat(renderDb);
+        }
+
         let renderValue = value;
         let renderManual = null;
-        if (typeof value === 'object' && value.manual)
+        if (value && typeof value === 'object' && value.manual)
         {
             const selected = renderControls.find(c => c.manual);
             selected.value = value.value;
@@ -68,8 +74,9 @@ export default class Control_Spinner extends React.Component
                 <Input
                     placeholder="Type Here"
                     value={renderValue}
-                    onChangeText={onManualChange}
+                    onChangeText={(newValue) => onChange({ manual: true, value: newValue }, param)}
                     disabled={disabled}
+                    style={HighlightStyles.maintain}
                 />);
         }
         else if (!radio)
@@ -77,6 +84,15 @@ export default class Control_Spinner extends React.Component
             const selected = renderControls.find(c => renderValue === c.value);
             if (!selected)
                 renderControls.unshift({label: ""});
+        }
+
+        const onItemChange = (newValue) =>
+        {
+            const selected = renderControls && renderControls.find(c => c.value === newValue);
+            onChange(
+                 selected.manual ? { manual: true, value: newValue } : newValue
+                ,param
+                );
         }
 
         if (radio)

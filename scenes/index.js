@@ -1,16 +1,19 @@
+import FormList from './FormList';
 import ControlForm from './ControlForm';
 import ExportPreview from './ExportPreview';
-import FormList from './FormList';
+import ImportData from './ImportData';
 
-const keys =
-    {Reports: "Reports"
-    ,Main: "Main"
-    ,Export: "PDF"
+const Scenes =
+    {FormList: "Reports"
+    ,ControlForm: "Main"
+    ,ExportPreview: "PDF"
+    ,ImportData: "Import"
     }
 
 export
-    {keys
+    {Scenes
+    ,FormList
     ,ControlForm
     ,ExportPreview
-    ,FormList
+    ,ImportData
     }

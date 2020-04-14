@@ -1,5 +1,6 @@
 export const jsonHelper =
-    {parseJsonObject
+    {parseJson
+    ,parseJsonObject
     ,Clone
     };
 
@@ -48,6 +49,11 @@ function parseJsonObject(object)
     }
 
     return object;
+}
+
+function parseJson(string)
+{
+    return parseJsonObject(JSON.parse(string));
 }
 
 function Clone(object)

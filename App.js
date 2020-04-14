@@ -5,7 +5,7 @@ import DialogInput from 'react-native-dialog-input';
 
 import { styles } from './utils/Style';
 
-import { keys, FormList, ControlForm, ExportPreview } from './scenes';
+import { Scenes, FormList, ControlForm, ExportPreview, ImportData } from './scenes';
 import Access from './context/Access';
 
 export default class App extends React.Component
@@ -45,21 +45,26 @@ export default class App extends React.Component
             <Router>
                 <Scene key="root" titleStyle={styles.titleStyle}>
                     <Scene
-                        key={keys.Reports}
+                        key={Scenes.FormList}
                         component={FormList}
                         title="Reports"
-                        initial={true}
-                        hideNavBar={true}
+                        initial
+                        hideNavBar
                     />
                     <Scene
-                        key={keys.Main}
+                        key={Scenes.ImportData}
+                        component={ImportData}
+                        hideNavBar
+                    />
+                    <Scene
+                        key={Scenes.ControlForm}
                         component={ControlForm}
-                        hideNavBar={true}
+                        hideNavBar
                     />
                     <Scene
-                        key={keys.Export}
+                        key={Scenes.ExportPreview}
                         component={ExportPreview}
-                        hideNavBar={true}
+                        hideNavBar
                     />
                 </Scene>
             </Router>

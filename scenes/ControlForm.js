@@ -14,8 +14,10 @@ import ControlList from '../components/ControlList';
 import PageLayout from '../components/Layout/PageLayout';
 import SaveLoadFab from '../components/ControlForm/SaveLoadFAB';
 import { MessageAlert, GeneralAlertDialog } from '../components/Alerts';
-import { INSTANCE_VERSION } from '../utils/Storage';
+import { INSTANCE_VERSION, Read, Database } from '../utils/Storage';
 import { ControlKeys } from '../components/ControlItem';
+import { Scenes } from '.';
+import Model from '../context/Model';
 import RulesEngine from '../components/RulesEngine';
 import { jsonHelper } from '../utils/jsonHelper';
 import DevFlags from '../DevFlags';
@@ -25,13 +27,14 @@ export default class ControlForm extends React.Component
     state =
         {form: null
         ,navigation: -1
+
         ,instance: null
         ,dirty: false
-
         ,highlightRequired: false
 
         ,loading: false
         ,hasSaved: null
+        ,database: null
         };
 
     componentDidMount() { this.loadForm(); }
@@ -55,9 +58,13 @@ export default class ControlForm extends React.Component
             return;
 
         this.setState({ loading: true });
-        this._asyncReqForm = Forms.Get(guid, this.loadFormResponse);
-
-        Forms.HasInstance(guid + INSTANCE_VERSION, response => this.setState({ hasSaved: response }));
+        
+        Read(Database).then(database =>
+        {
+            this.setState({ database: database && jsonHelper.parseJson(database) });
+            this._asyncReqForm = Forms.Get(guid, this.loadFormResponse);
+            Forms.HasInstance(guid + INSTANCE_VERSION, response => this.setState({ hasSaved: response }));
+        });
     }
 
     loadFormResponse = (response) =>
@@ -76,6 +83,12 @@ export default class ControlForm extends React.Component
             )
             return { ...control, controls: control.controls.map(child => this.validateLoadControl(child)) };
 
+        if (control.type === ControlKeys.Model)
+        {
+            const model = Model(control);
+            return { ...model, controls: model.controls.map(child => this.validateLoadControl(child)) };
+        }
+            
         if (control.type === ControlKeys.Looper)
             return { ...control, controls: control.controls.map(child => this.validateLoadControl(child)), value: control.value && control.value.map(this.validateLoadValue)};
 
@@ -142,7 +155,7 @@ export default class ControlForm extends React.Component
             +  "\nPlease complete the highlighted areas before proceeding."
                 );
 
-        Actions.PDF({ guid: this.props.guid, instance: this.state.instance, onChange: this.clearInstanceValue });
+        Actions[Scenes.ExportPreview]({ guid: this.props.guid, instance: this.state.instance, onChange: this.clearInstanceValue });
     }
 
 
@@ -213,6 +226,8 @@ export default class ControlForm extends React.Component
                 <ControlList
                     {...props.route}
                     instance={this.state.instance}
+                    database={this.state.database}
+
                     onChange={this.setInstanceValue}
                     onMissingRequired={this.setMissingRequired}
                     highlightRequired={this.state.highlightRequired}

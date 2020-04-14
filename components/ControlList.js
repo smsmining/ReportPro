@@ -87,6 +87,7 @@ export default class ControlList extends React.Component
             highlightRequired={this.props.highlightRequired}
 
             instance={this.props.instance}
+            database={this.props.database}
             onChange={this.props.onChange}
 
             expand={this.state.expand}

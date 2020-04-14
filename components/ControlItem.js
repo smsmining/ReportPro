@@ -16,10 +16,12 @@ import Control_TextArea from './Controls/Control_TextArea';
 import Control_TextField from './Controls/Control_TextField';
 import Control_TextLabel from './Controls/Control_TextLabel';
 import Control_Signature from './Controls/Control_Signature';
+import ControlList from './ControlList';
 
 export const ControlKeys = 
     {Tab:           'tab'
     ,Divider:       'divider'
+    ,Model:         'model'
 
     ,CheckBox:      'checkBox'
     ,Collapse:      'collapse'
@@ -55,13 +57,16 @@ export default ControlItem = (props) =>
         case ControlKeys.Looper:       return (<Control_Looper {...props} />);
         case ControlKeys.CheckBox:     return (<Control_CheckBox {...props} />);
         case ControlKeys.Collapse:     return (<Control_Collapse {...props} />);
+        case ControlKeys.Model:        return <ControlList {...props}/>;
     }
 
     return (<Text style={styles.center}>WARNING: Unknown control type</Text>);
 };
 
 export const ShouldUpdate = (props, newProps) => (
-    newProps.label ^ props.label
+    newProps.dirty
+
+||  newProps.label ^ props.label
 ||  newProps.label !== props.label
 
 ||  newProps.value ^ props.value

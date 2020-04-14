@@ -63,6 +63,7 @@ export default class ExportPDF
 
         if (ControlKeys.Tab === type
         ||  ControlKeys.Collapse === type
+        ||  ControlKeys.Model === type
             )
         {
             for (child in controls)

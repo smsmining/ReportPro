@@ -1,6 +1,7 @@
 import { ControlKeys } from "../../components/ControlItem";
 
 export { ControlKeys } from "../../components/ControlItem";
+export { Models } from "../models";
 export const SiteSpinner =
 {
     type: ControlKeys.Spinner,
