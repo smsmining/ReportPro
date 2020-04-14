@@ -18,6 +18,7 @@ import { INSTANCE_VERSION } from '../utils/Storage';
 import { ControlKeys } from '../components/ControlItem';
 import RulesEngine from '../components/RulesEngine';
 import { jsonHelper } from '../utils/jsonHelper';
+import DevFlags from '../DevFlags';
 
 export default class ControlForm extends React.Component
 {
@@ -134,7 +135,7 @@ export default class ControlForm extends React.Component
         const required = Object.keys(this.missingRequired).length;
 
         this.setState({ highlightRequired: required });
-        if (required)
+        if (required && !DevFlags.PrintWithoutRequired)
             return MessageAlert
                 ("Missing Fields"
                 ,"There are required fields that have not been filled."
