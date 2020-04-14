@@ -56,7 +56,7 @@ export default SMS_MN_INS_0005_01 =
                 {
                     param: 'customer_site',
                     type: ControlKeys.Model,
-                    model: Models.Machine,
+                    model: Models.Site,
                     controls: [{
                         param: 'site',
                         pdf: { 0: [{ x: 225, y: 330, size: 15 }] },

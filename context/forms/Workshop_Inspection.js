@@ -1,4 +1,4 @@
-import { ControlKeys, SiteSpinner } from "./_config";
+import { ControlKeys, Models } from "./_config";
 
 export default Workshop_Inspection =
 {
@@ -19,11 +19,14 @@ export default Workshop_Inspection =
                     label: 'Document Details'
                 },
                 {
-                    ...SiteSpinner,
                     param: 'details_minesite',
-                    label: 'Site',
-                    pdf: { 0: [{ x: 160, y: 760, width: 100, height: 15 }] },
-                    required: true,
+                    type: ControlKeys.Model,
+                    model: Models.Site,
+                    controls: [{
+                        param: 'site',
+                        pdf: { 0: [{ x: 160, y: 760, width: 100, height: 15 }] },
+                        required: true,
+                    }]
                 },
                 {
                     param: 'details_date',

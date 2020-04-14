@@ -1,4 +1,4 @@
-import { ControlKeys, SiteSpinner } from "./_config";
+import { ControlKeys, Models } from "./_config";
 
 export default Inspection_Report =
 {
@@ -33,11 +33,15 @@ export default Inspection_Report =
                     required: true,
                 },
                 {
-                    ...SiteSpinner,
                     param: 'location',
-                    label: 'Location',
-                    pdf: { 0: [{ x: 75, y: 640, width: 200, height: 15, size: 14 }] },
-                    required: true,
+                    type: ControlKeys.Model,
+                    model: Models.Site,
+                    controls: [{
+                        param: 'site',
+                        label: 'Location',
+                        pdf: { 0: [{ x: 75, y: 640, width: 200, height: 15, size: 14 }] },
+                        required: true,
+                    }]
                 },
                 {
                     param: 'pin_vin',
@@ -81,45 +85,46 @@ export default Inspection_Report =
             icon: 'edit',
             controls: [
                 {
-                    param: 'machine_header',
-                    type: ControlKeys.Divider,
-                    label: 'Machine Details',
-                },
-                {
-                    param: 'machine_code',
-                    type: ControlKeys.TextField,
-                    label: 'Code',
-                    pdf: { 0: [{ x: 82, y: 535, width: 110, height: 15, size: 14 }]
-                        , 'A0': [{ x: 73, y: 80, width: 110, height: 15, size: 12 }]
+                    param: 'machine',
+                    type: ControlKeys.Model,
+                    model: Models.Machine,
+                    controls: [
+                        {
+                            param: 'machine_id',
+                            pdf: { 0: [{ x: 442, y: 535, width: 120, height: 15, size: 14 }]
+                                , 'A0': [{ x: 436, y: 80, width: 110, height: 15, size: 12 }]
+                                },
+                        },
+                        {
+                            param: 'machine_make',
+                            hidden: true,
+                        },
+                        {
+                            param: 'machine_model',
+                            pdf: {0: [{ x: 200, y: 535, width: 85, height: 15, size: 14 }]
+                                ,'A0': [{ x: 192, y: 80, width: 110, height: 15, size: 12 }]
+                                },
+                            required: true,
+                        },
+                        {
+                            param: 'machine_sn',
+                            pdf: { 0: [{ x: 292, y: 535, width: 140, height: 15, size: 14 }]
+                                , 'A0': [{ x: 309, y: 80, width: 110, height: 15, size: 12 }]
+                                },
+                            required: true,
+                        },
+                        {
+                            param: 'machine_rego',
+                            pdf: { 0: [{ x: 82, y: 535, width: 110, height: 15, size: 14 }]
+                                , 'A0': [{ x: 73, y: 80, width: 110, height: 15, size: 12 }]
                             },
-                    required: true,
-                },
-                {
-                    param: 'machine_model',
-                    type: ControlKeys.TextField,
-                    label: 'Model',
-                    pdf: { 0: [{ x: 200, y: 535, width: 85, height: 15, size: 14 }]
-                        , 'A0': [{ x: 192, y: 80, width: 110, height: 15, size: 12 }]
-                            },
-                    required: true,
-                },
-                {
-                    param: 'machine_sn',
-                    type: ControlKeys.TextField,
-                    label: 'Serial No.',
-                    pdf: { 0: [{ x: 292, y: 535, width: 140, height: 15, size: 14 }]
-                        , 'A0': [{ x: 309, y: 80, width: 110, height: 15, size: 12 }]
-                            },
-                    required: true,
-                },
-                {
-                    param: 'machine_id',
-                    type: ControlKeys.TextField,
-                    label: 'ID',
-                    pdf: { 0: [{ x: 442, y: 535, width: 120, height: 15, size: 14 }]
-                        , 'A0': [{ x: 436, y: 80, width: 110, height: 15, size: 12 }]
-                            },
-                    required: true,
+                            required: true,
+                        },
+                        {
+                            param: 'machine_smu',
+                            hidden: true,
+                        },
+                    ]
                 },
                 {
                     param: 'machine_time_inspection',

@@ -1,4 +1,4 @@
-import { ControlKeys, SiteSpinner } from "./_config";
+import { ControlKeys, Models } from "./_config";
 
 export default SMS_MN_INS_0004_01 =
 {
@@ -52,59 +52,51 @@ export default SMS_MN_INS_0004_01 =
                     required: true,
                 },
                 {
-                    ...SiteSpinner,
                     param: 'customer_site',
-                    label: 'Site',
-                    pdf: { 0: [{ x: 225, y: 330, size: 15 }] },
-                    required: true,
+                    type: ControlKeys.Model,
+                    model: Models.Site,
+                    controls: [{
+                        param: 'site',
+                        pdf: { 0: [{ x: 225, y: 330, size: 15 }] },
+                        required: true,
+                    }]
                 },
                 {
-                    param: 'machine_header',
-                    type: ControlKeys.Divider,
-                    label: 'Machine Details',
-                },
-                {
-                    param: 'machine_id',
-                    type: ControlKeys.TextField,
-                    label: 'Machine ID',
-                    pdf: { 0: [{ x: 70, y: 235, size: 15 }] },
-                    required: true,
-                },
-                {
-                    param: 'machine_make',
-                    type: ControlKeys.TextField,
-                    label: 'Make',
-                    pdf: { 0: [{ x: 225, y: 235, size: 15 }] },
-                    required: true,
-                },
-                {
-                    param: 'machine_model',
-                    type: ControlKeys.TextField,
-                    label: 'Model',
-                    pdf: { 0: [{ x: 400, y: 235, size: 15 }] },
-                    required: true,
-                },
-                {
-                    param: 'machine_sn',
-                    type: ControlKeys.TextField,
-                    label: 'Serial No.',
-                    pdf: { 0: [{ x: 70, y: 180, size: 15 }] },
-                    required: true,
-                },
-                {
-                    param: 'machine_rego',
-                    type: ControlKeys.TextField,
-                    label: 'Rego No.',
-                    pdf: { 0: [{ x: 225, y: 180, size: 15 }] },
-                    required: true,
-                },
-                {
-                    param: 'machine_smu',
-                    type: ControlKeys.TextField,
-                    label: 'SMU Reading',
-                    pdf: { 0: [{ x: 400, y: 180, size: 15 }] },
-                    required: true,
-                },
+                    param: 'machine',
+                    type: ControlKeys.Model,
+                    model: Models.Machine,
+                    controls: [
+                        {
+                            param: 'machine_id',
+                            pdf: { 0: [{ x: 70, y: 235, size: 15 }] },
+                        },
+                        {
+                            param: 'machine_make',
+                            pdf: { 0: [{ x: 225, y: 235, size: 15 }] },
+                            required: true,
+                        },
+                        {
+                            param: 'machine_model',
+                            pdf: { 0: [{ x: 400, y: 235, size: 15 }] },
+                            required: true,
+                        },
+                        {
+                            param: 'machine_sn',
+                            pdf: { 0: [{ x: 70, y: 180, size: 15 }] },
+                            required: true,
+                        },
+                        {
+                            param: 'machine_rego',
+                            pdf: { 0: [{ x: 225, y: 180, size: 15 }] },
+                            required: true,
+                        },
+                        {
+                            param: 'machine_smu',
+                            pdf: { 0: [{ x: 400, y: 180, size: 15 }] },
+                            required: true,
+                        },
+                    ]
+                }
             ],
         },
         {

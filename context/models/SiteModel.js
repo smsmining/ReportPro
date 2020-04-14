@@ -1,6 +1,6 @@
 import { ControlKeys } from "../../components/ControlItem";
 
-export default MachineModel = [
+export default SiteModel = [
     {
         param: 'site',
         type: ControlKeys.Spinner,

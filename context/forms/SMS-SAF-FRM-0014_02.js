@@ -1,4 +1,4 @@
-import { ControlKeys, SiteSpinner } from "./_config";
+import { ControlKeys, Models } from "./_config";
 
 export default SMS_SAF_FRM_0014_02 =
 {
@@ -26,11 +26,15 @@ export default SMS_SAF_FRM_0014_02 =
                     required: true,
                 },
                 {
-                    ...SiteSpinner,
                     param: 'location',
-                    label: 'Location',
-                    pdf: { 0: [{ x: 300, y: 765, size: 14 }] },
-                    required: true,
+                    type: ControlKeys.Model,
+                    model: Models.Site,
+                    controls: [{
+                        param: 'site',
+                        label: 'Location',
+                        pdf: { 0: [{ x: 300, y: 765, size: 14 }] },
+                        required: true,
+                    }]
                 },
                 {
                     param: 'observer',
