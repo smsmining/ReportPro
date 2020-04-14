@@ -8,7 +8,7 @@ import { styles, AlignmentStyles } from '../utils/Style';
 
 import PageLayout from '../components/Layout/PageLayout';
 import { AppSettingsOverlay } from '../components/FormList';
-import { keys } from '.';
+import { Scenes } from '.';
 
 import DevFlags from '../DevFlags';
 
@@ -26,7 +26,7 @@ export default class FormList extends React.Component
         this.loadForms();
 
         if (!!DevFlags.AutoLoadForm)
-            setTimeout(() => Actions[keys.Main]({ guid: DevFlags.AutoLoadForm }), 1);
+            setTimeout(() => Actions[Scenes.ControlForm]({ guid: DevFlags.AutoLoadForm }), 1);
     }
 
     componentWillUnmount()
@@ -59,7 +59,7 @@ export default class FormList extends React.Component
     }
 
     renderItem = ({ item }) => (
-        <ListItem style={styles.borderBottom} onPress={() => Actions[keys.Main]({ guid: item.guid })}>
+        <ListItem style={styles.borderBottom} onPress={() => Actions[Scenes.ControlForm]({ guid: item.guid })}>
             <Left style={AlignmentStyles.column}>
                 <View>
                     <Text>{item.name}</Text>

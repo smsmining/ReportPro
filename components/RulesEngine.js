@@ -3,6 +3,7 @@ import React from 'react';
 import { Engine } from 'json-rules-engine';
 import { jsonHelper } from '../utils/jsonHelper';
 import { ControlKeys } from './ControlItem';
+import { MessageAlert } from './Alerts';
 
 export const Check =
 	{Eq: 'equal'
@@ -23,6 +24,10 @@ export const Check =
         ,Neither: 'notIn'       // fact must not be included in value(an array)
         }
 	}
+
+export const Alerts =
+    {Message: 'Message'
+    }
 
 export default class RulesEngine extends React.Component
 {
@@ -189,6 +194,17 @@ export default class RulesEngine extends React.Component
                     dirty |= 'value' in event && fact.value !== event.value;
                     break;
                 }
+
+                break;
+            }
+
+            const alert = event.alert;
+            if (alert)
+            {
+                if (alert === Alerts.Message)
+                    MessageAlert(event.title, event.message);
+
+                break;
             }
         }
 
