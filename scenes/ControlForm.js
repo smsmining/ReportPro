@@ -222,13 +222,21 @@ export default class ControlForm extends React.Component
 
     renderScene = (props) => (
         <ScrollView>
-            <RulesEngine {...props.route} rules={this.state.form.rules} instance={this.state.instance} onChange={this.setInstanceValue} onSet={this.setInstance}>
+            <RulesEngine
+                {...props.route}
+                instance={this.state.instance}
+                database={this.state.database}
+                onChange={this.setInstanceValue}
+
+                rules={this.state.form.rules}
+                onSet={this.setInstance}
+            >
                 <ControlList
                     {...props.route}
                     instance={this.state.instance}
                     database={this.state.database}
-
                     onChange={this.setInstanceValue}
+
                     onMissingRequired={this.setMissingRequired}
                     highlightRequired={this.state.highlightRequired}
                     onMounting={this.setMounting}

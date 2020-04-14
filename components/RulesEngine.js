@@ -32,10 +32,26 @@ export const Alerts =
 export default class RulesEngine extends React.Component
 {
     engine = new Engine();
+    nested = [];
 
     componentDidMount()
     {
+        this.nested = this.getNestedControls(this.props);
         this.engine = this.loadEngine();
+    }
+
+    getNestedControls = (parent) =>
+    {
+        if (!parent || !parent.controls)
+            return;
+
+        let result = [];
+        for (let i = 0; i < parent.controls.length; i++)
+        {
+            if (parent.controls[i].type === ControlKeys.Collapse || parent.controls[i].type === ControlKeys.Model)
+                result = result.concat(this.getNestedControls(parent.controls[i]));
+        }
+        return result.concat(parent.controls);
     }
 
     loadEngine = () =>
@@ -43,7 +59,7 @@ export default class RulesEngine extends React.Component
         const { rules } = this.props;
 
         if (!rules)
-            return;
+            return this.engine = null;
 
         const parse = jsonHelper.Clone(rules);
         for (let i = 0; i < parse.length; i++)
@@ -91,26 +107,12 @@ export default class RulesEngine extends React.Component
     {
         const { instance } = this.props;
 
-        let facts = this.getNestedControls(this.props);
+        let facts = this.nested;
         if (instance)
             for (let [key, value] of Object.entries(instance))
                 facts[key] = { ...facts[key], ...value } ;
 
         return facts;
-    }
-
-    getNestedControls = (parent) =>
-    {
-        if (!parent || !parent.controls)
-            return;
-
-        let result = [];
-        for (let i = 0; i < parent.controls.length; i++)
-        {
-            if (parent.controls[i].type === ControlKeys.Collapse)
-                result = result.concat(this.getNestedControls(parent.controls[i]));
-        }
-        return result.concat(parent.controls);
     }
 
     toValueFacts = (facts) =>
@@ -128,25 +130,52 @@ export default class RulesEngine extends React.Component
 
     onChange = (value, param) =>
     {
-        const { onChange } = this.props;
-
-        if (!this.engine)
-            return onChange(value, param);
+        const { onChange, onSet, database } = this.props;
 
         let facts = this.getFacts();
+        let fact = facts.find(f => f.param === param) || {};
 
-        if ((facts[param] && facts[param].value) === value)
-            return onChange(value, param);
+        let row = null;
+        if (fact.db && database)
+        {
+            const dbColumn = fact.db.column || param;
+            row = database[fact.db.table].find(r => r[dbColumn] && r[dbColumn] === value);
+        }
 
-        facts[param] = { ...facts[param], value: value };
-        this.ruleTick = { dirty: { [param]: { value: value } }, pending: [] };
+        if (row)
+        {
+            let dirty = {};
+            for (let [dbParam, dbValue] of Object.entries(row))
+                if (dbValue !== undefined && dbValue != null)
+                {
+                    facts[dbParam] = { ...facts[dbParam], value: dbValue };
+                    dirty[dbParam] = { value: dbValue };
+                } 
+
+            if (!this.engine || fact.value === value)
+                return onSet(dirty);
+
+            this.ruleTick = { dirty: dirty, pending: [] };
+        }
+        else
+        {
+            if (!this.engine || fact.value === value)
+                return onChange(value, param);
+
+            facts[param] = { ...fact, value: value };
+            this.ruleTick = { dirty: { [param]: { value: value } }, pending: [] };
+        }
 
         this.engine.run(this.toValueFacts(facts)).then(() =>
         {
             if (this.ruleTick.pending.length)
                 return this.handleEvents();
 
-            onChange(value, param);
+            if (Object.keys(this.ruleTick.dirty) === 1)
+                onChange(value, param);
+            else
+                return onSet(this.ruleTick.dirty);
+
             this.ruleTick = null;
         });
     }
