@@ -132,8 +132,8 @@ android {
         applicationId "com.reportsms"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 8
-        versionName "1.7"
+        versionCode 9
+        versionName "1.8.0"
         multiDexEnabled true // This is for method limit
         missingDimensionStrategy 'react-native-camera', 'mlkit' // <--- replace general with mlkit
     }
