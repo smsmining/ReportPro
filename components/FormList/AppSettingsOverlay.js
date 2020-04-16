@@ -1,5 +1,5 @@
 import React from 'react';
-import { Platform } from 'react-native';
+import { Platform, Linking } from 'react-native';
 
 import { Overlay, } from 'react-native-elements';
 import { Icon, View, Button, Text } from 'native-base';

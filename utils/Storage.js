@@ -42,7 +42,7 @@ export const Pick = async (type, format) =>
 {
     try
     {
-        const file = await DocumentPicker.pick({ type: type });
+        const file = await DocumentPicker.pick(type ? { type: type } : undefined);
         return await RNFS.readFile(file.uri, format || 'utf8');
     }
     catch (e)
