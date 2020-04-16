@@ -4,7 +4,7 @@ import { PDFDraw } from '../utils';
 import { ControlKeys } from '../components/ControlItem';
 import { jsonHelper } from '../utils/jsonHelper';
 
-const IsAppendix = /A(\d+)(?:\[((?:\d+)|(?:{}))\])?/i;
+const IsAppendix = /A(\d+)(?:\[((?:\d+)|(?:{+}+))\])?/i;
 
 export default class ExportPDF
 {
@@ -82,7 +82,6 @@ export default class ExportPDF
         const { param, value, pdf, grid, controls } = control || {};
 
         if (!pdf) return;
-        if (pdf.length > 1) return this._onError("Error: Multipage looper (" + param + "; " + pdf.length + ")");
 
         let renderValues = (values || {})[param];
         if (renderValues)
@@ -92,34 +91,51 @@ export default class ExportPDF
 
         if (!renderValues) return;
 
-        let sublayouts = [];
+        let pageLayouts = {};
+        let loopConfigs = {};
         for (loop in renderValues)
         {
             let sublayout = {};
+            const loopValues = renderValues[loop] || {};
 
             for (child in controls)
-                this.generateLayoutData(sublayout, controls[child], renderValues[loop]);
+                this.generateLayoutData(sublayout, controls[child], loopValues);
 
-            if (sublayout.length > 1 || (sublayout.length === 1 && !sublayout[0]))
+            for (const [key, layouts] of Object.entries(sublayout))
             {
-                this._onError("Error: Multipage looper children (" + param + "; " + sublayout.length + ")");
-                continue;
+                const parts = key.split('.');
+                const page = parts[0];
+                const alias = parts[1] || 0;
+
+                if (!pdf[page] || !pdf[page][alias])
+                {
+                    this._onError("Error: No PDF for [" + page + "," + alias + "]");
+                    continue;
+                }
+
+                if (!pageLayouts[page]) pageLayouts[page] = {};
+                if (!pageLayouts[page][alias]) pageLayouts[page][alias] = {};
+
+                pageLayouts[page][alias][loop] = layouts;
             }
 
-            sublayouts.push(sublayout[0]);
+            if (loopValues['{}'])
+                loopConfigs[loop] = loopValues['{}'];
         }
 
         for (page in pdf)
+        for (alias in pdf[page])
         {
-            if (pdf[page].length > 1 || !grid[page] || grid[page].length > 1)
-                return this._onError("Error: Multidraw loopers (" + param + "[" + page + "]; " + pdf[page].length + ")");
-                
-            const { x, y, width, height, vertical } = pdf[page][0];
+            if (!grid[page][alias])
+                return this._onError("Error: No Grid (" + param + "[" + page + "," + alias + "])");
+
+            const sublayouts = (pageLayouts[page] || {})[alias] || {};
+            const { x, y, width, height, vertical } = pdf[page][alias];
 
             if (!width || !height)
                 return this._onError("Error: No looper sizing (" + param + ")");
 
-            const { width: cellWidth, height: cellHeight, margin: cellMargin } = grid[page][0];
+            const { width: cellWidth, height: cellHeight, margin: cellMargin } = grid[page][alias];
 
             if (!cellWidth || !cellHeight)
                 return this._onError("Error: No looper cell sizing (" + param + ")");
@@ -132,100 +148,82 @@ export default class ExportPDF
             const isApp = IsAppendix.exec(page);
             const maxX = x + width;
 
-            let loopLayouts = [];
-            let loopTracking = { x: x, y: y + height };
+            let loopLayouts = {};
+            let loopTracking = { x: x, y: y + height, page: 1 };
 
             for (loop in sublayouts)
             {
-                if (loopTracking.y < y)
-                {
-                    this._onError("Error: Looper exceeds height (" + param + ")");
-                    break;
-                }
+                if (!sublayouts[loop])
+                    continue;
 
-                if (loopTracking.x > maxX)
-                {
-                    this._onError("Error: Looper exceeds width (" + param + ")");
-                    break;
-                }
+                const loopConfig = loopConfigs[loop] || {};
+                const loopWidth = loopConfig.width || cellWidth;
+                const loopHeight = loopConfig.height || cellHeight;
 
+                if ((loopTracking.y - loopHeight) < y
+                ||  (loopTracking.x + loopWidth) > maxX
+                    )
+                {
+                    if (!isApp)
+                        { this._onError("Error: Looper size exceed (" + param + ")"); break; }
+
+                    loopTracking = { x: x, y: y + height, page: loopTracking.page + 1 };
+                }
 
                 let draws = sublayouts[loop];
                 let drawResults = [];
 
-                if (draws)
+                for (child in draws)
                 {
-                    if ((vertical && loopTracking.x > width)
-                    || (!vertical && loopTracking.y < y)
-                        )
-                    {
-                        this._onError("Error: Looper size exceed (" + param + ")");
-                        break;
-                    }
+                    const draw = jsonHelper.Clone(draws[child]);
+                    let { style } = draw;
 
-                    for (child in draws)
-                    {
-                        const draw = jsonHelper.Clone(draws[child]);
-                        let { style } = draw;
+                    style.width = style.width || (cellWidth - style.x);
+                    style.height = style.height || (style.y - cellHeight);
 
-                        style.width = style.width || (cellWidth - style.x);
-                        style.height = style.height || (style.y - cellHeight);
+                    style.x += loopTracking.x;
+                    style.y = loopTracking.y - cellHeight + style.y;
 
-                        style.x += loopTracking.x;
-                        style.y = loopTracking.y - cellHeight + style.y;
-
-                        drawResults.push(draw);
-                    }
+                    drawResults.push(draw);
                 }
 
-                if (isApp)
+                if (!loopLayouts[loopTracking.page])
+                    loopLayouts[loopTracking.page] = [];
+                loopLayouts[loopTracking.page] = loopLayouts[loopTracking.page].concat(drawResults);
+
+                if (vertical)
                 {
-                    if (drawResults && drawResults.length > 0)
-                        loopLayouts.push(drawResults);
+                    loopTracking.y -= loopHeight + (cellMargin || 0);
+
+                    if (loopTracking.y - loopHeight >= y)
+                        continue;
+
+                    loopTracking.y = height;
+                    loopTracking.x += loopWidth + (cellMargin || 0);
                 }
                 else
                 {
-                    loopLayouts = loopLayouts.concat(drawResults);
+                    loopTracking.x += loopWidth + (cellMargin || 0);
 
-                    if (vertical)
-                    {
-                        loopTracking.y -= cellHeight + (cellMargin || 0);
+                    if (loopTracking.x + loopWidth <= maxX)
+                        continue;
 
-                        if (loopTracking.y - cellHeight >= y)
-                            continue;
-
-                        loopTracking.y = height;
-                        loopTracking.x += cellWidth + (cellMargin || 0);
-                    }
-                    else
-                    {
-                        loopTracking.x += cellWidth + (cellMargin || 0);
-
-                        if (loopTracking.x + cellWidth <= maxX)
-                            continue;
-
-                        loopTracking.x = x || 0;
-                        loopTracking.y -= cellHeight + (cellMargin || 0);
-                    }
+                    loopTracking.x = x || 0;
+                    loopTracking.y -= loopHeight + (cellMargin || 0);
                 }
             }
 
-            if (isApp)
-                for (loop in loopLayouts)
-                {
-                    const renderPage = page.replace('[{}]', '[' + loop + ']');
-                    
-                    if (!layout[renderPage]) layout[renderPage] = [];
-
-                    layout[renderPage] = layout[renderPage].concat(loopLayouts[loop]);
-                    layout[renderPage].push({ style: pdf[page][0] });
-                }
-            else
+            for (const [loop, loopLayout] of Object.entries(loopLayouts))
             {
-                if (!layout[page]) layout[page] = [];
+                const renderPage = page
+                    .replace(/\{\}/g, loop)
+                    .replace(/\{\{/g, '{')
+                    .replace(/\}\}/g, '}');
+                    
+                if (!layout[renderPage]) layout[renderPage] = [];
 
-                layout[page] = layout[page].concat(loopLayouts);
-                layout[page].push({ style: pdf[page][0] });
+                layout[renderPage] = layout[renderPage].concat(loopLayout);
+                layout[renderPage].push({ style: pdf[page][alias] });
             }
         }
     }
@@ -249,6 +247,7 @@ export default class ExportPDF
         if (!pdf || !param) return;
 
         let renderValue = (values || {})[param];
+
         if (renderValue)
             renderValue = renderValue.value;
         else if (typeof value === 'object'
@@ -257,6 +256,9 @@ export default class ExportPDF
             renderValue = value.value;
         else
             renderValue = value;
+
+        if (renderValue === null || renderValue === undefined)
+            return;
 
         if (typeof renderValue === 'object' && renderValue.manual)
             renderValue = renderValue.value;

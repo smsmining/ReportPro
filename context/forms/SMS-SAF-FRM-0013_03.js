@@ -8,7 +8,6 @@ export default SMS_SAF_FRM_0013_03 =
     version: 'SMS-SAF-FRM-0013_03',
     tabs: [
         {
-            id: '1',
             type: ControlKeys.Tab,
             label: 'Details',
             icon: 'edit',
@@ -61,7 +60,6 @@ export default SMS_SAF_FRM_0013_03 =
             ],
         },
         {
-            id: '2',
             type: ControlKeys.Tab,
             label: 'Checklist',
             icon: 'check-square-o',
@@ -77,16 +75,16 @@ export default SMS_SAF_FRM_0013_03 =
                             setLength: 2,
                             pdf: { 0: [{ x: 28, y: 0, width: 555, height: 715, vertical: true }] },
                             grid: { 0: [{ width: 530, height: 5, margin: 10 }] },
-                            value: [{ 'risk_assessment_action': 'JHA Completed and Being Followed' }
-                                , { 'risk_assessment_action': 'Take 5 Completed and Being Followed' }
+                            value: [{ 'action': 'JHA Completed and Being Followed' }
+                                , { 'action': 'Take 5 Completed and Being Followed' }
                             ],
                             controls: [
                                 {
-                                    param: 'risk_assessment_action',
+                                    param: 'action',
                                     type: ControlKeys.TextLabel,
                                 },
                                 {
-                                    param: 'risk_assessment_choice',
+                                    param: 'choice',
                                     type: ControlKeys.Spinner,
                                     pdf: { 0: [{ y: 0, size: 10 }] },
                                     controls: [
@@ -98,7 +96,7 @@ export default SMS_SAF_FRM_0013_03 =
                                     required: true,
                                 },
                                 {
-                                    param: 'risk_assessment_divider',
+                                    param: 'divider',
                                     type: ControlKeys.Divider,
                                 },
                             ],
@@ -138,16 +136,16 @@ export default SMS_SAF_FRM_0013_03 =
                             setLength: 2,
                             pdf: { 0: [{ x: 28, y: 0, width: 555, height: 675, vertical: true }] },
                             grid: { 0: [{ width: 530, height: 5, margin: 10 }] },
-                            value: [{ 'compliance_to_procedures_action': 'Work Area Suitable / Inspected' }
-                                , { 'compliance_to_procedures_action': 'Hazards Identified' }
+                            value: [{ 'action': 'Work Area Suitable / Inspected' }
+                                , { 'action': 'Hazards Identified' }
                             ],
                             controls: [
                                 {
-                                    param: 'compliance_to_procedures_action',
+                                    param: 'action',
                                     type: ControlKeys.TextLabel,
                                 },
                                 {
-                                    param: 'compliance_to_procedures_choice',
+                                    param: 'choice',
                                     type: ControlKeys.Spinner,
                                     pdf: { 0: [{ y: 0, size: 10 }] },
                                     controls: [
@@ -159,7 +157,7 @@ export default SMS_SAF_FRM_0013_03 =
                                     required: true,
                                 },
                                 {
-                                    param: 'compliance_to_procedures_divider',
+                                    param: 'divider',
                                     type: ControlKeys.Divider,
                                 },
                             ],
@@ -200,22 +198,22 @@ export default SMS_SAF_FRM_0013_03 =
                             pdf: { 0: [{ x: 28, y: 0, width: 555, height: 625, vertical: true }] },
                             grid: { 0: [{ width: 530, height: 5, margin: 7 }] },
                             value: [
-                                { 'operator_action': 'Employees VOC Trained' }
-                                , { 'operator_action': 'Seat Belt Operational' }
-                                , { 'operator_action': 'Load Sheet Completed Correctly' }
-                                , { 'operator_action': 'Activity log sheet completed' }
-                                , { 'operator_action': 'General operating skills' }
-                                , { 'operator_action': 'Housekeeping in cab' }
-                                , { 'operator_action': 'Obey traffic signage' }
-                                , { 'operator_action': 'Correct/Positive Radio Communication' }
+                                { 'action': 'Employees VOC Trained' }
+                                , { 'action': 'Seat Belt Operational' }
+                                , { 'action': 'Load Sheet Completed Correctly' }
+                                , { 'action': 'Activity log sheet completed' }
+                                , { 'action': 'General operating skills' }
+                                , { 'action': 'Housekeeping in cab' }
+                                , { 'action': 'Obey traffic signage' }
+                                , { 'action': 'Correct/Positive Radio Communication' }
                             ],
                             controls: [
                                 {
-                                    param: 'operator_action',
+                                    param: 'action',
                                     type: ControlKeys.TextLabel,
                                 },
                                 {
-                                    param: 'operator_choice',
+                                    param: 'choice',
                                     type: ControlKeys.Spinner,
                                     pdf: { 0: [{ y: 0, size: 10 }] },
                                     controls: [
@@ -227,7 +225,7 @@ export default SMS_SAF_FRM_0013_03 =
                                     required: true,
                                 },
                                 {
-                                    param: 'operator_divider',
+                                    param: 'divider',
                                     type: ControlKeys.Divider,
                                 },
                             ],
@@ -268,20 +266,20 @@ export default SMS_SAF_FRM_0013_03 =
                             pdf: { 0: [{ x: 28, y: 0, width: 555, height: 515, vertical: true }] },
                             grid: { 0: [{ width: 530, height: 5, margin: 7 }] },
                             value: [
-                                { 'traffic_management_action': 'Install and Cleaning Delineation' }
-                                , { 'traffic_management_action': 'Install and Cleaning Traffic Signs' }
-                                , { 'traffic_management_action': 'Correct Posture' }
-                                , { 'traffic_management_action': 'Correct Lifting Technique' }
-                                , { 'traffic_management_action': 'Intersection Compliance' }
-                                , { 'traffic_management_action': 'Follow 50/20 Rule' }
+                                { 'action': 'Install and Cleaning Delineation' }
+                                , { 'action': 'Install and Cleaning Traffic Signs' }
+                                , { 'action': 'Correct Posture' }
+                                , { 'action': 'Correct Lifting Technique' }
+                                , { 'action': 'Intersection Compliance' }
+                                , { 'action': 'Follow 50/20 Rule' }
                             ],
                             controls: [
                                 {
-                                    param: 'traffic_management_action',
+                                    param: 'action',
                                     type: ControlKeys.TextLabel,
                                 },
                                 {
-                                    param: 'traffic_management_choice',
+                                    param: 'choice',
                                     type: ControlKeys.Spinner,
                                     pdf: { 0: [{ y: 0, size: 10 }] },
                                     controls: [
@@ -293,7 +291,7 @@ export default SMS_SAF_FRM_0013_03 =
                                     required: true,
                                 },
                                 {
-                                    param: 'traffic_management_divider',
+                                    param: 'divider',
                                     type: ControlKeys.Divider,
                                 },
                             ],
@@ -334,21 +332,21 @@ export default SMS_SAF_FRM_0013_03 =
                             pdf: { 0: [{ x: 28, y: 0, width: 555, height: 420, vertical: true }] },
                             grid: { 0: [{ width: 530, height: 5, margin: 7 }] },
                             value: [
-                                { 'mobile_equipment_action': 'Equipment Prestart Completed' }
-                                , { 'mobile_equipment_action': 'Seat Belts Worn' }
-                                , { 'mobile_equipment_action': 'Barricades in Place (if applicable)' }
-                                , { 'mobile_equipment_action': 'Driving to Conditions' }
-                                , { 'mobile_equipment_action': 'Use of Horn signalling' }
-                                , { 'mobile_equipment_action': 'Correctly Parked/Grounded' }
-                                , { 'mobile_equipment_action': 'Spotter in Place' }
+                                { 'action': 'Equipment Prestart Completed' }
+                                , { 'action': 'Seat Belts Worn' }
+                                , { 'action': 'Barricades in Place (if applicable)' }
+                                , { 'action': 'Driving to Conditions' }
+                                , { 'action': 'Use of Horn signalling' }
+                                , { 'action': 'Correctly Parked/Grounded' }
+                                , { 'action': 'Spotter in Place' }
                             ],
                             controls: [
                                 {
-                                    param: 'mobile_equipment_action',
+                                    param: 'action',
                                     type: ControlKeys.TextLabel,
                                 },
                                 {
-                                    param: 'mobile_equipment_choice',
+                                    param: 'choice',
                                     type: ControlKeys.Spinner,
                                     pdf: { 0: [{ y: 0, size: 10 }] },
                                     controls: [
@@ -360,7 +358,7 @@ export default SMS_SAF_FRM_0013_03 =
                                     required: true,
                                 },
                                 {
-                                    param: 'mobile_equipment_divider',
+                                    param: 'divider',
                                     type: ControlKeys.Divider,
                                 },
                             ],
@@ -401,17 +399,17 @@ export default SMS_SAF_FRM_0013_03 =
                             pdf: { 0: [{ x: 28, y: 0, width: 555, height: 320, vertical: true }] },
                             grid: { 0: [{ width: 530, height: 5, margin: 8 }] },
                             value: [
-                                { 'prestart_equipment_action': 'Positive Isolation' }
-                                , { 'prestart_equipment_action': 'SOP Followed' }
-                                , { 'prestart_equipment_action': 'Equipment Wheels Chocked or Parked in Go Line' }
+                                { 'action': 'Positive Isolation' }
+                                , { 'action': 'SOP Followed' }
+                                , { 'action': 'Equipment Wheels Chocked or Parked in Go Line' }
                             ],
                             controls: [
                                 {
-                                    param: 'prestart_equipment_action',
+                                    param: 'action',
                                     type: ControlKeys.TextLabel,
                                 },
                                 {
-                                    param: 'prestart_equipment_choice',
+                                    param: 'choice',
                                     type: ControlKeys.Spinner,
                                     pdf: { 0: [{ y: 0, size: 10 }] },
                                     controls: [
@@ -423,7 +421,7 @@ export default SMS_SAF_FRM_0013_03 =
                                     required: true,
                                 },
                                 {
-                                    param: 'prestart_equipment_divider',
+                                    param: 'divider',
                                     type: ControlKeys.Divider,
                                 },
                             ],
@@ -458,25 +456,25 @@ export default SMS_SAF_FRM_0013_03 =
                     label: 'PPE',
                     controls:
                         [{
-                            param: 'PPE_checklist',
+                            param: 'ppe_checklist',
                             type: ControlKeys.Looper,
                             setLength: 5,
                             pdf: { 0: [{ x: 28, y: 0, width: 555, height: 257, vertical: true }] },
                             grid: { 0: [{ width: 530, height: 5, margin: 7 }] },
                             value: [
-                                { 'PPE_action': 'Eye Protection' }
-                                , { 'PPE_action': 'Hearing Protection' }
-                                , { 'PPE_action': 'Hand Protection' }
-                                , { 'PPE_action': 'Hard Hats' }
-                                , { 'PPE_action': 'Steel Cap Boots (laced and secured to the top)' }
+                                { 'action': 'Eye Protection' }
+                                , { 'action': 'Hearing Protection' }
+                                , { 'action': 'Hand Protection' }
+                                , { 'action': 'Hard Hats' }
+                                , { 'action': 'Steel Cap Boots (laced and secured to the top)' }
                             ],
                             controls: [
                                 {
-                                    param: 'PPE_action',
+                                    param: 'action',
                                     type: ControlKeys.TextLabel,
                                 },
                                 {
-                                    param: 'ppe_choice',
+                                    param: 'choice',
                                     type: ControlKeys.Spinner,
                                     pdf: { 0: [{ y: 0, size: 10 }] },
                                     controls: [
@@ -488,13 +486,13 @@ export default SMS_SAF_FRM_0013_03 =
                                     required: true,
                                 },
                                 {
-                                    param: 'PPE_divider',
+                                    param: 'divider',
                                     type: ControlKeys.Divider,
                                 },
                             ],
                         },
                         {
-                            param: 'PPE_sampled',
+                            param: 'ppe_sampled',
                             type: ControlKeys.TextField,
                             label: 'PPE Sampled',
                             keyboardType: 'phone-pad',
@@ -502,7 +500,7 @@ export default SMS_SAF_FRM_0013_03 =
                             required: true,
                         },
                         {
-                            param: 'PPE_compliant',
+                            param: 'ppe_compliant',
                             type: ControlKeys.TextField,
                             label: 'PPE Compliant',
                             keyboardType: 'phone-pad',
@@ -510,7 +508,7 @@ export default SMS_SAF_FRM_0013_03 =
                             required: true,
                         },
                         {
-                            param: 'PPE_comments',
+                            param: 'ppe_comments',
                             type: ControlKeys.TextField,
                             label: 'PPE Comments',
                             pdf: { 0: [{ x: 415, y: 195, height: 74, width: 165 }] },
@@ -529,17 +527,17 @@ export default SMS_SAF_FRM_0013_03 =
                             pdf: { 0: [{ x: 28, y: 0, width: 555, height: 170, vertical: true }] },
                             grid: { 0: [{ width: 530, height: 5, margin: 8 }] },
                             value: [
-                                { 'environmental_action': 'Oil Leaks Spillage' }
-                                , { 'environmental_action': 'Dust' }
-                                , { 'environmental_action': 'Required Permit in Place' }
+                                { 'action': 'Oil Leaks Spillage' }
+                                , { 'action': 'Dust' }
+                                , { 'action': 'Required Permit in Place' }
                             ],
                             controls: [
                                 {
-                                    param: 'environmental_action',
+                                    param: 'action',
                                     type: ControlKeys.TextLabel,
                                 },
                                 {
-                                    param: 'environmental_choice',
+                                    param: 'choice',
                                     type: ControlKeys.Spinner,
                                     pdf: { 0: [{ y: 0, size: 10 }] },
                                     controls: [
@@ -551,7 +549,7 @@ export default SMS_SAF_FRM_0013_03 =
                                     required: true,
                                 },
                                 {
-                                    param: 'environmental_divider',
+                                    param: 'divider',
                                     type: ControlKeys.Divider,
                                 },
                             ],
@@ -605,55 +603,34 @@ export default SMS_SAF_FRM_0013_03 =
             ],
         },
         {
-            id: '3',
             type: ControlKeys.Tab,
-            label: 'Issues',
-            icon: 'camera',
+            label: 'Actions',
+            icon: 'check-square-o',
             controls: [
                 {
                     param: 'attachment_page',
                     type: ControlKeys.Looper,
-                    label: '+ Add Page',
+                    label: '+ Add Action',
                     pdf: { 'A0[{}]': [{ x: 32, y: 125, width: 532, height: 650 }] },
-                    grid: { 'A0[{}]': [{ width: 532, height: 650 }] },
+                    grid: { 'A0[{}]': [{ width: 260, height: 208, margin: 6 }] },
                     controls: [
                         {
-                            param: 'attachment_page_header',
+                            param: 'attachment_header',
                             type: ControlKeys.Divider,
-                            label: 'Page {}'
+                            label: 'Attachment {}'
                         },
                         {
-                            param: 'attachment_looper',
-                            type: ControlKeys.Looper,
-                            label: '+ Add Attachment',
-                            minLength: 1,
-                            maxLength: 6,
-                            pdf: { 0: [{ x: 0, y: 0, width: 532, height: 650 }] },
-                            grid: { 0: [{ width: 260, height: 208, margin: 6 }] },
-                            controls: [
-                                {
-                                    param: 'attachment_header',
-                                    type: ControlKeys.Divider,
-                                    label: 'Attachment {}'
-                                },
-                                {
-                                    param: 'attachment_attachment_image',
-                                    type: ControlKeys.ImageSelect,
-                                    label: 'Image',
-                                    pdf: { 0: [{ x: 0, y: 88, width: 260, height: 120 }] },
-                                    required: true,
-                                },
-                                {
-                                    param: 'inspection_attachment_comments',
-                                    type: ControlKeys.TextArea,
-                                    label: 'Comments',
-                                    pdf: { 0: [{ x: 0, y: 0, width: 260, height: 85, size: 12 }] },
-                                },
-                            ]
+                            param: 'attachment_attachment_image',
+                            type: ControlKeys.ImageSelect,
+                            label: 'Image',
+                            pdf: { 'A0[{}]': [{ x: 0, y: 88, width: 260, height: 120 }] },
+                            required: true,
                         },
                         {
-                            param: 'inspection_page_footer',
-                            type: ControlKeys.Divider,
+                            param: 'inspection_attachment_comments',
+                            type: ControlKeys.TextArea,
+                            label: 'Comments',
+                            pdf: { 'A0[{}]': [{ x: 0, y: 0, width: 260, height: 85, size: 12 }] },
                         },
                     ],
                 },

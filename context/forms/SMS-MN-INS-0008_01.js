@@ -111,9 +111,9 @@ export default SMS_MN_INS_0008_01 =
                 label: 'CAB',
                 controls:
                     [{
-                        param: 'cab_checklist_a',
+                        param: 'cab_checklist',
                         type: ControlKeys.Looper,
-                        setLength: 8,
+                        setLength: 19,
                         value: [{ 'name': 'Doors/Locks' }
                             , { 'name': 'Windows' }
                             , { 'name': 'Mirrors' }
@@ -121,45 +121,8 @@ export default SMS_MN_INS_0008_01 =
                             , { 'name': 'Seat Belts' }
                             , { 'name': 'A/C Filters' }
                             , { 'name': 'A/C Operation, Temp' }
-                            , { 'name': 'UHF/ Digital Radio - Radio Power Supply Hardwired' }
-                        ],
-                        pdf: { 1: [{ x: 181, y: 605, width: 387, height: 125 }] },
-                        grid: { 1: [{ width: 387, height: 13, margin: 0.9 }] },
-                        controls:
-                            [{
-                                param: 'name',
-                                type: ControlKeys.TextLabel,
-                            },
-                            {
-                                param: 'selector',
-                                type: ControlKeys.Spinner,
-                                controls: [
-                                    { label: 'Pass', value: 'Pass', pdf: { x: 13 }, renderValue: true },
-                                    { label: 'Fail', value: 'Fail', pdf: { x: 47 }, renderValue: true },
-                                    { label: 'N/A', value: 'N/A', pdf: { x: 80 }, renderValue: true },
-                                ],
-                                pdf: { 0: [{ y: 0 }] },
-                                radio: true,
-                                required: true,
-                            },
-                            {
-                                param: 'comments',
-                                type: ControlKeys.TextArea,
-                                HeightRows: 2,
-                                label: 'Comments',
-                                pdf: { 0: [{ x: 103, y: 0, width: 284 }] },
-                            },
-                            {
-                                param: 'spacer',
-                                type: ControlKeys.Divider,
-                            },
-                            ]
-                    },
-                    {
-                        param: 'cab_checklist_b',
-                        type: ControlKeys.Looper,
-                        setLength: 11,
-                        value: [{ 'name': 'AM/FM Radio' }
+                            , { 'name': 'UHF/ Digital Radio - Radio Power Supply Hardwired', '{}': { height: 26 } }
+                            , { 'name': 'AM/FM Radio' }
                             , { 'name': 'Reverse camera & screen' }
                             , { 'name': 'Wiper and Washers' }
                             , { 'name': 'General Cab Condition ' }
@@ -171,7 +134,7 @@ export default SMS_MN_INS_0008_01 =
                             , { 'name': 'Horn Operation' }
                             , { 'name': 'Gauges' }
                         ],
-                        pdf: { 1: [{ x: 181, y: 451, width: 387, height: 154 }] },
+                        pdf: { 1: [{ x: 181, y: 451, width: 387, height: 279 }] },
                         grid: { 1: [{ width: 387, height: 13, margin: 0.9 }] },
                         controls:
                             [{
@@ -186,7 +149,7 @@ export default SMS_MN_INS_0008_01 =
                                     { label: 'Fail', value: 'Fail', pdf: { x: 47 }, renderValue: true },
                                     { label: 'N/A', value: 'N/A', pdf: { x: 80 }, renderValue: true },
                                 ],
-                                pdf: { 0: [{ y: 0 }] },
+                                pdf: { 1: [{ y: 0 }] },
                                 radio: true,
                                 required: true,
                             },
@@ -195,7 +158,7 @@ export default SMS_MN_INS_0008_01 =
                                 type: ControlKeys.TextArea,
                                 HeightRows: 2,
                                 label: 'Comments',
-                                pdf: { 0: [{ x: 103, y: 0, width: 284 }] },
+                                pdf: { 1: [{ x: 103, y: 0, width: 284 }] },
                             },
                             {
                                 param: 'spacer',
@@ -256,7 +219,7 @@ export default SMS_MN_INS_0008_01 =
                                     { label: 'Fail', value: 'Fail', pdf: { x: 47 }, renderValue: true },
                                     { label: 'N/A', value: 'N/A', pdf: { x: 80 }, renderValue: true },
                                 ],
-                                pdf: { 0: [{ y: 0 }] },
+                                pdf: { 1: [{ y: 0 }] },
                                 radio: true,
                                 required: true,
                             },
@@ -265,7 +228,7 @@ export default SMS_MN_INS_0008_01 =
                                 type: ControlKeys.TextArea,
                                 HeightRows: 2,
                                 label: 'Comments',
-                                pdf: { 0: [{ x: 103, y: 0, width: 284 }] },
+                                pdf: { 1: [{ x: 103, y: 0, width: 284 }] },
                             },
                             {
                                 param: 'spacer',
@@ -283,7 +246,7 @@ export default SMS_MN_INS_0008_01 =
                     [{
                         param: 'hydraulics_checklist_a',
                         type: ControlKeys.Looper,
-                        setLength: 8,
+                        setLength: 13,
                         value: [{ 'name': 'Oil Level' }
                             , { 'name': 'Hyd. Tank condition' }
                             , { 'name': 'Hyd. Pump operation' }
@@ -291,88 +254,14 @@ export default SMS_MN_INS_0008_01 =
                             , { 'name': 'Lift / Tip / Boom / Hoist Cylinders' }
                             , { 'name': 'Steering Cylinders' }
                             , { 'name': 'Water Cannon Cylinders' }
-                            , { 'name': 'PTO Shaft & Coupling, Safety guards' }
-                        ],
-                        pdf: { 2: [{ x: 186, y: 632, width: 387, height: 112 }] },
-                        grid: { 2: [{ width: 387, height: 13, margin: 0.9 }] },
-                        controls:
-                            [{
-                                param: 'name',
-                                type: ControlKeys.TextLabel,
-                            },
-                            {
-                                param: 'selector',
-                                type: ControlKeys.Spinner,
-                                controls: [
-                                    { label: 'Pass', value: 'Pass', pdf: { x: 13 }, renderValue: true },
-                                    { label: 'Fail', value: 'Fail', pdf: { x: 47 }, renderValue: true },
-                                    { label: 'N/A', value: 'N/A', pdf: { x: 80 }, renderValue: true },
-                                ],
-                                pdf: { 0: [{ y: 0 }] },
-                                radio: true,
-                                required: true,
-                            },
-                            {
-                                param: 'comments',
-                                type: ControlKeys.TextArea,
-                                HeightRows: 2,
-                                label: 'Comments',
-                                pdf: { 0: [{ x: 103, y: 0, width: 284 }] },
-                            },
-                            {
-                                param: 'spacer',
-                                type: ControlKeys.Divider,
-                            },
-                            ]
-                    },
-                    {
-                        param: 'hydraulics_checklist_b',
-                        type: ControlKeys.Looper,
-                        setLength: 3,
-                        value: [{ 'name': 'Hyd / Trans cooler / mounts' }
+                            , { 'name': 'PTO Shaft & Coupling, Safety guards', '{}': { height: 26 } }
+                            , { 'name': 'Hyd / Trans cooler / mounts' }
                             , { 'name': 'Wet Brake cooler / mounts' }
-                            , { 'name': 'Hose Condition / Clamps / P clamps' }
-                        ],
-                        pdf: { 2: [{ x: 186, y: 577, width: 387, height: 42 }] },
-                        grid: { 2: [{ width: 387, height: 13, margin: 0.9 }] },
-                        controls:
-                            [{
-                                param: 'name',
-                                type: ControlKeys.TextLabel,
-                            },
-                            {
-                                param: 'selector',
-                                type: ControlKeys.Spinner,
-                                controls: [
-                                    { label: 'Pass', value: 'Pass', pdf: { x: 13 }, renderValue: true },
-                                    { label: 'Fail', value: 'Fail', pdf: { x: 47 }, renderValue: true },
-                                    { label: 'N/A', value: 'N/A', pdf: { x: 80 }, renderValue: true },
-                                ],
-                                pdf: { 0: [{ y: 0 }] },
-                                radio: true,
-                                required: true,
-                            },
-                            {
-                                param: 'comments',
-                                type: ControlKeys.TextArea,
-                                HeightRows: 2,
-                                label: 'Comments',
-                                pdf: { 0: [{ x: 103, y: 0, width: 284 }] },
-                            },
-                            {
-                                param: 'spacer',
-                                type: ControlKeys.Divider,
-                            },
-                            ]
-                    },
-                    {
-                        param: 'hydraulics_checklist_c',
-                        type: ControlKeys.Looper,
-                        setLength: 2,
-                        value: [{ 'name': 'HMU for leaks' }
+                            , { 'name': 'Hose Condition / Clamps / P clamps', '{}': { height: 26 } }
+                            , { 'name': 'HMU for leaks' }
                             , { 'name': 'Check Emergency Steering' }
                         ],
-                        pdf: { 2: [{ x: 186, y: 535, width: 387, height: 28 }] },
+                        pdf: { 2: [{ x: 186, y: 535, width: 387, height: 208 }] },
                         grid: { 2: [{ width: 387, height: 13, margin: 0.9 }] },
                         controls:
                             [{
@@ -387,7 +276,7 @@ export default SMS_MN_INS_0008_01 =
                                     { label: 'Fail', value: 'Fail', pdf: { x: 47 }, renderValue: true },
                                     { label: 'N/A', value: 'N/A', pdf: { x: 80 }, renderValue: true },
                                 ],
-                                pdf: { 0: [{ y: 0 }] },
+                                pdf: { 2: [{ y: 0 }] },
                                 radio: true,
                                 required: true,
                             },
@@ -396,7 +285,7 @@ export default SMS_MN_INS_0008_01 =
                                 type: ControlKeys.TextArea,
                                 HeightRows: 2,
                                 label: 'Comments',
-                                pdf: { 0: [{ x: 103, y: 0, width: 284 }] },
+                                pdf: { 2: [{ x: 103, y: 0, width: 284 }] },
                             },
                             {
                                 param: 'spacer',
@@ -438,7 +327,7 @@ export default SMS_MN_INS_0008_01 =
                                     { label: 'Fail', value: 'Fail', pdf: { x: 47 }, renderValue: true },
                                     { label: 'N/A', value: 'N/A', pdf: { x: 80 }, renderValue: true },
                                 ],
-                                pdf: { 0: [{ y: 0 }] },
+                                pdf: { 2: [{ y: 0 }] },
                                 radio: true,
                                 required: true,
                             },
@@ -447,7 +336,7 @@ export default SMS_MN_INS_0008_01 =
                                 type: ControlKeys.TextArea,
                                 HeightRows: 2,
                                 label: 'Comments',
-                                pdf: { 0: [{ x: 103, y: 0, width: 284 }] },
+                                pdf: { 2: [{ x: 103, y: 0, width: 284 }] },
                             },
                             {
                                 param: 'spacer',
@@ -485,7 +374,7 @@ export default SMS_MN_INS_0008_01 =
                                     { label: 'Fail', value: 'Fail', pdf: { x: 47 }, renderValue: true },
                                     { label: 'N/A', value: 'N/A', pdf: { x: 80 }, renderValue: true },
                                 ],
-                                pdf: { 0: [{ y: 0 }] },
+                                pdf: { 2: [{ y: 0 }] },
                                 radio: true,
                                 required: true,
                             },
@@ -494,7 +383,7 @@ export default SMS_MN_INS_0008_01 =
                                 type: ControlKeys.TextArea,
                                 HeightRows: 2,
                                 label: 'Comments',
-                                pdf: { 0: [{ x: 103, y: 0, width: 284 }] },
+                                pdf: { 2: [{ x: 103, y: 0, width: 284 }] },
                             },
                             {
                                 param: 'spacer',
@@ -537,7 +426,7 @@ export default SMS_MN_INS_0008_01 =
                                     { label: 'Fail', value: 'Fail', pdf: { x: 47 }, renderValue: true },
                                     { label: 'N/A', value: 'N/A', pdf: { x: 80 }, renderValue: true },
                                 ],
-                                pdf: { 0: [{ y: 0 }] },
+                                pdf: { 2: [{ y: 0 }] },
                                 radio: true,
                                 required: true,
                             },
@@ -546,7 +435,7 @@ export default SMS_MN_INS_0008_01 =
                                 type: ControlKeys.TextArea,
                                 HeightRows: 2,
                                 label: 'Comments',
-                                pdf: { 0: [{ x: 103, y: 0, width: 284 }] },
+                                pdf: { 2: [{ x: 103, y: 0, width: 284 }] },
                             },
                             {
                                 param: 'spacer',
@@ -587,7 +476,7 @@ export default SMS_MN_INS_0008_01 =
                                     { label: 'Fail', value: 'Fail', pdf: { x: 47 }, renderValue: true },
                                     { label: 'N/A', value: 'N/A', pdf: { x: 80 }, renderValue: true },
                                 ],
-                                pdf: { 0: [{ y: 0 }] },
+                                pdf: { 2: [{ y: 0 }] },
                                 radio: true,
                                 required: true,
                             },
@@ -596,7 +485,7 @@ export default SMS_MN_INS_0008_01 =
                                 type: ControlKeys.TextArea,
                                 HeightRows: 2,
                                 label: 'Comments',
-                                pdf: { 0: [{ x: 103, y: 0, width: 284 }] },
+                                pdf: { 2: [{ x: 103, y: 0, width: 284 }] },
                             },
                             {
                                 param: 'spacer',
@@ -636,7 +525,7 @@ export default SMS_MN_INS_0008_01 =
                                     { label: 'Fail', value: 'Fail', pdf: { x: 47 }, renderValue: true },
                                     { label: 'N/A', value: 'N/A', pdf: { x: 80 }, renderValue: true },
                                 ],
-                                pdf: { 0: [{ y: 0 }] },
+                                pdf: { 3: [{ y: 0 }] },
                                 radio: true,
                                 required: true,
                             },
@@ -645,7 +534,7 @@ export default SMS_MN_INS_0008_01 =
                                 type: ControlKeys.TextArea,
                                 HeightRows: 2,
                                 label: 'Comments',
-                                pdf: { 0: [{ x: 103, y: 0, width: 284 }] },
+                                pdf: { 3: [{ x: 103, y: 0, width: 284 }] },
                             },
                             {
                                 param: 'spacer',
@@ -686,7 +575,7 @@ export default SMS_MN_INS_0008_01 =
                                     { label: 'Fail', value: 'Fail', pdf: { x: 47 }, renderValue: true },
                                     { label: 'N/A', value: 'N/A', pdf: { x: 80 }, renderValue: true },
                                 ],
-                                pdf: { 0: [{ y: 0 }] },
+                                pdf: { 3: [{ y: 0 }] },
                                 radio: true,
                                 required: true,
                             },
@@ -695,7 +584,7 @@ export default SMS_MN_INS_0008_01 =
                                 type: ControlKeys.TextArea,
                                 HeightRows: 2,
                                 label: 'Comments',
-                                pdf: { 0: [{ x: 103, y: 0, width: 284 }] },
+                                pdf: { 3: [{ x: 103, y: 0, width: 284 }] },
                             },
                             {
                                 param: 'spacer',
@@ -711,38 +600,11 @@ export default SMS_MN_INS_0008_01 =
                 label: 'Electrics',
                 controls:
                     [{
-                        param: 'electrics_checklist_name_batt',
-                        type: ControlKeys.TextLabel,
-                        value: 'Batteries and Clamps\nRubber over battery\nAcid level\Cables'
-                    },
-                    {
-                        param: 'electrics_checklist_selector_batt',
-                        type: ControlKeys.Spinner,
-                        controls: [
-                            { label: 'Pass', value: 'Pass', pdf: { x: 203 }, renderValue: true },
-                            { label: 'Fail', value: 'Fail', pdf: { x: 237 }, renderValue: true },
-                            { label: 'N/A', value: 'N/A', pdf: { x: 270 }, renderValue: true },
-                        ],
-                        pdf: { 3: [{ y: 548 }] },
-                        radio: true,
-                        required: true,
-                    },
-                    {
-                        param: 'electrics_checklist_comments_batt',
-                        type: ControlKeys.TextArea,
-                        HeightRows: 2,
-                        label: 'Comments',
-                        pdf: { 3: [{ x: 293, y: 548, width: 284 }] },
-                    },
-                    {
-                        param: 'electrics_checklist_spacer_batt',
-                        type: ControlKeys.Divider,
-                    },
-                    {
                         param: 'electrics_checklist',
                         type: ControlKeys.Looper,
-                        setLength: 12,
-                        value: [{ 'name': 'Headlights' }
+                        setLength: 13,
+                        value: [{ 'name': 'Batteries and Clamps\nRubber over battery\nAcid level\Cables', '{}': { height: 30 } }
+                            , { 'name': 'Headlights' }
                             , { 'name': 'Work lights' }
                             , { 'name': 'Indicators' }
                             , { 'name': 'Brake lights' }
@@ -755,7 +617,7 @@ export default SMS_MN_INS_0008_01 =
                             , { 'name': 'Tray Float' }
                             , { 'name': 'Relays / Fuses / Breakers' }
                         ],
-                        pdf: { 3: [{ x: 190, y: 354, width: 387, height: 168 }] },
+                        pdf: { 3: [{ x: 190, y: 354, width: 387, height: 198 }] },
                         grid: { 3: [{ width: 387, height: 13, margin: 0.9 }] },
                         controls:
                             [{
@@ -770,7 +632,7 @@ export default SMS_MN_INS_0008_01 =
                                     { label: 'Fail', value: 'Fail', pdf: { x: 47 }, renderValue: true },
                                     { label: 'N/A', value: 'N/A', pdf: { x: 80 }, renderValue: true },
                                 ],
-                                pdf: { 0: [{ y: 0 }] },
+                                pdf: { 3: [{ y: 0 }] },
                                 radio: true,
                                 required: true,
                             },
@@ -779,7 +641,7 @@ export default SMS_MN_INS_0008_01 =
                                 type: ControlKeys.TextArea,
                                 HeightRows: 2,
                                 label: 'Comments',
-                                pdf: { 0: [{ x: 103, y: 0, width: 284 }] },
+                                pdf: { 3: [{ x: 103, y: 0, width: 284 }] },
                             },
                             {
                                 param: 'spacer',
@@ -817,7 +679,7 @@ export default SMS_MN_INS_0008_01 =
                                     { label: 'Fail', value: 'Fail', pdf: { x: 47 }, renderValue: true },
                                     { label: 'N/A', value: 'N/A', pdf: { x: 80 }, renderValue: true },
                                 ],
-                                pdf: { 0: [{ y: 0 }] },
+                                pdf: { 3: [{ y: 0 }] },
                                 radio: true,
                                 required: true,
                             },
@@ -826,7 +688,7 @@ export default SMS_MN_INS_0008_01 =
                                 type: ControlKeys.TextArea,
                                 HeightRows: 2,
                                 label: 'Comments',
-                                pdf: { 0: [{ x: 103, y: 0, width: 284 }] },
+                                pdf: { 3: [{ x: 103, y: 0, width: 284 }] },
                             },
                             {
                                 param: 'spacer',
@@ -842,9 +704,9 @@ export default SMS_MN_INS_0008_01 =
                 label: 'Site Spec Fit Out',
                 controls:
                     [{
-                        param: 'fitout_checklist_a',
+                        param: 'fitout_checklist',
                         type: ControlKeys.Looper,
-                        setLength: 12,
+                        setLength: 25,
                         value: [{ 'name': 'Fan Belt Guards' }
                             , { 'name': 'Air Con Belt Guards' }
                             , { 'name': 'Manual Release Radiator Cap' }
@@ -856,44 +718,8 @@ export default SMS_MN_INS_0008_01 =
                             , { 'name': 'Isolator Stickers' }
                             , { 'name': '3 Point Contact Stickers' }
                             , { 'name': 'Quick Hitch Safety Pin' }
-                            , { 'name': 'Fire Suppression Shut Down Working' }
-                        ],
-                        pdf: { 4: [{ x: 183, y: 562, width: 390, height: 168 }] },
-                        grid: { 4: [{ width: 390, height: 14 }] },
-                        controls:
-                            [{
-                                param: 'name',
-                                type: ControlKeys.TextLabel,
-                            },
-                            {
-                                param: 'pass',
-                                type: ControlKeys.Spinner,
-                                controls: [
-                                    { label: 'Pass', value: 'Pass', pdf: { x: 16 }, renderValue: true },
-                                    { label: 'N/Fitted', value: 'N/Fitted', pdf: { x: 70 }, renderValue: true },
-                                ],
-                                pdf: { 0: [{ y: 0 }] },
-                                radio: true,
-                                required: true,
-                            },
-                            {
-                                param: 'comments',
-                                type: ControlKeys.TextArea,
-                                HeightRows: 2,
-                                label: 'Comments',
-                                pdf: { 0: [{ x: 100, y: 0 }] },
-                            },
-                            {
-                                param: 'spacer',
-                                type: ControlKeys.Divider,
-                            },
-                            ]
-                    },
-                    {
-                        param: 'fitout_checklist_b',
-                        type: ControlKeys.Looper,
-                        setLength: 13,
-                        value: [{ 'name': 'Battery Isolator Working' }
+                            , { 'name': 'Fire Suppression Shut Down Working', '{}': { height: 28 } }
+                            , { 'name': 'Battery Isolator Working' }
                             , { 'name': 'Starter Isolator Working' }
                             , { 'name': 'Emergency Stops x 2 Working' }
                             , { 'name': 'Hydraulic Lock Out Working' }
@@ -907,7 +733,7 @@ export default SMS_MN_INS_0008_01 =
                             , { 'name': 'Am/Fm Radio' }
                             , { 'name': 'Mine spec VHF' }
                         ],
-                        pdf: { 4: [{ x: 183, y: 366, width: 390, height: 182 }] },
+                        pdf: { 4: [{ x: 183, y: 366, width: 390, height: 364 }] },
                         grid: { 4: [{ width: 390, height: 14 }] },
                         controls:
                             [{
@@ -921,7 +747,7 @@ export default SMS_MN_INS_0008_01 =
                                     { label: 'Pass', value: 'Pass', pdf: { x: 16 }, renderValue: true },
                                     { label: 'N/Fitted', value: 'N/Fitted', pdf: { x: 70 }, renderValue: true },
                                 ],
-                                pdf: { 0: [{ y: 0 }] },
+                                pdf: { 4: [{ y: 0 }] },
                                 radio: true,
                                 required: true,
                             },
@@ -930,7 +756,7 @@ export default SMS_MN_INS_0008_01 =
                                 type: ControlKeys.TextArea,
                                 HeightRows: 2,
                                 label: 'Comments',
-                                pdf: { 0: [{ x: 100, y: 0 }] },
+                                pdf: { 4: [{ x: 100, y: 0 }] },
                             },
                             {
                                 param: 'spacer',
@@ -938,7 +764,6 @@ export default SMS_MN_INS_0008_01 =
                             },
                             ]
                     },
-
                     {
                         param: 'extras_checklist_header',
                         type: ControlKeys.Divider,
@@ -955,7 +780,7 @@ export default SMS_MN_INS_0008_01 =
                                 param: 'name',
                                 type: ControlKeys.TextField,
                                 label: 'Name',
-                                pdf: { 0: [{ x: 0, y: 0 }] },
+                                pdf: { 4: [{ x: 0, y: 0 }] },
                                 required: true,
                             },
                             {
@@ -965,7 +790,7 @@ export default SMS_MN_INS_0008_01 =
                                     { label: 'Pass', value: 'Pass', pdf: { x: 166 }, renderValue: true },
                                     { label: 'N/Fitted', value: 'N/Fitted', pdf: { x: 220 }, renderValue: true },
                                 ],
-                                pdf: { 0: [{ y: 0 }] },
+                                pdf: { 4: [{ y: 0 }] },
                                 radio: true,
                                 required: true,
                             },
@@ -974,7 +799,7 @@ export default SMS_MN_INS_0008_01 =
                                 type: ControlKeys.TextArea,
                                 HeightRows: 2,
                                 label: 'Comments',
-                                pdf: { 0: [{ x: 250, y: 0 }] },
+                                pdf: { 4: [{ x: 250, y: 0 }] },
                             },
                             {
                                 param: 'spacer',
@@ -992,7 +817,7 @@ export default SMS_MN_INS_0008_01 =
                     [{
                         param: 'hygiene_checklist',
                         type: ControlKeys.Looper,
-                        setLength: 9,
+                        setLength: 10,
                         value: [{ 'name': 'Internal Areas (cabin)' }
                             , { 'name': 'External Areas - Panel/Trays etc.' }
                             , { 'name': 'Radiators and Filters' }
@@ -1001,9 +826,10 @@ export default SMS_MN_INS_0008_01 =
                             , { 'name': 'Buckets / Blades / Tyres etc.' }
                             , { 'name': 'Running Gear / Bash Plates' }
                             , { 'name': 'Tyres / Wheel Arches / Tracks' }
-                            , { 'name': 'Undercarriage / Other areas' }
+                            , { 'name': 'Undercarriage / Other areas', '{}': { height: 56 } }
+                            , { 'name': 'Vehicle wash-down completed' }
                         ],
-                        pdf: { 5: [{ x: 298, y: 516, width: 258, height: 126 }] },
+                        pdf: { 5: [{ x: 298, y: 460, width: 258, height: 182 }] },
                         grid: { 5: [{ width: 258, height: 14 }] },
                         controls:
                             [{
@@ -1017,7 +843,7 @@ export default SMS_MN_INS_0008_01 =
                                     { label: 'Yes', value: 'Yes', pdf: { x: 18 }, renderValue: true },
                                     { label: 'No', value: 'N0', pdf: { x: 65 }, renderValue: true },
                                 ],
-                                pdf: { 0: [{ y: 0 }] },
+                                pdf: { 5: [{ y: 0 }] },
                                 radio: true,
                                 required: true,
                             },
@@ -1026,36 +852,13 @@ export default SMS_MN_INS_0008_01 =
                                 type: ControlKeys.TextArea,
                                 HeightRows: 2,
                                 label: 'Comments',
-                                pdf: { 0: [{ x: 97, y: 0 }] },
+                                pdf: { 5: [{ x: 97, y: 0 }] },
                             },
                             {
                                 param: 'spacer',
                                 type: ControlKeys.Divider,
                             },
                             ]
-                    },
-                    {
-                        param: 'hygiene_checklist_name_wash',
-                        type: ControlKeys.TextLabel,
-                        value: 'Vehicle wash-down completed',
-                    },
-                    {
-                        param: 'hygiene_checklist_pass_wash',
-                        type: ControlKeys.Spinner,
-                        controls: [
-                            { label: 'Yes', value: 'Yes', pdf: { x: 298 + 18 }, renderValue: true },
-                            { label: 'No', value: 'N0', pdf: { x: 298 + 65 }, renderValue: true },
-                        ],
-                        pdf: { 5: [{ y: 461 }] },
-                        radio: true,
-                        required: true,
-                    },
-                    {
-                        param: 'hygiene_checklist_comments_wash',
-                        type: ControlKeys.TextArea,
-                        HeightRows: 2,
-                        label: 'Comments',
-                        pdf: { 5: [{ x: 298 + 97, y: 461 }] },
                     },
                     ],
             },
@@ -1100,14 +903,14 @@ export default SMS_MN_INS_0008_01 =
                                 param: 'thickness',
                                 type: ControlKeys.TextField,
                                 label: 'New Thickness (mm)',
-                                pdf: { 0: [{ x: 0, y: 0 }] },
+                                pdf: { 7: [{ x: 0, y: 0 }] },
                                 required: true,
                             },
                             {
                                 param: 'worn',
                                 type: ControlKeys.TextField,
                                 label: 'Most Worn Measurement (mm)',
-                                pdf: { 0: [{ x: 100, y: 0 }] },
+                                pdf: { 7: [{ x: 100, y: 0 }] },
                                 required: true,
                             },
                             {
@@ -1132,8 +935,8 @@ export default SMS_MN_INS_0008_01 =
                         param: 'tyre_details_checklist',
                         type: ControlKeys.Looper,
                         setLength: 6,
-                        pdf: { 6: [{ x: 208, y: 378, width: 582, height: 145 }] },
-                        grid: { 6: [{ width: 97, height: 145 }] },
+                        pdf: { 6: [{ x: 208, y: 378, width: 582, height: 145 }, { x: 208, y: 270, width: 582, height: 92 }] },
+                        grid: { 6: [{ width: 97, height: 145 }, { width: 582, height: 15.2 }] },
                         controls:
                             [{
                                 param: 'header',
@@ -1144,106 +947,83 @@ export default SMS_MN_INS_0008_01 =
                                 param: 'size',
                                 type: ControlKeys.TextField,
                                 label: 'Tyre Size',
-                                pdf: { 0: [{ x: 2, y: 132 }] },
+                                pdf: { 6: [{ x: 2, y: 134 }] },
                                 required: true,
                             },
                             {
                                 param: 'brand',
                                 type: ControlKeys.TextField,
                                 label: 'Brand',
-                                pdf: { 0: [{ x: 2, y: 117 }] },
+                                pdf: { 6: [{ x: 2, y: 117 }] },
                                 required: true,
                             },
                             {
                                 param: 'pattern',
                                 type: ControlKeys.TextField,
                                 label: 'Pattern',
-                                pdf: { 0: [{ x: 2, y: 102 }] },
+                                pdf: { 6: [{ x: 2, y: 102 }] },
                                 required: true,
                             },
                             {
                                 param: 'spec',
                                 type: ControlKeys.TextField,
                                 label: 'Spec',
-                                pdf: { 0: [{ x: 2, y: 85 }] },
+                                pdf: { 6: [{ x: 2, y: 85 }] },
                                 required: true,
                             },
                             {
                                 param: 'tread_inner',
                                 type: ControlKeys.TextField,
                                 label: 'Inner Depth (mm)',
-                                pdf: { 0: [{ x: 2, y: 68, width: 45 }] },
+                                pdf: { 6: [{ x: 2, y: 68, width: 45 }] },
                                 required: true,
                             },
                             {
                                 param: 'tread_outer',
                                 type: ControlKeys.TextField,
                                 label: 'Outer Depth (mm)',
-                                pdf: { 0: [{ x: 50, y: 68, width: 47 }] },
+                                pdf: { 6: [{ x: 50, y: 68, width: 47 }] },
                                 required: true,
                             },
                             {
                                 param: 'tread_avg',
                                 type: ControlKeys.TextField,
                                 label: 'Avg. Depth (mm)',
-                                pdf: { 0: [{ x: 2, y: 51 }] },
+                                pdf: { 6: [{ x: 2, y: 51 }] },
                                 required: true,
                             },
                             {
                                 param: 'tyre_sn',
                                 type: ControlKeys.TextField,
                                 label: 'Tyre SN',
-                                pdf: { 0: [{ x: 2, y: 34 }] },
+                                pdf: { 6: [{ x: 2, y: 34 }] },
                                 required: true,
                             },
                             {
                                 param: 'rim_sn',
                                 type: ControlKeys.TextField,
                                 label: 'Rim SN',
-                                pdf: { 0: [{ x: 2, y: 17 }] },
+                                pdf: { 6: [{ x: 2, y: 17 }] },
                                 required: true,
                             },
                             {
                                 param: 'pressure',
                                 type: ControlKeys.TextField,
                                 label: 'Pressure',
-                                pdf: { 0: [{ x: 2, y: 2 }] },
+                                pdf: { 6: [{ x: 2, y: 2 }] },
                                 required: true,
-                            },
-                            {
-                                param: 'spacer',
-                                type: ControlKeys.Divider,
-                            },
-                            ]
-                    },
-                    {
-                        param: 'tyre_issues_header',
-                        type: ControlKeys.Divider,
-                        label: 'Tyre Issues', 
-                    },
-                    {
-                        param: 'tyre_issues_checklist',
-                        type: ControlKeys.Looper,
-                        setLength: 6,
-                        pdf: { 6: [{ x: 208, y: 270, width: 582, height: 92 }] },
-                        grid: { 6: [{ width: 582, height: 15.2 }] },
-                        controls:
-                            [{
-                                param: 'header',
-                                type: ControlKeys.Divider,
-                                label: 'Position {}'
                             },
                             {
                                 param: 'issues',
                                 type: ControlKeys.TextField,
                                 label: 'Issues Found',
-                                pdf: { 0: [{ x: 2, y: 0 }] },
+                                pdf: { 6.1: [{ x: 2, y: 0 }] },
                             },
                             {
                                 param: 'recommend',
                                 type: ControlKeys.TextField,
                                 label: 'Recommendations',
-                                pdf: { 0: [{ x: 293, y: 0 }] },
+                                pdf: { 6.1: [{ x: 293, y: 0 }] },
                             },
                             {
                                 param: 'spacer',
@@ -1265,45 +1045,25 @@ export default SMS_MN_INS_0008_01 =
                     type: ControlKeys.Looper,
                     label: '+ Add Page',
                     pdf: { 'A0[{}]': [{ x: 32, y: 125, width: 532, height: 650 }] },
-                    grid: { 'A0[{}]': [{ width: 532, height: 650 }] },
+                    grid: { 'A0[{}]': [{ width: 260, height: 208, margin: 6 }] },
                     controls: [
                         {
-                            param: 'attachment_page_header',
+                            param: 'attachment_header',
                             type: ControlKeys.Divider,
-                            label: 'Page {}'
+                            label: 'Attachment {}'
                         },
                         {
-                            param: 'attachment_looper',
-                            type: ControlKeys.Looper,
-                            label: '+ Add Attachment',
-                            minLength: 1,
-                            maxLength: 6,
-                            pdf: { 0: [{ x: 0, y: 0, width: 532, height: 650 }] },
-                            grid: { 0: [{ width: 260, height: 208, margin: 6 }] },
-                            controls: [
-                                {
-                                    param: 'attachment_header',
-                                    type: ControlKeys.Divider,
-                                    label: 'Attachment {}'
-                                },
-                                {
-                                    param: 'attachment_attachment_image',
-                                    type: ControlKeys.ImageSelect,
-                                    label: 'Image',
-                                    pdf: { 0: [{ x: 0, y: 88, width: 260, height: 120 }] },
-                                    required: true,
-                                },
-                                {
-                                    param: 'inspection_attachment_comments',
-                                    type: ControlKeys.TextArea,
-                                    label: 'Comments',
-                                    pdf: { 0: [{ x: 0, y: 0, width: 260, height: 85, size: 12 }] },
-                                },
-                            ]
+                            param: 'attachment_attachment_image',
+                            type: ControlKeys.ImageSelect,
+                            label: 'Image',
+                            pdf: { 'A0[{}]': [{ x: 0, y: 88, width: 260, height: 120 }] },
+                            required: true,
                         },
                         {
-                            param: 'inspection_page_footer',
-                            type: ControlKeys.Divider,
+                            param: 'inspection_attachment_comments',
+                            type: ControlKeys.TextArea,
+                            label: 'Comments',
+                            pdf: { 'A0[{}]': [{ x: 0, y: 0, width: 260, height: 85, size: 12 }] },
                         },
                     ],
                 },

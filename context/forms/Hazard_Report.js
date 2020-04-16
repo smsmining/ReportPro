@@ -97,60 +97,40 @@ export default Hazard_Report =
                     param: 'signature',
                     type: ControlKeys.Signature,
                     label: 'Sign',
-                    pdf: { 0: [{ x: 275, y: 127, width: 103, height: 30, size: 14, backgroundColor: "#0000FF" }] },
+                    pdf: { 0: [{ x: 275, y: 127, width: 103, height: 30 }] },
                     required: true,
                 },
             ],
         },
         {
             type: ControlKeys.Tab,
-            label: 'Issues',
-            icon: 'camera',
+            label: 'Actions',
+            icon: 'check-square-o',
             controls: [
                 {
                     param: 'attachment_page',
                     type: ControlKeys.Looper,
-                    label: '+ Add Page',
+                    label: '+ Add Action',
                     pdf: { 'A0[{}]': [{ x: 32, y: 125, width: 532, height: 650 }] },
-                    grid: { 'A0[{}]': [{ width: 532, height: 650 }] },
+                    grid: { 'A0[{}]': [{ width: 260, height: 208, margin: 6 }] },
                     controls: [
                         {
-                            param: 'attachment_page_header',
+                            param: 'attachment_header',
                             type: ControlKeys.Divider,
-                            label: 'Page {}'
+                            label: 'Attachment {}'
                         },
                         {
-                            param: 'attachment_looper',
-                            type: ControlKeys.Looper,
-                            label: '+ Add Attachment',
-                            minLength: 1,
-                            maxLength: 6,
-                            pdf: { 0: [{ x: 0, y: 0, width: 532, height: 650 }] },
-                            grid: { 0: [{ width: 260, height: 208, margin: 6 }] },
-                            controls: [
-                                {
-                                    param: 'attachment_header',
-                                    type: ControlKeys.Divider,
-                                    label: 'Attachment {}'
-                                },
-                                {
-                                    param: 'attachment_attachment_image',
-                                    type: ControlKeys.ImageSelect,
-                                    label: 'Image',
-                                    pdf: { 0: [{ x: 0, y: 88, width: 260, height: 120 }] },
-                                    required: true,
-                                },
-                                {
-                                    param: 'inspection_attachment_comments',
-                                    type: ControlKeys.TextArea,
-                                    label: 'Comments',
-                                    pdf: { 0: [{ x: 0, y: 0, width: 260, height: 85, size: 12 }] },
-                                },
-                            ]
+                            param: 'attachment_attachment_image',
+                            type: ControlKeys.ImageSelect,
+                            label: 'Image',
+                            pdf: { 'A0[{}]': [{ x: 0, y: 88, width: 260, height: 120 }] },
+                            required: true,
                         },
                         {
-                            param: 'inspection_page_footer',
-                            type: ControlKeys.Divider,
+                            param: 'inspection_attachment_comments',
+                            type: ControlKeys.TextArea,
+                            label: 'Comments',
+                            pdf: { 'A0[{}]': [{ x: 0, y: 0, width: 260, height: 85, size: 12 }] },
                         },
                     ],
                 },

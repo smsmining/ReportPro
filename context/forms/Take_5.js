@@ -11,7 +11,6 @@ export default Take_5 =
     version: 'TAKE5_001',
     tabs: [
         {
-            id: '1',
             type: ControlKeys.Tab,
             label: 'Details',
             icon: 'edit',
@@ -465,66 +464,45 @@ export default Take_5 =
             ],
         },
         {
-            id: '2',
             type: ControlKeys.Tab,
             label: 'Actions',
             icon: 'check-square-o',
             controls: [
                 {
-                    param: 'action_page',
+                    param: 'attachment_page',
                     type: ControlKeys.Looper,
-                    label: '+ Add Page',
+                    label: '+ Add Action',
                     pdf: { 'A0[{}]': [{ x: 39, y: 59, width: 344, height: 450 }] },
-                    grid: { 'A0[{}]': [{ width: 343, height: 450 }] },
+                    grid: { 'A0[{}]': [{ width: 341, height: 27, margin: 1.375 }] },
                     controls: [
                         {
-                            param: 'action_page_header',
+                            param: 'action_header',
                             type: ControlKeys.Divider,
-                            label: 'Page {}'
+                            label: 'Action {}'
                         },
                         {
-                            param: 'action_looper',
-                            type: ControlKeys.Looper,
-                            label: '+ Add Action',
-                            minLength: 1,
-                            maxLength: 16,
-                            pdf: { 0: [{ x: 0, y: 0, width: 342, height: 450 }] },
-                            grid: { 0: [{ width: 341, height: 27, margin: 1.375 }] },
-                            controls: [
-                                {
-                                    param: 'action_header',
-                                    type: ControlKeys.Divider,
-                                    label: 'Action {}'
-                                },
-                                {
-                                    param: 'action_hazard',
-                                    type: ControlKeys.TextArea,
-                                    HeightRows: 2,
-                                    label: 'Hazard',
-                                    pdf: { 0: [{ x: 0, y: 0, width: 110, height: 25, size: 10 }] },
-                                    required: true,
-                                },
-                                {
-                                    param: 'action_control',
-                                    type: ControlKeys.TextArea,
-                                    HeightRows: 2,
-                                    label: 'Control',
-                                    pdf: { 0: [{ x: 115, y: 0, width: 110, height: 25, size: 10 }] },
-                                    required: true,
-                                },
-                                {
-                                    param: 'action_risk',
-                                    type: ControlKeys.TextArea,
-                                    HeightRows: 2,
-                                    label: 'Risk',
-                                    pdf: { 0: [{ x: 230, y: 0, width: 110, height: 25, size: 10 }] },
-                                    required: true,
-                                },
-                            ]
+                            param: 'action_hazard',
+                            type: ControlKeys.TextArea,
+                            HeightRows: 2,
+                            label: 'Hazard',
+                            pdf: { 'A0[{}]': [{ x: 0, y: 0, width: 110, height: 25, size: 10 }] },
+                            required: true,
                         },
                         {
-                            param: 'action_footer',
-                            type: ControlKeys.Divider,
+                            param: 'action_control',
+                            type: ControlKeys.TextArea,
+                            HeightRows: 2,
+                            label: 'Control',
+                            pdf: { 'A0[{}]': [{ x: 115, y: 0, width: 110, height: 25, size: 10 }] },
+                            required: true,
+                        },
+                        {
+                            param: 'action_risk',
+                            type: ControlKeys.TextArea,
+                            HeightRows: 2,
+                            label: 'Risk',
+                            pdf: { 'A0[{}]': [{ x: 230, y: 0, width: 110, height: 25, size: 10 }] },
+                            required: true,
                         },
                     ],
                 },

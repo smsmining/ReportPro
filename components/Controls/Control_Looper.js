@@ -108,7 +108,7 @@ export default class Control_looper extends React.Component
         const length = (value && value.length) || setLength || minLength || 0;
         for (let i = 0; i < length; i++)
         {
-            const loop = (value && value[i]) || {};
+            let loop = (value && value[i]) || {};
 
             let renderControls = jsonHelper.Clone(controls);
             if (controls)

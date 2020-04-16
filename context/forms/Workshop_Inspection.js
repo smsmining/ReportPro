@@ -8,7 +8,6 @@ export default Workshop_Inspection =
     version: '0.0.1',
     tabs: [
         {
-            id: '1',
             label: 'Details',
             icon: 'edit',
             type: ControlKeys.Tab,
@@ -64,7 +63,6 @@ export default Workshop_Inspection =
             ],
         },
         {
-            id: '2',
             label: 'Checklist',
             icon: 'check-square-o',
             type: ControlKeys.Tab,
@@ -79,91 +77,67 @@ export default Workshop_Inspection =
                     type: ControlKeys.Looper,
                     setLength: 24,
                     value:
-                        [{ 'checklist_name': 'Are fire extinguishers accessible and clear to remove?' }
-                            , { 'checklist_name': 'Are fire extinguishers in serviceable condition?' }
-                            , { 'checklist_name': 'Is all signage clean and visible?' }
-                            , { 'checklist_name': 'Are all oxy-acetylene bottles stored in an upright position and secured?' }
-                            , { 'checklist_name': 'Are all oxy-acetylene hoses in good condition?' }
-                            , { 'checklist_name': 'Are flashback arrestors fitted to all oxy and acetylene kits?' }
-                            , { 'checklist_name': 'Is gas storage secure and stored as per racking requirements?' }
-                            , { 'checklist_name': 'Are all workshop tools in a safe and serviceable condition?' }
-                            , { 'checklist_name': 'Are dangerous goods stored in appropriate cupboards?' }
-                            , { 'checklist_name': 'Lighting is operational and suitable?' }
-                            , { 'checklist_name': 'Are spill kits in place with correct quantities of spill response equipment and locked?' }
-                            , { 'checklist_name': 'Are spill response kits free from rubbish e.g. oily rags cardboard material?' }
-                            , { 'checklist_name': 'Are work benches tidy and free of clutter?' }
-                            , { 'checklist_name': 'All storage pods are stored in appropriate bunded areas?' }
-                            , { 'checklist_name': 'Is there any evidence of oil spillage in the work area?' }
-                            , { 'checklist_name': 'Is the workshop floor clean and clear of trip hazards including rubbish?' }
-                            , { 'checklist_name': 'Are emergency eyewash / shower(s) tested and is access unobstructed?' }
-                            , { 'checklist_name': 'Are all hoses wound up and stored correctly?' }
-                            , { 'checklist_name': 'Are the storage containers clean and clear of trip hazards?' }
-                            , { 'checklist_name': 'Are machine guards in place and fitted with an E-Stop e.g. pedestal grinder(s)?' }
-                            , { 'checklist_name': 'Are Safety Data Sheets (SDS) available and in date?' }
-                            , { 'checklist_name': 'Is the overall condition of the workshop areas satisfactory?' }
-                            , { 'checklist_name': 'Is PPE available in all areas needed?' }
+                        [{ 'name': 'Are fire extinguishers accessible and clear to remove?' }
+                        , { 'name': 'Are fire extinguishers in serviceable condition?' }
+                        , { 'name': 'Is all signage clean and visible?' }
+                        , { 'name': 'Are all oxy-acetylene bottles stored in an upright position and secured?' }
+                        , { 'name': 'Are all oxy-acetylene hoses in good condition?' }
+                        , { 'name': 'Are flashback arrestors fitted to all oxy and acetylene kits?' }
+                        , { 'name': 'Is gas storage secure and stored as per racking requirements?' }
+                        , { 'name': 'Are all workshop tools in a safe and serviceable condition?' }
+                        , { 'name': 'Are dangerous goods stored in appropriate cupboards?' }
+                        , { 'name': 'Lighting is operational and suitable?' }
+                        , { 'name': 'Are spill kits in place with correct quantities of spill response equipment and locked?' }
+                        , { 'name': 'Are spill response kits free from rubbish e.g. oily rags cardboard material?' }
+                        , { 'name': 'Are work benches tidy and free of clutter?' }
+                        , { 'name': 'All storage pods are stored in appropriate bunded areas?' }
+                        , { 'name': 'Is there any evidence of oil spillage in the work area?' }
+                        , { 'name': 'Is the workshop floor clean and clear of trip hazards including rubbish?' }
+                        , { 'name': 'Are emergency eyewash / shower(s) tested and is access unobstructed?' }
+                        , { 'name': 'Are all hoses wound up and stored correctly?' }
+                        , { 'name': 'Are the storage containers clean and clear of trip hazards?' }
+                        , { 'name': 'Are machine guards in place and fitted with an E-Stop e.g. pedestal grinder(s)?' }
+                        , { 'name': 'Are Safety Data Sheets (SDS) available and in date?' }
+                        , { 'name': 'Is the overall condition of the workshop areas satisfactory?' }
+                        , { 'name': 'Is PPE available in all areas needed?' }
+                        , { 'name': 'Check Waste Oil Tank Level?', 'litres': { hidden: false } }
                         ],
-                    pdf: { 0: [{ x: 449, y: 263, width: 107, height: 459 }] },
-                    grid: { 0: [{ width: 100, height: 20 }] },
+                    pdf: { 0: [{ x: 365, y: 243, width: 200, height: 480 }] },
+                    grid: { 0: [{ width: 200, height: 20 }] },
                     controls:
                         [{
-                            param: 'checklist_name',
+                            param: 'name',
                             type: ControlKeys.TextLabel,
-                            label: 'Inspection',
                         },
                         {
-                            param: 'checklist_selector',
+                            param: 'litres',
+                            type: ControlKeys.TextField,
+                            label: 'Litres',
+                            keyboardType: 'phone-pad',
+                            pdf: { 0: [{ x: 0, y: 6, width: 80 }] },
+                            hidden: true
+                        },
+                        {
+                            param: 'selector',
                             type: ControlKeys.Spinner,
-                            label: 'safety condition',
                             controls: [
-                                {label: 'Safe', value: 'Safe', pdf: { x: 14 }, renderValue: true },
-                                {label: 'At Risk', value: 'At Risk', pdf: { x: 49 }, renderValue: true },
-                                {label: 'N/A', value: 'N/A', pdf: { x: 85 }, renderValue: true },
+                                {label: 'Safe', value: 'Safe', pdf: { x: 98 }, renderValue: true },
+                                {label: 'At Risk', value: 'At Risk', pdf: { x: 133 }, renderValue: true },
+                                {label: 'N/A', value: 'N/A', pdf: { x: 169 }, renderValue: true },
                             ],
                             pdf: { 0: [{ y: 6 }] },
                             radio: true,
                             required: true,
                         },
                         {
-                            param: 'checklist_spacer',
+                            param: 'spacer',
                             type: ControlKeys.Divider,
                         },
                         ]
                 },
-                {
-                    param: 'checklist_oiltank_name',
-                    type: ControlKeys.TextLabel,
-                    label: 'Inspection',
-                    value: 'Check Waste Oil Tank Level?',
-                },
-                {
-                    param: 'checklist_oiltank_litres',
-                    type: ControlKeys.TextField,
-                    label: 'Litres',
-                    keyboardType: 'phone-pad',
-                    pdf: { 0: [{ x: 365, y: 248, width: 80, height: 15 }] },
-                },
-                {
-                    param: 'checklist_oiltank_selector',
-                    type: ControlKeys.Spinner,
-                    label: 'safety condition',
-                    controls: [
-                        { label: 'Safe', value: 'Safe', pdf: { x: 463 }, renderValue: true },
-                        { label: 'At Risk', value: 'At Risk', pdf: { x: 498 }, renderValue: true },
-                        { label: 'N/A', value: 'N/A', pdf: { x: 534 }, renderValue: true },
-                    ],
-                    pdf: { 0: [{ y: 249, width: 100, height: 15 }] },
-                    radio: true,
-                    required: true,
-                },
-                {
-                    param: 'checklist_oiltank_spacer',
-                    type: ControlKeys.Divider,
-                },
             ],
         },
         {
-            id: '3',
             label: 'Signoff',
             icon: 'user-o',
             type: ControlKeys.Tab,
