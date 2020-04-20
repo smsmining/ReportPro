@@ -318,7 +318,7 @@ export default class ExportPDF
     PrintLayout = async (layout, onUpdate, onSucceed) =>
     {
         writeFile = new PDFDraw();
-        await writeFile.Clone(this._guid, this._formConfig.pdfname); 
+        await writeFile.Clone(this._guid); 
 
         let appendix = {};
         let maxPage = 0;
@@ -382,12 +382,12 @@ export default class ExportPDF
         }
 
         onUpdate();
-        await writeFile.Apply();
+        let path = await writeFile.Apply(this._formConfig.pdfname);
 
         if (onSucceed)
-            return onSucceed(writeFile.path);
+            return onSucceed(path);
 
-        return writeFile.path;
+        return path;
     }
 
     PrintLayoutElement = async (doc, draw) =>

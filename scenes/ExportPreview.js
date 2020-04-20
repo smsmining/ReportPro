@@ -10,7 +10,7 @@ import PDFDisplay from '../components/PDFDisplay';
 import PageLayout from '../components/Layout/PageLayout';
 import { GeneralAlertDialog } from '../components/Alerts';
 import { Scenes } from '../scenes';
-
+import { Zip } from '../utils/Storage';
 
 export default class PDF extends React.Component
 {
@@ -54,15 +54,17 @@ export default class PDF extends React.Component
         const { pdfPath } = this.state;
 
         let intentTitle = pdfPath.substring(pdfPath.lastIndexOf('/') + 1, pdfPath.length - 4);
+        let zipPath = await Zip(pdfPath);
 
         try {
             await Share.open(
                 {title: intentTitle
-                ,url: "file://" + pdfPath
-                ,type: 'application/pdf'
+                ,url: zipPath
+                ,type: 'application/zip'
                 });
 
-            Actions.popTo(Scenes.ControlForm, this.props.onChange());
+            this.props.onChange();
+            Actions.popTo(Scenes.ControlForm);
           }
         catch (e) {
             GeneralAlertDialog

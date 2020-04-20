@@ -1,21 +1,11 @@
 import { PDFDocument, StandardFonts, rgb } from 'pdf-lib';
 import fontkit from '@pdf-lib/fontkit';
+import ImageResizer from 'react-native-image-resizer';
 
 import { StoragePermission } from './Permission';
-import { Write, Read, Output, Asset } from './Storage';
+import { Write, Read, Asset, Temp } from './Storage';
 
-const Hash = (string) =>
-{
-    let hash = 0, i, chr;
-    if (string.length === 0) return hash;
-    for (i = 0; i < string.length; i++)
-    {
-        chr = string.charCodeAt(i);
-        hash = ((hash << 5) - hash) + chr;
-        hash |= 0;
-    }
-    return hash;
-};
+const MAX_SCALING = 5;
 
 export default class PDFDraw
 {
@@ -41,9 +31,7 @@ export default class PDFDraw
     _appendix;
     _page;
 
-    path;
-
-    Clone = async (guid, filename, onSuccess) =>
+    Clone = async (guid, onSuccess) =>
     {
         let hasPermission = await StoragePermission();
         if (!hasPermission)
@@ -54,7 +42,6 @@ export default class PDFDraw
 
         this._guid = guid;
 
-        this.path = Output + this._guid + '/' + filename + ".pdf";
         const rawTemplate = await Read(Asset + this._guid + '/' + 'template.pdf', 'base64');
 
         this._document = await PDFDocument.load(rawTemplate);
@@ -109,56 +96,20 @@ export default class PDFDraw
         this._page.drawRectangle(style);
     }
 
-    _cachedImages;
     DrawImage = async (content, style) =>
     {
         if (!this._page || !content || !style)
             return;
 
-        if (!this._cachedImages)
-            this._cachedImages = [];
-
-        let hash = Hash(content.uri);
-        let image = this._cachedImages.find(chachedImage => chachedImage.hash == hash);
-        if (!image)
-        {
-            let imageData = content.uri;
-            let imageType = '';
-
-            const isBase = /^data:image\/([a-zA-Z]+);base64,.+/g.exec(imageData);
-            if(isBase)
-            {
-                 imageData = imageData.replace('data:image/' + isBase[1] + ';base64,', '').replace(/\n/g, '');
-                 imageType = isBase[1];
-            }
-            else
-            {
-                const imagePath = content.uri.substr(content.uri.indexOf('/storage'));
-
-                imageData = await Read(imagePath, 'base64');
-                imageType = imagePath.substring(imagePath.lastIndexOf('.') + 1);
-            }
-
-            let imageEmbed;
-            if ('png' == imageType)
-                imageEmbed = await this._document.embedPng(imageData);
-            else if (['jpg', 'jpeg'].includes(imageType))
-                imageEmbed = await this._document.embedJpg(imageData);
-            else
-                return console.log("Unknown image type: " + imageType);
-
-            image = { path: content.uri, embed: imageEmbed, hash: hash };
-            this._cachedImages.push(image);
-        }
-
         let renderstyle = { ...style };
 
         const ratio = content.width / content.height;
-        if (style.width > style.height)
+        const orientation = style.width > style.height ? 'l' : 'p';
+        if (orientation === 'l')
         {
             renderstyle.height = style.width / ratio;
 
-            const shrink = style.height / renderstyle.height;
+            let shrink = style.height / renderstyle.height;
             renderstyle.width *= shrink;
             renderstyle.height *= shrink;
         }
@@ -166,16 +117,52 @@ export default class PDFDraw
         {
             renderstyle.width = style.height * ratio;
 
-            const shrink = style.width / renderstyle.width;
+            let shrink = style.width / renderstyle.width;
             renderstyle.width *= shrink;
             renderstyle.height *= shrink;
         }
 
+
+        let imageData = content.uri;
+        let imageType = '';
+
+        const isBase = /^data:image\/([a-zA-Z]+);base64,.+/g.exec(imageData);
+        if(isBase)
+        {
+            imageType = isBase[1].toLowerCase().replace('jpg', 'jpeg');
+            imageData = imageData.replace(isBase[1], imageType).replace(/\n/g, '');
+        }
+        else
+        {
+            const imagePath = content.uri.substr(content.uri.indexOf('/storage'));
+            imageType = imagePath.substring(imagePath.lastIndexOf('.') + 1).toLowerCase().replace('jpg', 'jpeg');
+            imageData = 'data:image/' + imageType + ';base64,' + await Read(imagePath, 'base64');
+        }
+
+        if (imageType !== 'png' && imageType !== 'jpeg')
+            return console.log("Unknown image type: " + imageType);
+
+        if (MAX_SCALING)
+        {
+            let scale = Math.min(Math.max(content.width / renderstyle.width, 1), MAX_SCALING);
+            let sizedImage = await ImageResizer.createResizedImage(imageData, renderstyle.width * scale, renderstyle.height * scale, imageType.toUpperCase(), 100);
+            imageData = await Read(sizedImage.uri, 'base64');
+        }
+        else
+            imageData = imageData.replace('data:image/' + imageType + ';base64,', '');
+        
+
+        let imageEmbed;
+        if (imageType === 'png')
+            imageEmbed = await this._document.embedPng(imageData);
+        else
+            imageEmbed = await this._document.embedJpg(imageData);
+        
         renderstyle.x += (style.width - renderstyle.width) / 2;
         renderstyle.y += (style.height - renderstyle.height) / 2;
 
         await this._page.drawImage
-            (image.embed
+            (imageEmbed
             ,renderstyle
             );
     }
@@ -292,12 +279,12 @@ export default class PDFDraw
         }
     }
 
-    Apply = async () =>
+    Apply = async (filename) =>
     {
-        if (!this.path)
-            return;
+        const path = await Temp() + filename + ".pdf";
 
         let saveBytes64 = await this._document.saveAsBase64();
-        await Write(this.path, saveBytes64, 'base64');
+        await Write(path, saveBytes64, 'base64');
+        return path;
     };
 }
