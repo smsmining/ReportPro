@@ -127,57 +127,18 @@ export default class RulesEngine extends React.Component
 
 
     ruleTick = null;
-
     onChange = (value, param) =>
     {
-        const { onChange, onSet, database } = this.props;
+        this.ruleTick = { dirty: {}, pending: [{ param: param, value: value }] };
+        this.handleEvents();
+    }
 
-        let facts = this.getFacts();
-        let fact = facts.find(f => f.param === param) || {};
-
-        let row = null;
-        if (fact.db && database)
-        {
-            const dbColumn = fact.db.column || param;
-            row = database[fact.db.table].find(r => r[dbColumn] && r[dbColumn] === value);
-        }
-
-        if (row)
-        {
-            let dirty = {};
-            for (let [dbParam, dbValue] of Object.entries(row))
-                if (dbValue !== undefined && dbValue != null)
-                {
-                    facts[dbParam] = { ...facts[dbParam], value: dbValue };
-                    dirty[dbParam] = { value: dbValue };
-                } 
-
-            if (!this.engine || fact.value === value)
-                return onSet(dirty);
-
-            this.ruleTick = { dirty: dirty, pending: [] };
-        }
-        else
-        {
-            if (!this.engine || fact.value === value)
-                return onChange(value, param);
-
-            facts[param] = { ...fact, value: value };
-            this.ruleTick = { dirty: { [param]: { value: value } }, pending: [] };
-        }
-
-        this.engine.run(this.toValueFacts(facts)).then(() =>
-        {
-            if (this.ruleTick.pending.length)
-                return this.handleEvents();
-
-            if (Object.keys(this.ruleTick.dirty) === 1)
-                onChange(value, param);
-            else
-                return onSet(this.ruleTick.dirty);
-
-            this.ruleTick = null;
-        });
+    onSet = (data) =>
+    {
+        this.ruleTick = { dirty: {}, pending: [] };
+        for (let [key, value] of Object.entries(data))
+            this.ruleTick.pending.push({ ...value, param: key });
+        this.handleEvents();
     }
 
     handleSuccess = (event) =>
@@ -192,9 +153,17 @@ export default class RulesEngine extends React.Component
         this.ruleTick.pending = this.ruleTick.pending.concat(event.params.failure);
     }
 
+    hasFactChanged = (fact, event) =>
+    {
+        for (let [key, value] of Object.entries(event))
+            if (key !== 'param' && fact[key] !== value)
+                return true;
+        return false;
+    }
+
     handleEvents = () =>
     {
-        const { onSet } = this.props;
+        const { onChange, onSet, database } = this.props;
 
         let facts = this.getFacts();
         for (let [key, value] of Object.entries(this.ruleTick.dirty))
@@ -208,23 +177,45 @@ export default class RulesEngine extends React.Component
             const param = event.param;
             if (param)
             {
-                const fact = facts[param] || {};
-                for (let [key, value] of Object.entries(event))
-                {
-                    if (key === 'param' || fact[key] === value)
-                        continue;
+                const fact = facts.find(f => f.param === param) || {};
 
-                    facts[param] = { ...fact, ...event };
-                    delete facts[param].param;
+                if (!this.hasFactChanged(fact, event))
+                    continue;
 
-                    this.ruleTick.dirty[param] = { ...this.ruleTick.dirty[param], ...event };
-                    delete this.ruleTick.dirty[param].param;
+                facts[param] = { ...fact, ...event };
+                delete facts[param].param;
 
-                    dirty |= 'value' in event && fact.value !== event.value;
-                    break;
-                }
+                this.ruleTick.dirty[param] = { ...this.ruleTick.dirty[param], ...event };
+                delete this.ruleTick.dirty[param].param;
 
-                break;
+                const valueChanged = 'value' in event && fact.value !== event.value;
+                dirty |= valueChanged;
+
+
+                if (!valueChanged || !fact.db || !database)
+                    continue;
+
+                const dbColumn = fact.db.column || param;
+                const dbTable = database[fact.db.table];
+
+                if (!dbTable)
+                    continue;
+
+                const row = database[fact.db.table].find(r => r[dbColumn] && r[dbColumn] === event.value);
+
+                if (!row)
+                    continue;
+
+                for (let [dbParam, dbValue] of Object.entries(row))
+                    if (dbValue !== undefined && dbValue != null)
+                    {
+                        const dbFact = facts.find(f => f.param === dbParam) || {};
+
+                        facts[dbParam] = { ...dbFact, value: dbValue };
+                        this.ruleTick.dirty[dbParam] = { ...this.ruleTick.dirty[dbParam], value: dbValue };
+
+                        dirty |= dbFact.value !== dbValue;
+                    }
             }
 
             const alert = event.alert;
@@ -237,7 +228,7 @@ export default class RulesEngine extends React.Component
             }
         }
 
-        if (dirty)
+        if (dirty && this.engine)
         {
             this.ruleTick.pending = [];
             return this.engine.run(this.toValueFacts(facts)).then(this.handleEvents);
@@ -248,7 +239,7 @@ export default class RulesEngine extends React.Component
     }
 
 
-    renderChild = (child) => React.cloneElement(child, { onChange: this.onChange, onSet: this.props.onSet });
+    renderChild = (child) => React.cloneElement(child, { onChange: this.onChange, onSet: this.onSet });
     render()
     {
         return this.props.children

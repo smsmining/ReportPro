@@ -260,9 +260,6 @@ export default class ExportPDF
         if (renderValue === null || renderValue === undefined)
             return;
 
-        if (typeof renderValue === 'object' && renderValue.manual)
-            renderValue = renderValue.value;
-
         if (type == ControlKeys.CheckBox)
             renderValue = !(!renderValue);
 

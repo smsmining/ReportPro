@@ -34,7 +34,7 @@ export default class Control_Spinner extends React.Component
 
     render()
     {
-        const { value, param, onChange, controls, db, database, radio, disabled } = this.props;
+        const { value, param, manual, onSet, controls, db, database, radio, disabled } = this.props;
 
         if (!controls && !db)
             return (
@@ -63,25 +63,27 @@ export default class Control_Spinner extends React.Component
             renderControls = renderControls.concat(renderDb);
         }
 
-        let renderValue = value;
         let renderManual = null;
-        if (value && typeof value === 'object' && value.manual)
+        if (manual || (value && !renderControls.find(c => c.value === value)))
         {
             const selected = renderControls.find(c => c.manual);
-            selected.value = value.value;
-            renderValue = value.value;
+            if (selected)
+                selected.value = value;
+            else
+                renderControls.push({ label: 'Manual Entry', value: value });
+
             renderManual = (
                 <Input
                     placeholder="Type Here"
-                    value={renderValue}
-                    onChangeText={(newValue) => onChange({ manual: true, value: newValue }, param)}
+                    value={value}
+                    onChangeText={(newValue) => onSet({ [param]: { value: newValue, manual: true } })}
                     disabled={disabled}
                     style={HighlightStyles.maintain}
                 />);
         }
         else if (!radio)
         {
-            const selected = renderControls.find(c => renderValue === c.value);
+            const selected = renderControls.find(c => value === c.value);
             if (!selected)
                 renderControls.unshift({label: ""});
         }
@@ -89,10 +91,7 @@ export default class Control_Spinner extends React.Component
         const onItemChange = (newValue) =>
         {
             const selected = renderControls && renderControls.find(c => c.value === newValue);
-            onChange(
-                 selected.manual ? { manual: true, value: newValue } : newValue
-                ,param
-                );
+            onSet({ [param]: { value: newValue, manual: selected.manual } })
         }
 
         if (radio)
@@ -101,7 +100,7 @@ export default class Control_Spinner extends React.Component
                     <List dataArray={renderControls} horizontal
                         renderRow={(option) =>
                             <ListItem key={option.value} style={{ borderBottomWidth: 0, marginLeft: 0, paddingLeft: 0 }}>
-                                <CheckBox checked={renderValue === option.value} color={ReportColors.primary} onPress={() => onItemChange(option.value)} disabled={disabled}/>
+                                <CheckBox checked={value === option.value} color={ReportColors.primary} onPress={() => onItemChange(option.value)} disabled={disabled}/>
                                 <Body>
                                     <Text>{option.label}</Text>
                                 </Body>
@@ -115,7 +114,7 @@ export default class Control_Spinner extends React.Component
                 <Picker
                     mode="dropdown"
                     Icon={<Icon name="arrow-down" />}
-                    selectedValue={renderValue}
+                    selectedValue={value}
                     onValueChange={onItemChange}
                     style={HighlightStyles.maintain}
                     enabled={!disabled}
