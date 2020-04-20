@@ -14,7 +14,7 @@ export default class Control_TextField extends React.Component
         return (
             <InlineLabelItem {...this.props} height={52}>
                 <Input
-                    value={this.props.value}
+                    value={this.props.value && this.props.value.toString()}
                     onChangeText={text => this.props.onChange((text && text.length) ? text : null, this.props.param)}
                     maxLength={this.props.maxLength}
                     placeholder={this.props.placeholder}

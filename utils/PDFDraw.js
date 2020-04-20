@@ -186,6 +186,8 @@ export default class PDFDraw
         if (!this._page || !content || !style)
             return;
 
+        const renderContent = content.toString();
+
         if (!this._cachedFonts)
             this._cachedFonts = [];
 
@@ -210,10 +212,10 @@ export default class PDFDraw
         if (style.height && style.height > textHeight)
             textY = style.y + style.height - textHeight;
 
-        const textW = font.embed.widthOfTextAtSize(content, style.size || 12);
+        const textW = font.embed.widthOfTextAtSize(renderContent, style.size || 12);
         if (!style.width || style.width > textW)
             return this._page.drawText
-                (content
+                (renderContent
                 ,{size: 12
                 ,...style
                 ,y: textY
@@ -221,7 +223,7 @@ export default class PDFDraw
                 });
 
         let i = 0;
-        let words = content.split(' ');
+        let words = renderContent.split(' ');
         while (i < words.length)
         {
             let line = words.slice(0, i + 1).join(' ');
@@ -246,7 +248,7 @@ export default class PDFDraw
             {
                 let word = words[0];
                 if (font.embed.widthOfTextAtSize(word.charAt(0), style.size || 12) > style.width)
-                    throw "Cannot fit text in width [" + style.width + "; '" + content + "':'" + word + "']";
+                    throw "Cannot fit text in width [" + style.width + "; '" + renderContent + "':'" + word + "']";
 
                 for (let j = 1; j < word.length; j++)
                 {
