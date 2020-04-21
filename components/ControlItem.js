@@ -68,13 +68,17 @@ const ShouldDBUpdate = (props, newProps) =>
     if (!props.db && !newProps.db)  return false;
     if (!props.db || !newProps.db)  return true;
 
+    if (!props.database && !newProps.database) return false;
+    if (!props.database || !newProps.database) return true;
+
     const oldColumn = props.db.column || props.db.param;
     const newColumn = newProps.db.column || newProps.db.param;
     if (oldColumn !== newColumn)    return true;
 
-    if (props.db.table !== newProps.db.table)   return true;
-    let oldTable = props.database[props.tb.table];
-    let newTable = newProps.database[newProps.tb.table];
+    if (props.db.table !== newProps.db.table) return true;
+
+    let oldTable = props.database[props.db.table];
+    let newTable = newProps.database[newProps.db.table];
 
     if (!oldTable && !newTable)     return false;
     if (!oldTable || !newTable)     return true;

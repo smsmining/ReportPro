@@ -123,7 +123,7 @@ export default class ImportModel extends React.Component
         if (!entities || !entities.length)
             return;
 
-        const entity = entities.find(e => e[entityKey] === value);
+        const entity = entities.find(e => e[entityKey] === value[entityKey].value);
         this.testDirty(() => this.setState({ entityKey: entity && entity[entityKey], entity: entity, highlightRequired: false, dirty: false }));
     }
 
@@ -189,7 +189,7 @@ export default class ImportModel extends React.Component
                     param={this.props.entityKey}
                     label={'Edit' + (this.props.label ? " " + this.props.label : "")}
                     value={entityKey}
-                    onChange={this.onSelect}
+                    onSet={this.onSelect}
                     db={{ table: this.props.param }}
                     database={{ [this.props.param]: entities }}
                     dirty={this.props.dirty}
