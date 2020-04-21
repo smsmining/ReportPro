@@ -63,16 +63,35 @@ export default ControlItem = (props) =>
     return (<Text style={styles.center}>WARNING: Unknown control type</Text>);
 };
 
-export const ShouldUpdate = (props, newProps) => (
-    newProps.dirty
+const ShouldDBUpdate = (props, newProps) =>
+{
+    if (!props.db && !newProps.db)  return false;
+    if (!props.db || !newProps.db)  return true;
 
-||  newProps.label ^ props.label
+    const oldColumn = props.db.column || props.db.param;
+    const newColumn = newProps.db.column || newProps.db.param;
+    if (oldColumn !== newColumn)    return true;
+
+    if (props.db.table !== newProps.db.table)   return true;
+    let oldTable = props.database[props.tb.table];
+    let newTable = newProps.database[newProps.tb.table];
+
+    if (!oldTable && !newTable)     return false;
+    if (!oldTable || !newTable)     return true;
+
+    return oldTable.length !== newTable.length;
+}
+
+export const ShouldUpdate = (props, newProps) => (
+    newProps.label ^ props.label
 ||  newProps.label !== props.label
 
 ||  newProps.value ^ props.value
 
 ||  newProps.required ^ props.required
 ||  newProps.highlightRequired ^ props.highlightRequired
+
+||  ShouldDBUpdate(props, newProps)
 )
 
 export const ShouldUpdateForDate = (props, newProps) => (

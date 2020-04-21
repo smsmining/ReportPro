@@ -162,7 +162,7 @@ export default class ControlForm extends React.Component
     clearInstanceValue = () => this.setState({ instance: null, dirty: true });
 
     setInstanceValue = (value, param) => this.setState({ instance: { ...this.state.instance, [param]: { ...(this.state.instance || {})[param], value: value } } });
-    setInstance = (values) =>
+    setInstance = (values, dirty) =>
     {
         const { instance } = this.state;
 
@@ -173,7 +173,7 @@ export default class ControlForm extends React.Component
         for (let [key, value] of Object.entries(values))
             result[key] = { ...result[key], ...value };
 
-        this.setState({ instance: result, dirty: true });
+        this.setState({ instance: result, dirty: dirty });
     }
 
     missingRequired = {};

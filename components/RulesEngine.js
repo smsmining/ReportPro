@@ -129,13 +129,13 @@ export default class RulesEngine extends React.Component
     ruleTick = null;
     onChange = (value, param) =>
     {
-        this.ruleTick = { dirty: {}, pending: [{ param: param, value: value }] };
+        this.ruleTick = { dirty: {}, pending: [{ param: param, value: value }], extendedDirty: false };
         this.handleEvents();
     }
 
-    onSet = (data) =>
+    onSet = (data, extendedDirty) =>
     {
-        this.ruleTick = { dirty: {}, pending: [] };
+        this.ruleTick = { dirty: {}, pending: [], extendedDirty: extendedDirty };
         for (let [key, value] of Object.entries(data))
             this.ruleTick.pending.push({ ...value, param: key });
         this.handleEvents();
@@ -163,7 +163,7 @@ export default class RulesEngine extends React.Component
 
     handleEvents = () =>
     {
-        const { onChange, onSet, database } = this.props;
+        const { onSet, database } = this.props;
 
         let facts = this.getFacts();
         for (let [key, value] of Object.entries(this.ruleTick.dirty))
@@ -190,7 +190,8 @@ export default class RulesEngine extends React.Component
 
                 const valueChanged = 'value' in event && fact.value !== event.value;
                 dirty |= valueChanged;
-
+                if (!this.nested.find(c => c.param === param))
+                    this.ruleTick.extendedDirty = true;
 
                 if (!valueChanged || !fact.db || !database)
                     continue;
@@ -234,7 +235,7 @@ export default class RulesEngine extends React.Component
             return this.engine.run(this.toValueFacts(facts)).then(this.handleEvents);
         }
 
-        onSet(this.ruleTick.dirty);
+        onSet(this.ruleTick.dirty, this.ruleTick.extendedDirty);
         this.ruleTick = null;
     }
 
