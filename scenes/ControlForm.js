@@ -29,12 +29,14 @@ export default class ControlForm extends React.Component
         ,navigation: -1
 
         ,instance: null
+        ,database: null
+
         ,dirty: false
         ,highlightRequired: false
 
         ,loading: false
         ,hasSaved: null
-        ,database: null
+        ,isTracking: false
         };
 
     componentDidMount() { this.loadForm(); }
@@ -113,34 +115,33 @@ export default class ControlForm extends React.Component
 
     onSave = () =>
     {
-        const { hasSaved } = this.state;
-
-        if (hasSaved)
+        if (this.state.hasSaved && !this.state.isTracking)
             GeneralAlertDialog
                 ("Save Form"
                 ,"If you proceed you will override any saved progress"
-                ,this.onSaveCall
+                ,() => this.onSaveCall(this.onSaveAlert)
             );
         else
-            this.onSaveCall();
+            this.onSaveCall(this.onSaveAlert);
     }
 
-    onSaveCall = () => Forms.SaveInstance
+    onSaveAlert = () => this.setState({ hasSaved: true, isTracking: true }, () => MessageAlert("Save Form", "Saved Successfully.\nChanges will now be autosaved.")); 
+    onSaveCall = (callback) => Forms.SaveInstance
         (this.props.guid + INSTANCE_VERSION
         ,this.state.instance
-        ,() => { this.setState({ hasSaved: true }); MessageAlert("Save Form", "Saved Successfully") }
+        ,callback
         );
 
     onLoad = () => GeneralAlertDialog
         ("Load Form"
         ,"If you proceed you will loose any unsaved progress"
-        ,() => Forms.LoadInstance(this.props.guid + INSTANCE_VERSION, result => this.setState({ instance: result, dirty: true }))
+        ,() => Forms.LoadInstance(this.props.guid + INSTANCE_VERSION, result => this.setState({ instance: result, dirty: true, isTracking: true }, () => MessageAlert("Form Loaded", "Loaded Successfully.\nChanges will now be autosaved.")))
         );
 
     onNew = () => GeneralAlertDialog
         ("New Form"
         ,"If you proceed you will loose any unsaved progress"
-        ,() => this.setState({ instance: null, dirty: true })
+        ,() => this.setState({ instance: null, dirty: true, isTracking: false })
         );
 
     onCreatePDF = () =>
@@ -159,21 +160,20 @@ export default class ControlForm extends React.Component
     }
 
 
-    clearInstanceValue = () => this.setState({ instance: null, dirty: true });
+    clearInstanceValue = () => this.setState({ instance: null, dirty: true, isTracking: false });
 
-    setInstanceValue = (value, param) => this.setState({ instance: { ...this.state.instance, [param]: { ...(this.state.instance || {})[param], value: value } } });
-    setInstance = (values, dirty) =>
+    setInstanceValue = (value, param) => this.setInstance({ [param]: { ...(this.state.instance || {})[param], value: value } });
+    setInstance = (values) =>
     {
-        const { instance } = this.state;
+        let result = values;
+        if (this.state.instance)
+        {
+            result = jsonHelper.Clone(this.state.instance);
+            for (let [key, value] of Object.entries(values))
+                result[key] = { ...result[key], ...value };
+        }
 
-        if (!instance)
-            return this.setState({ instance: values });
-
-        let result = jsonHelper.Clone(instance);
-        for (let [key, value] of Object.entries(values))
-            result[key] = { ...result[key], ...value };
-
-        this.setState({ instance: result, dirty: dirty });
+        this.setState({ instance: result, dirty: dirty }, this.state.isTracking ? this.onSaveCall : undefined);
     }
 
     missingRequired = {};
