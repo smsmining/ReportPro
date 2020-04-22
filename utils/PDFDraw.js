@@ -96,6 +96,16 @@ export default class PDFDraw
         this._page.drawRectangle(style);
     }
 
+    calcScale = (orig, target) =>
+    {
+        if (!MAX_SCALING || target >= orig)
+            return 1;
+
+        let scale = orig / target;
+        scale = Math.pow(scale, 0.5);
+        return Math.min(scale, MAX_SCALING);
+    }
+
     DrawImage = async (content, style) =>
     {
         if (!this._page || !content || !style)
@@ -134,7 +144,11 @@ export default class PDFDraw
         }
         else
         {
-            const imagePath = content.uri.substr(content.uri.indexOf('/storage'));
+            let imagePath = content.uri;
+            const storageIndex = content.uri.indexOf('/storage');
+            if (storageIndex !== -1)
+                imagePath = imagePath.substr(storageIndex)
+
             imageType = imagePath.substring(imagePath.lastIndexOf('.') + 1).toLowerCase().replace('jpg', 'jpeg');
             imageData = 'data:image/' + imageType + ';base64,' + await Read(imagePath, 'base64');
         }
@@ -142,9 +156,9 @@ export default class PDFDraw
         if (imageType !== 'png' && imageType !== 'jpeg')
             return console.log("Unknown image type: " + imageType);
 
-        if (MAX_SCALING)
+        const scale = this.calcScale(content.width, renderstyle.width);
+        if (scale > 1)
         {
-            let scale = Math.min(Math.max(content.width / renderstyle.width, 1), MAX_SCALING);
             let sizedImage = await ImageResizer.createResizedImage(imageData, renderstyle.width * scale, renderstyle.height * scale, imageType.toUpperCase(), 100);
             imageData = await Read(sizedImage.uri, 'base64');
         }

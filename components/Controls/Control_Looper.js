@@ -126,6 +126,7 @@ export default class Control_looper extends React.Component
 
                         instance={loop}
                         onChange={(loopValue, loopParam) => this.onLoopChange(loopValue, loopParam, i)}
+                        save={async (value, file, format) => await this.props.save(value, this.props.param + '.' + i + '.' + file, format)}
                         active
                     />
                 </RulesEngine>)

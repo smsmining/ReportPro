@@ -14,7 +14,7 @@ import ControlList from '../components/ControlList';
 import PageLayout from '../components/Layout/PageLayout';
 import SaveLoadFab from '../components/ControlForm/SaveLoadFAB';
 import { MessageAlert, GeneralAlertDialog } from '../components/Alerts';
-import { INSTANCE_VERSION, Read, Database } from '../utils/Storage';
+import { INSTANCE_VERSION, Read, Database, Write, Internal } from '../utils/Storage';
 import { ControlKeys } from '../components/ControlItem';
 import { Scenes } from '.';
 import Model from '../context/Model';
@@ -162,8 +162,15 @@ export default class ControlForm extends React.Component
 
     clearInstanceValue = () => this.setState({ instance: null, dirty: true, isTracking: false });
 
+    saveInstanceValueExternal = async (value, file, format) =>
+    {
+        const path = Internal + this.props.guid + '.' + file;
+        const succeeds = await Write(path, value, format);
+        return succeeds ? path : undefined;
+    }
+
     setInstanceValue = (value, param) => this.setInstance({ [param]: { ...(this.state.instance || {})[param], value: value } });
-    setInstance = (values) =>
+    setInstance = (values, dirty) =>
     {
         let result = values;
         if (this.state.instance)
@@ -175,6 +182,7 @@ export default class ControlForm extends React.Component
 
         this.setState({ instance: result, dirty: dirty }, this.state.isTracking ? this.onSaveCall : undefined);
     }
+
 
     missingRequired = {};
     setMissingRequired = (missing, param) =>
@@ -224,19 +232,11 @@ export default class ControlForm extends React.Component
         <ScrollView>
             <RulesEngine
                 {...props.route}
-                instance={this.state.instance}
-                database={this.state.database}
-                onChange={this.setInstanceValue}
-
                 rules={this.state.form.rules}
                 onSet={this.setInstance}
             >
                 <ControlList
                     {...props.route}
-                    instance={this.state.instance}
-                    database={this.state.database}
-                    onChange={this.setInstanceValue}
-
                     onMissingRequired={this.setMissingRequired}
                     highlightRequired={this.state.highlightRequired}
                     onMounting={this.setMounting}
@@ -252,6 +252,13 @@ export default class ControlForm extends React.Component
 
         let routes = [];
 
+        const commonProps =
+            {instance: this.state.instance
+            ,database: this.state.database
+            ,onChange: this.setInstanceValue
+            ,save: this.saveInstanceValueExternal
+            };
+
         if(form)
         for (let pos in tabs)
         {
@@ -265,6 +272,8 @@ export default class ControlForm extends React.Component
                 ,active: pos == index
                 ,dirty: loading || dirty
                 ,controls: tab.controls
+
+                ,...commonProps
                 });
         }
 

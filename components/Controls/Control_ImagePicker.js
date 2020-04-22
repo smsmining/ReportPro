@@ -18,11 +18,24 @@ export default class Control_ImagePicker extends React.Component
     toggleCamera = () => this.setState({ show: !this.state.show });
     onChange = (value) =>
     {
-        const { param, onChange } = this.props;
+        const { param, onChange, save } = this.props;
 
-        this.toggleCamera();
-        onChange(value ? { uri: "data:image/" + value.uri.substr(value.uri.lastIndexOf('.') + 1) + ";base64," + value.base64, width: value.width, height: value.height } : value, param);
+        if (!value)
+        {
+            this.toggleCamera();
+            onChange(value, param);
+            return;
+        }
+        
+        save(value.base64, param + '.' + value.uri.substr(value.uri.lastIndexOf('.') + 1), 'base64')
+        .then(path =>
+        {
+            this.toggleCamera();
+            console.log(path);
+            onChange({ uri: 'file://' + path, width: value.width, height: value.height }, param);
+        });
     }
+        
 
     render()
     {

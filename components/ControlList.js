@@ -90,6 +90,7 @@ export default class ControlList extends React.Component
             database={this.props.database}
             onChange={this.props.onChange}
             onSet={this.props.onSet}
+            save={this.props.save}
 
             expand={this.state.expand}
             depth={(this.props.depth || 0) + 1}
