@@ -382,12 +382,7 @@ export default class ExportPDF
         }
 
         onUpdate();
-        let path = await writeFile.Apply(this._formConfig.pdfname);
-
-        if (onSucceed)
-            return onSucceed(path);
-
-        return path;
+        return await writeFile.Apply(this._formConfig.pdfname);
     }
 
     PrintLayoutElement = async (doc, draw) =>

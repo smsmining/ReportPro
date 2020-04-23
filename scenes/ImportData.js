@@ -1,17 +1,16 @@
 import React from 'react';
 import { Text } from 'native-base';
+import { Overlay } from 'react-native-elements';
 import { ScrollView } from 'react-native-gesture-handler';
 import { Actions } from 'react-native-router-flux';
 
-import { Read, Write, Database } from '../utils/Storage';
-import { jsonHelper } from '../utils/jsonHelper';
+import { AlignmentStyles, LoadingStyles } from '../utils/Style';
+import Database from '../context/Database';
+import { Models } from '../context/models';
+import { ControlKeys } from '../context/forms/_config';
 
 import PageLayout from '../components/Layout/PageLayout';
-import { Models } from '../context/models';
-import { Overlay } from 'react-native-elements';
-import { AlignmentStyles, LoadingStyles } from '../utils/Style';
 import ImportModel from '../components/ImportData/ImportModel';
-import { ControlKeys } from '../context/forms/_config';
 
 export default class ImportData extends React.Component {
     state =
@@ -24,7 +23,7 @@ export default class ImportData extends React.Component {
     componentDidMount()
     {
         this.setState({ loading: true });
-        Read(Database).then(result => this.setState({ loading: false, dirty: true, instance: result && jsonHelper.parseJson(result) }));
+        Database.Read().then(result => this.setState({ loading: false, dirty: true, instance: result }));
     }
 
     componentDidUpdate()
@@ -37,7 +36,7 @@ export default class ImportData extends React.Component {
     onChange = (value, param) =>
     {
         const newInstance = { ...this.state.instance, [param]: value };
-        Write(Database, JSON.stringify(newInstance));
+        Database.Write(newInstance);
 
         this.setState({ instance: newInstance, dirty: true, });
     }

@@ -4,14 +4,21 @@ import RNFS from 'react-native-fs';
 import DocumentPicker from 'react-native-document-picker'
 import { zip } from 'react-native-zip-archive'
 
-export const INSTANCE_VERSION = '.v2';
+
+const MakeDir = async (path) =>
+{
+    const root = await path.substr(0, path.lastIndexOf('/') + 1);
+    if (await RNFetchBlob.fs.exists(root))
+        return console.log("Exists", root, 'For', path);
+
+    await RNFetchBlob.fs.mkdir(root);    
+}
 
 export const Internal = RNFetchBlob.fs.dirs.CacheDir + '/Reports/';
-export const Database = Internal + 'database.json';
 export const Temp = async () =>
 {
     const folder = Internal + 'temp/' + (new Date().getTime()) + '/';
-    await RNFetchBlob.fs.mkdir(folder);
+    await MakeDir(folder);
     return folder;
 }
 export const Asset = Platform.select({
@@ -64,6 +71,7 @@ export const Write = async (path, data, format) =>
 {
     try
     {
+        await MakeDir(path);
         await RNFetchBlob.fs.writeFile(path, data, format || 'utf8');
         return true;
     }

@@ -22,41 +22,40 @@ export default class PDF extends React.Component
         ,error: []
         };
 
-    componentDidMount()
-    {
-        this.generatePDF();
-    }
+    componentDidMount() { this.generatePDF(); }
 
     onError = (error) => this.state.error.push(error);
 
     generatePDF = async () =>
     {
         const { guid, instance } = this.props;
-
         this.setState({ loading: true, loadingState: "Initialising" });
-        pdfGenerator = await new ExportPDF(guid, instance, this.onError).Load();
 
-        const layout = pdfGenerator.GenerateLayout();
+        try
+        {
+            pdfGenerator = await new ExportPDF(guid, instance, this.onError).Load();
+            const layout = pdfGenerator.GenerateLayout();
 
-        this.setState({ loadingState: "Printing Document" });
-        pdfGenerator
-            .PrintLayout(layout, page => this.setState({ loadingState: page ? "Printing Page " + page : "Saving Document" }))
-            .then(path => this.setState({ pdfPath: path, loadingState: "Loading Document" }))
-            .catch(err =>
-            {
-                console.log(err);
-                this.setState({ loadingState: "An error occured generating the document." })
-            });
+            this.setState({ loadingState: "Printing Document" });
+            const path = await pdfGenerator.PrintLayout(layout, page => this.setState({ loadingState: page ? "Printing Page " + page : "Saving Document" }))
+            this.setState({ pdfPath: path, loadingState: "Loading Document" });
+        }
+        catch (err)
+        {
+            this.onError(err);
+            this.setState({ loadingState: "An error occured generating the document." })
+        }
     }
 
     handleShare = async () =>
     {
         const { pdfPath } = this.state;
 
-        let intentTitle = pdfPath.substring(pdfPath.lastIndexOf('/') + 1, pdfPath.length - 4);
-        let zipPath = await Zip(pdfPath);
+        try
+        {
+            let intentTitle = pdfPath.substring(pdfPath.lastIndexOf('/') + 1, pdfPath.length - 4);
+            let zipPath = await Zip(pdfPath);
 
-        try {
             await Share.open(
                 {title: intentTitle
                 ,url: zipPath
@@ -66,12 +65,14 @@ export default class PDF extends React.Component
             this.props.onChange();
             Actions.popTo(Scenes.ControlForm);
           }
-        catch (e) {
+        catch (e)
+        {
+            console.log(e);
             GeneralAlertDialog
-            ("Send Error"
-            ,"An issue occured sending the document"
-            );
-          }  
+                ("Send Error"
+                ,"An issue occured sending the document"
+                );
+        }  
     }
 
     render()

@@ -5,22 +5,23 @@ import { Overlay, Badge } from 'react-native-elements'
 import { Actions } from 'react-native-router-flux';
 import { TabView, TabBar } from 'react-native-tab-view';
 
-import Forms from '../context/Forms';
+import { Scenes } from '.';
+import DevFlags from '../DevFlags';
 
+import { jsonHelper } from '../utils/jsonHelper';
 import { GlobalStyles, LayoutPartials, AlignmentStyles, LoadingStyles } from '../utils/Style';
 import ReportColors from '../utils/ReportColors';
+import Forms from '../context/Forms';
+import Instance from '../context/Instance';
+import Database from '../context/Database';
+import Model from '../context/Model';
 
 import ControlList from '../components/ControlList';
 import PageLayout from '../components/Layout/PageLayout';
 import SaveLoadFab from '../components/ControlForm/SaveLoadFAB';
 import { MessageAlert, GeneralAlertDialog } from '../components/Alerts';
-import { INSTANCE_VERSION, Read, Database, Write, Internal } from '../utils/Storage';
 import { ControlKeys } from '../components/ControlItem';
-import { Scenes } from '.';
-import Model from '../context/Model';
 import RulesEngine from '../components/RulesEngine';
-import { jsonHelper } from '../utils/jsonHelper';
-import DevFlags from '../DevFlags';
 
 export default class ControlForm extends React.Component
 {
@@ -60,13 +61,10 @@ export default class ControlForm extends React.Component
             return;
 
         this.setState({ loading: true });
-        
-        Read(Database).then(database =>
-        {
-            this.setState({ database: database && jsonHelper.parseJson(database) });
-            this._asyncReqForm = Forms.Get(guid, this.loadFormResponse);
-            Forms.HasInstance(guid + INSTANCE_VERSION, response => this.setState({ hasSaved: response }));
-        });
+
+        this._asyncReqForm = Forms.Get(guid).then(this.loadFormResponse);
+        Database.Read().then(database => this.setState({ database: database }));
+        Instance.Exists(guid).then(response => this.setState({ hasSaved: response }));
     }
 
     loadFormResponse = (response) =>
@@ -119,23 +117,23 @@ export default class ControlForm extends React.Component
             GeneralAlertDialog
                 ("Save Form"
                 ,"If you proceed you will override any saved progress"
-                ,() => this.onSaveCall(this.onSaveAlert)
+                ,() => this.onSaveCall().then(this.onSaveAlert)
             );
         else
-            this.onSaveCall(this.onSaveAlert);
+            this.onSaveCall().then(this.onSaveAlert);
     }
 
-    onSaveAlert = () => this.setState({ hasSaved: true, isTracking: true }, () => MessageAlert("Save Form", "Saved Successfully.\nChanges will now be autosaved.")); 
-    onSaveCall = (callback) => Forms.SaveInstance
-        (this.props.guid + INSTANCE_VERSION
-        ,this.state.instance
-        ,callback
-        );
+    onSaveAlert = () => this.setState({ hasSaved: true, isTracking: true }, () => MessageAlert("Save Form", "Saved Successfully.\nChanges will now be autosaved."));
+    onSaveCall = async () => await Instance.Write
+            (this.props.guid
+            ,this.state.instance
+            );
 
     onLoad = () => GeneralAlertDialog
         ("Load Form"
         ,"If you proceed you will loose any unsaved progress"
-        ,() => Forms.LoadInstance(this.props.guid + INSTANCE_VERSION, result => this.setState({ instance: result, dirty: true, isTracking: true }, () => MessageAlert("Form Loaded", "Loaded Successfully.\nChanges will now be autosaved.")))
+        ,() => Instance.Read(this.props.guid)
+            .then(result => this.setState({ instance: result, dirty: true, isTracking: true }, () => MessageAlert("Form Loaded", "Loaded Successfully.\nChanges will now be autosaved.")))
         );
 
     onNew = () => GeneralAlertDialog
@@ -162,12 +160,7 @@ export default class ControlForm extends React.Component
 
     clearInstanceValue = () => this.setState({ instance: null, dirty: true, isTracking: false });
 
-    saveInstanceValueExternal = async (value, file, format) =>
-    {
-        const path = Internal + this.props.guid + '.' + file;
-        const succeeds = await Write(path, value, format);
-        return succeeds ? path : undefined;
-    }
+    saveInstanceValueExternal = async (value, filename, format) => await Instance.WriteValue(this.props.guid, value, filename, format);
 
     setInstanceValue = (value, param) => this.setInstance({ [param]: { ...(this.state.instance || {})[param], value: value } });
     setInstance = (values, dirty) =>

@@ -2,8 +2,17 @@ import { StoragePermission } from '../utils/Permission';
 import { Read, Write, Internal } from '../utils/Storage';
 
 const AccessPath = Internal + 'access.token';
+const accessKeys =
+        {'2019': "edf33509"
+        ,'2020': "04f78750"
+        }
 
-const IsUnlocked = async () =>
+const GetNowToken = () => accessKeys[new Date().getFullYear()];
+
+
+let access = {};
+
+access.IsUnlocked = async () =>
 {
     let hasPermission = await StoragePermission();
     if (!hasPermission)
@@ -14,7 +23,7 @@ const IsUnlocked = async () =>
     return token === GetNowToken();
 }
    
-const Unlock = async (token) =>
+access.Unlock = async (token) =>
 {
     let hasPermission = await StoragePermission();
     if (!hasPermission
@@ -25,17 +34,4 @@ const Unlock = async (token) =>
     return await Write(AccessPath, token);
 }
 
-
-const fakeDB =
-{
-    accessKeys:
-        {'2019': "edf33509"
-        ,'2020': "04f78750"
-        }
-};
-const GetNowToken = () => fakeDB.accessKeys[new Date().getFullYear()];
-
-export default
-    {IsUnlocked
-    ,Unlock
-    };
+export default Access = access;
