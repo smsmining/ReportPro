@@ -116,21 +116,13 @@ export default class PDFDraw
         const ratio = content.width / content.height;
         const orientation = style.width > style.height ? 'l' : 'p';
         if (orientation === 'l')
-        {
             renderstyle.height = style.width / ratio;
-
-            let shrink = style.height / renderstyle.height;
-            renderstyle.width *= shrink;
-            renderstyle.height *= shrink;
-        }
         else
-        {
             renderstyle.width = style.height * ratio;
 
-            let shrink = style.width / renderstyle.width;
-            renderstyle.width *= shrink;
-            renderstyle.height *= shrink;
-        }
+        const shrink = Math.min(style.height / renderstyle.height, style.width / renderstyle.width);
+        renderstyle.width *= shrink;
+        renderstyle.height *= shrink;
 
 
         let imageData = content.uri;
@@ -144,13 +136,11 @@ export default class PDFDraw
         }
         else
         {
-            let imagePath = content.uri;
-            const storageIndex = content.uri.indexOf('/storage');
+            const storageIndex = imageData.indexOf('/storage');
             if (storageIndex !== -1)
-                imagePath = imagePath.substr(storageIndex)
+                imageData = imageData.substr(storageIndex)
 
-            imageType = imagePath.substring(imagePath.lastIndexOf('.') + 1).toLowerCase().replace('jpg', 'jpeg');
-            imageData = 'data:image/' + imageType + ';base64,' + await Read(imagePath, 'base64');
+            imageType = imageData.substring(imageData.lastIndexOf('.') + 1).toLowerCase().replace('jpg', 'jpeg');
         }
 
         if (imageType !== 'png' && imageType !== 'jpeg')
@@ -159,6 +149,7 @@ export default class PDFDraw
         const scale = this.calcScale(content.width, renderstyle.width);
         if (scale > 1)
         {
+            console.log('Scaling%', (renderstyle.width * scale * 100) / content.width);
             let sizedImage = await ImageResizer.createResizedImage(imageData, renderstyle.width * scale, renderstyle.height * scale, imageType.toUpperCase(), 100);
             imageData = await Read(sizedImage.uri, 'base64');
         }
@@ -298,6 +289,7 @@ export default class PDFDraw
         const path = await Temp() + filename + ".pdf";
 
         let saveBytes64 = await this._document.saveAsBase64();
+        console.log(saveBytes64.length / (4000000 / 3) + "Mb pdf size");
         await Write(path, saveBytes64, 'base64');
         return path;
     };

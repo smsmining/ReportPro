@@ -7,6 +7,7 @@ import InlineLabelItem from './Layout/InlineLabelItem';
 import FloatingLabelItem from './Layout/FloatingLabelItem';
 import { ShouldUpdateForImage } from '../ControlItem';
 import CameraOverlay from '../CameraOverlay';
+import { MessageAlert } from '../Alerts';
 
 
 export default class Control_ImagePicker extends React.Component
@@ -31,9 +32,15 @@ export default class Control_ImagePicker extends React.Component
         .then(path =>
         {
             this.toggleCamera();
-            console.log(path);
             onChange({ uri: 'file://' + path, width: value.width, height: value.height }, param);
         });
+    }
+
+    onError = (e) =>
+    {
+        console.log(e);
+        this.toggleCamera();
+        MessageAlert("Photo not captured", "There was an issue taking the photo.");
     }
         
 
@@ -41,6 +48,8 @@ export default class Control_ImagePicker extends React.Component
     {
         const { value, disabled } = this.props;
         const { show } = this.state;
+
+        const camera = show ? <CameraOverlay onCapture={this.onChange} onClose={this.toggleCamera} onError={this.onError} /> : null;
 
         if (value)
         {
@@ -56,7 +65,7 @@ export default class Control_ImagePicker extends React.Component
                             <Image style={renderStyle} source={value} />
                         </View>
                     </TouchableOpacity>
-                    {show && <CameraOverlay onCapture={this.onChange} onClose={this.toggleCamera} onError={console.log}/>}
+                    {camera}
                 </FloatingLabelItem >
                 );
             }
@@ -70,7 +79,7 @@ export default class Control_ImagePicker extends React.Component
                         </Text>
                     </View>
                 </TouchableOpacity>
-                {show && <CameraOverlay onCapture={this.onChange} onClose={this.toggleCamera} onError={console.log}/>}
+                {camera}
             </InlineLabelItem>
         );
     }
