@@ -9,7 +9,7 @@ const MakeDir = async (path) =>
 {
     const root = await path.substr(0, path.lastIndexOf('/') + 1);
     if (await RNFetchBlob.fs.exists(root))
-        return console.log("Exists", root, 'For', path);
+        return;
 
     await RNFetchBlob.fs.mkdir(root);    
 }
@@ -36,17 +36,19 @@ export const Types =
 
 export const Exists = async (path) =>
 {
-    let exists = false;
-    try { exists = await RNFetchBlob.fs.exists(path); }
-    catch (e) { exists = false; }
+    try { return await RNFetchBlob.fs.exists(path); }
+    catch (e) { return false; }
+}
 
-    return exists;
+export const Scan = async (path) =>
+{
+    try { return await RNFetchBlob.fs.ls(path); }
+    catch (e) { return null; }
 }
 
 export const Read = async (path, format) =>
 {
-    let exists = await Exists(path);
-    if (!exists) return;
+    if (!await Exists(path)) return;
 
     return await RNFetchBlob.fs
         .readFile(path, format || 'utf8');
@@ -80,6 +82,40 @@ export const Write = async (path, data, format) =>
         console.log(err);
         return false;
     }
+}
+
+export const Remove = async (path) =>
+{
+    if (!await Exists(path))
+        return;
+
+    await RNFetchBlob.fs.unlink(path);
+}
+
+export const Rename = async (from, to) =>
+{
+    MakeDir(to);
+
+    let isDir = await RNFetchBlob.fs.isDir(from);
+    if (!isDir)
+    {
+        const data = await Read(from);
+        await Write(to, data);
+        await Remove(from);
+        return;
+    }
+
+    let scan = await Scan(from);
+    if (!scan)
+        return;
+
+    if (!from.endsWith('/')) from += '/';
+    if (!to.endsWith('/')) to += '/';
+
+    for (let i = 0; i < scan.length; i++)
+        await Rename(from + scan[i], to + scan[i])
+
+    await Remove(from);
 }
 
 export const Zip = async (path) =>

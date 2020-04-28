@@ -29,6 +29,7 @@ export default class ControlForm extends React.Component
         {form: null
         ,navigation: -1
 
+        ,instanceID: null
         ,instance: null
         ,database: null
 
@@ -40,8 +41,19 @@ export default class ControlForm extends React.Component
         ,isTracking: false
         };
 
-    componentDidMount() { this.loadForm(); }
-    componentWillUnmount() { this.clearAsync(); }
+    componentDidMount()
+    {
+        this.loadForm();
+        Instance.Clear({ guid: this.props.guid });
+    }
+
+    componentWillUnmount()
+    {
+        this.clearAsync();
+
+        if (!this.state.instanceID)
+            Instance.Clear({ guid: this.props.guid });
+    }
 
     componentDidUpdate()
     {
@@ -54,17 +66,14 @@ export default class ControlForm extends React.Component
 
     loadForm = () =>
     {
-        const { guid } = this.props;
-        const { loading } = this.state;
-
-        if (loading)
+        if (this.state.loading)
             return;
 
         this.setState({ loading: true });
 
-        this._asyncReqForm = Forms.Get(guid).then(this.loadFormResponse);
+        this._asyncReqForm = Forms.Get(this.props.guid).then(this.loadFormResponse);
         Database.Read().then(database => this.setState({ database: database }));
-        Instance.Exists(guid).then(response => this.setState({ hasSaved: response }));
+        Instance.Exists({ guid: this.props.guid, id: this.state.instanceID }).then(response => this.setState({ hasSaved: response }));
     }
 
     loadFormResponse = (response) =>
@@ -111,29 +120,41 @@ export default class ControlForm extends React.Component
     }
 
 
+    onSaveCatch = (e) => { console.log(e); MessageAlert("Save Failed", 'Something went wrong saving the form'); }
     onSave = () =>
     {
-        if (this.state.hasSaved && !this.state.isTracking)
+        if (this.state.instanceID && !this.state.isTracking)
             GeneralAlertDialog
                 ("Save Form"
                 ,"If you proceed you will override any saved progress"
-                ,() => this.onSaveCall().then(this.onSaveAlert)
-            );
+                ,() => this.onSaveCall().then(this.onSaveAlert).catch(this.onSaveCatch)
+                );
         else
-            this.onSaveCall().then(this.onSaveAlert);
+            this.onSaveCall().then(this.onSaveAlert).catch(this.onSaveCatch);
     }
 
     onSaveAlert = () => this.setState({ hasSaved: true, isTracking: true }, () => MessageAlert("Save Form", "Saved Successfully.\nChanges will now be autosaved."));
-    onSaveCall = async () => await Instance.Write
-            (this.props.guid
+    onSaveCall = async () =>
+    {
+        if (this.state.instanceID)
+            return await Instance.Write
+                ({ guid: this.props.guid, id: this.state.instanceID }
+                ,this.state.instance
+                );
+
+        const newID = new Date().getTime();
+        this.setState({ instanceID: newID });
+        await Instance.Write
+            ({ guid: this.props.guid, id: newID, from: null }
             ,this.state.instance
             );
+    }
 
     onLoad = () => GeneralAlertDialog
         ("Load Form"
         ,"If you proceed you will loose any unsaved progress"
-        ,() => Instance.Read(this.props.guid)
-            .then(result => this.setState({ instance: result, dirty: true, isTracking: true }, () => MessageAlert("Form Loaded", "Loaded Successfully.\nChanges will now be autosaved.")))
+        ,() => Instance.Read({ guid: this.props.guid, id: this.state.hasSaved })
+            .then(result => this.setState({ instance: result, dirty: true, isTracking: true, instanceID: this.state.hasSaved }, () => MessageAlert("Form Loaded", "Loaded Successfully.\nChanges will now be autosaved.")))
         );
 
     onNew = () => GeneralAlertDialog
@@ -160,7 +181,7 @@ export default class ControlForm extends React.Component
 
     clearInstanceValue = () => this.setState({ instance: null, dirty: true, isTracking: false });
 
-    saveInstanceValueExternal = async (value, filename, format) => await Instance.WriteValue(this.props.guid, value, filename, format);
+    saveInstanceValueExternal = async (value, filename, format) => await Instance.WriteValue({ guid: this.props.guid, id: this.state.instanceID }, value, filename, format);
 
     setInstanceValue = (value, param) => this.setInstance({ [param]: { ...(this.state.instance || {})[param], value: value } });
     setInstance = (values, dirty) =>
