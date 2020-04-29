@@ -3,9 +3,8 @@ import fontkit from '@pdf-lib/fontkit';
 import ImageResizer from 'react-native-image-resizer';
 
 import { StoragePermission } from './Permission';
-import { Write, Read, Asset, Temp } from './Storage';
-
-const MAX_SCALING = 5;
+import { Write, Read, Asset, Temp, Remove } from './Storage';
+import AppFlags from '../AppFlags';
 
 export default class PDFDraw
 {
@@ -30,6 +29,7 @@ export default class PDFDraw
     _document;
     _appendix;
     _page;
+    _temp;
 
     Clone = async (guid, onSuccess) =>
     {
@@ -41,6 +41,7 @@ export default class PDFDraw
         }
 
         this._guid = guid;
+        this._temp = await Temp();
 
         const rawTemplate = await Read(Asset + this._guid + '/' + 'template.pdf', 'base64');
 
@@ -98,12 +99,12 @@ export default class PDFDraw
 
     calcScale = (orig, target) =>
     {
-        if (!MAX_SCALING || target >= orig)
+        if (!AppFlags.PDFDraw.image.maxScaling || target >= orig)
             return 1;
 
         let scale = orig / target;
         scale = Math.pow(scale, 0.5);
-        return Math.min(scale, MAX_SCALING);
+        return Math.min(scale, AppFlags.PDFDraw.image.maxScaling);
     }
 
     DrawImage = async (content, style) =>
@@ -149,9 +150,14 @@ export default class PDFDraw
         const scale = this.calcScale(content.width, renderstyle.width);
         if (scale > 1)
         {
-            console.log('Scaling%', (renderstyle.width * scale * 100) / content.width);
-            let sizedImage = await ImageResizer.createResizedImage(imageData, renderstyle.width * scale, renderstyle.height * scale, imageType.toUpperCase(), 100);
+            let sizedImage = await ImageResizer.createResizedImage
+                (imageData
+                ,renderstyle.width * scale, renderstyle.height * scale
+                ,imageType.toUpperCase()
+                ,AppFlags.PDFDraw.image.compressionQuality
+                );
             imageData = await Read(sizedImage.uri, 'base64');
+            await Remove(sizedImage.uri.replace('file://', ''));
         }
         else
             imageData = imageData.replace('data:image/' + imageType + ';base64,', '');
@@ -286,7 +292,7 @@ export default class PDFDraw
 
     Apply = async (filename) =>
     {
-        const path = await Temp() + filename + ".pdf";
+        const path = this._temp + filename + ".pdf";
 
         let saveBytes64 = await this._document.saveAsBase64();
         console.log(saveBytes64.length / (4000000 / 3) + "Mb pdf size");
