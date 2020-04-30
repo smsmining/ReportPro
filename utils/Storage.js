@@ -48,6 +48,9 @@ export const Scan = async (path) =>
 
 export const Read = async (path, format) =>
 {
+    if (path.startsWith('file://'))
+        path = path.replace('file://', '');
+
     if (!await Exists(path)) return;
 
     return await RNFetchBlob.fs
@@ -71,6 +74,9 @@ export const Pick = async (type, format) =>
 
 export const Write = async (path, data, format) =>
 {
+    if (path.startsWith('file://'))
+        path = path.replace('file://', '');
+
     try
     {
         await MakeDir(path);
@@ -86,6 +92,9 @@ export const Write = async (path, data, format) =>
 
 export const Remove = async (path) =>
 {
+    if (path.startsWith('file://'))
+        path = path.replace('file://', '');
+
     if (!await Exists(path))
         return;
 
@@ -99,8 +108,8 @@ export const Rename = async (from, to) =>
     let isDir = await RNFetchBlob.fs.isDir(from);
     if (!isDir)
     {
-        const data = await Read(from);
-        await Write(to, data);
+        const data = await Read(from, 'base64');
+        await Write(to, data, 'base64');
         await Remove(from);
         return;
     }

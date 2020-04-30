@@ -1,10 +1,10 @@
 import { PDFDocument, StandardFonts, rgb } from 'pdf-lib';
 import fontkit from '@pdf-lib/fontkit';
-import ImageResizer from 'react-native-image-resizer';
 
 import { StoragePermission } from './Permission';
-import { Write, Read, Asset, Temp, Remove } from './Storage';
+import { Write, Read, Asset, Temp } from './Storage';
 import AppFlags from '../AppFlags';
+import ImageHelper from './imageHelper';
 
 export default class PDFDraw
 {
@@ -97,77 +97,34 @@ export default class PDFDraw
         this._page.drawRectangle(style);
     }
 
-    calcScale = (orig, target) =>
-    {
-        if (!AppFlags.PDFDraw.image.maxScaling || target >= orig)
-            return 1;
-
-        let scale = orig / target;
-        scale = Math.pow(scale, 0.5);
-        return Math.min(scale, AppFlags.PDFDraw.image.maxScaling);
-    }
-
     DrawImage = async (content, style) =>
     {
         if (!this._page || !content || !style)
             return;
 
-        let renderstyle = { ...style };
+        let renderstyle = ImageHelper.FitInside(content, style);
 
-        const ratio = content.width / content.height;
-        const orientation = style.width > style.height ? 'l' : 'p';
-        if (orientation === 'l')
-            renderstyle.height = style.width / ratio;
-        else
-            renderstyle.width = style.height * ratio;
+        let imageData = ImageHelper.getImageParams(content.uri);
+        if (!['png', 'jpeg', 'jpg'].includes(imageData.type))
+            return console.log("Unknown image type: " + imageData.type);
 
-        const shrink = Math.min(style.height / renderstyle.height, style.width / renderstyle.width);
-        renderstyle.width *= shrink;
-        renderstyle.height *= shrink;
-
-
-        let imageData = content.uri;
-        let imageType = '';
-
-        const isBase = /^data:image\/([a-zA-Z]+);base64,.+/g.exec(imageData);
-        if(isBase)
-        {
-            imageType = isBase[1].toLowerCase().replace('jpg', 'jpeg');
-            imageData = imageData.replace(isBase[1], imageType).replace(/\n/g, '');
-        }
-        else
-        {
-            const storageIndex = imageData.indexOf('/storage');
-            if (storageIndex !== -1)
-                imageData = imageData.substr(storageIndex)
-
-            imageType = imageData.substring(imageData.lastIndexOf('.') + 1).toLowerCase().replace('jpg', 'jpeg');
-        }
-
-        if (imageType !== 'png' && imageType !== 'jpeg')
-            return console.log("Unknown image type: " + imageType);
-
-        const scale = this.calcScale(content.width, renderstyle.width);
+        const scale = ImageHelper.calcScale(content.width, renderstyle.width);
         if (scale > 1)
-        {
-            let sizedImage = await ImageResizer.createResizedImage
-                (imageData
+            imageData.uri = await ImageHelper.imageScale
+                (imageData.uri
                 ,renderstyle.width * scale, renderstyle.height * scale
-                ,imageType.toUpperCase()
+                ,imageData.type
                 ,AppFlags.PDFDraw.image.compressionQuality
+                ,'base64'
                 );
-            imageData = await Read(sizedImage.uri, 'base64');
-            await Remove(sizedImage.uri.replace('file://', ''));
-        }
         else
-            imageData = imageData.replace('data:image/' + imageType + ';base64,', '');
-        
+            imageData.uri = imageData.uri.replace('data:image/' + imageData.type + ';base64,', '');
 
         let imageEmbed;
-        if (imageType === 'png')
-            imageEmbed = await this._document.embedPng(imageData);
+        if (imageData.type === 'png')
+            imageEmbed = await this._document.embedPng(imageData.uri);
         else
-            imageEmbed = await this._document.embedJpg(imageData);
+            imageEmbed = await this._document.embedJpg(imageData.uri);
         
         renderstyle.x += (style.width - renderstyle.width) / 2;
         renderstyle.y += (style.height - renderstyle.height) / 2;

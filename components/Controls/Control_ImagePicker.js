@@ -2,19 +2,50 @@ import React from 'react';
 import { Text, TouchableOpacity, View, Image } from 'react-native';
 
 import { styles, GlobalStyles, Colors } from '../../utils/Style';
+import ImageHelper from '../../utils/imageHelper';
 
 import InlineLabelItem from './Layout/InlineLabelItem';
 import FloatingLabelItem from './Layout/FloatingLabelItem';
 import { ShouldUpdateForImage } from '../ControlItem';
 import CameraOverlay from '../CameraOverlay';
 import { MessageAlert } from '../Alerts';
-
+import { Remove } from '../../utils/Storage';
+import AppFlags from '../../AppFlags';
 
 export default class Control_ImagePicker extends React.Component
 {
-    state = { show: false };
+    state = { show: false, image: null };
 
-    shouldComponentUpdate(newProps, newState) { return newState.show ^ this.state.show || ShouldUpdateForImage(this.props, newProps); }
+    shouldComponentUpdate(newProps, newState)
+    {
+        return  newState.show ^ this.state.show
+            ||  (newState.image || {}).uri !== (this.state.image || {}).uri
+            ||  ShouldUpdateForImage(this.props, newProps);
+    }
+
+    componentDidUpdate(oldProps)
+    {
+        this.handleValueChange(oldProps.value);
+    }
+
+    handleValueChange = async (oldValue) =>
+    {
+        const { value } = this.props;
+
+        if ((value || {}).uri === (oldValue || {}).uri
+        &&  (value || {}).timestamp === (oldValue || {}).timestamp
+            )
+            return;
+
+        let renderStyle =
+            {width: GlobalStyles.screenWidth.width
+            ,height: value.height * GlobalStyles.screenWidth.width / value.width
+            };
+
+        let { uri, type } = ImageHelper.getImageParams(value.uri);
+        let path = await ImageHelper.imageScale(uri, renderStyle.width, renderStyle.height, type, AppFlags.PDFDraw.image.compressionQuality);
+        this.setState({ image: { style: renderStyle, uri: path } });
+    }
 
     toggleCamera = () => this.setState({ show: !this.state.show });
     onChange = (value) =>
@@ -32,8 +63,9 @@ export default class Control_ImagePicker extends React.Component
         .then(path =>
         {
             this.toggleCamera();
-            onChange({ uri: 'file://' + path, width: value.width, height: value.height }, param);
-        });
+            onChange({ uri: 'file://' + path, width: value.width, height: value.height, timestamp: new Date().getTime() }, param);
+        })
+        .then(() => Remove(value.uri));
     }
 
     onError = (e) =>
@@ -46,29 +78,22 @@ export default class Control_ImagePicker extends React.Component
 
     render()
     {
-        const { value, disabled } = this.props;
-        const { show } = this.state;
+        const { disabled } = this.props;
+        const { show, image } = this.state;
 
         const camera = show ? <CameraOverlay onCapture={this.onChange} onClose={this.toggleCamera} onError={this.onError} /> : null;
 
-        if (value)
-        {
-            let renderStyle =
-                {width: GlobalStyles.screenWidth.width
-                ,height: value.height * GlobalStyles.screenWidth.width / value.width
-                };
-
+        if (image)
             return (
-                <FloatingLabelItem {...this.props} height={renderStyle.height}>
+                <FloatingLabelItem {...this.props} height={image.style.height}>
                     <TouchableOpacity style={styles.center} onPress={this.toggleCamera} disabled={disabled}>
                         <View style={styles.ImageContainer}>
-                            <Image style={renderStyle} source={value} />
+                            <Image style={image.style} source={{ uri: image.uri }} />
                         </View>
                     </TouchableOpacity>
                     {camera}
                 </FloatingLabelItem >
                 );
-            }
 
         return (
             <InlineLabelItem {...this.props} >

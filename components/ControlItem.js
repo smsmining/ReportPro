@@ -109,6 +109,7 @@ export const ShouldUpdateForDate = (props, newProps) => (
 export const ShouldUpdateForImage = (props, newProps) => (
     ShouldUpdate(props, newProps)
 ||  (newProps.value || {}).uri !== (props.value || {}).uri
+||  (newProps.value || {}).timestamp !== (props.value || {}).timestamp
     ?   true
     :   false
 )

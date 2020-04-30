@@ -6,7 +6,7 @@ export const VERSION = '/v2/';
 
 const InstanceDir = (ins) => Internal + 'Instance/' + ins.guid + '/' + (ins.id ? ins.id.toString() : '0') + VERSION;
 const INSTANCE_FILENAME = 'instance.json';
-const VALUES_DIR = '/values/'
+const VALUES_DIR = 'values/'
 
 let instance = {};
 
