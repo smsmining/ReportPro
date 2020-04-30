@@ -85,24 +85,38 @@ export default class Control_looper extends React.Component
     }
 
 
-    mounting = [];
+    mounting = {};
     setMounting = (mounting, param) =>
     {
-        const index = this.mounting.indexOf(param);
-
-        if (!!mounting === (index !== -1))
+        if ((param in this.mounting) === !!mounting)
             return;
 
         if (mounting)
-            return this.mounting.push(param);
+            this.mounting[param] = mounting;
+        else
+            delete this.mounting[param];
 
-        this.mounting.splice(index, 1);
-        this.props.onMounting(this.mounting.length, this.props.param)
+        let progress =
+            {mounting: 0
+            ,of: 0
+            ,below: this.mounting
+            };
+
+        progress.tally = progress.mounting;
+        progress.tallyOf = progress.of;
+        for (const [, value] of Object.entries(progress.below))
+        {
+            progress.tally += value.tally;
+            progress.tallyOf += value.tallyOf;
+        }
+
+        this.props.onMounting(!progress.tally ? null : progress, this.props.param);
     }
+
 
     render ()
     {
-        const { value, label, minLength, required, highlightRequired, maxLength, setLength, controls, dirty, disabled } = this.props;
+        const { value, label, minLength, required, highlightRequired, maxLength, setLength, controls, disabled } = this.props;
 
         let children = [];
         const length = (value && value.length) || setLength || minLength || 0;

@@ -4,12 +4,13 @@ import { Text, Icon } from 'native-base';
 import { Overlay, Badge } from 'react-native-elements'
 import { Actions } from 'react-native-router-flux';
 import { TabView, TabBar } from 'react-native-tab-view';
+import ProgressBar from 'react-native-progress/Bar';
 
 import { Scenes } from '.';
 import DevFlags from '../DevFlags';
 
 import { jsonHelper } from '../utils/jsonHelper';
-import { GlobalStyles, LayoutPartials, AlignmentStyles, LoadingStyles } from '../utils/Style';
+import { GlobalStyles, LayoutPartials, AlignmentStyles, LoadingStyles, Colors } from '../utils/Style';
 import ReportColors from '../utils/ReportColors';
 import Forms from '../context/Forms';
 import Instance from '../context/Instance';
@@ -22,12 +23,14 @@ import SaveLoadFab from '../components/ControlForm/SaveLoadFAB';
 import { MessageAlert, GeneralAlertDialog } from '../components/Alerts';
 import { ControlKeys } from '../components/ControlItem';
 import RulesEngine from '../components/RulesEngine';
+import AppFlags from '../AppFlags';
 
 export default class ControlForm extends React.Component
 {
     state =
         {form: null
         ,navigation: -1
+        ,mountTick: 0
 
         ,instanceID: null
         ,instance: null
@@ -55,10 +58,12 @@ export default class ControlForm extends React.Component
             Instance.Clear({ guid: this.props.guid });
     }
 
-    componentDidUpdate()
+    componentDidUpdate(oldProps, oldState)
     {
         if (this.state.dirty)
             this.setState({ dirty: false });
+
+        this.mountUpdate(oldState.mountTick);
     }
 
     clearAsync = () => { if (this._asyncReqForm) this._asyncReqForm.cancel(); }
@@ -82,6 +87,7 @@ export default class ControlForm extends React.Component
         this.setState(
             {form: {...response, tabs: response.tabs.map(tab => this.validateLoadControl(tab)) }
             ,index: 0
+            ,mountTick: 1
             });
     }
 
@@ -207,20 +213,57 @@ export default class ControlForm extends React.Component
             delete this.missingRequired[param];
     }
 
-    mounting = [];
-    setMounting = (mounting, param) =>
-    {
-        const index = this.mounting.indexOf(param);
 
-        if (!!mounting === (index !== -1))
+    mounting = {};
+    mountingIsLoading = () =>
+    {
+        if (this.state.form.tabs.length !== Object.keys(this.mounting).length)
+            return true;
+
+        for (const [, value] of Object.entries(this.mounting))
+            if (value)
+                return true;
+
+        return false;
+    }
+
+    mountUpdate = (oldTick) =>
+    {
+        if (!this.state.mountTick || oldTick === this.state.mountTick)
             return;
 
-        if (mounting)
-            return this.mounting.push(param);
+        let ticks = Math.max(this.state.mountTick, oldTick) + 1;
+        if ((AppFlags.ControlForm.MaxRenderTicks
+        &&   ticks >= AppFlags.ControlForm.MaxRenderTicks)
+        ||  !this.mountingIsLoading()
+            )
+            ticks = 0;
+
+        setTimeout(() => this.setState({ mountTick: ticks }), AppFlags.ControlForm.DelayRenderTicks);
+    }
+
+    setMounting = (mounting, param) =>
+    {
+        const noChange = !this.mounting[param] === !mounting;
+        this.mounting[param] = mounting;
+
+        if (noChange)
+            return;
+
+        let tally = 0;
+        for (const [, value] of Object.entries(this.mounting))
+            tally += value ? value.tally : 0;
+
+        if (tally)
+            this.setState({ loading: tally })
         else
-            this.mounting.splice(index, 1);
-            
-        setTimeout(() => this.setState({ loading: !!this.mounting.length }), 500);
+            setTimeout(() =>
+            {
+                if (this.mountingIsLoading())
+                    return;
+
+                this.setState({ loading: false });
+            }, 500);
     }
 
 
@@ -253,6 +296,7 @@ export default class ControlForm extends React.Component
                     {...props.route}
                     onMissingRequired={this.setMissingRequired}
                     highlightRequired={this.state.highlightRequired}
+                    mountTick={this.state.mountTick}
                     onMounting={this.setMounting}
                 />
             </RulesEngine>
@@ -291,17 +335,48 @@ export default class ControlForm extends React.Component
                 });
         }
 
+        let loadOverlay = null;
+        if (loading)
+        {
+            let loadingStatus = [];
+            for (let i = 0; i < routes.length; i++)
+            {
+                let result = { title: routes[i].title, value: 0 };
+                if (i in this.mounting)
+                {
+                    const value = this.mounting[i];
+                    result.value = value ? (value.tally / value.tallyOf).toFixed(2) : 1
+                }
+                loadingStatus.push(result);
+            }
+
+            loadOverlay = (
+                <Overlay height={100 + (35 * routes.length)} containerStyle={AlignmentStyles.auto} isVisible>
+                    <View>
+                        <Text style={{ ...LoadingStyles.label, marginTop: 25 }}>Loading ...</Text>
+                        {loadingStatus.map(status =>
+                        <View style={{ marginBottom: 10 }}>
+                            <Text style={{ marginLeft: 25 }}>{status.title}</Text>
+                            <ProgressBar
+                                progress={status.value}
+                                color={Colors.primary}
+                                borderColor={Colors.primary}
+                                width={null}                                      
+                            />
+                        </View>
+                        )}
+                    </View>
+                </Overlay>
+            );
+        }
+
         return (
             <PageLayout
                 back={{ icon: "home", onPress: Actions.pop }}
                 next={tabs && !loading && { icon: "file-pdf-outline", iconType: "MaterialCommunityIcons", onPress: this.onCreatePDF }}
                 header={title}
             >
-                {loading &&
-                <Overlay height={100} containerStyle={AlignmentStyles.auto} isVisible>
-                    <Text style={{ ...LoadingStyles.label, marginTop: 25 }}>Loading ...</Text>
-                </Overlay>
-                }
+                {loadOverlay}
                 {tabs &&
                 <View style={{ height: GlobalStyles.screenHeight.height - 80 }}>
                     <TabView

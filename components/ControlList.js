@@ -2,26 +2,24 @@ import React from 'react';
 
 import ControlItem from './ControlItem';
 import MissingRequired from './MissingRequired';
+import AppFlags from '../AppFlags';
 
 export default class ControlList extends React.Component
 {
     shouldComponentUpdate(newProps) { return !!newProps.active || !!newProps.dirty; }
 
-    state = { expand: null, mount: 0 };
+    state = { expand: null };
     onExpand = (param) => this.setState({ expand: param === this.state.expand ? null : param });
 
     componentDidMount()
     {
         this.validateDuplicates();
+        this.startMount();
+    }
 
-        if (!this.props.controls)
-            return;
-
-        this.mountTick = Math.max(Math.ceil(this.props.controls.length / 50), 5);
-        this.setState({ mount: this.mountTick });
-
-        if (this.mountTick > this.props.controls.length)
-            this.props.onMounting(this.props.controls.length, this.props.param);
+    componentDidUpdate()
+    {
+        this.tickMount();
     }
 
     validateDuplicates = () => 
@@ -40,38 +38,67 @@ export default class ControlList extends React.Component
         }
     }
 
-    componentDidUpdate()
-    {
-        const { controls } = this.props;
-        const { mount } = this.state;
 
-        if (!mount)
+    mountIncrease = 1;
+    mountCapacity = () => this.props.mountTick * this.mountIncrease;
+    mounting = {};
+    startMount = () =>
+    {
+        if (!this.props.controls)
             return;
 
-        if (controls && mount < controls.length)
-            return setTimeout(() => this.setState({ mount: mount + this.mountTick }), 1);
+        if (AppFlags.ControlForm.MaxRenderTicks)
+            this.mountIncrease = Math.ceil(this.props.controls.length / AppFlags.ControlForm.MaxRenderTicks);
 
-        this.setState({ mount: 0 });
-        this.props.onMounting(this.mounting.length, this.props.param);
+        this.sendMountingUpwards(-1);
     }
 
-    mountTick = 0;
-    mounting = [];
-    setMounting = (mounting, param) =>
+    tickMount = () =>
     {
         const { controls } = this.props;
-        const { mount } = this.state;
 
-        const index = this.mounting.indexOf(param);
+        let newLength = this.mountCapacity();
+        if (newLength === 0)
+            return;
 
-        if (!!mounting === (index !== -1))
+        if (newLength > controls.length)
+            newLength = 0;
+
+        this.sendMountingUpwards(newLength > 0 ? newLength : 0);
+    }
+
+    setMounting = (mounting, param) =>
+    {
+        if ((param in this.mounting) === !!mounting)
             return;
 
         if (mounting)
-            return this.mounting.push(param);
+            this.mounting[param] = mounting;
+        else
+            delete this.mounting[param];
 
-        this.mounting.splice(index, 1);
-        this.props.onMounting((mount && controls.length - mount) + this.mounting.length, this.props.param)
+        this.sendMountingUpwards(this.mountCapacity());
+    }
+
+    sendMountingUpwards = (mount) =>
+    {
+        const { controls } = this.props;
+
+        let progress =
+            {mounting: mount > 0 ? mount : 0
+            ,of: controls.length
+            ,below: this.mounting
+            };
+
+        progress.tally = progress.mounting;
+        progress.tallyOf = progress.of;
+        for (const [, value] of Object.entries(progress.below))
+        {
+            progress.tally += value.tally;
+            progress.tallyOf += value.tallyOf;
+        }
+
+        this.props.onMounting((mount !== -1 && !progress.tally) ? null : progress, this.props.param);
     }
 
 
@@ -83,6 +110,7 @@ export default class ControlList extends React.Component
             key={props.param}
             dirty={this.props.dirty}
             active={this.props.active}
+            mountTick={this.props.mountTick}
             onMounting={this.setMounting}
             highlightRequired={this.props.highlightRequired}
 
@@ -99,12 +127,11 @@ export default class ControlList extends React.Component
 
     render()
     {
-        const { controls } = this.props;
-        const { mount } = this.state;
+        const { controls, mountTick } = this.props;
 
         return controls
         ?   <MissingRequired {...this.props} >
-                {(mount ? controls.slice(0, mount) : controls).map(this.renderControl)}
+                {(mountTick ? controls.slice(0, this.mountCapacity()) : controls).map(this.renderControl)}
             </MissingRequired>
         :   null;
     }
