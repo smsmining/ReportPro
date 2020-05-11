@@ -26,7 +26,7 @@
     "react-native-camera": "^3.19.1",
     "react-native-collapsible": "^1.5.1",
     "react-native-dialog-input": "^1.0.7",
-    "react-native-document-picker": "^3.3.2",
+    "react-native-document-picker": "git://github.com/smsdodwyer/react-native-document-picker.git#CreateFunction",
     "react-native-elements": "^1.2.7",
     "react-native-fs": "^2.16.6",
     "react-native-gesture-handler": "^1.4.1",

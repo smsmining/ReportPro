@@ -50,12 +50,37 @@ export const AlignmentStyles = StyleSheet.create(
         {flex: 1
         ,flexDirection: 'column'
         }
+    ,row:
+        {flex: 1
+        ,flexDirection: 'row'
+        }
     ,auto:
         {flex: 1
         ,justifyContent: 'center'
         ,alignItems: 'center'
         }
     });
+
+
+const margin =
+    {sm: 10
+    ,md: 15
+    }
+
+export const MarginStyles = 
+    {sm: StyleSheet.create(
+        {t: { marginTop: margin.sm }
+        ,b: { marginBottom: margin.sm }
+        ,l: { marginLeft: margin.sm }
+        ,r: { marginRight: margin.sm }
+        })
+    ,md: StyleSheet.create(
+        {t: { marginTop: margin.md }
+        ,b: { marginBottom: margin.md }
+        ,l: { marginLeft: margin.md }
+        ,r: { marginRight: margin.md }
+        })
+    };
 
 
 export const CameraStyles = StyleSheet.create(
@@ -194,7 +219,6 @@ export const styles = StyleSheet.create({
         fontSize: 13,
         fontWeight: 'bold',
         color: Colors.dark,
-        width: '35%',
     },
 
     header: {

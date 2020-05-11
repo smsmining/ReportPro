@@ -181,7 +181,7 @@ export default class ControlForm extends React.Component
             +  "\nPlease complete the highlighted areas before proceeding."
                 );
 
-        Actions[Scenes.ExportPreview]({ guid: this.props.guid, instance: this.state.instance, onChange: this.clearInstanceValue });
+        Actions[Scenes.ExportPreview]({ guid: this.props.guid, id: this.state.instanceID, instance: this.state.instance, onChange: this.clearInstanceValue });
     }
 
 

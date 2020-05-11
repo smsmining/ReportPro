@@ -1,28 +1,35 @@
 import React from 'react';
 import { Text } from 'react-native';
 import { Actions } from 'react-native-router-flux';
-import Share from 'react-native-share';
 
 import { LoadingStyles } from '../utils/Style';
 import { ExportPDF } from '../export';
 
+import Instance from '../context/Instance';
+
 import PDFDisplay from '../components/PDFDisplay';
 import PageLayout from '../components/Layout/PageLayout';
-import { GeneralAlertDialog } from '../components/Alerts';
-import { Scenes } from '../scenes';
-import { Zip } from '../utils/Storage';
+import ShareDialog from '../components/Dialog/ShareDialog';
+
 
 export default class PDF extends React.Component
 {
     state =
         {pdfPath: null
+        ,valuesExist: false
 
+        ,showSend: false
         ,loading: false
         ,loadingState: null
         ,error: []
         };
 
-    componentDidMount() { this.generatePDF(); }
+    componentDidMount()
+    {
+        this.generatePDF();
+        Instance.ValuesExist({ guid: this.props.guid, id: this.props.id })
+            .then(exists => this.setState({ valuesExist: exists }));
+    }
 
     onError = (error) => this.state.error.push(error);
 
@@ -38,7 +45,7 @@ export default class PDF extends React.Component
 
             this.setState({ loadingState: "Printing Document" });
             const path = await pdfGenerator.PrintLayout(layout, page => this.setState({ loadingState: page ? "Printing Page " + page : "Saving Document" }))
-            this.setState({ pdfPath: path, loadingState: "Loading Document" });
+            this.setState({ pdfPath: path, pdfTitle: path.substring(path.lastIndexOf('/') + 1, path.length - 4), loadingState: "Loading Document" });
         }
         catch (err)
         {
@@ -47,60 +54,51 @@ export default class PDF extends React.Component
         }
     }
 
-    handleShare = async () =>
-    {
-        const { pdfPath } = this.state;
-
-        try
-        {
-            let intentTitle = pdfPath.substring(pdfPath.lastIndexOf('/') + 1, pdfPath.length - 4);
-            let zipPath = await Zip(pdfPath);
-
-            await Share.open(
-                {title: intentTitle
-                ,url: zipPath
-                ,type: 'application/zip'
-                });
-
-            this.props.onChange();
-            Actions.popTo(Scenes.ControlForm);
-          }
-        catch (e)
-        {
-            console.log(e);
-            GeneralAlertDialog
-                ("Send Error"
-                ,"An issue occured sending the document"
-                );
-        }  
-    }
+    toggleShowSend = () => this.setState({ showSend: !this.state.showSend });
 
     render()
     {
-        const { pdfPath, loading, loadingState, error } = this.state;
+        const { pdfPath } = this.state;
+
+        let shareOptions = [
+            {icon: { name: 'file-pdf', type: 'FontAwesome5' }
+            ,title: 'Document PDF'
+            ,file: { title: this.state.pdfTitle, path: this.state.pdfPath }
+            }];
+        if (this.state.valuesExist)
+            shareOptions.push(
+                {icon: { name: 'image', type: 'FontAwesome' }
+                ,title: 'Document Images'
+                ,file: { title: this.state.pdfTitle, path: this.state.valuesExist }
+                });
 
         return (
             <PageLayout
                 back={{ icon: "arrow-back", onPress: Actions.pop }}
-                next={pdfPath && { icon: "send", iconType:"Feather", onPress: this.handleShare }}
+                next={pdfPath && { icon: "send", iconType: "Feather", onPress: this.toggleShowSend }}
             >
-                {loading &&
+                {this.state.loading &&
                 <React.Fragment>
                 <Text style={{ ...LoadingStyles.label, marginTop: 200 }}>Loading ...</Text>
-                {loadingState &&
-                <Text style={LoadingStyles.subtitle}>{loadingState}</Text>
-                }
+                <Text style={LoadingStyles.subtitle}>{this.state.loadingState || ""}</Text>
                 </React.Fragment>
                 }
-                {error &&
-                <Text>{error.map((error) => "- " + error + "\n")}</Text>
+                {this.state.error &&
+                <Text>{this.state.error.map((error) => "- " + error + "\n")}</Text>
                 }
                 {pdfPath &&
+                <React.Fragment>
                 <PDFDisplay
                     pdfPath={pdfPath}
                     onLoadComplete={() => this.setState({ loading: false })}
                     onError={this.onError}
                 />
+                <ShareDialog
+                    isVisible={this.state.showSend}
+                    onClose={this.toggleShowSend}
+                    options={shareOptions}
+                />
+                </React.Fragment>
                 }
             </PageLayout>
         );

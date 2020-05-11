@@ -7,6 +7,6 @@ import Item from './Item';
 
 export default DividerLabelItem = (props) => (
     <Item {...props} style={{ backgroundColor: Colors.secondary }} itemDivider>
-        <Text style={{ ...styles.Label, width: "100%" }}>{props.label}</Text>
+        <Text style={styles.Label}>{props.label}</Text>
     </Item>
 );

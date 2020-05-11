@@ -1,5 +1,5 @@
 import { jsonHelper } from '../utils/jsonHelper';
-import { Read, Write, Internal, Scan, Remove, Rename } from '../utils/Storage';
+import { Read, Write, Internal, Scan, Remove, Rename, Zip } from '../utils/Storage';
 import AppFlags from '../AppFlags';
 
 export const VERSION = '/v2/';
@@ -68,6 +68,13 @@ instance.WriteValue = async (ins, value, filename, format) =>
 {
     const path = InstanceDir(ins) + VALUES_DIR + filename;
     return await Write(path, value, format) && path;
+}
+
+instance.ValuesExist = async (ins) =>
+{
+    const path = InstanceDir(ins) + VALUES_DIR;
+    const scan = await Scan(path);
+    return scan && path;
 }
 
 export default Instance = instance;
